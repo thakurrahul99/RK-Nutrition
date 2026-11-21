@@ -75,3 +75,25 @@ export const requireSuperAdmin = (req, res, next) => {
 
   next();
 };
+// Optional authentication: public routes remain public, but valid admin tokens unlock admin-only records.
+export const optionalAuthenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return next();
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) return next();
+    const db = getDb();
+    const user = db.users.find((u) => u.id === decoded.id);
+    if (user) {
+      req.user = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatarInitials: user.avatarInitials
+      };
+    }
+    next();
+  });
+};
