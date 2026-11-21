@@ -160,13 +160,13 @@ export default function AdminProductFormPage() {
     setFormData((prev) => ({ ...prev, slug: sanitized }));
   };
 
-  // --- Unified Image Upload Handlers (Direct backend /api/upload storage) ---
+  // --- Unified Image Upload Handlers (Cloudinary-backed server upload) ---
   const handleMainImageSelect = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'].includes(file.type)) {
-      setValidationErrors(['Main image must be a valid image format (.jpg, .png, .webp, .svg).']);
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setValidationErrors(['Main image must be a valid image format (.jpg, .png, .webp).']);
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -184,9 +184,9 @@ export default function AdminProductFormPage() {
         return { ...prev, images: [uploadRes.url, ...remaining] };
       });
       setValidationErrors([]);
-      showToast('Main product image uploaded to storage.', 'success');
+      showToast('Main product image uploaded to Cloudinary.', 'success');
     } else {
-      const errMsg = uploadRes.error || 'Failed to upload main image to server storage.';
+      const errMsg = uploadRes.error || 'Failed to upload main image to Cloudinary.';
       setValidationErrors([errMsg]);
       showToast(errMsg, 'error');
     }
@@ -198,8 +198,8 @@ export default function AdminProductFormPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'].includes(file.type)) {
-      setValidationErrors(['Gallery image must be a valid image format (.jpg, .png, .webp, .svg).']);
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      setValidationErrors(['Gallery image must be a valid image format (.jpg, .png, .webp).']);
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -217,9 +217,9 @@ export default function AdminProductFormPage() {
         images: [...prev.images, uploadRes.url]
       }));
       setValidationErrors([]);
-      showToast('Gallery image uploaded to storage.', 'success');
+      showToast('Gallery image uploaded to Cloudinary.', 'success');
     } else {
-      const errMsg = uploadRes.error || 'Failed to upload gallery image to server storage.';
+      const errMsg = uploadRes.error || 'Failed to upload gallery image to Cloudinary.';
       setValidationErrors([errMsg]);
       showToast(errMsg, 'error');
     }
@@ -649,7 +649,7 @@ export default function AdminProductFormPage() {
                     {isUploadingImage ? 'Uploading image to storage...' : 'Upload Primary Product Image'}
                   </span>
                   <span className="text-[10px] font-mono text-[#666666] mt-0.5">
-                    JPG, PNG, WEBP, or SVG • Max 5MB
+                    JPG, PNG, or WEBP • Max 5MB
                   </span>
                 </div>
               )}
@@ -657,7 +657,7 @@ export default function AdminProductFormPage() {
               <input
                 ref={mainImageInputRef}
                 type="file"
-                accept="image/jpeg,image/png,image/webp,image/svg+xml"
+                accept="image/jpeg,image/png,image/webp"
                 onChange={handleMainImageSelect}
                 className="hidden"
               />
@@ -680,7 +680,7 @@ export default function AdminProductFormPage() {
                 <input
                   ref={galleryImageInputRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/svg+xml"
+                  accept="image/jpeg,image/png,image/webp"
                   onChange={handleGalleryImageSelect}
                   className="hidden"
                 />
