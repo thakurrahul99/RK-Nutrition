@@ -39,7 +39,6 @@ export default function HeroSection() {
             
             {/* Mobile compact side-by-side top composition; desktop retains its original left column */}
             <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] gap-1.5 min-[360px]:gap-2.5 items-center lg:block min-w-0">
-            <div className="min-w-0 flex flex-col items-start">
             {/* 1. Eyebrow */}
             <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-3 sm:mb-5 max-w-full">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D51F32] shrink-0" aria-hidden="true" />
@@ -54,6 +53,7 @@ export default function HeroSection() {
               <span className="block text-[#D51F32]">{headingLine2}</span>
               <span className="block text-[#F2F2F2]">{headingLine3}</span>
             </h1>
+
             </div>
 
             {/* Mobile product visual shares the hero row with its headline */}
