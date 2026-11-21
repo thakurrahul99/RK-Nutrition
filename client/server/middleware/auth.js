@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import { getDb } from '../config/db.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'rk_nutrition_super_secure_jwt_secret_2026_xyz';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error('JWT_SECRET must be configured before starting the server.');
 
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
