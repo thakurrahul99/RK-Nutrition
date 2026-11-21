@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getDb, saveDb, addLog } from '../config/db.js';
+import mongoose from 'mongoose';
+import { getDb, saveDb, addLog, Category } from '../config/db.js';
 import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
 
 const router = Router();
@@ -244,6 +245,9 @@ router.post('/', authenticateToken, requireClientAdmin, (req, res) => {
   db.categories.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
 
   saveDb(db);
+  if (mongoose.connection.readyState === 1) {
+    Category.create(newCategory).catch(() => {});
+  }
   addLog('INFO', 'CATEGORIES', `Category created: "${newCategory.name}" (${newCategory.slug}) by ${req.user.name}`);
 
   res.status(201).json({
@@ -327,6 +331,9 @@ router.put('/:id', authenticateToken, requireClientAdmin, (req, res) => {
   db.categories.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
 
   saveDb(db);
+  if (mongoose.connection.readyState === 1) {
+    Category.findOneAndUpdate({ id: existing.id }, existing).catch(() => {});
+  }
   addLog('INFO', 'CATEGORIES', `Category updated: "${existing.name}" by ${req.user.name}`);
 
   res.json({
@@ -376,6 +383,9 @@ router.delete('/:id', authenticateToken, requireClientAdmin, (req, res) => {
   });
 
   saveDb(db);
+  if (mongoose.connection.readyState === 1) {
+    Category.deleteOne({ id: categoryToDelete.id }).catch(() => {});
+  }
   addLog('INFO', 'CATEGORIES', `Category deleted: "${categoryToDelete.name}" (${categoryToDelete.slug}) by ${req.user.name}`);
 
   res.json({

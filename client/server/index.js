@@ -1,8 +1,14 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config();
 
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/products.routes.js';
@@ -10,15 +16,12 @@ import categoryRoutes from './routes/categories.routes.js';
 import paymentRoutes from './routes/payments.routes.js';
 import discountRoutes from './routes/discounts.routes.js';
 import orderRoutes from './routes/orders.routes.js';
+import cartRoutes from './routes/cart.routes.js';
+import wishlistRoutes from './routes/wishlist.routes.js';
 import storeRoutes from './routes/store.routes.js';
 import contentRoutes from './routes/content.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
-import { getDb } from './config/db.js';
-
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { getDb, connectDb } from './config/db.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,8 +30,14 @@ if (!process.env.JWT_SECRET || !process.env.SUPER_ADMIN_PASSWORD || !process.env
   throw new Error('JWT_SECRET, SUPER_ADMIN_PASSWORD, and CLIENT_ADMIN_PASSWORD must be set in the server environment.');
 }
 
-// Middleware
-const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
+// Helmet Security Headers
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: false // Allows inline Three.js/scripts in development
+}));
+
+// CORS Configuration
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173,http://127.0.0.1:5173')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -42,13 +51,8 @@ app.use(cors({
   },
   credentials: true
 }));
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('X-Frame-Options', 'DENY');
-  next();
-});
 
+// Body Parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -62,6 +66,8 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/discounts', discountRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/store', storeRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/super-admin', contentRoutes);
@@ -95,12 +101,15 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Initialize database on boot
+// Initialize database cache & Mongoose connection on boot
 getDb();
+connectDb().catch((err) => console.warn('[DB Boot Warning]:', err.message));
 
-// Start Server
-app.listen(PORT, '127.0.0.1', () => {
-  console.log(`[RK Nutrition Server] Dual-Admin API running at http://127.0.0.1:${PORT}`);
-});
+// Start Server if not imported by test suite
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, '127.0.0.1', () => {
+    console.log(`[RK Nutrition Server] Dual-Admin API running at http://127.0.0.1:${PORT}`);
+  });
+}
 
 export default app;

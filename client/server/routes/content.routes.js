@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getDb, saveDb, addLog } from '../config/db.js';
+import mongoose from 'mongoose';
+import { getDb, saveDb, addLog, Content } from '../config/db.js';
 import { authenticateToken, requireSuperAdmin } from '../middleware/auth.js';
 
 const router = Router();

@@ -80,6 +80,27 @@ export function AuthProvider({ children }) {
     };
   };
 
+  const register = async (name, email, password, phone) => {
+    const res = await apiRequest('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password, phone })
+    });
+
+    if (res.success && res.token && res.user) {
+      setAuthToken(res.token);
+      setToken(res.token);
+      setUser(res.user);
+      localStorage.setItem('rk_auth_user', JSON.stringify(res.user));
+      logActivity(`New customer account registered: ${res.user.email}`, 'auth');
+      return { success: true, user: res.user };
+    }
+
+    return {
+      success: false,
+      error: res.error || 'Registration failed. Please check your information.'
+    };
+  };
+
   const logout = () => {
     setAuthToken(null);
     setToken(null);
@@ -121,6 +142,7 @@ export function AuthProvider({ children }) {
   const isAuthenticated = Boolean(user && token);
   const isSuperAdmin = user?.role === 'SUPER_ADMIN';
   const isClientAdmin = user?.role === 'CLIENT_ADMIN' || user?.role === 'SUPER_ADMIN';
+  const isCustomer = user?.role === 'CUSTOMER';
 
   return (
     <AuthContext.Provider
@@ -129,10 +151,12 @@ export function AuthProvider({ children }) {
         adminUser: user, // backwards compatibility
         token,
         isAuthenticated,
+        isCustomer,
         isClientAdmin,
         isSuperAdmin,
         isLoading,
         login,
+        register,
         logout,
         updateProfile,
         changePassword,

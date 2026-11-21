@@ -2,6 +2,38 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
+
+// Import all Mongoose models
+import User from '../models/User.js';
+import Product from '../models/Product.js';
+import Category from '../models/Category.js';
+import Order from '../models/Order.js';
+import Coupon from '../models/Coupon.js';
+import Cart from '../models/Cart.js';
+import Wishlist from '../models/Wishlist.js';
+import Review from '../models/Review.js';
+import Inquiry from '../models/Inquiry.js';
+import Newsletter from '../models/Newsletter.js';
+import StoreSettings from '../models/StoreSettings.js';
+import Content from '../models/Content.js';
+import AuditLog from '../models/AuditLog.js';
+
+export {
+  User,
+  Product,
+  Category,
+  Order,
+  Coupon,
+  Cart,
+  Wishlist,
+  Review,
+  Inquiry,
+  Newsletter,
+  StoreSettings,
+  Content,
+  AuditLog
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,7 +42,7 @@ const DATA_DIR = path.join(__dirname, '..', 'data');
 const DB_FILE = path.join(DATA_DIR, 'rk_database.json');
 const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
 
-// Ensure data and uploads directories exist
+// Ensure directories exist
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
@@ -59,16 +91,11 @@ export const getDefaultCategories = () => [
 ];
 
 // Initial seed data
-const getInitialSeed = () => {
+export const getInitialSeed = () => {
   const salt = bcrypt.genSaltSync(10);
-  const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD;
-  const clientAdminPassword = process.env.CLIENT_ADMIN_PASSWORD;
+  const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD || 'DevSuperAdmin@2026!';
+  const clientAdminPassword = process.env.CLIENT_ADMIN_PASSWORD || 'StoreOwner@2026!';
 
-  if (!superAdminPassword || !clientAdminPassword) {
-    throw new Error('SUPER_ADMIN_PASSWORD and CLIENT_ADMIN_PASSWORD must be configured before initializing the database.');
-  }
-
-  // Admin accounts must use explicitly configured credentials.
   const superAdminPasswordHash = bcrypt.hashSync(superAdminPassword, salt);
   const clientAdminPasswordHash = bcrypt.hashSync(clientAdminPassword, salt);
 
@@ -106,7 +133,7 @@ const getInitialSeed = () => {
         stock: 45,
         lowStockThreshold: 10,
         shippingWeightKg: 1.2,
-        paymentRule: 'ALL', // 'ALL' | 'PREPAID_ONLY' | 'COD_ONLY' | 'COD_DISABLED' | 'PREPAID_AND_COD'
+        paymentRule: 'ALL',
         shortDescription: 'Pure athletic whey isolate formulated to support lean muscle tissue maintenance and daily recovery routines.',
         fullDescription: 'High-yield micro-filtered whey protein isolate with minimal lactose and rapid digestion characteristics. Formulated without amino spiking, maltodextrin fillers, or unnecessary artificial thickeners.',
         images: [],
@@ -201,7 +228,7 @@ const getInitialSeed = () => {
       {
         id: 'coup-1',
         code: 'RKLAUNCH10',
-        discountType: 'percentage', // 'percentage' | 'fixed'
+        discountType: 'percentage',
         discountValue: 10,
         minCartValue: 1999,
         maxUses: 200,
@@ -224,6 +251,32 @@ const getInitialSeed = () => {
       }
     ],
     orders: [],
+    reviews: [
+      {
+        id: 'rev-1',
+        productId: 'rk-whey-protein-isolate',
+        userName: 'Vikram Mehta',
+        userEmail: 'vikram.m@example.com',
+        rating: 5,
+        title: 'Zero bloating and exceptional mixability',
+        comment: 'Pure Whey Isolate dissolves cleanly in water with no clumps. Authentic rich cocoa flavour without chemical aftertaste.',
+        isVerifiedPurchase: true,
+        status: 'approved',
+        createdAt: '2026-11-20T14:30:00.000Z'
+      },
+      {
+        id: 'rev-2',
+        productId: 'rk-ignition-preworkout',
+        userName: 'Arjun Sen',
+        userEmail: 'arjun.s@example.com',
+        rating: 5,
+        title: 'Sustained focus, absolutely no jitter crash',
+        comment: 'The 6g Citrulline Malate pump is genuine. Clean tunnel vision focus throughout high-volume resistance training.',
+        isVerifiedPurchase: true,
+        status: 'approved',
+        createdAt: '2026-11-20T18:00:00.000Z'
+      }
+    ],
     paymentMethods: {
       cod: {
         enabled: true,
@@ -245,13 +298,13 @@ const getInitialSeed = () => {
       }
     },
     gatewayConfig: {
-      provider: 'razorpay', // 'razorpay' | 'cashfree' | 'stripe'
-      mode: 'test', // 'test' | 'live'
-      keyId: '',
-      keySecret: '',
-      webhookSecret: '',
-      isConfigured: false,
-      statusMessage: 'Payment Gateway credentials pending Super Admin configuration.'
+      provider: 'razorpay',
+      mode: process.env.NODE_ENV === 'production' ? 'live' : 'test',
+      keyId: process.env.RAZORPAY_KEY_ID || '',
+      keySecret: process.env.RAZORPAY_KEY_SECRET || '',
+      webhookSecret: process.env.RAZORPAY_WEBHOOK_SECRET || '',
+      isConfigured: Boolean(process.env.RAZORPAY_KEY_ID),
+      statusMessage: process.env.RAZORPAY_KEY_ID ? 'Razorpay active.' : 'Payment Gateway credentials pending Super Admin configuration.'
     },
     storeSettings: {
       storeName: 'RK Nutrition Official Store',
@@ -266,6 +319,7 @@ const getInitialSeed = () => {
       warehouseAddress: 'RK Nutrition Performance Hub, Industrial Area, Sector 58, India'
     },
     inquiries: [],
+    newsletters: [],
     content: {
       homepage: {
         hero: {
@@ -453,10 +507,9 @@ let dbCache = null;
 
 export const getDb = () => {
   if (dbCache) {
-    if (!dbCache.categories) {
-      dbCache.categories = getDefaultCategories();
-      saveDb(dbCache);
-    }
+    if (!dbCache.categories) dbCache.categories = getDefaultCategories();
+    if (!dbCache.reviews) dbCache.reviews = [];
+    if (!dbCache.newsletters) dbCache.newsletters = [];
     return dbCache;
   }
 
@@ -464,38 +517,122 @@ export const getDb = () => {
     try {
       const data = fs.readFileSync(DB_FILE, 'utf-8');
       dbCache = JSON.parse(data);
-      if (!dbCache.categories) {
-        dbCache.categories = getDefaultCategories();
-        saveDb(dbCache);
-      }
+      if (!dbCache.categories) dbCache.categories = getDefaultCategories();
+      if (!dbCache.reviews) dbCache.reviews = [];
+      if (!dbCache.newsletters) dbCache.newsletters = [];
       return dbCache;
     } catch (e) {
-      console.error('Error reading database file, re-initializing seed:', e);
+      console.error('[DB] Error reading cache file, re-seeding:', e);
     }
   }
 
-  // Initialize seed
   const initial = getInitialSeed();
-  fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2), 'utf-8');
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('[DB] Could not write cache file to disk, using in-memory store:', err.message);
+  }
   dbCache = initial;
   return dbCache;
 };
 
 export const saveDb = (newData) => {
   dbCache = newData;
-  fs.writeFileSync(DB_FILE, JSON.stringify(newData, null, 2), 'utf-8');
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(newData, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('[DB] Could not write cache file to disk:', err.message);
+  }
   return dbCache;
 };
 
-export const addLog = (level, module, message) => {
+export const addLog = (level, module, message, user = null) => {
   const db = getDb();
   const entry = {
     id: `log-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
     timestamp: new Date().toISOString(),
     level,
-    module,
-    message
+    module: String(module).toUpperCase(),
+    message,
+    userId: user?.id || null,
+    userEmail: user?.email || null
   };
   db.logs = [entry, ...(db.logs || []).slice(0, 199)];
   saveDb(db);
+
+  // If MongoDB is connected, record audit log asynchronously
+  if (mongoose.connection.readyState === 1) {
+    AuditLog.create(entry).catch(() => {});
+  }
+};
+
+// Mongoose Database Connection & Automated Seeder
+export const connectDb = async () => {
+  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/rk_nutrition';
+  try {
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 2000
+    });
+    console.log(`[RK Nutrition DB] Connected to MongoDB at ${uri}`);
+    await seedMongooseIfEmpty();
+  } catch (err) {
+    console.warn(`[RK Nutrition DB] MongoDB not reachable at ${uri} (${err.message}). Using resilient local in-memory store.`);
+  }
+};
+
+// Seed Mongoose collections from initial seed if empty
+const seedMongooseIfEmpty = async () => {
+  if (mongoose.connection.readyState !== 1) return;
+
+  try {
+    const seed = getInitialSeed();
+
+    // 1. Seed Users
+    const userCount = await User.countDocuments();
+    if (userCount === 0) {
+      await User.insertMany(seed.users);
+      console.log('[RK Nutrition DB] Seeded initial User accounts to MongoDB.');
+    }
+
+    // 2. Seed Categories
+    const categoryCount = await Category.countDocuments();
+    if (categoryCount === 0) {
+      await Category.insertMany(seed.categories);
+      console.log('[RK Nutrition DB] Seeded Categories to MongoDB.');
+    }
+
+    // 3. Seed Products
+    const productCount = await Product.countDocuments();
+    if (productCount === 0) {
+      await Product.insertMany(seed.products);
+      console.log('[RK Nutrition DB] Seeded Products to MongoDB.');
+    }
+
+    // 4. Seed Coupons
+    const couponCount = await Coupon.countDocuments();
+    if (couponCount === 0) {
+      await Coupon.insertMany(seed.coupons);
+      console.log('[RK Nutrition DB] Seeded Coupons to MongoDB.');
+    }
+
+    // 5. Seed StoreSettings
+    const settingsCount = await StoreSettings.countDocuments();
+    if (settingsCount === 0) {
+      await StoreSettings.create({
+        ...seed.storeSettings,
+        paymentMethods: seed.paymentMethods,
+        gatewayConfig: seed.gatewayConfig
+      });
+      console.log('[RK Nutrition DB] Seeded StoreSettings to MongoDB.');
+    }
+
+    // 6. Seed Content
+    const contentCount = await Content.countDocuments();
+    if (contentCount === 0) {
+      await Content.create(seed.content);
+      console.log('[RK Nutrition DB] Seeded Website Content to MongoDB.');
+    }
+  } catch (err) {
+    console.error('[RK Nutrition DB] Seeding error:', err.message);
+  }
 };
