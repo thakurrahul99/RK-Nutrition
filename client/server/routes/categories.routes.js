@@ -153,7 +153,7 @@ router.get('/:idOrSlug', (req, res) => {
     (c) => c.id.toLowerCase() === q || c.slug.toLowerCase() === q
   );
 
-  if (!category) {
+  if (!category || category.isActive === false) {
     return res.status(404).json({ success: false, error: 'Category not found.' });
   }
 
