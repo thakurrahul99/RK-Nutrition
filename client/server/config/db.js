@@ -223,88 +223,7 @@ const getInitialSeed = () => {
         description: 'Flat ₹500 off on bulk supplement orders above ₹3,999'
       }
     ],
-    orders: [
-      {
-        id: 'ORD-2026-1001',
-        orderNumber: 1001,
-        customer: {
-          name: 'Vikramaditya Sharma',
-          email: 'vikram.sharma@example.com',
-          phone: '+91 98765 12345',
-          address: '42, Civil Lines, Near Stadium',
-          city: 'Jaipur',
-          state: 'Rajasthan',
-          pincode: '302006'
-        },
-        items: [
-          {
-            productId: 'rk-whey-protein-isolate',
-            name: 'RK Pure Whey Isolate',
-            variant: '2 kg',
-            flavour: 'Double Chocolate',
-            sku: 'RK-PRO-CHOC-2KG',
-            price: 5999,
-            quantity: 1,
-            total: 5999
-          }
-        ],
-        subtotal: 5999,
-        discount: 500,
-        couponCode: 'POWER500',
-        tax: 0,
-        shippingFee: 0,
-        total: 5499,
-        paymentMethod: 'UPI', // 'COD' | 'UPI' | 'CARD'
-        paymentStatus: 'PAID', // 'PENDING' | 'PAID' | 'FAILED'
-        orderStatus: 'CONFIRMED', // 'PENDING' | 'CONFIRMED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED'
-        tracking: {
-          carrier: 'BlueDart Express',
-          trackingNumber: 'BD982736412IN',
-          shippedAt: '2026-11-20T14:30:00.000Z'
-        },
-        createdAt: '2026-11-20T12:00:00.000Z'
-      },
-      {
-        id: 'ORD-2026-1002',
-        orderNumber: 1002,
-        customer: {
-          name: 'Rohan Mehra',
-          email: 'rohan.mehra@example.com',
-          phone: '+91 98111 22334',
-          address: 'Plot 18, Sector 14',
-          city: 'Gurugram',
-          state: 'Haryana',
-          pincode: '122001'
-        },
-        items: [
-          {
-            productId: 'rk-ignition-preworkout',
-            name: 'RK Ignition Pre-Workout',
-            variant: '30 Servings',
-            flavour: 'Sour Green Apple',
-            sku: 'RK-PRE-APL-30S',
-            price: 2199,
-            quantity: 2,
-            total: 4398
-          }
-        ],
-        subtotal: 4398,
-        discount: 439,
-        couponCode: 'RKLAUNCH10',
-        tax: 0,
-        shippingFee: 0,
-        total: 3959,
-        paymentMethod: 'COD',
-        paymentStatus: 'PENDING',
-        orderStatus: 'PENDING',
-        tracking: {
-          carrier: '',
-          trackingNumber: '',
-          shippedAt: null
-        },
-        createdAt: '2026-11-21T09:15:00.000Z'
-      }
-    ],
+    orders: [],
     paymentMethods: {
       cod: {
         enabled: true,
@@ -346,17 +265,7 @@ const getInitialSeed = () => {
       operatingHours: 'Monday – Friday: 09:00 AM – 06:00 PM IST',
       warehouseAddress: 'RK Nutrition Performance Hub, Industrial Area, Sector 58, India'
     },
-    inquiries: [
-      {
-        id: 'inq-1',
-        name: 'Arjun Das',
-        email: 'arjun.athlete@example.com',
-        subject: 'Wholesale & Nutrition Distribution Inquiry',
-        message: 'Interested in partnering with RK Nutrition to stock Pure Whey Isolate and Ignition Pre-Workout at our sports conditioning and nutrition center in Bengaluru.',
-        status: 'PENDING', // 'PENDING' | 'RESOLVED'
-        createdAt: '2026-11-20T16:00:00.000Z'
-      }
-    ],
+    inquiries: [],
     content: {
       homepage: {
         hero: {
