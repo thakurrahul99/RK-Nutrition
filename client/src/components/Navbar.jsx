@@ -45,26 +45,26 @@ export default function Navbar({
           : 'bg-[#111111] border-b border-[#1E1E1E] py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-2.5 min-[360px]:px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-1.5 sm:gap-4">
           
           {/* Brand Wordmark (Always navigates to Home) */}
           <Link
             to="/"
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] text-left"
+            className="flex items-center gap-1.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] text-left"
             aria-label={`${name} Home`}
           >
-            <div className="flex items-center justify-center w-10 h-10 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#C8202B] transition-colors relative overflow-hidden">
+            <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#C8202B] transition-colors relative overflow-hidden">
               <span className="font-heading font-black text-xl text-[#F5F4F2] tracking-tighter">
                 RK
               </span>
               <div className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" />
             </div>
             <div className="flex flex-col text-left">
-              <span className="font-heading font-bold text-xl sm:text-2xl text-[#F5F4F2] tracking-wider uppercase leading-none transition-colors">
+              <span className="font-heading font-bold text-[15px] min-[360px]:text-base sm:text-2xl text-[#F5F4F2] tracking-[0.04em] sm:tracking-wider uppercase leading-none whitespace-nowrap transition-colors">
                 RK <span className="text-[#C8202B]">NUTRITION</span>
               </span>
-              <span className="text-[9px] tracking-widest text-[#8C8C8C] uppercase font-semibold mt-0.5">
+              <span className="text-[8px] sm:text-[9px] tracking-[0.12em] sm:tracking-widest text-[#8C8C8C] uppercase font-semibold mt-0.5">
                 SPORTS NUTRITION
               </span>
             </div>
@@ -100,14 +100,14 @@ export default function Navbar({
           </nav>
 
           {/* Utility Icons & CTAs */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-0.5 min-[360px]:gap-1 sm:gap-3">
             
             {/* Search Trigger */}
             <button
               type="button"
               onClick={onOpenSearch}
               aria-label="Open search interface"
-              className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+              className="p-1.5 sm:p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
             >
               <Search className="w-5 h-5" />
             </button>
@@ -127,8 +127,8 @@ export default function Navbar({
               )}
             </button>
 
-            {/* Account Icon (Portal Links) */}
-            <div className="relative group">
+            {/* Account icon is desktop-only; its hover portal dropdown is not mobile-friendly */}
+            <div className="relative group hidden sm:block">
               <button
                 type="button"
                 aria-label="Account portals and customer desk"
