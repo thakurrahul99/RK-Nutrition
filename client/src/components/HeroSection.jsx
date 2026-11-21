@@ -39,7 +39,7 @@ export default function HeroSection() {
             
             {/* Mobile compact side-by-side top composition; desktop retains its original left column */}
             <div className="grid grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] gap-1.5 min-[360px]:gap-2.5 items-center lg:block min-w-0">
-            <div className="min-w-0 flex flex-col items-start">
+            <div className="min-w-0 flex flex-col items-start py-1.5 sm:py-0">
             {/* 1. Eyebrow */}
             <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-3 sm:mb-5 max-w-full">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D51F32] shrink-0" aria-hidden="true" />
@@ -49,7 +49,7 @@ export default function HeroSection() {
             </div>
 
             {/* 2. Main Headline */}
-            <h1 className="font-heading font-black text-[clamp(1.7rem,8.2vw,2.8rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.045em] sm:tracking-tight uppercase leading-[0.88] sm:leading-[0.92] text-[#F2F2F2] mb-2 sm:mb-6">
+            <h1 className="font-heading font-black text-[clamp(1.7rem,8.2vw,2.8rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.045em] sm:tracking-tight uppercase leading-[0.94] sm:leading-[0.92] text-[#F2F2F2] mb-2 sm:mb-6">
               <span className="block text-[#F2F2F2]">{headingLine1}</span>
               <span className="block text-[#D51F32]">{headingLine2}</span>
               <span className="block text-[#F2F2F2]">{headingLine3}</span>
@@ -57,7 +57,7 @@ export default function HeroSection() {
             </div>
 
             {/* Mobile product visual sits to the right of the headline */}
-            <div className="flex lg:hidden items-center justify-center min-w-0">
+            <div className="flex lg:hidden items-center justify-center min-w-0 translate-y-3">
               <HeroProduct3D className="mx-auto !max-w-[125px] min-[360px]:!max-w-[145px] min-[400px]:!max-w-[160px]" />
             </div>
             </div>
