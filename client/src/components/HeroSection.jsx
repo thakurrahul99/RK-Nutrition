@@ -32,41 +32,45 @@ export default function HeroSection() {
 
       {/* 2. Main Hero Grid Container */}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-18 z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6 lg:gap-12 items-center">
           
           {/* Left Column (Desktop) / Main Stack (Mobile) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left w-full">
             
+            {/* Mobile compact side-by-side top composition; desktop retains its original left column */}
+            <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,0.82fr)] gap-1.5 min-[360px]:gap-2.5 items-center lg:block min-w-0">
             {/* 1. Eyebrow */}
             <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-3 sm:mb-5 max-w-full">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D51F32] shrink-0" aria-hidden="true" />
-              <span className="text-[9px] min-[360px]:text-[10px] sm:text-xs font-mono font-bold tracking-[0.12em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase">
+              <span className="text-[8px] sm:text-xs font-mono font-bold tracking-[0.08em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase">
                 {eyebrow}
               </span>
             </div>
 
             {/* 2. Main Headline */}
-            <h1 className="font-heading font-black text-[clamp(2.35rem,10.5vw,3.45rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.035em] sm:tracking-tight uppercase leading-[0.9] sm:leading-[0.92] text-[#F2F2F2] mb-3 sm:mb-6">
+            <h1 className="font-heading font-black text-[clamp(1.7rem,8.2vw,2.8rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.045em] sm:tracking-tight uppercase leading-[0.88] sm:leading-[0.92] text-[#F2F2F2] mb-2 sm:mb-6">
               <span className="block text-[#F2F2F2]">{headingLine1}</span>
               <span className="block text-[#D51F32]">{headingLine2}</span>
               <span className="block text-[#F2F2F2]">{headingLine3}</span>
             </h1>
 
-            {/* Mobile Product Visual: placed directly after the headline to keep the desktop visual hierarchy on small screens */}
-            <div className="w-full flex lg:hidden items-center justify-center -mt-1 mb-2 sm:my-2">
-              <HeroProduct3D className="mx-auto !max-w-[250px] min-[360px]:!max-w-[270px] min-[400px]:!max-w-[290px] sm:!max-w-[400px]" />
+            </div>
+
+            {/* Mobile product visual shares the hero row with its headline */}
+            <div className="flex lg:hidden items-center justify-center min-w-0 -ml-2">
+              <HeroProduct3D className="mx-auto !max-w-[145px] min-[360px]:!max-w-[160px] min-[400px]:!max-w-[175px]" />
             </div>
 
             {/* 3. Supporting Text */}
-            <p className="max-w-xl text-[13px] min-[390px]:text-sm sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-5 sm:mb-8 font-body">
+            <p className="max-w-xl text-[12px] min-[390px]:text-[13px] sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-5 sm:mb-8 font-body">
               {subtext}
             </p>
 
             {/* 4. Action CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 w-full sm:w-auto mb-5 sm:mb-8">
+            <div className="flex flex-row items-stretch sm:items-center gap-2 sm:gap-4 w-full sm:w-auto mb-4 sm:mb-8">
               <Link
                 to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
-                className="inline-flex items-center justify-center gap-2 px-4 min-[390px]:px-6 sm:px-9 py-3 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-sm min-[390px]:text-base sm:text-lg font-bold tracking-[0.12em] sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-2.5 min-[390px]:px-4 sm:px-9 py-2.5 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-[10px] min-[390px]:text-xs sm:text-lg font-bold tracking-[0.08em] sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer"
               >
                 <span>{primaryCtaText}</span>
                 <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -81,7 +85,7 @@ export default function HeroSection() {
             </div>
 
             {/* 6. Compact Supporting Brand Details (Sequence Item 6 on Mobile & Desktop Left Column Footer) */}
-            <div className="pt-4 sm:pt-6 border-t border-[#1F1F1F] w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-left">
+            <div className="pt-3 sm:pt-6 border-t border-[#1F1F1F] w-full flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 text-left">
               <div>
                 <span className="text-xs sm:text-sm font-heading font-bold text-[#F2F2F2] tracking-wider uppercase block">
                   {supportingLabel}
