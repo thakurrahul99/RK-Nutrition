@@ -82,7 +82,7 @@ router.post('/', authenticateToken, requireClientAdmin, (req, res) => {
 
     try {
       const uploaded = await uploadToCloudinary(req.file);
-      addLog('INFO', 'MEDIA', `Cloudinary asset uploaded (${Math.round(req.file.size / 1024)} KB) by ${req.user.name`);
+      addLog('INFO', 'MEDIA', `Cloudinary asset uploaded (${Math.round(req.file.size / 1024)} KB) by ${req.user.name}`);
       return res.json({
         success: true,
         url: uploaded.secure_url,
