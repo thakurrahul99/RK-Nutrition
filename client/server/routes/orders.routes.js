@@ -69,7 +69,7 @@ router.get('/public/:id', (req, res) => {
   }
 
   const db = getDb();
-  const order = db.orders.find((o) => o.id === id || String(o.orderNumber) === id;
+  const order = db.orders.find((o) => o.id === id || String(o.orderNumber) === id);
   const orderPhone = String(order?.customer?.phone || '').replace(/\\D/g, '');
 
   if (!order || phone.slice(-10) !== orderPhone.slice(-10)) {
