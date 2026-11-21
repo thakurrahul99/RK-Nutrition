@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+import 'dotenv/config';
 
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/products.routes.js';
@@ -15,13 +15,17 @@ import contentRoutes from './routes/content.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import { getDb } from './config/db.js';
 
-dotenv.config();
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+if (!process.env.JWT_SECRET || !process.env.SUPER_ADMIN_PASSWORD || !process.env.CLIENT_ADMIN_PASSWORD) {
+  throw new Error('JWT_SECRET, SUPER_ADMIN_PASSWORD, and CLIENT_ADMIN_PASSWORD must be set in the server environment.');
+}
 
 // Middleware
 app.use(cors({ origin: true, credentials: true }));
