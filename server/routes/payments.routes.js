@@ -188,27 +188,30 @@ router.post('/verify', (req, res) => {
   });
 });
 
-// POST /api/payments/webhook (Razorpay Webhook Listener)
+// POST /api/payments/webhook (Raw-body signature validation)
 router.post('/webhook', (req, res) => {
   try {
     const signature = req.headers['x-razorpay-signature'];
     const db = getDb();
     const secret = db.gatewayConfig?.webhookSecret || process.env.RAZORPAY_WEBHOOK_SECRET;
 
-    if (secret && signature) {
-      const isValid = verifyWebhookSignature(JSON.stringify(req.body), signature, secret);
-      if (!isValid) {
-        return res.status(400).json({ success: false, error: 'Invalid webhook signature.' });
-      }
+    if (!secret) {
+      return res.status(503).json({ success: false, error: 'Webhook secret is not configured.' });
+    }
+    if (!signature || !req.rawBody) {
+      return res.status(400).json({ success: false, error: 'Missing webhook signature or raw payload.' });
     }
 
-    const event = req.body.event;
-    addLog('INFO', 'PAYMENTS', `Razorpay Webhook received: ${event}`);
+    if (!verifyWebhookSignature(req.rawBody, signature, secret)) {
+      return res.status(400).json({ success: false, error: 'Invalid webhook signature.' });
+    }
 
-    res.json({ status: 'ok' });
+    const event = req.body?.event;
+    addLog('INFO', 'PAYMENTS', `Verified Razorpay webhook received: ${event || 'unknown event'}`);
+    return res.json({ status: 'ok' });
   } catch (err) {
-    console.error('Webhook error:', err);
-    res.status(500).json({ status: 'error' });
+    console.error('Webhook error:', err.message);
+    return res.status(500).json({ status: 'error' });
   }
 });
 
