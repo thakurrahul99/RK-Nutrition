@@ -61,10 +61,16 @@ export const getDefaultCategories = () => [
 // Initial seed data
 const getInitialSeed = () => {
   const salt = bcrypt.genSaltSync(10);
-  
-  // Default accounts
-  const superAdminPasswordHash = bcrypt.hashSync(process.env.SUPER_ADMIN_PASSWORD || 'rkdev@2026', salt);
-  const clientAdminPasswordHash = bcrypt.hashSync(process.env.CLIENT_ADMIN_PASSWORD || 'rkstore@2026', salt);
+  const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD;
+  const clientAdminPassword = process.env.CLIENT_ADMIN_PASSWORD;
+
+  if (!superAdminPassword || !clientAdminPassword) {
+    throw new Error('SUPER_ADMIN_PASSWORD and CLIENT_ADMIN_PASSWORD must be configured before initializing the database.');
+  }
+
+  // Admin accounts must use explicitly configured credentials.
+  const superAdminPasswordHash = bcrypt.hashSync(superAdminPassword, salt);
+  const clientAdminPasswordHash = bcrypt.hashSync(clientAdminPassword, salt);
 
   return {
     users: [
