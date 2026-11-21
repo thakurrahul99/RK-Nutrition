@@ -156,7 +156,7 @@ router.post('/validate-cart', (req, res) => {
   if (isUpiGloballyEnabled) allowedMethods.push('UPI');
   if (isCardGloballyEnabled) allowedMethods.push('CARD');
 
-  const isGatewayReady = Boolean(db.gatewayConfig?.isConfigured || process.env.RAZORPAY_KEY_ID);
+  // Do not advertise online payments until a real gateway order/verification flow is implemented.\n  const isGatewayReady = false;
 
   res.json({
     success: true,
@@ -165,104 +165,28 @@ router.post('/validate-cart', (req, res) => {
     allowedMethods,
     isGatewayReady,
     gatewayWarning: !isGatewayReady
-      ? 'Online payments (Card & UPI) are currently in test sandbox mode.'
+      ? 'Online payments are temporarily disabled until secure gateway integration is completed.'
       : null
   });
 });
 
-// POST /api/payments/create-order (Razorpay Order Initiation)
-router.post('/create-order', async (req, res) => {
-  try {
-    const { orderId, amount } = req.body;
-    const db = getDb();
-
-    let targetAmount = amount;
-    if (orderId) {
-      const order = (db.orders || []).find((o) => o.id === orderId || String(o.orderNumber) === orderId);
-      if (order) targetAmount = order.total;
-    }
-
-    if (!targetAmount || targetAmount <= 0) {
-      return res.status(400).json({ success: false, error: 'Valid payment amount is required.' });
-    }
-
-    const keyId = db.gatewayConfig?.keyId || process.env.RAZORPAY_KEY_ID || 'rzp_test_rknutrition';
-    const razorpayOrderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
-
-    res.json({
-      success: true,
-      order: {
-        id: razorpayOrderId,
-        entity: 'order',
-        amount: Math.round(targetAmount * 100), // in paise
-        currency: 'INR',
-        receipt: orderId || `rcpt_${Date.now()}`,
-        status: 'created'
-      },
-      keyId
-    });
-  } catch (err) {
-    console.error('Payment order creation error:', err);
-    res.status(500).json({ success: false, error: 'Failed to initiate payment transaction.' });
-  }
+// POST /api/payments/create-order
+// Online checkout is deliberately unavailable until a real gateway order is created server-side.
+router.post('/create-order', (req, res) => {
+  res.status(503).json({
+    success: false,
+    error: 'Online payments are temporarily unavailable. Please choose Cash on Delivery.'
+  });
 });
 
-// POST /api/payments/verify (Cryptographic Razorpay Signature Verification)
-router.post('/verify', async (req, res) => {
-  try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, internalOrderId } = req.body;
-    const db = getDb();
-
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required Razorpay verification parameters.'
-      });
-    }
-
-    const keySecret = db.gatewayConfig?.keySecret || process.env.RAZORPAY_KEY_SECRET || 'rzp_test_secret_sample_key';
-    const isSignatureValid = verifyRazorpaySignature(razorpay_order_id, razorpay_payment_id, razorpay_signature, keySecret);
-
-    if (!isSignatureValid) {
-      addLog('WARN', 'PAYMENTS', `Failed payment verification attempt for Order ${internalOrderId || razorpay_order_id}`);
-      return res.status(400).json({
-        success: false,
-        verified: false,
-        error: 'Cryptographic signature verification failed. Untrusted payment payload.'
-      });
-    }
-
-    // Mark internal order as PAID
-    if (internalOrderId) {
-      const order = (db.orders || []).find((o) => o.id === internalOrderId || String(o.orderNumber) === internalOrderId);
-      if (order) {
-        order.paymentStatus = 'PAID';
-        order.orderStatus = 'CONFIRMED';
-        order.paymentDetails = {
-          gateway: 'razorpay',
-          razorpayOrderId: razorpay_order_id,
-          razorpayPaymentId: razorpay_payment_id,
-          paidAt: new Date().toISOString()
-        };
-        saveDb(db);
-
-        if (mongoose.connection.readyState === 1) {
-          await Order.findOneAndUpdate({ id: order.id }, order).catch(() => {});
-        }
-
-        addLog('INFO', 'PAYMENTS', `Payment verified and captured for Order ${order.id} (${razorpay_payment_id})`);
-      }
-    }
-
-    res.json({
-      success: true,
-      verified: true,
-      message: 'Payment verified successfully.'
-    });
-  } catch (err) {
-    console.error('Payment verification error:', err);
-    res.status(500).json({ success: false, error: 'Payment verification failed.' });
-  }
+// POST /api/payments/verify
+// Verification is disabled until server-created gateway orders are bound to internal orders.
+router.post('/verify', (req, res) => {
+  res.status(503).json({
+    success: false,
+    verified: false,
+    error: 'Online payment verification is not enabled yet.'
+  });
 });
 
 // POST /api/payments/webhook (Razorpay Webhook Listener)
