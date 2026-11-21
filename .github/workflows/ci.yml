@@ -1,0 +1,51 @@
+name: RK Nutrition CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  client:
+    name: Client lint and production build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+  server:
+    name: Server API tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - name: Run API test suite
+        env:
+          NODE_ENV: test
+          JWT_SECRET: ci-only-jwt-secret-that-is-not-used-in-production
+          SUPER_ADMIN_PASSWORD: DevSuperAdmin@2026!
+          CLIENT_ADMIN_PASSWORD: StoreOwner@2026!
+          SUPER_ADMIN_EMAIL: developer@rknutrition.com
+          CLIENT_ADMIN_EMAIL: storeowner@rknutrition.com
+        run: npm test
