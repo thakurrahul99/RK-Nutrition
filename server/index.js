@@ -25,6 +25,7 @@ import { getDb, connectDb } from './config/db.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 
 if (!process.env.JWT_SECRET || !process.env.SUPER_ADMIN_PASSWORD || !process.env.CLIENT_ADMIN_PASSWORD) {
   throw new Error('JWT_SECRET, SUPER_ADMIN_PASSWORD, and CLIENT_ADMIN_PASSWORD must be set in the server environment.');
@@ -107,8 +108,8 @@ connectDb().catch((err) => console.warn('[DB Boot Warning]:', err.message));
 
 // Start Server if not imported by test suite
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, '127.0.0.1', () => {
-    console.log(`[RK Nutrition Server] Dual-Admin API running at http://127.0.0.1:${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`[RK Nutrition Server] API listening on ${HOST}:${PORT}`);
   });
 }
 
