@@ -1,77 +1,101 @@
 import { Router } from 'express';
 import multer from 'multer';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import crypto from 'crypto';
 import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
 import { addLog } from '../config/db.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
-
 const router = Router();
 
-// Storage Engine
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, UPLOADS_DIR);
-  },
-  filename: (req, file, cb) => {
-    const cleanName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e4)}`;
-    cb(null, `${uniqueSuffix}-${cleanName}`);
-  }
-});
-
-// File filter
-const fileFilter = (req, file, cb) => {
-  const allowedExtensionsByType = {
-    'image/jpeg': ['.jpg', '.jpeg'],
-    'image/png': ['.png'],
-    'image/webp': ['.webp']
-  };
-  const ext = path.extname(file.originalname).toLowerCase();
-  const validExtensions = allowedExtensionsByType[file.mimetype];
-
-  if (validExtensions && validExtensions.includes(ext)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only JPEG, PNG, and WebP image files are allowed.'), false);
-  }
-};
+const cloudinaryConfigured = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
 
 const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024, files: 1 },
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    if (allowed.includes(file.mimetype)) return cb(null, true);
+    cb(new Error('Only JPEG, PNG, and WebP image files are allowed.'));
+  }
 });
 
-// POST /api/upload
+const hasValidImageSignature = (buffer, mimetype) => {
+  if (!buffer || buffer.length < 12) return false;
+  if (mimetype === 'image/jpeg') return buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+  if (mimetype === 'image/png') return buffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  if (mimetype === 'image/webp') return buffer.subarray(0, 4).toString() === 'RIFF' && buffer.subarray(8, 12).toString() === 'WEBP';
+  return false;
+};
+
+const createCloudinarySignature = (params, secret) => {
+  const canonical = Object.keys(params).sort().map(key => `${key}=${params[key]}`).join('&');
+  return crypto.createHash('sha1').update(canonical + secret).digest('hex');
+};
+
+const uploadToCloudinary = async (file) => {
+  const timestamp = Math.floor(Date.now() / 1000);
+  const paramsToSign = { folder: 'rk-nutrition/products', timestamp };
+  const signature = createCloudinarySignature(paramsToSign, process.env.CLOUDINARY_API_SECRET);
+  const form = new FormData();
+  form.append('file', new Blob([file.buffer], { type: file.mimetype }), file.originalname);
+  form.append('api_key', process.env.CLOUDINARY_API_KEY);
+  form.append('timestamp', String(timestamp));
+  form.append('folder', paramsToSign.folder);
+  form.append('signature', signature);
+
+  const endpoint = `https://api.cloudinary.com/v1_1/${encodeURIComponent(process.env.CLOUDINARY_CLOUD_NAME)}/image/upload`;
+  const response = await fetch(endpoint, { method: 'POST', body: form });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(result.error?.message || 'Cloudinary rejected the upload.');
+  }
+  return result;
+};
+
+// POST /api/upload — Admin-only Cloudinary image upload
 router.post('/', authenticateToken, requireClientAdmin, (req, res) => {
-  upload.single('file')(req, res, (err) => {
-    if (err instanceof multer.MulterError) {
-      if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(400).json({ success: false, error: 'File size exceeds 5MB limit.' });
-      }
-      return res.status(400).json({ success: false, error: err.message });
-    } else if (err) {
-      return res.status(400).json({ success: false, error: err.message });
+  if (!cloudinaryConfigured) {
+    return res.status(503).json({
+      success: false,
+      error: 'Image hosting is not configured. Set Cloudinary credentials on the server.'
+    });
+  }
+
+  upload.single('file')(req, res, async (err) => {
+    if (err) {
+      const message = err.code === 'LIMIT_FILE_SIZE'
+        ? 'File size exceeds 5MB limit.'
+        : err.message || 'Upload rejected.';
+      return res.status(400).json({ success: false, error: message });
     }
 
     if (!req.file) {
       return res.status(400).json({ success: false, error: 'Please choose an image file to upload.' });
     }
 
-    const publicUrl = `/uploads/${req.file.filename}`;
-    addLog('INFO', 'MEDIA', `Asset uploaded: ${req.file.filename} (${Math.round(req.file.size / 1024)} KB) by ${req.user.name}`);
+    if (!hasValidImageSignature(req.file.buffer, req.file.mimetype)) {
+      return res.status(400).json({ success: false, error: 'The uploaded file is not a valid supported image.' });
+    }
 
-    res.json({
-      success: true,
-      url: publicUrl,
-      filename: req.file.filename,
-      size: `${Math.round(req.file.size / 1024)} KB`,
-      mimetype: req.file.mimetype
-    });
+    try {
+      const uploaded = await uploadToCloudinary(req.file);
+      addLog('INFO', 'MEDIA', `Cloudinary asset uploaded (${Math.round(req.file.size / 1024)} KB) by ${req.user.name`);
+      return res.json({
+        success: true,
+        url: uploaded.secure_url,
+        publicId: uploaded.public_id,
+        filename: uploaded.public_id,
+        size: `${Math.round(req.file.size / 1024)} KB`,
+        mimetype: req.file.mimetype,
+        provider: 'cloudinary'
+      });
+    } catch (uploadError) {
+      console.error('[Cloudinary] Upload failed:', uploadError.message);
+      return res.status(502).json({ success: false, error: 'Image hosting upload failed. Please try again.' });
+    }
   });
 });
 
