@@ -31,37 +31,42 @@ export default function HeroSection() {
       </div>
 
       {/* 2. Main Hero Grid Container */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-18 z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-18 z-10 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-12 items-center">
           
           {/* Left Column (Desktop) / Main Stack (Mobile) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left w-full">
             
             {/* 1. Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-3 sm:mb-5">
+            <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-3 sm:mb-5 max-w-full">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D51F32] shrink-0" aria-hidden="true" />
-              <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.14em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase">
+              <span className="text-[9px] min-[360px]:text-[10px] sm:text-xs font-mono font-bold tracking-[0.12em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase">
                 {eyebrow}
               </span>
             </div>
 
             {/* 2. Main Headline */}
-            <h1 className="font-heading font-black text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-[#F2F2F2] mb-4 sm:mb-6">
+            <h1 className="font-heading font-black text-[clamp(2.35rem,10.5vw,3.45rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.035em] sm:tracking-tight uppercase leading-[0.9] sm:leading-[0.92] text-[#F2F2F2] mb-3 sm:mb-6">
               <span className="block text-[#F2F2F2]">{headingLine1}</span>
               <span className="block text-[#D51F32]">{headingLine2}</span>
               <span className="block text-[#F2F2F2]">{headingLine3}</span>
             </h1>
 
+            {/* Mobile Product Visual: placed directly after the headline to keep the desktop visual hierarchy on small screens */}
+            <div className="w-full flex lg:hidden items-center justify-center -mt-1 mb-2 sm:my-2">
+              <HeroProduct3D className="mx-auto !max-w-[250px] min-[360px]:!max-w-[270px] min-[400px]:!max-w-[290px] sm:!max-w-[400px]" />
+            </div>
+
             {/* 3. Supporting Text */}
-            <p className="max-w-xl text-sm sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-6 sm:mb-8 font-body">
+            <p className="max-w-xl text-[13px] min-[390px]:text-sm sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-5 sm:mb-8 font-body">
               {subtext}
             </p>
 
             {/* 4. Action CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 w-full sm:w-auto mb-5 sm:mb-8">
               <Link
                 to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
-                className="inline-flex items-center justify-center gap-2 px-6 sm:px-9 py-3.5 sm:py-4 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-base sm:text-lg font-bold tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-4 min-[390px]:px-6 sm:px-9 py-3 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-sm min-[390px]:text-base sm:text-lg font-bold tracking-[0.12em] sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer"
               >
                 <span>{primaryCtaText}</span>
                 <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -69,15 +74,10 @@ export default function HeroSection() {
 
               <Link
                 to={secondaryCtaHref.startsWith('#') ? '/categories' : secondaryCtaHref}
-                className="inline-flex items-center justify-center px-6 sm:px-9 py-3.5 sm:py-4 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#D51F32] font-heading text-base sm:text-lg font-bold tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D51F32] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer"
+                className="inline-flex items-center justify-center px-4 min-[390px]:px-6 sm:px-9 py-3 sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#D51F32] font-heading text-sm min-[390px]:text-base sm:text-lg font-bold tracking-[0.12em] sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D51F32] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer"
               >
                 <span>{secondaryCtaText}</span>
               </Link>
-            </div>
-
-            {/* 5. Mobile Product Visual Slot (Sequence Item 5 on Mobile) */}
-            <div className="w-full flex lg:hidden items-center justify-center my-2 pb-2">
-              <HeroProduct3D className="mx-auto" />
             </div>
 
             {/* 6. Compact Supporting Brand Details (Sequence Item 6 on Mobile & Desktop Left Column Footer) */}
