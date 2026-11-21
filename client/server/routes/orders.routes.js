@@ -4,6 +4,11 @@ import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
 
 const router = Router();
 
+// Public order-lookup throttling: per-IP window, reset after 15 minutes.
+const publicLookupAttempts = new Map();
+const PUBLIC_LOOKUP_WINDOW_MS = 15 * 60 * 1000;
+const PUBLIC_LOOKUP_MAX_ATTEMPTS = 8;
+
 // GET /api/orders (Client Admin list with search and filters)
 router.get('/', authenticateToken, requireClientAdmin, (req, res) => {
   const { status, paymentMethod, paymentStatus, search } = req.query;
@@ -41,14 +46,34 @@ router.get('/', authenticateToken, requireClientAdmin, (req, res) => {
   });
 });
 
-// GET /api/orders/public/:id (Public order lookup for customer order confirmation)
+// GET /api/orders/public/:id (Customer confirmation lookup; requires phone verification)
 router.get('/public/:id', (req, res) => {
-  const { id } = req.params;
-  const db = getDb();
-  const order = db.orders.find((o) => o.id === id || String(o.orderNumber) === id);
+  const ip = req.ip || req.socket.remoteAddress || 'unknown-ip';
+  const now = Date.now();
+  const attempt = publicLookupAttempts.get(ip);
 
-  if (!order) {
-    return res.status(404).json({ success: false, error: 'Order not found.' });
+  if (!attempt || now - attempt.firstAttemptTime >= PUBLIC_LOOKUP_WINDOW_MS) {
+    publicLookupAttempts.set(ip, { count: 1, firstAttemptTime: now });
+  } else if (attempt.count >= PUBLIC_LOOKUP_MAX_ATTEMPTS) {
+    const remainingSecs = Math.ceil((PUBLIC_LOOKUP_WINDOW_MS - (now - attempt.firstAttemptTime)) / 1000);
+    return res.status(429).json({ success: false, error: `Too many order lookup attempts. Please retry in ${remainingSecs} seconds.` });
+  } else {
+    attempt.count += 1;
+    publicLookupAttempts.set(ip, attempt);
+  }
+
+  const { id } = req.params;
+  const phone = String(req.query.phone || '').replace(/\\D/g, '');
+  if (phone.length < 10) {
+    return res.status(400).json({ success: false, error: 'Enter the phone number used for this order.' });
+  }
+
+  const db = getDb();
+  const order = db.orders.find((o) => o.id === id || String(o.orderNumber) === id;
+  const orderPhone = String(order?.customer?.phone || '').replace(/\\D/g, '');
+
+  if (!order || phone.slice(-10) !== orderPhone.slice(-10)) {
+    return res.status(401).json({ success: false, error: 'Unable to verify order details. Check your order reference and phone number.' });
   }
 
   res.json({
