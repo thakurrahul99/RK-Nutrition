@@ -2,7 +2,7 @@ import { Router } from 'express';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { authenticateToken } from '../middleware/auth.js';
+import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
 import { addLog } from '../config/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 
 // File filter
 const fileFilter = (req, file, cb) => {
-  const allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+  const allowed = ['image/jpeg', 'image/png', 'image/webp'];
   if (allowed.includes(file.mimetype)) {
     cb(null, true);
   } else {
@@ -40,7 +40,7 @@ const upload = multer({
 });
 
 // POST /api/upload
-router.post('/', authenticateToken, (req, res) => {
+router.post('/', authenticateToken, requireClientAdmin, (req, res) => {
   upload.single('file')(req, res, (err) => {
     if (err instanceof multer.MulterError) {
       if (err.code === 'LIMIT_FILE_SIZE') {
