@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-black: #111111;
+    --brand-offwhite: #F5F4F2;
+    --brand-red: #C8202B;
+    --brand-darkgrey: #1A1A1A;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #111111;
+    color: #F5F4F2;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: #111111;
+    color: #F5F4F2;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Custom high-contrast selection */
+  ::selection {
+    background-color: #C8202B;
+    color: #F5F4F2;
+  }
+}
+
+@layer utilities {
+  .text-glow-red {
+    text-shadow: 0 0 18px rgba(200, 32, 43, 0.28), 0 2px 4px rgba(0, 0, 0, 0.7);
+  }
+
+  .box-glow-red {
+    box-shadow: 0 0 35px -5px rgba(200, 32, 43, 0.3);
+  }
+
+  .border-glow-red {
+    border-color: rgba(200, 32, 43, 0.45);
+    box-shadow: inset 0 0 15px rgba(200, 32, 43, 0.15), 0 0 20px rgba(200, 32, 43, 0.2);
+  }
+
+  /* Page entrance subtle animation */
+  @keyframes pageFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .page-enter {
+    animation: pageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Hero subtle staggered entrance animations */
+  @keyframes heroFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-animate-badge {
+    animation: heroFadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero-animate-title {
+    animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s forwards;
+    opacity: 0;
+  }
+
+  .hero-animate-subtext {
+    animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
+    opacity: 0;
+  }
+
+  .hero-animate-cta {
+    animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.18s forwards;
+    opacity: 0;
+  }
+
+  .hero-animate-meta {
+    animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.24s forwards;
+    opacity: 0;
+  }
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #111111;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C8202B;
+}
+
+/* Accessibility: High contrast keyboard focus rings */
+:focus-visible {
+  outline: 2px solid #C8202B !important;
+  outline-offset: 2px !important;
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

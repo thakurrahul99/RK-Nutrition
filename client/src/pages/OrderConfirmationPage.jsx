@@ -1,0 +1,300 @@
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { 
+  CheckCircle2, 
+  Package, 
+  MapPin, 
+  Phone, 
+  Mail, 
+  Truck, 
+  ArrowRight, 
+  Printer, 
+  AlertCircle 
+} from 'lucide-react';
+
+export default function OrderConfirmationPage() {
+  const { orderId } = useParams();
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchOrder() {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/orders/public/${orderId}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Unable to retrieve order details.');
+        }
+
+        if (isMounted) {
+          setOrder(data.order);
+          setLoading(false);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message);
+          setLoading(false);
+        }
+      }
+    }
+
+    if (orderId) {
+      fetchOrder();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [orderId]);
+
+  const formatCurrency = (val) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(val || 0);
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center space-y-3 font-mono text-xs uppercase tracking-widest text-[#8C8C8C]">
+          <div className="w-8 h-8 border-2 border-[#C8202B] border-t-transparent animate-spin mx-auto" />
+          <p>Verifying Order Confirmation...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !order) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
+        <div className="max-w-md w-full bg-[#161616] border border-[#262626] p-8 text-center space-y-4">
+          <AlertCircle className="w-12 h-12 text-[#C8202B] mx-auto" />
+          <h1 className="font-heading text-xl uppercase tracking-wider text-[#F5F4F2] font-bold">
+            Order Not Found
+          </h1>
+          <p className="text-xs text-[#8C8C8C] font-mono leading-relaxed">
+            {error || 'We could not locate this order record. Please verify the order reference number or contact store support.'}
+          </p>
+          <Link
+            to="/"
+            className="inline-block mt-2 px-6 py-3 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] text-xs font-mono uppercase tracking-wider border border-[#333333] transition-colors"
+          >
+            Return to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const { customer, items = [] } = order;
+
+  return (
+    <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-8">
+      
+      {/* 1. Header Banner */}
+      <div className="bg-[#141414] border border-[#242424] p-6 sm:p-8 text-center space-y-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-[#C8202B]/10 rounded-bl-full pointer-events-none" />
+        
+        <div className="w-16 h-16 bg-[#181818] border border-[#2E2E2E] flex items-center justify-center mx-auto text-[#22C55E]">
+          <CheckCircle2 className="w-9 h-9" />
+        </div>
+
+        <div className="space-y-1">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] font-bold">
+            Order Confirmed // Ready For Dispatch
+          </span>
+          <h1 className="font-heading text-3xl sm:text-4xl text-[#F5F4F2] uppercase font-black tracking-tight">
+            Thank You, {customer?.name?.split(' ')[0] || 'Athlete'}!
+          </h1>
+          <p className="text-xs sm:text-sm text-[#8C8C8C] font-body max-w-md mx-auto">
+            Your official RK Nutrition formulation order has been received and queued for physical warehouse fulfilment.
+          </p>
+        </div>
+
+        {/* Order Reference Pill */}
+        <div className="inline-flex flex-wrap items-center justify-center gap-3 bg-[#1A1A1A] border border-[#2E2E2E] px-4 py-2 text-xs font-mono">
+          <span className="text-[#888888]">Order ID:</span>
+          <strong className="text-[#F5F4F2] tracking-wider">{order.id}</strong>
+          <span className="text-[#444444]">|</span>
+          <span className="text-[#888888]">Status:</span>
+          <span className="text-emerald-400 font-bold uppercase">{order.orderStatus}</span>
+          <span className="text-[#444444]">|</span>
+          <span className="text-[#888888]">Payment:</span>
+          <span className="text-[#F5F4F2] font-semibold">{order.paymentMethod} ({order.paymentStatus})</span>
+        </div>
+      </div>
+
+      {/* 2. Order Breakdown Card */}
+      <div className="bg-[#141414] border border-[#242424] p-6 sm:p-8 space-y-6">
+        
+        <div className="flex items-center justify-between pb-4 border-b border-[#222222]">
+          <h2 className="font-heading font-bold text-lg uppercase tracking-wider text-[#F5F4F2] flex items-center gap-2">
+            <Package className="w-5 h-5 text-[#C8202B]" />
+            Ordered Items ({items.length})
+          </h2>
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="hidden sm:flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#8C8C8C] hover:text-[#F5F4F2] transition-colors"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Print Receipt</span>
+          </button>
+        </div>
+
+        {/* Items Table */}
+        <div className="space-y-4 divide-y divide-[#1C1C1C]">
+          {items.map((item, idx) => (
+            <div key={idx} className="pt-4 first:pt-0 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-14 h-14 bg-[#1A1A1A] border border-[#2E2E2E] shrink-0 overflow-hidden flex items-center justify-center">
+                  {item.image ? (
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="font-heading font-black text-sm text-[#444]">RK</span>
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-heading font-bold text-sm text-[#F5F4F2] uppercase truncate">
+                    {item.name}
+                  </h3>
+                  {item.variant && (
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#C8202B] block">
+                      {item.variant}
+                    </span>
+                  )}
+                  <span className="text-xs font-mono text-[#8C8C8C]">
+                    Qty: {item.quantity} × {formatCurrency(item.price)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="font-heading font-bold text-sm text-[#F5F4F2] text-right shrink-0">
+                {formatCurrency(item.total || item.price * item.quantity)}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Financial Summary */}
+        <div className="pt-6 border-t border-[#222222] space-y-2 text-xs font-mono">
+          <div className="flex justify-between text-[#8C8C8C]">
+            <span>Items Subtotal</span>
+            <span className="text-[#F5F4F2]">{formatCurrency(order.subtotal)}</span>
+          </div>
+
+          {order.discount > 0 && (
+            <div className="flex justify-between text-[#22C55E]">
+              <span>Coupon Discount {order.couponCode ? `(${order.couponCode})` : ''}</span>
+              <span>-{formatCurrency(order.discount)}</span>
+            </div>
+          )}
+
+          <div className="flex justify-between text-[#8C8C8C]">
+            <span>Shipping</span>
+            {order.shippingFee === 0 ? (
+              <span className="text-[#22C55E] uppercase font-bold">Free</span>
+            ) : (
+              <span className="text-[#F5F4F2]">{formatCurrency(order.shippingFee)}</span>
+            )}
+          </div>
+
+          <div className="flex justify-between items-baseline pt-3 border-t border-[#262626] text-base">
+            <span className="font-heading uppercase font-bold text-[#F5F4F2] tracking-wider">
+              Total Amount
+            </span>
+            <span className="font-heading font-black text-2xl text-[#F5F4F2] tracking-tight">
+              {formatCurrency(order.total)}
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* 3. Delivery & Dispatch Details */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        {/* Shipping Address */}
+        <div className="bg-[#141414] border border-[#242424] p-6 space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#C8202B] font-bold">
+            <MapPin className="w-4 h-4" />
+            <span>Delivery Destination</span>
+          </div>
+          <div className="space-y-1 text-xs text-[#CCCCCC] font-body leading-relaxed">
+            <p className="font-bold text-sm text-[#F5F4F2] font-heading uppercase">{customer?.name}</p>
+            <p>{customer?.address}</p>
+            <p>{customer?.city}, {customer?.state} - {customer?.pincode}</p>
+            <div className="pt-2 flex flex-col gap-1 text-[#8C8C8C] font-mono text-[11px]">
+              <span className="flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#C8202B]" />
+                {customer?.phone}
+              </span>
+              {customer?.email && (
+                <span className="flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-[#C8202B]" />
+                  {customer?.email}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Fulfillment & Courier Info */}
+        <div className="bg-[#141414] border border-[#242424] p-6 space-y-3">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#C8202B] font-bold">
+            <Truck className="w-4 h-4" />
+            <span>Courier & Tracking</span>
+          </div>
+          <div className="space-y-2 text-xs text-[#8C8C8C] font-body">
+            <p>
+              Estimated delivery: <strong className="text-[#F5F4F2]">3 - 5 Business Days</strong> across all pan-India metropolitan routes.
+            </p>
+            <div className="p-3 bg-[#1A1A1A] border border-[#282828] text-[11px] font-mono text-[#AAAAAA] space-y-1">
+              <span className="text-[#F5F4F2] font-semibold block uppercase">Tracking Updates</span>
+              Tracking details will be transmitted to <strong className="text-[#F5F4F2]">{customer?.phone}</strong> upon warehouse barcode scan.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* 4. Action Buttons */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#222222]">
+        <Link
+          to="/"
+          className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] hover:text-[#F5F4F2] transition-colors"
+        >
+          Return to Homepage
+        </Link>
+
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="sm:hidden flex-1 py-3 bg-[#1A1A1A] text-[#F5F4F2] font-mono uppercase text-xs tracking-wider border border-[#2E2E2E]"
+          >
+            Print
+          </button>
+          
+          <Link
+            to="/products"
+            className="flex-1 sm:flex-initial px-6 py-3.5 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20"
+          >
+            <span>Explore More Products</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+
+    </div>
+  );
+}

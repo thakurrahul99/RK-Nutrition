@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /super-admin/
+Disallow: /checkout
+Disallow: /order-confirmation/
+Allow: /
+
+Sitemap: https://rknutrition.com/sitemap.xml
