@@ -33,12 +33,6 @@ export default function SuperAdminLoginPage() {
     }
   };
 
-  const handleDemoFill = () => {
-    setEmail('developer@rknutrition.com');
-    setPassword('rkdev@2026');
-    setError('');
-  };
-
   return (
     <div className="min-h-screen bg-[#07090E] text-[#E2E8F0] flex items-center justify-center p-4 relative overflow-hidden font-mono">
       {/* Background Ambience */}
@@ -131,19 +125,8 @@ export default function SuperAdminLoginPage() {
             </button>
           </form>
 
-          {/* Quick Demo Helper */}
+          {/* Admin Portal Switch */}
           <div className="mt-6 pt-5 border-t border-[#1E293B] space-y-3">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-mono text-[#64748B] uppercase text-[10px]">Developer Auth:</span>
-              <button
-                type="button"
-                onClick={handleDemoFill}
-                className="text-[#38BDF8] hover:underline font-mono text-[11px]"
-              >
-                Autofill Developer Account
-              </button>
-            </div>
-            
             <div className="p-3 bg-[#0F172A] border border-[#1E293B] text-[11px] font-mono text-[#94A3B8] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-3.5 h-3.5 text-[#C8202B]" />
