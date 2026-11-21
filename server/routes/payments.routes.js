@@ -155,7 +155,8 @@ router.post('/validate-cart', (req, res) => {
   if (isUpiGloballyEnabled) allowedMethods.push('UPI');
   if (isCardGloballyEnabled) allowedMethods.push('CARD');
 
-  // Do not advertise online payments until a real gateway order/verification flow is implemented.\n  const isGatewayReady = false;
+  // Online payments remain disabled until secure gateway order creation and verification are implemented.
+  const isGatewayReady = false;
 
   res.json({
     success: true,
