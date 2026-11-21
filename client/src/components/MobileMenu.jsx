@@ -45,7 +45,7 @@ export default function MobileMenu({
       aria-modal="true"
       role="dialog"
     >
-      <div className="absolute inset-y-0 right-0 w-full max-w-sm bg-[#111111] border-l border-[#262626] flex flex-col justify-between p-6 shadow-2xl">
+      <div className="absolute inset-y-0 right-0 w-[88vw] max-w-[340px] bg-[#111111] border-l border-[#262626] flex flex-col justify-between p-4 min-[360px]:p-5 shadow-2xl">
         
         {/* Header */}
         <div>
