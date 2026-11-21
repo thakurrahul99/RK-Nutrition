@@ -53,8 +53,15 @@ app.use(cors({
   credentials: true
 }));
 
-// Body Parsers
-app.use(express.json({ limit: '10mb' }));
+// Body parsers. Preserve exact webhook bytes for Razorpay signature verification.
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buffer) => {
+    if (req.originalUrl.startsWith('/api/payments/webhook')) {
+      req.rawBody = buffer.toString('utf8');
+    }
+  }
+}));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static uploads serving
