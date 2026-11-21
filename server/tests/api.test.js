@@ -11,6 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 dotenv.config();
+process.env.NODE_ENV = 'test';
 
 import http from 'http';
 import crypto from 'crypto';
