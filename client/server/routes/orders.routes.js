@@ -63,14 +63,14 @@ router.get('/public/:id', (req, res) => {
   }
 
   const { id } = req.params;
-  const phone = String(req.query.phone || '').replace(/\\D/g, '');
+  const phone = String(req.query.phone || '').replace(/\D/g, '');
   if (phone.length < 10) {
     return res.status(400).json({ success: false, error: 'Enter the phone number used for this order.' });
   }
 
   const db = getDb();
   const order = db.orders.find((o) => o.id === id || String(o.orderNumber) === id);
-  const orderPhone = String(order?.customer?.phone || '').replace(/\\D/g, '');
+  const orderPhone = String(order?.customer?.phone || '').replace(/\D/g, '');
 
   if (!order || phone.slice(-10) !== orderPhone.slice(-10)) {
     return res.status(401).json({ success: false, error: 'Unable to verify order details. Check your order reference and phone number.' });
