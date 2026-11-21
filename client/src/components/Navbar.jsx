@@ -41,8 +41,8 @@ export default function Navbar({
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         scrolled
-          ? 'bg-[#111111]/95 backdrop-blur-md border-b border-[#262626] shadow-xl shadow-black/40 py-3.5'
-          : 'bg-[#111111] border-b border-[#1E1E1E] py-4'
+          ? 'bg-[#111111]/95 backdrop-blur-md border-b border-[#262626] shadow-xl shadow-black/40 py-2 sm:py-3.5'
+          : 'bg-[#111111] border-b border-[#1E1E1E] py-2.5 sm:py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-2.5 min-[360px]:px-3 sm:px-6 lg:px-8">
