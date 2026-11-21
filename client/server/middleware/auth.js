@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import { getDb } from '../config/db.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'rk_nutrition_super_secure_jwt_secret_2026_xyz';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) throw new Error('JWT_SECRET must be configured before starting the server.');
 
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -72,4 +74,26 @@ export const requireSuperAdmin = (req, res, next) => {
   }
 
   next();
+};
+// Optional authentication: public routes remain public, but valid admin tokens unlock admin-only records.
+export const optionalAuthenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return next();
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) return next();
+    const db = getDb();
+    const user = db.users.find((u) => u.id === decoded.id);
+    if (user) {
+      req.user = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatarInitials: user.avatarInitials
+      };
+    }
+    next();
+  });
 };

@@ -33,12 +33,6 @@ export default function AdminLoginPage() {
     }
   };
 
-  const handleDemoFill = () => {
-    setEmail('storeowner@rknutrition.com');
-    setPassword('rkstore@2026');
-    setError('');
-  };
-
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F4F2] flex items-center justify-center p-4 relative overflow-hidden font-body">
       {/* Background Ambience */}
@@ -132,19 +126,8 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* Quick Demo Helper */}
+          {/* Admin Portal Switch */}
           <div className="mt-6 pt-5 border-t border-[#222222] space-y-3">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-mono text-[#666666] uppercase text-[10px]">Test Account:</span>
-              <button
-                type="button"
-                onClick={handleDemoFill}
-                className="text-[#C8202B] hover:text-[#E02633] font-mono text-[11px] underline"
-              >
-                Autofill Store Owner
-              </button>
-            </div>
-            
             <div className="p-3 bg-[#111111] border border-[#222222] text-[11px] font-mono text-[#8C8C8C] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Terminal className="w-3.5 h-3.5 text-[#38BDF8]" />

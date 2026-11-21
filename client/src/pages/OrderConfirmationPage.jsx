@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
   CheckCircle2, 
@@ -15,40 +15,29 @@ import {
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [phone, setPhone] = useState('');
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    let isMounted = true;
-    async function fetchOrder() {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/orders/public/${orderId}`);
-        const data = await res.json();
-
-        if (!res.ok || !data.success) {
-          throw new Error(data.error || 'Unable to retrieve order details.');
-        }
-
-        if (isMounted) {
-          setOrder(data.order);
-          setLoading(false);
-        }
-      } catch (err) {
-        if (isMounted) {
-          setError(err.message);
-          setLoading(false);
-        }
+  const handleLookup = async (e) => {
+    e.preventDefault();
+    setError('');
+    setOrder(null);
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/orders/public/${encodeURIComponent(orderId)}?phone=${encodeURIComponent(phone)}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Unable to verify order details.');
       }
+      setOrder(data.order);
+    } catch (err) {
+      setError(err.message || 'Unable to verify order details.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (orderId) {
-      fetchOrder();
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [orderId]);
 
   const formatCurrency = (val) => {
     return new Intl.NumberFormat('en-IN', {
@@ -73,21 +62,47 @@ export default function OrderConfirmationPage() {
     );
   }
 
-  if (error || !order) {
+  if (!order) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4 py-16">
-        <div className="max-w-md w-full bg-[#161616] border border-[#262626] p-8 text-center space-y-4">
-          <AlertCircle className="w-12 h-12 text-[#C8202B] mx-auto" />
-          <h1 className="font-heading text-xl uppercase tracking-wider text-[#F5F4F2] font-bold">
-            Order Not Found
-          </h1>
-          <p className="text-xs text-[#8C8C8C] font-mono leading-relaxed">
-            {error || 'We could not locate this order record. Please verify the order reference number or contact store support.'}
-          </p>
-          <Link
-            to="/"
-            className="inline-block mt-2 px-6 py-3 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] text-xs font-mono uppercase tracking-wider border border-[#333333] transition-colors"
-          >
+      <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
+        <div className="max-w-md w-full bg-[#161616] border border-[#262626] p-6 sm:p-8 space-y-5">
+          <div className="text-center space-y-3">
+            <AlertCircle className="w-10 h-10 text-[#C8202B] mx-auto" />
+            <h1 className="font-heading text-xl uppercase tracking-wider text-[#F5F4F2] font-bold">
+              Verify Your Order
+            </h1>
+            <p className="text-sm text-[#8C8C8C] leading-relaxed">
+              For privacy, enter the phone number used at checkout to view this order confirmation.
+            </p>
+          </div>
+          {error && (
+            <div className="p-3 bg-[#C8202B]/10 border border-[#C8202B]/40 text-sm text-[#F5F4F2]" role="alert">
+              {error}
+            </div>
+          )}
+          <form onSubmit={handleLookup} className="space-y-4">
+            <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0]">
+              Checkout Phone Number
+              <input
+                type="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Enter phone number"
+                required
+                minLength={10}
+                className="mt-2 w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3 py-3 text-sm text-[#F5F4F2]"
+              />
+            </label>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-[#C8202B] hover:bg-[#AC1721] disabled:opacity-50 text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold transition-colors"
+            >
+              {loading ? 'Verifying…' : 'View Order'}
+            </button>
+          </form>
+          <Link to="/" className="block text-center text-xs text-[#8C8C8C] hover:text-white">
             Return to Home
           </Link>
         </div>

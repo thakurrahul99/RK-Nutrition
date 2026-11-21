@@ -1,17 +1,18 @@
 import { Router } from 'express';
 import { getDb, saveDb, addLog } from '../config/db.js';
-import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
+import { authenticateToken, requireClientAdmin, optionalAuthenticateToken } from '../middleware/auth.js';
 
 const router = Router();
 
 // GET /api/products
-router.get('/', (req, res) => {
+router.get('/', optionalAuthenticateToken, (req, res) => {
   const { scope, category, featured, search } = req.query;
   const db = getDb();
   let items = [...db.products];
 
-  // If public scope requested or non-admin
-  if (scope === 'public') {
+  // Public visitors only receive published, visible products. Admin tokens may access drafts.
+  const isAdmin = req.user?.role === 'CLIENT_ADMIN' || req.user?.role === 'SUPER_ADMIN';
+  if (!isAdmin || scope === 'public') {
     items = items.filter((p) => p.status === 'published' && p.visibility !== false);
   }
 
@@ -48,12 +49,13 @@ router.get('/', (req, res) => {
 });
 
 // GET /api/products/:id
-router.get('/:id', (req, res) => {
+router.get('/:id', optionalAuthenticateToken, (req, res) => {
   const { id } = req.params;
   const db = getDb();
   const product = db.products.find((p) => p.id === id || p.slug === id);
 
-  if (!product) {
+  const isAdmin = req.user?.role === 'CLIENT_ADMIN' || req.user?.role === 'SUPER_ADMIN';
+  if (!product || (!isAdmin && (product.status !== 'published' || product.visibility === false))) {
     return res.status(404).json({ success: false, error: 'Product not found.' });
   }
 
