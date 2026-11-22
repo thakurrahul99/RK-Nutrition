@@ -30,45 +30,43 @@ export default function HeroSection() {
         <div className="absolute right-0 top-0 w-[260px] sm:w-[480px] lg:w-[640px] h-[260px] sm:h-[480px] lg:h-[640px] bg-[radial-gradient(circle_at_top_right,rgba(225,29,46,0.20)_0%,rgba(11,11,11,0)_70%)] pointer-events-none" />
       </div>
 
-      {/* 2. Main Hero Grid Container: padding 20px 16px 28px on mobile */}
-      <div className="relative max-w-7xl mx-auto px-4 py-[20px] pb-[28px] sm:px-6 lg:px-8 sm:py-12 lg:py-18 z-10 w-full overflow-hidden sm:overflow-visible">
+      {/* 2. Main Hero Grid Container: padding 18px 16px 28px on mobile */}
+      <div className="relative max-w-7xl mx-auto px-4 py-[18px] pb-[28px] sm:px-6 lg:px-8 sm:py-12 lg:py-18 z-10 w-full overflow-hidden sm:overflow-visible">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-12 items-center">
           
           {/* Left Column (Desktop) / Main Stack (Mobile) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left w-full relative">
             
-            {/* Mobile Product Tub: Absolute positioned at right 8px, top 44px, width clamp(135px, 42vw, 170px), constrained height for <= 6px Line 3 overlap, z-index 1 */}
-            <div 
-              className="absolute right-[8px] top-[44px] w-[clamp(135px,42vw,170px)] h-[clamp(108px,32.5vw,134px)] max-h-[135px] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible"
-              aria-hidden="true"
-            >
-              {/* Radial red halo glow behind tub */}
-              <div className="absolute inset-[-15%] bg-[radial-gradient(circle,rgba(225,29,46,0.25)_0%,transparent_65%)] pointer-events-none -z-10" />
-              <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_12px_32px_rgba(225,29,46,0.4)]" />
+            {/* 1. Tag Pill */}
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1 bg-[#121212] border border-[#242424] mb-[16px] sm:mb-5 max-w-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] shrink-0" aria-hidden="true" />
+              <span className="text-[9px] sm:text-xs font-mono font-bold tracking-[1.2px] sm:tracking-[0.22em] text-[#A1A1A1] uppercase truncate">
+                {eyebrow}
+              </span>
             </div>
 
-            {/* 1. TAG PILL & 2. HEADLINE (order-1 on mobile & desktop) */}
-            <div className="w-full relative z-[2] order-1">
-              <div className="flex flex-col items-start min-w-0 w-full">
-                {/* 1. Tag Pill: margin-bottom 16px, font-size 9px, letter-spacing 1.2px, padding 6px 10px */}
-                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1 bg-[#121212] border border-[#242424] mb-[16px] sm:mb-5 max-w-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] shrink-0" aria-hidden="true" />
-                  <span className="text-[9px] sm:text-xs font-mono font-bold tracking-[1.2px] sm:tracking-[0.22em] text-[#A1A1A1] uppercase truncate">
-                    {eyebrow}
-                  </span>
-                </div>
-
-                {/* 2. Main Headline: clamp(38px, 13.2vw, 52px), line-height 0.95, letter-spacing -0.3px, weight 800, scaleY(1.3), mb 1.15em */}
-                <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(38px,13.2vw,52px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[1.15em] sm:mb-6 select-none [transform:scaleY(1.3)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
-                  <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
-                  <span className="block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">{headingLine2}</span>
-                  <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>
-                </h1>
+            {/* STEP 1: Hero Visual Wrapper (wraps Headline + Mobile Tub) */}
+            <div className="hero-visual relative w-full order-1">
+              {/* STEP 3: Product Tub (bada karo, right: 0, top: -1vw, fade bottom ~18%, >= 6px gap from POTENTIAL.) */}
+              <div 
+                className="absolute right-0 top-[-1vw] w-[clamp(112px,36vw,160px)] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible [mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)]"
+                aria-hidden="true"
+              >
+                {/* 1.4x radial halo glow behind tub */}
+                <div className="absolute inset-[-20%] bg-[radial-gradient(circle,rgba(225,29,46,0.28)_0%,transparent_65%)] pointer-events-none -z-10" />
+                <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_10px_28px_rgba(225,29,46,0.4)]" />
               </div>
+
+              {/* STEP 2: Main Headline: 11.6vw (min 36px, max 50px), line-height 0.95, letter-spacing -0.3px, weight 800, scaleY(1.45), mb calc(1.28em + 16px) */}
+              <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.28em+16px)] sm:mb-6 select-none [transform:scaleY(1.45)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
+                <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
+                <span className="block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">{headingLine2}</span>
+                <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>
+              </h1>
             </div>
 
-            {/* 3. "BUILT FOR YOUR ROUTINE." BLOCK (order-2 on mobile, order-4 at bottom on desktop) */}
-            <div className="order-2 sm:order-4 w-full pt-2.5 sm:pt-6 border-t border-[#1F1F1F] mt-[14px] sm:mt-auto mb-[18px] sm:mb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 text-left relative z-[2]">
+            {/* STEP 4: "BUILT FOR YOUR ROUTINE." BLOCK (order-2 on mobile, order-4 on desktop, margin-top: 0) */}
+            <div className="order-2 sm:order-4 w-full pt-2.5 sm:pt-6 border-t border-[#1F1F1F] mt-0 sm:mt-auto mb-[18px] sm:mb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 text-left relative z-[2]">
               <div>
                 <span className="text-[14px] sm:text-sm font-heading font-extrabold sm:font-bold text-[#FFFFFF] sm:text-[#F2F2F2] tracking-[0.5px] uppercase block">
                   {supportingLabel}

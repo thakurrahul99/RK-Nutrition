@@ -26,7 +26,7 @@ export function HeroProductFallback({ className = '' }) {
       />
 
       {/* Supplement Container 2D Rendering */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-[125px] sm:max-w-[220px] max-h-full">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-[160px] sm:max-w-[220px] max-h-full">
         
         {/* Screw-on Ribbed Lid with Knurled Texture */}
         <div className="w-[74%] h-3.5 min-[360px]:h-4 sm:h-9 bg-gradient-to-r from-[#141414] via-[#2A2A2A] to-[#121212] rounded-t-sm border-t border-x border-[#383838] shadow-md flex items-center justify-around px-1 sm:px-2 overflow-hidden shrink-0">
