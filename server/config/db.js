@@ -571,12 +571,15 @@ export const connectDb = async () => {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/rk_nutrition';
   try {
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2000
+      dbName: 'rk_nutrition',
+      serverSelectionTimeoutMS: 10000
     });
-    console.log(`[RK Nutrition DB] Connected to MongoDB at ${uri}`);
+    const maskedUri = uri.replace(/:([^:@]+)@/, ':****@');
+    console.log(`[RK Nutrition DB] Connected to MongoDB Atlas at ${maskedUri}`);
     await seedMongooseIfEmpty();
   } catch (err) {
-    console.warn(`[RK Nutrition DB] MongoDB not reachable at ${uri} (${err.message}). Using resilient local in-memory store.`);
+    const maskedUri = uri.replace(/:([^:@]+)@/, ':****@');
+    console.warn(`[RK Nutrition DB] MongoDB not reachable at ${maskedUri} (${err.message}). Using resilient local in-memory store.`);
   }
 };
 
