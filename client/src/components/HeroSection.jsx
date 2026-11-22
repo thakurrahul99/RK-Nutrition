@@ -41,7 +41,7 @@ export default function HeroSection() {
           <div className="lg:col-span-7 flex flex-col items-start text-left w-full relative">
             
             {/* 1. Tag Pill with Beacon Indicator */}
-            <div className="hero-anim-pill inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1.5 bg-[#121212]/90 backdrop-blur-md border border-[#242424] hover:border-[#E11D2E]/40 transition-colors mb-[16px] sm:mb-5 max-w-full shadow-lg shadow-black/40">
+            <div className="hero-anim-pill inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1.5 bg-[#121212]/90 backdrop-blur-md border border-[#242424] hover:border-[#E11D2E]/40 transition-colors mb-[22px] sm:mb-6 max-w-full shadow-lg shadow-black/40">
               <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] shrink-0 animate-pulse" aria-hidden="true" />
               <span className="text-[9px] sm:text-xs font-mono font-bold tracking-[1.2px] sm:tracking-[0.22em] text-[#C4C4C4] uppercase truncate">
                 {eyebrow}
@@ -50,18 +50,24 @@ export default function HeroSection() {
 
             {/* STEP 1: Hero Visual Wrapper (wraps Headline + Mobile Tub) */}
             <div className="hero-visual relative w-full">
-              {/* Product Tub (Mobile Only: clamp(100px, 32vw, 144px), right: 0, top: -1vw, bottom fade ~18%, halo glow) */}
+              {/* Soft ambient radial halo behind mobile tub - completely unclipped and feathering smoothly into pure black */}
               <div 
-                className="absolute right-0 top-[-1vw] w-[clamp(100px,32vw,144px)] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible [mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)]"
+                className="absolute right-[-2vw] top-[-3vw] w-[46vw] max-w-[180px] aspect-square rounded-full bg-[radial-gradient(circle_at_center,rgba(225,29,46,0.22)_0%,rgba(225,29,46,0.05)_45%,transparent_70%)] pointer-events-none -z-0 sm:hidden"
+                aria-hidden="true" 
+              />
+
+              {/* Product Tub (Mobile Only: clamp(100px, 32vw, 144px), right: 0, top: -1vw, animated floating motion + seamless bottom fade) */}
+              <div 
+                className="absolute right-0 top-[-1vw] w-[clamp(100px,32vw,144px)] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible"
                 aria-hidden="true"
               >
-                {/* 1.4x radial halo glow behind tub */}
-                <div className="absolute inset-[-20%] bg-[radial-gradient(circle,rgba(225,29,46,0.24)_0%,transparent_65%)] pointer-events-none -z-10" />
-                <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_10px_28px_rgba(225,29,46,0.4)]" />
+                <div className="w-full h-full animate-tub-mobile flex items-center justify-center [mask-image:linear-gradient(to_bottom,#000_78%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_78%,transparent_100%)]">
+                  <HeroProduct3D className="!w-full !h-full !max-w-none" />
+                </div>
               </div>
 
               {/* STEP 2: Main Headline with Staggered Line Reveals */}
-              <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.34em+16px)] sm:mb-6 select-none [transform:scaleY(1.52)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
+              <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.34em+26px)] sm:mb-8 select-none [transform:scaleY(1.52)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
                 <span className="hero-anim-line-1 block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   {headingLine1}
                 </span>
@@ -75,7 +81,7 @@ export default function HeroSection() {
             </div>
 
             {/* Mobile-Only "BUILT FOR YOUR ROUTINE." Block (Immediately below headline+tub) */}
-            <div className="hero-anim-footer block sm:hidden w-full pt-2.5 border-t border-[#1F1F1F] mb-[18px] text-left relative z-[2]">
+            <div className="hero-anim-footer block sm:hidden w-full pt-3.5 border-t border-[#1F1F1F] mb-[26px] text-left relative z-[2]">
               <div>
                 <span className="text-[14px] font-heading font-extrabold text-[#FFFFFF] tracking-[0.5px] uppercase block">
                   {supportingLabel}
@@ -93,13 +99,13 @@ export default function HeroSection() {
 
             {/* Paragraph / Supporting Text with Smooth Reveal */}
             <div className="hero-anim-desc w-full relative z-[2]">
-              <p className="max-w-xl text-[14px] sm:text-base md:text-lg text-[#B8BCC4] font-normal leading-[1.55] sm:leading-relaxed mb-[20px] sm:mb-8 font-body">
+              <p className="max-w-xl text-[14px] sm:text-base md:text-lg text-[#B8BCC4] font-normal leading-[1.55] sm:leading-relaxed mb-[28px] sm:mb-9 font-body">
                 {subtext}
               </p>
             </div>
 
             {/* Buttons: Full width & 48px on mobile, auto width & side-by-side on desktop */}
-            <div className="hero-anim-cta w-full sm:w-auto relative z-[2] mb-2 sm:mb-8">
+            <div className="hero-anim-cta w-full sm:w-auto relative z-[2] mb-4 sm:mb-8">
               <div className="flex flex-col min-[360px]:flex-row items-stretch min-[360px]:items-center gap-[10px] sm:gap-4 w-full sm:w-auto">
                 <Link
                   to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}

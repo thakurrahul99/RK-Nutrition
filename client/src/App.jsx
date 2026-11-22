@@ -112,9 +112,6 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
         </aside>
       )}
 
-      {/* 1. Slim Announcement Bar */}
-      <AnnouncementBar />
-
       {/* 2. Global Navigation Header */}
       <Navbar
         onOpenSearch={() => setIsSearchOpen(true)}

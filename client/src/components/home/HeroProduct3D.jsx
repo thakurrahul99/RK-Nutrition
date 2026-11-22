@@ -117,7 +117,7 @@ function HeroProduct3DComponent({ className = '' }) {
           height="750"
           alt="RK Nutrition Pure Whey Isolate"
           onError={() => setUseFallback(true)}
-          className="w-full h-full object-contain filter drop-shadow-[0_10px_28px_rgba(225,29,46,0.35)] select-none pointer-events-none"
+          className="w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)] drop-shadow-[0_4px_14px_rgba(225,29,46,0.22)] select-none pointer-events-none"
         />
       </div>
     );

@@ -164,6 +164,27 @@
     }
   }
 
+  /* Mobile Hero Tub Smooth Floating & Tilting Animation (mimics laptop 3D motion) */
+  @keyframes tubFloatMobile {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    30% {
+      transform: translate3d(1px, -5px, 0) rotate(0.9deg);
+    }
+    60% {
+      transform: translate3d(-1px, -8px, 0) rotate(-0.7deg);
+    }
+    85% {
+      transform: translate3d(0, -3px, 0) rotate(0.5deg);
+    }
+  }
+
+  .animate-tub-mobile {
+    animation: tubFloatMobile 4.8s ease-in-out infinite;
+    will-change: transform;
+  }
+
   .animate-fade-in {
     animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }

@@ -34,14 +34,14 @@ export default function Navbar({
     { label: 'Products', path: '/products' },
     { label: 'Categories', path: '/categories' },
     { label: 'About', path: '/about' },
-    { label: 'Learn', path: '/learn' },
     { label: 'Contact', path: '/contact' }
   ];
   const configuredNav = content?.navigation?.headerLinks;
   const visibleConfigured = Array.isArray(configuredNav)
-    ? configuredNav.filter((item) => item.visible !== false)
+    ? configuredNav.filter((item) => item.visible !== false && item.path !== '/learn' && item.label?.toLowerCase() !== 'learn')
     : [];
-  const navItems = visibleConfigured.length >= 2 ? visibleConfigured : defaultNavItems;
+  const rawNavItems = visibleConfigured.length >= 2 ? visibleConfigured : defaultNavItems;
+  const navItems = rawNavItems.filter((item) => item.path !== '/learn' && item.label?.toLowerCase() !== 'learn');
 
   return (
     <header
