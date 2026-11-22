@@ -154,25 +154,26 @@ export default function ProductFilters({
           role="dialog"
           aria-modal="true"
         >
-          <div className="absolute inset-y-0 right-0 w-full max-w-xs bg-[#141414] border-l border-[#262626] p-6 flex flex-col justify-between shadow-2xl">
-            <div>
-              <div className="flex items-center justify-between pb-4 border-b border-[#262626] mb-6">
-                <span className="font-heading uppercase text-lg text-[#F5F4F2] font-bold tracking-wider">
-                  Filter Products
-                </span>
-                <button
-                  type="button"
-                  onClick={onCloseMobileDrawer}
-                  aria-label="Close filters"
-                  className="p-1.5 text-[#8C8C8C] hover:text-[#F5F4F2] bg-[#1E1E1E]"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+          <div className="absolute inset-y-0 right-0 w-full max-w-xs bg-[#141414] border-l border-[#262626] p-5 sm:p-6 flex flex-col justify-between shadow-2xl max-h-screen">
+            <div className="flex items-center justify-between pb-4 border-b border-[#262626] mb-4 shrink-0">
+              <span className="font-heading uppercase text-lg text-[#F5F4F2] font-bold tracking-wider">
+                Filter Products
+              </span>
+              <button
+                type="button"
+                onClick={onCloseMobileDrawer}
+                aria-label="Close filters"
+                className="p-1.5 text-[#8C8C8C] hover:text-[#F5F4F2] bg-[#1E1E1E]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto pr-1">
               {content}
             </div>
 
-            <div className="pt-6 border-t border-[#262626]">
+            <div className="pt-4 border-t border-[#262626] shrink-0 mt-4">
               <button
                 type="button"
                 onClick={onCloseMobileDrawer}

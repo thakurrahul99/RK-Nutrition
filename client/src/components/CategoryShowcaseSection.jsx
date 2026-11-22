@@ -17,12 +17,12 @@ export default function CategoryShowcaseSection() {
     <section 
       id="categories" 
       aria-label="Product Category Showcase"
-      className="relative py-24 sm:py-32 bg-[#141414] border-b border-[#222222]"
+      className="relative py-14 sm:py-32 bg-[#141414] border-b border-[#222222]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-16 gap-4 sm:gap-6">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
               <span className="w-8 h-[2px] bg-[#C8202B]" />
@@ -67,8 +67,8 @@ export default function CategoryShowcaseSection() {
               </span>
 
               {/* Category Card Header */}
-              <div className="p-8 pb-4 relative z-10">
-                <div className="flex items-center justify-between mb-6">
+              <div className="p-5 sm:p-8 pb-4 relative z-10">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <div className="w-12 h-12 bg-[#202020] border border-[#2E2E2E] group-hover:border-[#C8202B] flex items-center justify-center transition-colors">
                     {category.image ? (
                       <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
@@ -99,7 +99,7 @@ export default function CategoryShowcaseSection() {
               </div>
 
               {/* Category Card Footer CTA */}
-              <div className="p-8 pt-4 border-t border-[#242424] flex items-center justify-between text-xs font-heading uppercase tracking-widest text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors relative z-10">
+              <div className="p-5 sm:p-8 pt-4 border-t border-[#242424] flex items-center justify-between text-xs font-heading uppercase tracking-widest text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors relative z-10">
                 <span>View {category.name} Products</span>
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
               </div>

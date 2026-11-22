@@ -15,7 +15,7 @@ export default function BrandIntroSection() {
     <section 
       id="brand-intro-section" 
       aria-label="Brand Philosophy and Nutrition Science"
-      className="relative py-24 sm:py-32 bg-[#111111] border-b border-[#222222] overflow-hidden"
+      className="relative py-14 sm:py-32 bg-[#111111] border-b border-[#222222] overflow-hidden"
     >
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#C8202B]/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
@@ -95,7 +95,7 @@ export default function BrandIntroSection() {
           <div className="lg:col-span-5 relative">
             <div className="relative mx-auto max-w-md lg:max-w-none">
               
-              <div className="relative bg-[#161616] border border-[#2A2A2A] p-8 sm:p-10 shadow-2xl overflow-hidden group">
+              <div className="relative bg-[#161616] border border-[#2A2A2A] p-5 sm:p-10 shadow-2xl overflow-hidden group">
                 <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-[#C8202B]" />
                 <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-[#C8202B]" />
                 
@@ -109,7 +109,7 @@ export default function BrandIntroSection() {
                     </span>
                   </div>
 
-                  <div className="h-64 sm:h-72 bg-[#1A1A1A] border border-[#2E2E2E] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+                  <div className="h-52 sm:h-72 bg-[#1A1A1A] border border-[#2E2E2E] flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
                     <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#F5F4F2_1px,transparent_1px)] [background-size:16px_16px]" />
                     
                     {/* Nutritional Molecule Lattice SVG */}

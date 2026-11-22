@@ -14,7 +14,8 @@ import {
   ShoppingBag,
   Info,
   User as UserIcon,
-  Plus
+  Plus,
+  ChevronDown
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -53,6 +54,7 @@ export default function CheckoutPage() {
 
   const [selectedAddressId, setSelectedAddressId] = useState('custom');
   const [saveAddressToAccount, setSaveAddressToAccount] = useState(false);
+  const [isMobileSummaryOpen, setIsMobileSummaryOpen] = useState(false);
   const [errors, setErrors] = useState({});
   const [couponCodeInput, setCouponCodeInput] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
@@ -375,11 +377,77 @@ export default function CheckoutPage() {
             </div>
           )}
 
+          {/* Mobile Collapsible Order Summary Accordion */}
+          <div className="lg:hidden bg-[#161616] border border-[#262626]">
+            <button
+              type="button"
+              onClick={() => setIsMobileSummaryOpen(!isMobileSummaryOpen)}
+              className="w-full p-4 flex items-center justify-between text-left text-xs font-mono uppercase tracking-wider text-[#F5F4F2]"
+            >
+              <div className="flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4 text-[#C8202B]" />
+                <span>{isMobileSummaryOpen ? 'Hide' : 'Show'} Order Summary ({items.length} {items.length === 1 ? 'item' : 'items'})</span>
+                <ChevronDown className={`w-3.5 h-3.5 text-[#8C8C8C] transition-transform duration-200 ${isMobileSummaryOpen ? 'rotate-180 text-[#C8202B]' : ''}`} />
+              </div>
+              <span className="font-heading font-black text-sm text-[#F5F4F2]">
+                {formatCurrency(total)}
+              </span>
+            </button>
+
+            {isMobileSummaryOpen && (
+              <div className="p-4 pt-0 border-t border-[#222222] space-y-3">
+                <div className="max-h-60 overflow-y-auto divide-y divide-[#202020] pr-1">
+                  {items.map((item) => (
+                    <div key={item.id} className="pt-2.5 pb-2.5 first:pt-2 flex items-center justify-between gap-3 text-xs">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="w-10 h-10 bg-[#1A1A1A] border border-[#262626] shrink-0 overflow-hidden flex items-center justify-center">
+                          {item.image ? (
+                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="font-heading font-bold text-[10px] text-[#444]">RK</span>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-heading font-bold text-[#F5F4F2] uppercase truncate text-[11px]">
+                            {item.name}
+                          </p>
+                          <span className="text-[10px] font-mono text-[#8C8C8C]">
+                            Qty: {item.quantity} × {formatCurrency(item.price)}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="font-heading font-bold text-xs text-[#F5F4F2] shrink-0">
+                        {formatCurrency(item.price * item.quantity)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-2 border-t border-[#202020] text-xs font-mono space-y-1.5">
+                  <div className="flex justify-between text-[#8C8C8C]">
+                    <span>Subtotal</span>
+                    <span className="text-[#F5F4F2]">{formatCurrency(subtotal)}</span>
+                  </div>
+                  {appliedCoupon && (
+                    <div className="flex justify-between text-[#22C55E]">
+                      <span>Discount ({appliedCoupon.code})</span>
+                      <span>-{formatCurrency(discountAmount)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-[#8C8C8C]">
+                    <span>Delivery</span>
+                    <span>{shippingFee === 0 ? 'FREE' : formatCurrency(shippingFee)}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Form */}
           <form id="checkout-form" onSubmit={handleSubmitOrder} className="space-y-6">
             
             {/* Step 1: Customer Contact */}
-            <div className="bg-[#141414] border border-[#222222] p-6 space-y-4">
+            <div className="bg-[#141414] border border-[#222222] p-4 sm:p-6 space-y-4">
               <div className="flex items-center gap-2 pb-3 border-b border-[#222222]">
                 <span className="w-6 h-6 bg-[#C8202B] text-[#F5F4F2] font-heading font-black text-xs flex items-center justify-center">
                   1
@@ -441,7 +509,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Step 2: Shipping Address */}
-            <div className="bg-[#141414] border border-[#222222] p-6 space-y-4">
+            <div className="bg-[#141414] border border-[#222222] p-4 sm:p-6 space-y-4">
               <div className="flex items-center gap-2 pb-3 border-b border-[#222222]">
                 <span className="w-6 h-6 bg-[#C8202B] text-[#F5F4F2] font-heading font-black text-xs flex items-center justify-center">
                   2
@@ -604,7 +672,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Step 3: Payment Method Selection */}
-            <div className="bg-[#141414] border border-[#222222] p-6 space-y-4">
+            <div className="bg-[#141414] border border-[#222222] p-4 sm:p-6 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-[#222222]">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 bg-[#C8202B] text-[#F5F4F2] font-heading font-black text-xs flex items-center justify-center">

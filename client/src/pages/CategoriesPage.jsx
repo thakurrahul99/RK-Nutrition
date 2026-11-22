@@ -38,20 +38,20 @@ export default function CategoriesPage() {
           </p>
 
           {/* Quick Metrics Bar */}
-          <div className="mt-10 pt-6 border-t border-[#222222] grid grid-cols-3 max-w-lg gap-6 text-xs font-mono text-[#8C8C8C]">
+          <div className="mt-10 pt-6 border-t border-[#222222] grid grid-cols-3 max-w-lg gap-2 sm:gap-6 text-xs font-mono text-[#8C8C8C]">
             <div>
-              <span className="block font-heading text-2xl text-[#F5F4F2] font-bold">
+              <span className="block font-heading text-xl sm:text-2xl text-[#F5F4F2] font-bold">
                 {String(categories.length).padStart(2, '0')}
               </span>
-              <span className="text-[10px] uppercase tracking-wider">Active Categories</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wider block">Active Categories</span>
             </div>
-            <div className="border-x border-[#222222] px-4">
-              <span className="block font-heading text-2xl text-[#C8202B] font-bold">100%</span>
-              <span className="text-[10px] uppercase tracking-wider">Athletic Standard</span>
+            <div className="border-x border-[#222222] px-2 sm:px-4">
+              <span className="block font-heading text-xl sm:text-2xl text-[#C8202B] font-bold">100%</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wider block">Athletic Standard</span>
             </div>
             <div>
-              <span className="block font-heading text-2xl text-[#F5F4F2] font-bold">ZERO</span>
-              <span className="text-[10px] uppercase tracking-wider">Proprietary Blends</span>
+              <span className="block font-heading text-xl sm:text-2xl text-[#F5F4F2] font-bold">ZERO</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-wider block">Proprietary Blends</span>
             </div>
           </div>
         </div>

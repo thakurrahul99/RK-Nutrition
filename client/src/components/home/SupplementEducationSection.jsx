@@ -124,7 +124,7 @@ export default function SupplementEducationSection() {
     <section 
       id="supplement-education"
       aria-label="Supplement Science & Product Education"
-      className="py-24 sm:py-32 bg-[#121212] border-b border-[#222222] relative overflow-hidden"
+      className="py-14 sm:py-32 bg-[#121212] border-b border-[#222222] relative overflow-hidden"
     >
       {/* Background Lighting & Grid */}
       <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
@@ -135,7 +135,7 @@ export default function SupplementEducationSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-16 gap-4 sm:gap-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
               <span className="w-8 h-[2px] bg-[#C8202B]" />
@@ -196,7 +196,7 @@ export default function SupplementEducationSection() {
         </div>
 
         {/* Selected Topic Detailed Deep-Dive Card */}
-        <div className="bg-[#161616] border border-[#2B2B2B] p-8 sm:p-12 shadow-2xl relative overflow-hidden mb-16">
+        <div className="bg-[#161616] border border-[#2B2B2B] p-5 sm:p-12 shadow-2xl relative overflow-hidden mb-12 sm:mb-16">
           <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-[#C8202B] pointer-events-none" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">

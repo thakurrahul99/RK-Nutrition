@@ -420,7 +420,7 @@ export default function AccountPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="border-b border-[#262626] flex items-center gap-2 sm:gap-4 overflow-x-auto pb-px">
+        <div className="border-b border-[#262626] flex items-center gap-1.5 sm:gap-4 overflow-x-auto pb-px no-scrollbar scroll-smooth">
           {[
             { id: 'overview', label: 'Overview', icon: ShieldCheck },
             { id: 'orders', label: `My Orders (${orders.length})`, icon: Package },
@@ -435,7 +435,7 @@ export default function AccountPage() {
                 key={tab.id}
                 type="button"
                 onClick={() => setTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-3 font-heading text-sm sm:text-base uppercase tracking-wider font-semibold border-b-2 transition-all whitespace-nowrap cursor-pointer ${
+                className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 font-heading text-xs sm:text-base uppercase tracking-wider font-semibold border-b-2 transition-all whitespace-nowrap cursor-pointer ${
                   isActive
                     ? 'border-[#C8202B] text-[#F5F4F2] bg-[#161616]'
                     : 'border-transparent text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#141414]'

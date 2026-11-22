@@ -123,7 +123,7 @@ export default function ProductCard({ product, onSelectProduct }) {
       </div>
 
       {/* Product Content Details */}
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
         
         <div>
           <div className="text-[10px] font-mono uppercase text-[#C8202B] tracking-wider mb-1 block">

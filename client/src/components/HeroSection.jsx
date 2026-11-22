@@ -41,7 +41,7 @@ export default function HeroSection() {
             <div className="grid grid-cols-[minmax(0,1.28fr)_minmax(0,0.72fr)] gap-1.5 min-[360px]:gap-2.5 items-center lg:block min-w-0">
             <div className="min-w-0 flex flex-col items-start py-1.5 sm:py-0">
             {/* 1. Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-3 sm:mb-5 max-w-full">
+            <div className="inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 bg-[#121212] border border-[#242424] mb-2.5 sm:mb-5 max-w-full">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D51F32] shrink-0" aria-hidden="true" />
               <span className="text-[8px] sm:text-xs font-mono font-bold tracking-[0.08em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase">
                 {eyebrow}
@@ -49,37 +49,37 @@ export default function HeroSection() {
             </div>
 
             {/* 2. Main Headline */}
-            <h1 className="font-heading font-black text-[clamp(1.75rem,8.4vw,2.85rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.045em] sm:tracking-tight uppercase leading-[1.3] sm:leading-[0.92] text-[#F2F2F2] mb-2 sm:mb-6">
+            <h1 className="font-heading font-black text-[clamp(1.75rem,8.4vw,2.85rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.045em] sm:tracking-tight uppercase leading-[1.12] sm:leading-[0.92] text-[#F2F2F2] mb-2 sm:mb-6">
               <span className="block text-[#F2F2F2]">{headingLine1}</span>
               <span className="block text-[#D51F32]">{headingLine2}</span>
               <span className="block text-[#F2F2F2]">{headingLine3}</span>
             </h1>
             </div>
 
-            {/* Mobile product visual sits to the right of the headline */}
-            <div className="flex lg:hidden items-center justify-center min-w-0 translate-y-12">
+            {/* Mobile product visual sits cleanly beside headline without downward translation/overlap */}
+            <div className="flex lg:hidden items-center justify-center min-w-0 self-center">
               <HeroProduct3D className="mx-auto !max-w-[125px] min-[360px]:!max-w-[145px] min-[400px]:!max-w-[160px]" />
             </div>
             </div>
 
             {/* 3. Supporting Text */}
-            <p className="max-w-xl text-[12px] min-[390px]:text-[13px] sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-5 sm:mb-8 font-body">
+            <p className="max-w-xl text-[12px] min-[390px]:text-[13px] sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-4 sm:mb-8 font-body">
               {subtext}
             </p>
 
             {/* 4. Action CTA Buttons */}
-            <div className="flex flex-row items-stretch sm:items-center gap-2 sm:gap-4 w-full sm:w-auto mb-4 sm:mb-8">
+            <div className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto mb-4 sm:mb-8">
               <Link
                 to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
-                className="inline-flex items-center justify-center gap-2 px-2.5 min-[390px]:px-4 sm:px-9 py-2.5 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-[10px] min-[390px]:text-xs sm:text-lg font-bold tracking-[0.08em] sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-9 py-2.5 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-xs sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center"
               >
                 <span>{primaryCtaText}</span>
-                <ChevronRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+                <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1 shrink-0" />
               </Link>
 
               <Link
                 to={secondaryCtaHref.startsWith('#') ? '/categories' : secondaryCtaHref}
-                className="inline-flex items-center justify-center px-4 min-[390px]:px-6 sm:px-9 py-3 sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#D51F32] font-heading text-sm min-[390px]:text-base sm:text-lg font-bold tracking-[0.12em] sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D51F32] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center px-3 sm:px-9 py-2.5 sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#D51F32] font-heading text-xs sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D51F32] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center"
               >
                 <span>{secondaryCtaText}</span>
               </Link>

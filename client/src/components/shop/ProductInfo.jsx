@@ -223,67 +223,110 @@ export default function ProductInfo({ product }) {
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          {/* Quantity Selector */}
-          <div className="flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-2 py-1 h-12 w-full sm:w-36 shrink-0">
+        <div className="space-y-3">
+          {/* Mobile Top Controls: Quantity Selector + Wishlist Button */}
+          <div className="flex sm:hidden items-center gap-2.5 w-full">
+            <div className="flex-1 flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-3 h-12">
+              <button
+                type="button"
+                disabled={isOutOfStock || isComingSoon || quantity <= 1}
+                onClick={() => handleQuantityChange(-1)}
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+              <span className="text-sm font-mono font-bold text-[#F5F4F2]">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
+                onClick={() => handleQuantityChange(1)}
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                aria-label="Increase quantity"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+
             <button
               type="button"
-              disabled={isOutOfStock || isComingSoon || quantity <= 1}
-              onClick={() => handleQuantityChange(-1)}
-              className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
-              aria-label="Decrease quantity"
+              onClick={() => toggleWishlist(id)}
+              aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
+              className={`h-12 w-12 shrink-0 border flex items-center justify-center transition-colors cursor-pointer ${
+                isSaved
+                  ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] shadow-lg shadow-[#C8202B]/20'
+                  : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#C8202B] hover:border-[#C8202B]'
+              }`}
             >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="text-sm font-mono font-bold text-[#F5F4F2]">
-              {quantity}
-            </span>
-            <button
-              type="button"
-              disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
-              onClick={() => handleQuantityChange(1)}
-              className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
-              aria-label="Increase quantity"
-            >
-              <Plus className="w-4 h-4" />
+              <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
             </button>
           </div>
 
-          {/* Add to Cart Button */}
-          <button
-            type="button"
-            disabled={isOutOfStock || isComingSoon}
-            onClick={handleAddToCart}
-            className="flex-1 h-12 px-6 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] hover:text-white border border-[#333333] hover:border-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-wider font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <ShoppingCart className="w-4 h-4 text-[#C8202B]" />
-            <span>{isOutOfStock ? 'Out of Stock' : isComingSoon ? 'Coming Soon' : 'Add To Cart'}</span>
-          </button>
+          {/* Desktop & Main Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            {/* Quantity Selector (Desktop only) */}
+            <div className="hidden sm:flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-2 py-1 h-12 w-36 shrink-0">
+              <button
+                type="button"
+                disabled={isOutOfStock || isComingSoon || quantity <= 1}
+                onClick={() => handleQuantityChange(-1)}
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+              <span className="text-sm font-mono font-bold text-[#F5F4F2]">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
+                onClick={() => handleQuantityChange(1)}
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                aria-label="Increase quantity"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
 
-          {/* Buy Now Button */}
-          <button
-            type="button"
-            disabled={isOutOfStock || isComingSoon}
-            onClick={handleBuyNow}
-            className="flex-1 h-12 px-6 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-widest font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20 cursor-pointer"
-          >
-            <Zap className="w-4 h-4" />
-            <span>Buy Now</span>
-          </button>
+            {/* Add to Cart Button */}
+            <button
+              type="button"
+              disabled={isOutOfStock || isComingSoon}
+              onClick={handleAddToCart}
+              className="flex-1 h-12 px-6 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] hover:text-white border border-[#333333] hover:border-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-wider font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <ShoppingCart className="w-4 h-4 text-[#C8202B]" />
+              <span>{isOutOfStock ? 'Out of Stock' : isComingSoon ? 'Coming Soon' : 'Add To Cart'}</span>
+            </button>
 
-          {/* Wishlist Button */}
-          <button
-            type="button"
-            onClick={() => toggleWishlist(id)}
-            aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
-            className={`h-12 w-12 shrink-0 border flex items-center justify-center transition-colors cursor-pointer ${
-              isSaved
-                ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] shadow-lg shadow-[#C8202B]/20'
-                : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#C8202B] hover:border-[#C8202B]'
-            }`}
-          >
-            <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
-          </button>
+            {/* Buy Now Button */}
+            <button
+              type="button"
+              disabled={isOutOfStock || isComingSoon}
+              onClick={handleBuyNow}
+              className="flex-1 h-12 px-6 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-widest font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20 cursor-pointer"
+            >
+              <Zap className="w-4 h-4" />
+              <span>Buy Now</span>
+            </button>
+
+            {/* Wishlist Button (Desktop only) */}
+            <button
+              type="button"
+              onClick={() => toggleWishlist(id)}
+              aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
+              className={`hidden sm:flex h-12 w-12 shrink-0 border items-center justify-center transition-colors cursor-pointer ${
+                isSaved
+                  ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] shadow-lg shadow-[#C8202B]/20'
+                  : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#C8202B] hover:border-[#C8202B]'
+              }`}
+            >
+              <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
+            </button>
+          </div>
         </div>
 
         {/* Guarantees Strip */}

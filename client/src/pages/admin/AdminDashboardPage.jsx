@@ -142,67 +142,67 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* 2. Key Store Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Total Products */}
-        <div className="bg-[#141414] border border-[#242424] p-5">
+        <div className="bg-[#141414] border border-[#242424] p-3.5 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">Catalog</span>
             <Package className="w-4 h-4 text-[#C8202B]" />
           </div>
-          <div className="mt-2 font-heading font-black text-3xl text-[#F5F4F2]">
+          <div className="mt-2 font-heading font-black text-2xl sm:text-3xl text-[#F5F4F2]">
             {products.length}
           </div>
-          <div className="mt-1 flex items-center gap-1.5 text-[11px] font-mono text-[#4CAF50]">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <div className="mt-1 flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono text-[#4CAF50]">
+            <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             <span>Active Formulations</span>
           </div>
         </div>
 
         {/* Total Revenue */}
-        <div className="bg-[#141414] border border-[#242424] p-5">
+        <div className="bg-[#141414] border border-[#242424] p-3.5 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">Gross Sales</span>
             <TrendingUp className="w-4 h-4 text-[#4CAF50]" />
           </div>
-          <div className="mt-2 font-heading font-black text-3xl text-[#F5F4F2]">
+          <div className="mt-2 font-heading font-black text-xl sm:text-3xl text-[#F5F4F2] truncate">
             {isLoading ? '...' : formatCurrency(reports?.totalRevenue || 0)}
           </div>
-          <div className="mt-1 text-[11px] font-mono text-[#8C8C8C]">
+          <div className="mt-1 text-[10px] sm:text-[11px] font-mono text-[#8C8C8C]">
             From verified orders
           </div>
         </div>
 
         {/* Orders Pipeline */}
-        <div className="bg-[#141414] border border-[#242424] p-5">
+        <div className="bg-[#141414] border border-[#242424] p-3.5 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">Orders</span>
             <ClipboardList className="w-4 h-4 text-[#2196F3]" />
           </div>
-          <div className="mt-2 font-heading font-black text-3xl text-[#F5F4F2]">
+          <div className="mt-2 font-heading font-black text-2xl sm:text-3xl text-[#F5F4F2]">
             {isLoading ? '...' : (reports?.totalOrders ?? 0)}
           </div>
-          <div className="mt-1 flex items-center gap-1.5 text-[11px] font-mono text-[#EAB308]">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{reports?.pendingOrders ?? 0} Pending Fulfillment</span>
+          <div className="mt-1 flex items-center gap-1.5 text-[10px] sm:text-[11px] font-mono text-[#EAB308]">
+            <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span>{reports?.pendingOrders ?? 0} Pending</span>
           </div>
         </div>
 
         {/* Low Stock Alerts */}
-        <div className="bg-[#141414] border border-[#242424] p-5">
+        <div className="bg-[#141414] border border-[#242424] p-3.5 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">Low Stock</span>
             <AlertTriangle className={`w-4 h-4 ${lowStockCount > 0 ? 'text-[#C8202B]' : 'text-[#4CAF50]'}`} />
           </div>
-          <div className={`mt-2 font-heading font-black text-3xl ${lowStockCount > 0 ? 'text-[#C8202B]' : 'text-[#4CAF50]'}`}>
+          <div className={`mt-2 font-heading font-black text-2xl sm:text-3xl ${lowStockCount > 0 ? 'text-[#C8202B]' : 'text-[#4CAF50]'}`}>
             {lowStockCount}
           </div>
-          <div className="mt-1 text-[11px] font-mono text-[#8C8C8C]">
+          <div className="mt-1 text-[10px] sm:text-[11px] font-mono text-[#8C8C8C]">
             {lowStockCount > 0 ? (
               <Link to="/admin/inventory" className="text-[#C8202B] hover:underline">
-                Review Restock Needs →
+                Restock Needs →
               </Link>
             ) : (
-              'All inventory healthy'
+              'All healthy'
             )}
           </div>
         </div>

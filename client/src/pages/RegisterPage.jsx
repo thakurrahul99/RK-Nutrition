@@ -124,7 +124,7 @@ export default function RegisterPage() {
         description="Register for an RK Nutrition athlete account to access exclusive supplement formulations, faster checkout, and order tracking." 
       />
 
-      <div className="w-full max-w-lg space-y-8 bg-[#161616] border border-[#262626] p-6 sm:p-10 shadow-2xl relative">
+      <div className="w-full max-w-lg space-y-6 sm:space-y-8 bg-[#161616] border border-[#262626] p-5 sm:p-10 shadow-2xl relative">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C8202B] via-[#E52535] to-[#8A141D]" />
 
         {/* Header */}

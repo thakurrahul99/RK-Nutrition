@@ -115,13 +115,13 @@ export default function SuperAdminDashboardPage() {
       </div>
 
       {/* 2. System Status KPI Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#0A0E17] border border-[#1E293B] p-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-[#0A0E17] border border-[#1E293B] p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-[#64748B] uppercase tracking-wider">Backend Engine</span>
+            <span className="text-[10px] sm:text-[11px] text-[#64748B] uppercase tracking-wider">Backend Engine</span>
             <Activity className="w-4 h-4 text-[#10B981]" />
           </div>
-          <div className="mt-2 text-xl font-bold text-[#F1F5F9]">
+          <div className="mt-2 text-base sm:text-xl font-bold text-[#F1F5F9] truncate">
             Node / Express 5
           </div>
           <div className="mt-1 text-[10px] text-[#10B981]">
@@ -129,38 +129,38 @@ export default function SuperAdminDashboardPage() {
           </div>
         </div>
 
-        <div className="bg-[#0A0E17] border border-[#1E293B] p-4">
+        <div className="bg-[#0A0E17] border border-[#1E293B] p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-[#64748B] uppercase tracking-wider">Database Storage</span>
+            <span className="text-[10px] sm:text-[11px] text-[#64748B] uppercase tracking-wider">Database Storage</span>
             <Database className="w-4 h-4 text-[#38BDF8]" />
           </div>
-          <div className="mt-2 text-xl font-bold text-[#F1F5F9]">
+          <div className="mt-2 text-base sm:text-xl font-bold text-[#F1F5F9] truncate">
             Atomic JSON DB
           </div>
-          <div className="mt-1 text-[10px] text-[#94A3B8]">
+          <div className="mt-1 text-[10px] text-[#94A3B8] truncate">
             server/data/rk_database.json
           </div>
         </div>
 
-        <div className="bg-[#0A0E17] border border-[#1E293B] p-4">
+        <div className="bg-[#0A0E17] border border-[#1E293B] p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-[#64748B] uppercase tracking-wider">Catalog Entities</span>
+            <span className="text-[10px] sm:text-[11px] text-[#64748B] uppercase tracking-wider">Catalog Entities</span>
             <HardDrive className="w-4 h-4 text-[#C8202B]" />
           </div>
-          <div className="mt-2 text-xl font-bold text-[#F1F5F9]">
+          <div className="mt-2 text-base sm:text-xl font-bold text-[#F1F5F9]">
             {products.length} Products
           </div>
-          <div className="mt-1 text-[10px] text-[#94A3B8]">
+          <div className="mt-1 text-[10px] text-[#94A3B8] truncate">
             {reports ? `${reports.totalOrders} live orders` : 'Loading...'}
           </div>
         </div>
 
-        <div className="bg-[#0A0E17] border border-[#1E293B] p-4">
+        <div className="bg-[#0A0E17] border border-[#1E293B] p-3 sm:p-4">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-[#64748B] uppercase tracking-wider">Audit Trail</span>
+            <span className="text-[10px] sm:text-[11px] text-[#64748B] uppercase tracking-wider">Audit Trail</span>
             <Terminal className="w-4 h-4 text-[#38BDF8]" />
           </div>
-          <div className="mt-2 text-xl font-bold text-[#38BDF8]">
+          <div className="mt-2 text-base sm:text-xl font-bold text-[#38BDF8]">
             {logs.length} Log Records
           </div>
           <div className="mt-1 text-[10px] text-[#94A3B8]">

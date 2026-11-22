@@ -92,11 +92,11 @@ export default function CartDrawer() {
         onClick={closeCart}
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#111111] border-l border-[#262626] shadow-2xl flex flex-col justify-between text-[#F5F4F2] relative">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
+        <div className="w-full sm:max-w-md bg-[#111111] border-l border-[#262626] shadow-2xl flex flex-col justify-between text-[#F5F4F2] relative">
           
           {/* 1. Header */}
-          <div className="p-5 sm:p-6 border-b border-[#222222] flex items-center justify-between bg-[#141414]">
+          <div className="p-4 sm:p-6 border-b border-[#222222] flex items-center justify-between bg-[#141414]">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 bg-[#1A1A1A] border border-[#2E2E2E] flex items-center justify-center font-heading font-black text-xs text-[#F5F4F2]">
                 RK

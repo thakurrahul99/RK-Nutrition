@@ -13,7 +13,7 @@ export default function FeaturedProductsSection() {
     <section 
       id="featured-products"
       aria-label="Featured Products Showcase"
-      className="py-24 sm:py-28 bg-[#111111] border-b border-[#222222] relative overflow-hidden"
+      className="py-14 sm:py-28 bg-[#111111] border-b border-[#222222] relative overflow-hidden"
     >
       {/* Ambient background glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C8202B]/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
@@ -21,7 +21,7 @@ export default function FeaturedProductsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header with Distinct RK Brand Details */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 sm:mb-16 gap-4 sm:gap-6">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
               <span className="w-6 h-[2px] bg-[#C8202B]" />

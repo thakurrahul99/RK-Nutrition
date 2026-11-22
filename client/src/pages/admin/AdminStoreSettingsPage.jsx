@@ -106,7 +106,7 @@ export default function AdminStoreSettingsPage() {
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Shipping & Delivery Rules */}
-        <div className="p-6 bg-[#141414] border border-[#242424] space-y-4">
+        <div className="p-4 sm:p-6 bg-[#141414] border border-[#242424] space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#C8202B] font-bold pb-3 border-b border-[#202020]">
             <Truck className="w-4 h-4" />
             <span>Shipping & Order Delivery Logistics</span>
@@ -170,7 +170,7 @@ export default function AdminStoreSettingsPage() {
         </div>
 
         {/* Legal & Taxation Compliance */}
-        <div className="p-6 bg-[#141414] border border-[#242424] space-y-4">
+        <div className="p-4 sm:p-6 bg-[#141414] border border-[#242424] space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#C8202B] font-bold pb-3 border-b border-[#202020]">
             <ShieldCheck className="w-4 h-4" />
             <span>Taxation & Regulatory Verification</span>
@@ -220,7 +220,7 @@ export default function AdminStoreSettingsPage() {
         </div>
 
         {/* Business Contact & Support Desk */}
-        <div className="p-6 bg-[#141414] border border-[#242424] space-y-4">
+        <div className="p-4 sm:p-6 bg-[#141414] border border-[#242424] space-y-4">
           <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#C8202B] font-bold pb-3 border-b border-[#202020]">
             <Mail className="w-4 h-4" />
             <span>Store Contact & Warehouse Details</span>
