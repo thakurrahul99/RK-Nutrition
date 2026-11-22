@@ -26,7 +26,7 @@ export default function CategoryShowcaseSection() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
               <span className="w-8 h-[2px] bg-[#C8202B]" />
-              RK NUTRITION // CATEGORIES
+              RK NUTRITION • CATEGORIES
             </div>
             <h2 className="font-heading text-4xl sm:text-5xl md:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95]">
               PURPOSE-DRIVEN <span className="text-[#C8202B]">CATEGORIES.</span>
@@ -77,7 +77,7 @@ export default function CategoryShowcaseSection() {
                     )}
                   </div>
                   <span className="font-mono text-sm text-[#C8202B] font-bold">
-                    // RK-{category.slug.toUpperCase().slice(0, 4)}
+                    RK-{category.slug.toUpperCase().slice(0, 4)}
                   </span>
                 </div>
 

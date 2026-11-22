@@ -102,7 +102,7 @@ export default function BrandIntroSection() {
                 <div className="space-y-6 relative z-10">
                   <div className="flex items-center justify-between border-b border-[#282828] pb-4">
                     <span className="font-mono text-xs text-[#C8202B] uppercase tracking-wider">
-                      LABORATORY ARCHIVE // 01
+                      LABORATORY ARCHIVE • 01
                     </span>
                     <span className="font-mono text-xs text-[#8C8C8C]">
                       PURITY STANDARD

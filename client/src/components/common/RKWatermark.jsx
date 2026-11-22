@@ -45,7 +45,7 @@ export default function RKWatermark({ className = '' }) {
         textAnchor="middle"
         letterSpacing="12"
       >
-        ATHLETIC FORMULATION // STANDARDS
+        ATHLETIC FORMULATION • STANDARDS
       </text>
     </svg>
   );

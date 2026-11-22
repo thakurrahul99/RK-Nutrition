@@ -110,7 +110,7 @@ export default function AboutPage() {
               
               <div className="space-y-6">
                 <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] block">
-                  STANDARDS OF EXCELLENCE //
+                  STANDARDS OF EXCELLENCE
                 </span>
 
                 <div className="space-y-4">
@@ -232,7 +232,7 @@ export default function AboutPage() {
             {/* Visual Frame 1: High-Contrast Monochromatic Editorial */}
             <div className="lg:col-span-7 bg-[#141414] border border-[#2B2B2B] p-8 sm:p-12 relative overflow-hidden">
               <div className="text-xs font-mono text-[#C8202B] uppercase tracking-widest mb-3">
-                // EVIDENCE & INTEGRITY. NO SHORTCUTS.
+                EVIDENCE & INTEGRITY • NO SHORTCUTS
               </div>
               <h3 className="font-heading text-3xl sm:text-5xl text-[#F5F4F2] uppercase font-black leading-tight tracking-tight mb-6">
                 WHERE SCIENCE MEETS PERFORMANCE.
@@ -309,7 +309,7 @@ export default function AboutPage() {
             className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">01 // CATALOGUE</span>
+              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">01 • CATALOGUE</span>
               <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
                 All Products
               </span>
@@ -328,7 +328,7 @@ export default function AboutPage() {
             className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">02 // CATEGORIES</span>
+              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">02 • CATEGORIES</span>
               <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
                 Browse Categories
               </span>
@@ -347,7 +347,7 @@ export default function AboutPage() {
             className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">03 // KNOWLEDGE</span>
+              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">03 • KNOWLEDGE</span>
               <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
                 FAQ & Answers
               </span>
@@ -366,7 +366,7 @@ export default function AboutPage() {
             className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">04 // CONNECT</span>
+              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">04 • CONNECT</span>
               <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
                 Contact Us
               </span>

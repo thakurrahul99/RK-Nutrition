@@ -116,7 +116,7 @@ export default function Footer() {
             </div>
 
             <div className="pt-2 text-xs font-mono text-[#5A5A5A] uppercase tracking-widest">
-              OFFICIAL SPORTS NUTRITION // 100% PURE FORMULATIONS
+              OFFICIAL SPORTS NUTRITION • 100% PURE FORMULATIONS
             </div>
           </div>
 
@@ -202,13 +202,6 @@ export default function Footer() {
               className="hover:text-[#F5F4F2] underline underline-offset-4 transition-colors cursor-pointer"
             >
               Terms & Conditions
-            </Link>
-            <Link
-              to="/admin"
-              className="hover:text-[#C8202B] underline underline-offset-4 transition-colors text-[#555555]"
-              title="Restricted Operations Portal"
-            >
-              Admin Console
             </Link>
           </div>
 

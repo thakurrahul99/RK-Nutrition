@@ -194,7 +194,7 @@ export default function LoginPage() {
         </form>
 
         {/* Footer Links */}
-        <div className="pt-4 border-t border-[#262626] text-center space-y-3">
+        <div className="pt-4 border-t border-[#262626] text-center">
           <p className="text-xs text-[#8C8C8C] font-body">
             New to RK Nutrition?{' '}
             <Link
@@ -204,14 +204,6 @@ export default function LoginPage() {
               Create an Athlete Account
             </Link>
           </p>
-          <div className="pt-2">
-            <Link
-              to="/admin/login"
-              className="text-[11px] font-mono uppercase tracking-wider text-[#555555] hover:text-[#8C8C8C] transition-colors"
-            >
-              Store Management Portal →
-            </Link>
-          </div>
         </div>
       </div>
     </div>

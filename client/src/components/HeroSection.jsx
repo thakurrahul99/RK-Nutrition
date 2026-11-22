@@ -92,7 +92,7 @@ export default function HeroSection() {
                   {supportingLabel}
                 </span>
                 <span className="text-[9px] sm:text-[11px] font-mono text-[#8C8C8C] tracking-wider uppercase mt-0.5 block">
-                  ZERO AMINO SPIKING // TRANSPARENT LABELS // CLINICALLY DOSED
+                  ZERO AMINO SPIKING • TRANSPARENT LABELS • CLINICALLY DOSED
                 </span>
               </div>
               <div className="hidden sm:flex items-center gap-2 text-[10px] font-mono text-[#666666] uppercase tracking-widest">

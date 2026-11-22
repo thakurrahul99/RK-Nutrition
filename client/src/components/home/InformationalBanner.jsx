@@ -28,7 +28,7 @@ export default function InformationalBanner() {
           <div className="space-y-3 max-w-2xl relative z-10">
             <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
               <Tag className="w-4 h-4 text-[#C8202B]" />
-              <span>SPECIAL LAUNCH OFFER // SAVE 10%</span>
+              <span>SPECIAL LAUNCH OFFER • SAVE 10%</span>
             </div>
             <h3 className="font-heading text-2xl sm:text-3xl md:text-4xl text-[#F5F4F2] uppercase font-bold tracking-tight">
               USE COUPON <span className="text-[#C8202B]">RKLAUNCH10</span> AT CHECKOUT

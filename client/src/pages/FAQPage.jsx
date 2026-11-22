@@ -93,7 +93,7 @@ export default function FAQPage() {
           <div className="flex items-center justify-between pb-4 border-b border-[#262626] mb-8">
             <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold">
               <HelpCircle className="w-4 h-4 text-[#C8202B]" />
-              <span>KNOWLEDGE BASE // 6 QUESTIONS</span>
+              <span>KNOWLEDGE BASE • 6 QUESTIONS</span>
             </div>
             <span className="text-xs font-mono text-[#5A5A5A] uppercase">
               TRANSPARENT ANSWERS

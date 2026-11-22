@@ -307,7 +307,7 @@ export default function AdminCategoriesPage() {
         <div>
           <div className="flex items-center gap-2 text-xs font-mono text-[#C8202B] uppercase tracking-wider">
             <Layers className="w-4 h-4" />
-            <span>Store Operations // Catalog Architecture</span>
+            <span>Store Operations • Catalog Architecture</span>
           </div>
           <h1 className="font-heading text-2xl sm:text-3xl uppercase font-black text-[#F5F4F2] tracking-tight mt-1">
             Product Categories

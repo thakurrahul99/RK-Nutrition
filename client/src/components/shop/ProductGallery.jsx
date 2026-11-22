@@ -50,7 +50,7 @@ export default function ProductGallery({ images = [], name = 'Product' }) {
 
         <div className="absolute bottom-3 right-3 text-[10px] font-mono uppercase tracking-widest text-[#8C8C8C] bg-[#111111]/90 px-2.5 py-1 border border-[#242424] flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 bg-[#C8202B]" />
-          <span>RK NUTRITION // LAB-TESTED</span>
+          <span>RK NUTRITION • LAB-TESTED</span>
         </div>
       </div>
 

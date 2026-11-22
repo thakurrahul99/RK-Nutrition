@@ -206,7 +206,7 @@ function createSupplementLabelTexture() {
   ctx.fillStyle = '#CCCCCC';
   ctx.font = 'bold 20px "Plus Jakarta Sans", monospace, sans-serif';
   ctx.letterSpacing = '8px';
-  ctx.fillText('CORE PERFORMANCE SERIES // ATHLETIC GRADE', centerX, 185);
+  ctx.fillText('CORE PERFORMANCE SERIES • ATHLETIC GRADE', centerX, 185);
 
   // Accent divider line
   ctx.strokeStyle = '#333333';

@@ -127,7 +127,7 @@ export default function ProductCard({ product, onSelectProduct }) {
         
         <div>
           <div className="text-[10px] font-mono uppercase text-[#C8202B] tracking-wider mb-1 block">
-            RK NUTRITION // FORMULATION
+            RK NUTRITION • FORMULATION
           </div>
           <h3 className="font-heading text-lg sm:text-xl text-[#F5F4F2] uppercase font-bold tracking-wide group-hover:text-[#F5F4F2] transition-colors line-clamp-2">
             {name}

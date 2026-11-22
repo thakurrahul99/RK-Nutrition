@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import { Search, User, ShoppingBag, Menu, X, Heart, LogOut, Package, MapPin, Shield } from 'lucide-react';
+import { Search, User, ShoppingBag, Menu, X, Heart, LogOut, Package, MapPin } from 'lucide-react';
 import { brandConfig } from '../config/brandConfig';
 import { useContent } from '../context/ContentContext';
 import { useCart } from '../context/CartContext';
@@ -18,7 +18,7 @@ export default function Navbar({
   const { content } = useContent();
   const { openCart, itemCount } = useCart();
   const { openWishlist, wishlistCount } = useWishlist();
-  const { user, isAuthenticated, logout, isClientAdmin, isSuperAdmin } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -180,15 +180,6 @@ export default function Navbar({
                         <span>Saved Addresses</span>
                       </Link>
 
-                      {(isClientAdmin || isSuperAdmin) && (
-                        <div className="pt-1 border-t border-[#262626] mt-1">
-                          <Link to="/admin" className="text-yellow-400/90 hover:text-yellow-300 px-2 py-1.5 flex items-center gap-2 transition-colors">
-                            <Shield className="w-3.5 h-3.5" />
-                            <span>Store Management →</span>
-                          </Link>
-                        </div>
-                      )}
-
                       <div className="pt-1 border-t border-[#262626] mt-1">
                         <button
                           type="button"
@@ -219,11 +210,6 @@ export default function Navbar({
                       >
                         Create Account
                       </Link>
-                      <div className="pt-2 border-t border-[#262626] mt-1 flex flex-col gap-1 text-[11px]">
-                        <Link to="/admin/login" className="hover:text-[#C8202B] transition-colors py-0.5 text-[#666666]">
-                          Store Manager Login →
-                        </Link>
-                      </div>
                     </div>
                   </>
                 )}

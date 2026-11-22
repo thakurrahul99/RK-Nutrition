@@ -26,7 +26,7 @@ export default function NotFoundPage() {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#161616] border border-[#2E2E2E] text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold">
           <span className="w-1.5 h-1.5 bg-[#C8202B] animate-pulse" />
-          <span>ERROR 404 // ROUTE NOT LOCATED</span>
+          <span>ERROR 404 • ROUTE NOT LOCATED</span>
         </div>
 
         {/* Large 404 Headline */}
@@ -69,7 +69,7 @@ export default function NotFoundPage() {
             className="p-4 bg-[#141414] border border-[#242424] hover:border-[#C8202B] transition-colors group flex flex-col justify-between"
           >
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase text-[#C8202B]">01 // CATALOGUE</span>
+              <span className="text-[10px] font-mono uppercase text-[#C8202B]">01 • CATALOGUE</span>
               <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors block">
                 All Products
               </span>
@@ -88,7 +88,7 @@ export default function NotFoundPage() {
             className="p-4 bg-[#141414] border border-[#242424] hover:border-[#C8202B] transition-colors group flex flex-col justify-between"
           >
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase text-[#C8202B]">02 // CATEGORIES</span>
+              <span className="text-[10px] font-mono uppercase text-[#C8202B]">02 • CATEGORIES</span>
               <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors block">
                 Categories
               </span>
@@ -107,7 +107,7 @@ export default function NotFoundPage() {
             className="p-4 bg-[#141414] border border-[#242424] hover:border-[#C8202B] transition-colors group flex flex-col justify-between"
           >
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase text-[#C8202B]">03 // HOME</span>
+              <span className="text-[10px] font-mono uppercase text-[#C8202B]">03 • HOME</span>
               <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors block">
                 Storefront
               </span>

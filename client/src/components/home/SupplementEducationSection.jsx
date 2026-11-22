@@ -151,7 +151,7 @@ export default function SupplementEducationSection() {
 
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono uppercase tracking-wider text-[#5A5A5A]">
-              TRANSPARENT EDUCATION // 4 CORE FORMULATIONS
+              TRANSPARENT EDUCATION • 4 CORE FORMULATIONS
             </span>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function SupplementEducationSection() {
                     <Icon className="w-5 h-5" />
                   </div>
                   <span className={`text-[10px] font-mono uppercase tracking-widest ${isActive ? 'text-[#C8202B]' : 'text-[#555555]'}`}>
-                    // 0{SUPPLEMENT_TOPICS.indexOf(topic) + 1}
+                    0{SUPPLEMENT_TOPICS.indexOf(topic) + 1}
                   </span>
                 </div>
                 <h3 className={`font-heading text-lg sm:text-xl uppercase font-bold tracking-tight block ${isActive ? 'text-[#F5F4F2]' : 'text-[#AAAAAA]'}`}>

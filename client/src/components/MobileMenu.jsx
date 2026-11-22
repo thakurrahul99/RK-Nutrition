@@ -227,7 +227,7 @@ export default function MobileMenu({
           </button>
 
           <div className="text-[10px] font-mono text-[#555555] text-center uppercase tracking-widest pt-1">
-            RK NUTRITION // ALL RIGHTS RESERVED
+            RK NUTRITION • ALL RIGHTS RESERVED
           </div>
         </div>
 

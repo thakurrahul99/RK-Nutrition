@@ -27,50 +27,50 @@ export default function DocumentMeta() {
 
     // Route-specific title and metadata formatting
     if (path === '/products') {
-      pageTitle = `Supplement Formulations // ${baseTitle}`;
+      pageTitle = `Supplement Formulations | ${baseTitle}`;
       currentOgTitle = `All Supplement Formulations — ${baseTitle}`;
     } else if (path.startsWith('/product/')) {
       const slugOrId = path.replace('/product/', '');
       currentProduct = products?.find((p) => p.id === slugOrId || p.slug === slugOrId);
       if (currentProduct) {
-        pageTitle = `${currentProduct.name} // High-Yield Supplement — ${baseTitle}`;
+        pageTitle = `${currentProduct.name} | High-Yield Supplement — ${baseTitle}`;
         currentOgTitle = `${currentProduct.name} | RK Nutrition`;
         currentOgDesc = currentProduct.shortDescription || currentProduct.description || metaDesc;
         if (currentProduct.images && currentProduct.images.length > 0) {
           currentOgImg = currentProduct.images[0];
         }
       } else {
-        pageTitle = `Supplement Details // ${baseTitle}`;
+        pageTitle = `Supplement Details | ${baseTitle}`;
       }
     } else if (path === '/categories') {
-      pageTitle = `Supplement Categories // ${baseTitle}`;
+      pageTitle = `Supplement Categories | ${baseTitle}`;
       currentOgTitle = `Browse Supplements by Category — RK Nutrition`;
     } else if (path.startsWith('/categories/')) {
       const catSlug = path.replace('/categories/', '');
       const catFormatted = catSlug.replace(/-/g, ' ').toUpperCase();
-      pageTitle = `${catFormatted} Supplements // ${baseTitle}`;
+      pageTitle = `${catFormatted} Supplements | ${baseTitle}`;
       currentOgTitle = `${catFormatted} Supplements Lineup — RK Nutrition`;
     } else if (path === '/about') {
-      pageTitle = `Formulation Philosophy & Quality Standards // ${baseTitle}`;
+      pageTitle = `Formulation Philosophy & Quality Standards | ${baseTitle}`;
       currentOgTitle = `About RK Nutrition — Pure Sports Nutrition Standards`;
     } else if (path === '/contact') {
-      pageTitle = `Contact Desk & Product Inquiries // ${baseTitle}`;
+      pageTitle = `Contact Desk & Product Inquiries | ${baseTitle}`;
       currentOgTitle = `Contact RK Nutrition`;
     } else if (path === '/faq') {
-      pageTitle = `Frequently Asked Questions & Supplement Science // ${baseTitle}`;
+      pageTitle = `Frequently Asked Questions & Supplement Science | ${baseTitle}`;
       currentOgTitle = `Supplement FAQs & Ingestion Guidance — RK Nutrition`;
     } else if (path === '/shipping-policy') {
-      pageTitle = `Shipping & Verification Policy // ${baseTitle}`;
+      pageTitle = `Shipping & Verification Policy | ${baseTitle}`;
     } else if (path === '/privacy-policy') {
-      pageTitle = `Privacy Policy // ${baseTitle}`;
+      pageTitle = `Privacy Policy | ${baseTitle}`;
     } else if (path === '/terms-of-service') {
-      pageTitle = `Terms of Service // ${baseTitle}`;
+      pageTitle = `Terms of Service | ${baseTitle}`;
     } else if (path === '/checkout') {
-      pageTitle = `Secure Checkout // ${baseTitle}`;
+      pageTitle = `Secure Checkout | ${baseTitle}`;
     } else if (path.startsWith('/order-confirmation')) {
-      pageTitle = `Order Confirmed // ${baseTitle}`;
+      pageTitle = `Order Confirmed | ${baseTitle}`;
     } else if (path.startsWith('/admin') || path.startsWith('/super-admin')) {
-      pageTitle = `Portal Management // RK Nutrition`;
+      pageTitle = `Portal Management | RK Nutrition`;
     }
 
     document.title = pageTitle;

@@ -25,7 +25,7 @@ export default function FeaturedProductsSection() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
               <span className="w-6 h-[2px] bg-[#C8202B]" />
-              RK NUTRITION // FOUNDATIONAL SERIES
+              RK NUTRITION • FOUNDATIONAL SERIES
             </div>
             <h2 className="font-heading text-4xl sm:text-5xl md:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95]">
               FEATURED <span className="text-[#C8202B]">PRODUCTS.</span>
@@ -60,7 +60,7 @@ export default function FeaturedProductsSection() {
         {/* Bottom Destination Link Strip */}
         <div className="mt-14 pt-8 border-t border-[#1F1F1F] flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">
-            SHOWCASING {featuredProducts.length} FOUNDATIONAL FORMULATIONS // 100% TRANSPARENT
+            SHOWCASING {featuredProducts.length} FOUNDATIONAL FORMULATIONS • 100% TRANSPARENT
           </span>
           <Link
             to="/products"
