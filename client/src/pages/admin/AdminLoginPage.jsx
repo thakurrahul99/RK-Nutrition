@@ -52,9 +52,12 @@ export default function AdminLoginPage() {
 
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1A1A1A] border border-[#2E2E2E] mb-4 relative">
-              <span className="font-heading font-black text-2xl text-[#F5F4F2]">RK</span>
-              <div className="absolute top-0 right-0 w-2 h-2 bg-[#E11D2E]" />
+            <div className="flex justify-center mb-4">
+              <img 
+                src="/images/RK%20Nutrition%20Logo.png" 
+                alt="RK Nutrition" 
+                className="h-12 sm:h-14 w-auto object-contain" 
+              />
             </div>
             <h1 className="font-heading text-2xl uppercase tracking-wider text-[#F5F4F2] font-black">
               Store Owner <span className="text-[#E11D2E]">Admin</span>

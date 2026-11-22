@@ -74,14 +74,13 @@ export default function MobileMenu({
         
         {/* Header - Fixed top bar */}
         <div className="shrink-0 p-4 min-[360px]:p-5 pb-4 border-b border-[#262626] flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-[#1A1A1A] border border-[#2E2E2E] flex items-center justify-center font-heading font-black text-sm text-[#F5F4F2]">
-              RK
-            </div>
-            <span className="font-heading font-bold text-base min-[360px]:text-lg tracking-wider text-[#F5F4F2]">
-              RK <span className="text-[#E11D2E]">NUTRITION</span>
-            </span>
-          </div>
+          <Link to="/" onClick={onClose} className="flex items-center">
+            <img 
+              src="/images/RK%20Nutrition%20Logo.png" 
+              alt="RK Nutrition" 
+              className="h-8 min-[360px]:h-9 w-auto object-contain" 
+            />
+          </Link>
           <button
             type="button"
             onClick={onClose}

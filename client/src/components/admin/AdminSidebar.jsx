@@ -55,19 +55,15 @@ export default function AdminSidebar({ isOpen, onClose }) {
         {/* Top Header: Brand Identity */}
         <div>
           <div className="h-16 px-6 border-b border-[#242424] flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-[#181818] border border-[#2D2D2D] flex items-center justify-center relative">
-                <span className="font-heading font-black text-base text-[#F5F4F2]">RK</span>
-                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-[#E11D2E]" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-heading font-black text-sm tracking-wider uppercase text-[#F5F4F2]">
-                  RK <span className="text-[#E11D2E]">NUTRITION</span>
-                </span>
-                <span className="text-[10px] font-mono tracking-widest text-[#8C8C8C] uppercase -mt-0.5">
-                  Store Operations
-                </span>
-              </div>
+            <div className="flex items-center gap-2.5">
+              <img 
+                src="/images/RK%20Nutrition%20Logo.png" 
+                alt="RK Nutrition" 
+                className="h-8 w-auto object-contain" 
+              />
+              <span className="text-[10px] font-mono tracking-widest text-[#8C8C8C] uppercase bg-[#181818] border border-[#262626] px-1.5 py-0.5">
+                Admin
+              </span>
             </div>
 
             <button

@@ -90,6 +90,15 @@ export default function LoginPage() {
 
         {/* Header */}
         <div className="text-center space-y-2">
+          <div className="flex justify-center mb-3">
+            <Link to="/" aria-label="RK Nutrition Home">
+              <img 
+                src="/images/RK%20Nutrition%20Logo.png" 
+                alt="RK Nutrition" 
+                className="h-10 sm:h-12 w-auto object-contain hover:scale-105 transition-transform" 
+              />
+            </Link>
+          </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#1A1A1A] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#E11D2E] mb-2">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>ATHLETE PORTAL</span>

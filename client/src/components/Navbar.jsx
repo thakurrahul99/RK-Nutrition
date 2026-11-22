@@ -54,26 +54,17 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto px-2.5 min-[360px]:px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-1.5 sm:gap-4">
           
-          {/* Brand Wordmark (Always navigates to Home) */}
+          {/* Brand Logo (Always navigates to Home) */}
           <Link
             to="/"
-            className="flex items-center gap-1.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] text-left"
+            className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] text-left shrink-0 py-0.5"
             aria-label={`${name} Home`}
           >
-            <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#E11D2E] transition-colors relative overflow-hidden">
-              <span className="font-heading font-black text-xl text-[#F5F4F2] tracking-tighter">
-                RK
-              </span>
-              <div className="absolute top-0 right-0 w-2 h-2 bg-[#E11D2E]" />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="font-heading font-bold text-[15px] min-[360px]:text-base sm:text-2xl text-[#F5F4F2] tracking-[0.04em] sm:tracking-wider uppercase leading-none whitespace-nowrap transition-colors">
-                RK <span className="text-[#E11D2E]">NUTRITION</span>
-              </span>
-              <span className="text-[8px] sm:text-[9px] tracking-[0.12em] sm:tracking-widest text-[#8C8C8C] uppercase font-semibold mt-0.5">
-                SPORTS NUTRITION
-              </span>
-            </div>
+            <img 
+              src="/images/RK%20Nutrition%20Logo.png" 
+              alt={name} 
+              className="h-8 min-[360px]:h-9 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105" 
+            />
           </Link>
 
           {/* Desktop Navigation Links */}

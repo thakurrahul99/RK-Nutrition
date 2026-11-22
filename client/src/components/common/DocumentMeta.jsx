@@ -120,7 +120,7 @@ export default function DocumentMeta() {
         '@type': 'Organization',
         'name': 'RK Nutrition',
         'url': canonical,
-        'logo': `${canonical}/favicon.svg`,
+        'logo': `${canonical}/images/RK%20Nutrition%20Logo.png`,
         'sameAs': [
           'https://instagram.com/rknutrition',
           'https://facebook.com/rknutrition',

@@ -173,10 +173,12 @@ export default function SuperAdminBrandingPage() {
               <RKWatermark className="w-full h-auto" />
             </div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <div className="font-heading font-black text-4xl text-[#F5F4F2] tracking-wider uppercase">
-                  RK <span className="text-[#E11D2E]">NUTRITION</span>
-                </div>
+              <div className="text-center space-y-3">
+                <img 
+                  src="/images/RK%20Nutrition%20Logo.png" 
+                  alt="RK Nutrition" 
+                  className="h-16 w-auto object-contain mx-auto" 
+                />
                 <div className="text-xs font-mono text-[#8C8C8C] uppercase tracking-widest">
                   {brandingForm.tagline}
                 </div>

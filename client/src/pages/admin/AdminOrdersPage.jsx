@@ -673,9 +673,11 @@ export default function AdminOrdersPage() {
             {/* Letterhead */}
             <div className="flex justify-between items-start pb-6 border-b border-gray-200">
               <div>
-                <h1 className="font-heading font-black text-2xl tracking-wider uppercase text-black">
-                  RK <span className="text-[#E11D2E]">NUTRITION</span>
-                </h1>
+                <img 
+                  src="/images/RK%20Nutrition%20Logo.png" 
+                  alt="RK Nutrition" 
+                  className="h-10 w-auto object-contain mb-1.5" 
+                />
                 <p className="text-xs text-gray-680 font-mono mt-0.5">High Performance Athletic Formulations</p>
                 <p className="text-xs text-gray-500 font-mono mt-1">GSTIN: 07AABCR1234F1Z5 • FSSAI Lic. No: 10020011000123</p>
                 <p className="text-xs text-gray-500 font-mono">support@rknutrition.com • +91 98765 43210</p>

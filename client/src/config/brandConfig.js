@@ -1,6 +1,7 @@
 export const brandConfig = {
   name: "RK NUTRITION",
   shortName: "RK",
+  logo: "/images/RK%20Nutrition%20Logo.png",
   tagline: "PREMIUM SPORTS NUTRITION • PURE FORMULATIONS • PROVEN RESULTS",
   colors: {
     black: "#111111",

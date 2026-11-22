@@ -77,13 +77,12 @@ export default function Footer() {
           
           {/* Brand & Identity Column (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
-            <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 bg-[#161616] border border-[#242424] group-hover:border-[#E11D2E] flex items-center justify-center font-heading font-black text-sm text-[#F5F4F2] transition-colors">
-                RK
-              </div>
-              <span className="font-heading font-black text-xl text-[#F5F4F2] tracking-wider uppercase">
-                RK <span className="text-[#E11D2E]">NUTRITION</span>
-              </span>
+            <Link to="/" className="inline-block group">
+              <img 
+                src="/images/RK%20Nutrition%20Logo.png" 
+                alt="RK Nutrition" 
+                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105" 
+              />
             </Link>
 
             <p className="font-heading text-sm text-[#E11D2E] uppercase tracking-wider font-semibold">
