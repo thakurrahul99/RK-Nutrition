@@ -9,7 +9,7 @@ import * as THREE from 'three';
 export function HeroProductFallback({ className = '' }) {
   return (
     <div 
-      className={`relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[460px] aspect-[4/5] flex items-center justify-center select-none ${className}`}
+      className={`relative w-full aspect-[4/5] flex items-center justify-center select-none overflow-hidden ${className}`}
       aria-label="RK Nutrition Pure Whey Isolate Supplement Container"
       role="img"
     >
@@ -21,77 +21,77 @@ export function HeroProductFallback({ className = '' }) {
 
       {/* Ground Contact Shadow */}
       <div 
-        className="absolute bottom-4 sm:bottom-6 w-48 sm:w-60 h-8 bg-black/90 rounded-full blur-xl pointer-events-none"
+        className="absolute bottom-1 sm:bottom-6 w-24 sm:w-60 h-4 sm:h-8 bg-black/90 rounded-full blur-lg pointer-events-none"
         aria-hidden="true" 
       />
 
       {/* Supplement Container 2D Rendering */}
-      <div className="relative z-10 flex flex-col items-center">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-[125px] sm:max-w-[220px]">
         
         {/* Screw-on Ribbed Lid with Knurled Texture */}
-        <div className="w-34 sm:w-42 h-8 sm:h-9 bg-gradient-to-r from-[#141414] via-[#2A2A2A] to-[#121212] rounded-t-sm border-t border-x border-[#383838] shadow-md flex items-center justify-around px-2 overflow-hidden">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div key={i} className="w-[1.5px] h-full bg-[#404040]/90 shadow-[0_0_1px_rgba(255,255,255,0.15)]" />
+        <div className="w-[74%] h-5 sm:h-9 bg-gradient-to-r from-[#141414] via-[#2A2A2A] to-[#121212] rounded-t-sm border-t border-x border-[#383838] shadow-md flex items-center justify-around px-1 sm:px-2 overflow-hidden">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <div key={i} className="w-[1px] sm:w-[1.5px] h-full bg-[#404040]/90 shadow-[0_0_1px_rgba(255,255,255,0.15)]" />
           ))}
         </div>
 
         {/* Signature Anodized Red Accent Ring */}
-        <div className="w-36 sm:w-44 h-2.5 bg-gradient-to-r from-[#B01726] via-[#FF1732] to-[#8E101D] shadow-md shadow-[#D51F32]/50" />
+        <div className="w-[78%] h-1 sm:h-2.5 bg-gradient-to-r from-[#B01726] via-[#FF1732] to-[#8E101D] shadow-md shadow-[#D51F32]/50" />
 
         {/* Jar Shoulder Curve */}
-        <div className="w-42 sm:w-52 h-6 sm:h-7 bg-gradient-to-r from-[#121212] via-[#222222] to-[#0E0E0E] border-x border-[#2A2A2A] [clip-path:polygon(7%_0%,93%_0%,100%_100%,0%_100%)]" />
+        <div className="w-[90%] h-3 sm:h-7 bg-gradient-to-r from-[#121212] via-[#222222] to-[#0E0E0E] border-x border-[#2A2A2A] [clip-path:polygon(7%_0%,93%_0%,100%_100%,0%_100%)]" />
 
-        {/* Main Matte Black Container Body (Taller, Imposing Height) */}
-        <div className="w-46 sm:w-56 h-68 sm:h-80 bg-gradient-to-r from-[#0D0D0D] via-[#1A1A1A] to-[#0A0A0A] border-x border-b border-[#2A2A2A] rounded-b-md shadow-2xl flex flex-col items-center justify-between p-4 sm:p-5 relative overflow-hidden">
+        {/* Main Matte Black Container Body */}
+        <div className="w-full h-40 min-[360px]:h-44 sm:h-80 bg-gradient-to-r from-[#0D0D0D] via-[#1A1A1A] to-[#0A0A0A] border-x border-b border-[#2A2A2A] rounded-b-md shadow-2xl flex flex-col items-center justify-between p-2 sm:p-5 relative overflow-hidden">
           
           {/* Subtle Cylinder Highlight */}
-          <div className="absolute top-0 left-6 sm:left-7 w-3.5 h-full bg-gradient-to-r from-white/[0.10] to-transparent pointer-events-none" />
-          <div className="absolute top-0 right-3 sm:right-4 w-2.5 h-full bg-gradient-to-r from-transparent to-[#D51F32]/25 pointer-events-none" />
+          <div className="absolute top-0 left-2.5 sm:left-7 w-2 sm:w-3.5 h-full bg-gradient-to-r from-white/[0.10] to-transparent pointer-events-none" />
+          <div className="absolute top-0 right-1.5 sm:right-4 w-1.5 sm:w-2.5 h-full bg-gradient-to-r from-transparent to-[#D51F32]/25 pointer-events-none" />
 
           {/* Label Header */}
           <div className="w-full text-center mt-0.5">
-            <div className="inline-flex items-center gap-1 px-3 py-0.5 bg-[#D51F32] text-[10px] sm:text-[11px] font-heading font-black tracking-widest text-[#FFFFFF] uppercase shadow-md border border-white/20">
+            <div className="inline-flex items-center gap-1 px-1.5 sm:px-3 py-0.5 bg-[#D51F32] text-[8px] sm:text-[11px] font-heading font-black tracking-wider sm:tracking-widest text-[#FFFFFF] uppercase shadow-md border border-white/20">
               RK NUTRITION
             </div>
-            <p className="text-[8px] sm:text-[9px] font-mono tracking-[0.24em] text-[#C0C0C0] uppercase mt-1 font-bold">
-              CORE PERFORMANCE SERIES
+            <p className="text-[6px] sm:text-[9px] font-mono tracking-[0.15em] sm:tracking-[0.24em] text-[#C0C0C0] uppercase mt-0.5 font-bold truncate">
+              CORE PERFORMANCE
             </p>
           </div>
 
-          {/* Product Headline (Pure Brilliant White & Laser Red) */}
+          {/* Product Headline */}
           <div className="text-center my-auto">
-            <span className="font-heading font-black text-3xl sm:text-4xl text-[#FFFFFF] tracking-wider block leading-none drop-shadow-md">
+            <span className="font-heading font-black text-lg sm:text-4xl text-[#FFFFFF] tracking-wider block leading-none drop-shadow-md">
               PURE WHEY
             </span>
-            <span className="font-heading font-black text-2xl sm:text-3xl text-[#FF1732] tracking-wider block leading-none mt-1 drop-shadow-[0_0_10px_rgba(255,23,50,0.3)]">
+            <span className="font-heading font-black text-base sm:text-3xl text-[#FF1732] tracking-wider block leading-none mt-0.5 drop-shadow-[0_0_10px_rgba(255,23,50,0.3)]">
               ISOLATE
             </span>
-            <span className="font-mono text-[8px] sm:text-[9px] tracking-widest text-[#D0D0D0] uppercase block mt-1.5 font-semibold">
-              100% MICRO-FILTERED WHEY
+            <span className="font-mono text-[6px] sm:text-[9px] tracking-widest text-[#D0D0D0] uppercase block mt-0.5 font-semibold">
+              100% ISOLATE
             </span>
           </div>
 
           {/* Macro Callout Matrix */}
-          <div className="w-full bg-[#121212] border border-[#333333] py-2 px-2 flex items-center justify-around text-center rounded-sm shadow-inner">
+          <div className="w-full bg-[#121212] border border-[#333333] py-1 sm:py-2 px-1 sm:px-2 flex items-center justify-around text-center rounded-sm shadow-inner">
             <div>
-              <span className="font-heading font-black text-sm sm:text-base text-[#FFFFFF] block leading-none">27G</span>
-              <span className="text-[7px] sm:text-[8px] font-mono text-[#C0C0C0] uppercase font-bold">PROTEIN</span>
+              <span className="font-heading font-black text-xs sm:text-base text-[#FFFFFF] block leading-none">27G</span>
+              <span className="text-[6px] sm:text-[8px] font-mono text-[#C0C0C0] uppercase font-bold">PROTEIN</span>
             </div>
-            <div className="w-[1.5px] h-4 bg-[#333333]" />
+            <div className="w-[1px] sm:w-[1.5px] h-3 sm:h-4 bg-[#333333]" />
             <div>
-              <span className="font-heading font-black text-sm sm:text-base text-[#FF1732] block leading-none">0G</span>
-              <span className="text-[7px] font-mono text-[#FF1732] uppercase font-bold">SUGAR</span>
+              <span className="font-heading font-black text-xs sm:text-base text-[#FF1732] block leading-none">0G</span>
+              <span className="text-[6px] sm:text-[8px] font-mono text-[#FF1732] uppercase font-bold">SUGAR</span>
             </div>
-            <div className="w-[1.5px] h-4 bg-[#333333]" />
+            <div className="w-[1px] sm:w-[1.5px] h-3 sm:h-4 bg-[#333333]" />
             <div>
-              <span className="font-heading font-black text-sm sm:text-base text-[#FFFFFF] block leading-none">6.2G</span>
-              <span className="text-[7px] font-mono text-[#C0C0C0] uppercase font-bold">BCAA</span>
+              <span className="font-heading font-black text-xs sm:text-base text-[#FFFFFF] block leading-none">6.2G</span>
+              <span className="text-[6px] sm:text-[8px] font-mono text-[#C0C0C0] uppercase font-bold">BCAA</span>
             </div>
           </div>
 
           {/* Bottom Specifications */}
-          <div className="text-[8px] sm:text-[9px] font-mono tracking-widest text-[#FFFFFF] uppercase text-center w-full font-bold">
-            NET WT 2.0 KG (4.4 LBS) • ZERO AMINO SPIKING
+          <div className="text-[6px] sm:text-[9px] font-mono tracking-wider sm:tracking-widest text-[#FFFFFF] uppercase text-center w-full font-bold truncate">
+            NET WT 2.0 KG (4.4 LBS)
           </div>
 
         </div>

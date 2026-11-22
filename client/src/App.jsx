@@ -78,7 +78,7 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
   const maintenanceMode = content?.settings?.maintenanceMode;
 
   return (
-    <div className="min-h-screen bg-[#111111] text-[#F5F4F2] flex flex-col font-body selection:bg-[#C8202B] selection:text-[#F5F4F2]">
+    <div className="min-h-screen bg-[#111111] text-[#F5F4F2] flex flex-col font-body selection:bg-[#C8202B] selection:text-[#F5F4F2] w-full max-w-full overflow-x-hidden">
       {/* Dynamic SEO Meta Injection */}
       <DocumentMeta />
 
