@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Clock, Send, HelpCircle, ArrowRight, CheckCircle2, Phone, MapPin, Copy, ExternalLink } from 'lucide-react';
 import { apiRequest } from '../services/api';
-import { brandConfig } from '../config/brandConfig';
+
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
