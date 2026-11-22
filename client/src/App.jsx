@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/common/ScrollToTop';
 import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
@@ -196,7 +196,9 @@ export default function App() {
 
                         {/* Customer Authentication & Dashboard */}
                         <Route path="/login" element={<LoginPage />} />
+                        <Route path="/signin" element={<Navigate to="/login" replace />} />
                         <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/signup" element={<Navigate to="/register" replace />} />
                         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
                         <Route path="/account" element={<AccountPage />} />

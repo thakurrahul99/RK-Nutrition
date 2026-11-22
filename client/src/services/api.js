@@ -1,6 +1,8 @@
 // Centralized API Service Client for RK Nutrition Dual-Admin System
 
-const API_BASE = '/api';
+const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL)
+  ? import.meta.env.VITE_API_URL
+  : '/api';
 
 export const getAuthToken = () => {
   return localStorage.getItem('rk_auth_token') || '';
@@ -39,10 +41,13 @@ export async function apiRequest(endpoint, options = {}) {
     const data = await res.json().catch(() => ({}));
 
     if (!res.ok) {
+      const defaultError = res.status === 404
+        ? 'Service endpoint not found (404). Please verify your connection or try again.'
+        : `Request failed with status ${res.status}`;
       return {
         success: false,
         status: res.status,
-        error: data.error || `Request failed with status ${res.status}`
+        error: data.error || defaultError
       };
     }
 
