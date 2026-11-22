@@ -105,61 +105,76 @@ router.get('/my-orders', authenticateToken, async (req, res) => {
 });
 
 // GET /api/orders/public/:id (Public tracking with phone number verification)
-router.get('/public/:id', (req, res) => {
-  const ip = req.ip || req.socket.remoteAddress || 'unknown-ip';
-  const now = Date.now();
-  const attempt = publicLookupAttempts.get(ip);
+router.get('/public/:id', async (req, res) => {
+  try {
+    const ip = req.ip || req.socket.remoteAddress || 'unknown-ip';
+    const now = Date.now();
+    const attempt = publicLookupAttempts.get(ip);
 
-  if (!attempt || now - attempt.firstAttemptTime >= PUBLIC_LOOKUP_WINDOW_MS) {
-    publicLookupAttempts.set(ip, { count: 1, firstAttemptTime: now });
-  } else if (attempt.count >= PUBLIC_LOOKUP_MAX_ATTEMPTS) {
-    const remainingSecs = Math.ceil((PUBLIC_LOOKUP_WINDOW_MS - (now - attempt.firstAttemptTime)) / 1000);
-    return res.status(429).json({
-      success: false,
-      error: `Too many lookup attempts. Please retry in ${remainingSecs} seconds.`
-    });
-  } else {
-    attempt.count += 1;
-    publicLookupAttempts.set(ip, attempt);
-  }
-
-  const { id } = req.params;
-  const phone = String(req.query.phone || '').replace(/\D/g, '');
-  if (phone.length < 10) {
-    return res.status(400).json({ success: false, error: 'Enter the 10-digit mobile number used for this order.' });
-  }
-
-  const db = getDb();
-  const order = (db.orders || []).find((o) => o.id === id || String(o.orderNumber) === id);
-  const orderPhone = String(order?.customer?.phone || '').replace(/\D/g, '');
-
-  if (!order || phone.slice(-10) !== orderPhone.slice(-10)) {
-    return res.status(401).json({
-      success: false,
-      error: 'Unable to verify order details. Please verify your order ID and registered phone number.'
-    });
-  }
-
-  res.json({
-    success: true,
-    order: {
-      id: order.id,
-      orderNumber: order.orderNumber,
-      customer: order.customer,
-      items: order.items,
-      subtotal: order.subtotal,
-      discount: order.discount,
-      couponCode: order.couponCode,
-      shippingFee: order.shippingFee,
-      tax: order.tax || 0,
-      total: order.total,
-      paymentMethod: order.paymentMethod,
-      paymentStatus: order.paymentStatus,
-      orderStatus: order.orderStatus,
-      tracking: order.tracking,
-      createdAt: order.createdAt
+    if (!attempt || now - attempt.firstAttemptTime >= PUBLIC_LOOKUP_WINDOW_MS) {
+      publicLookupAttempts.set(ip, { count: 1, firstAttemptTime: now });
+    } else if (attempt.count >= PUBLIC_LOOKUP_MAX_ATTEMPTS) {
+      const remainingSecs = Math.ceil((PUBLIC_LOOKUP_WINDOW_MS - (now - attempt.firstAttemptTime)) / 1000);
+      return res.status(429).json({
+        success: false,
+        error: `Too many lookup attempts. Please retry in ${remainingSecs} seconds.`
+      });
+    } else {
+      attempt.count += 1;
+      publicLookupAttempts.set(ip, attempt);
     }
-  });
+
+    const { id } = req.params;
+    const phone = String(req.query.phone || '').replace(/\D/g, '');
+    if (phone.length < 10) {
+      return res.status(400).json({ success: false, error: 'Enter the 10-digit mobile number used for this order.' });
+    }
+
+    // Production orders are stored in MongoDB; retain the cache lookup for legacy/local orders.
+    let order = null;
+    if (mongoose.connection.readyState === 1) {
+      order = await Order.findOne({
+        $or: [{ id }, { orderNumber: Number(id) || -1 }]
+      }).lean();
+    }
+
+    if (!order) {
+      const db = getDb();
+      order = (db.orders || []).find((o) => o.id === id || String(o.orderNumber) === id) || null;
+    }
+
+    const orderPhone = String(order?.customer?.phone || '').replace(/\D/g, '');
+    if (!order || phone.slice(-10) !== orderPhone.slice(-10)) {
+      return res.status(401).json({
+        success: false,
+        error: 'Unable to verify order details. Please verify your order ID and registered phone number.'
+      });
+    }
+
+    return res.json({
+      success: true,
+      order: {
+        id: order.id,
+        orderNumber: order.orderNumber,
+        customer: order.customer,
+        items: order.items,
+        subtotal: order.subtotal,
+        discount: order.discount,
+        couponCode: order.couponCode,
+        shippingFee: order.shippingFee,
+        tax: order.tax || 0,
+        total: order.total,
+        paymentMethod: order.paymentMethod,
+        paymentStatus: order.paymentStatus,
+        orderStatus: order.orderStatus,
+        tracking: order.tracking,
+        createdAt: order.createdAt
+      }
+    });
+  } catch (err) {
+    console.error('Public order lookup error:', err);
+    return res.status(500).json({ success: false, error: 'Unable to retrieve this order right now. Please try again.' });
+  }
 });
 
 // GET /api/orders/:id (Order Details)
