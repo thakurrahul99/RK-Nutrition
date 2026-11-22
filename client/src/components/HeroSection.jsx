@@ -50,17 +50,17 @@ export default function HeroSection() {
                     </span>
                   </div>
 
-                  {/* 2. Main Headline (Vertically stretched, bolder athletic poster typography, fit to viewport) */}
-                  <h1 className="font-heading font-black text-[clamp(1.22rem,6.2vw,1.65rem)] min-[360px]:text-[clamp(1.32rem,6.1vw,2.05rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[1.12] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-2.5 min-[360px]:gap-3.5 min-[390px]:gap-4.5 sm:gap-0 sm:block scale-y-[1.28] min-[360px]:scale-y-[1.35] min-[390px]:scale-y-[1.40] sm:scale-y-100 origin-top-left mb-3.5 min-[390px]:mb-4.5 sm:mb-6 select-none [-webkit-text-stroke:0.75px_currentColor]">
-                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{headingLine1}</span>
-                    <span className="block text-[#D51F32] whitespace-nowrap drop-shadow-[0_0_15px_rgba(213,31,50,0.4)]">{headingLine2}</span>
-                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{headingLine3}</span>
+                  {/* 2. Main Headline (Significantly vertically stretched, bold athletic poster typography, filling mobile space) */}
+                  <h1 className="font-heading font-black text-[clamp(1.22rem,6.2vw,1.65rem)] min-[360px]:text-[clamp(1.36rem,6.4vw,2.15rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[1.12] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-3 min-[360px]:gap-4 min-[390px]:gap-5 sm:gap-0 sm:block scale-y-[1.42] min-[360px]:scale-y-[1.52] min-[390px]:scale-y-[1.62] sm:scale-y-100 origin-top-left mb-4 min-[390px]:mb-5 sm:mb-6 select-none [-webkit-text-stroke:0.8px_currentColor]">
+                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
+                    <span className="block text-[#D51F32] whitespace-nowrap drop-shadow-[0_0_16px_rgba(213,31,50,0.45)]">{headingLine2}</span>
+                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>
                   </h1>
                 </div>
 
                 {/* Mobile product visual sits cleanly beside headline with larger prominent sizing */}
-                <div className="flex lg:hidden items-center justify-end min-w-0 self-start pt-1 min-[360px]:pt-1.5 min-[390px]:pt-2 shrink-0">
-                  <HeroProduct3D className="!w-[110px] min-[360px]:!w-[126px] min-[375px]:!w-[134px] min-[390px]:!w-[142px] min-[430px]:!w-[156px] !max-w-none drop-shadow-2xl" />
+                <div className="flex lg:hidden items-center justify-end min-w-0 self-start pt-0 min-[360px]:pt-0.5 min-[390px]:pt-1 shrink-0">
+                  <HeroProduct3D className="!w-[108px] min-[360px]:!w-[124px] min-[375px]:!w-[132px] min-[390px]:!w-[140px] min-[430px]:!w-[155px] !max-w-none drop-shadow-2xl" />
                 </div>
               </div>
             </div>
