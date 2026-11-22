@@ -56,11 +56,36 @@ const envOrigins = (process.env.CLIENT_ORIGIN || '')
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-const allowedOrigins = [...new Set([...defaultOrigins, ...envOrigins])];
+const allowedOrigins = [...new Set([
+  ...defaultOrigins,
+  'https://rknutrition.com',
+  'https://rk-nutrition.vercel.app',
+  'https://rk-nutrition-rahulsinghdev.vercel.app',
+  'https://rk-nutrition-git-main-rahulsinghdev.vercel.app',
+  ...envOrigins
+])];
+
+const isAllowedVercelOrigin = (origin) => {
+  try {
+    const { protocol, hostname } = new URL(origin);
+    return protocol === 'https:' && (
+      hostname === 'rk-nutrition.vercel.app' ||
+      (hostname.startsWith('rk-nutrition-') && hostname.endsWith('.vercel.app'))
+    );
+  } catch {
+    return false;
+  }
+};
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      isAllowedVercelOrigin(origin) ||
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:')
+    ) {
       return callback(null, true);
     }
     return callback(null, false);
