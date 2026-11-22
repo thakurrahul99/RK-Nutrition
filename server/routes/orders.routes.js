@@ -451,7 +451,7 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
   }
 });
 
-// PUT /api/orders/:id/status (Client Admin Update Status & Courier Tracking)
+// PUT /api/orders/:id/status (Client Admin Update Status)
 router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res) => {
   try {
     const { id } = req.params;
@@ -465,8 +465,37 @@ router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res
 
     const order = db.orders[index];
 
+    // If changing to CANCELLED from another status, restore inventory
+    if (orderStatus && orderStatus === 'CANCELLED' && order.orderStatus !== 'CANCELLED') {
+      for (const item of order.items || []) {
+        const product = (db.products || []).find((p) => p.id === item.productId || p.slug === item.productId);
+        if (product) {
+          if (product.stock !== undefined) {
+            product.stock += item.quantity || 1;
+            if (product.stock > 0 && product.availability === 'out-of-stock') {
+              product.availability = 'in-stock';
+            }
+          }
+          if (item.variant) {
+            const variant = (product.variants || []).find(
+              (v) => v.name.toLowerCase() === item.variant.toLowerCase() || v.sku === item.sku
+            );
+            if (variant && variant.stock !== undefined) {
+              variant.stock += item.quantity || 1;
+            }
+          }
+        }
+      }
+      order.cancelledAt = new Date().toISOString();
+      order.cancelledBy = `${req.user.name} (${req.user.role})`;
+    }
+
     if (orderStatus) order.orderStatus = orderStatus;
     if (paymentStatus) order.paymentStatus = paymentStatus;
+
+    if (!order.tracking) {
+      order.tracking = { carrier: '', trackingNumber: '', shippedAt: null };
+    }
 
     if (carrier !== undefined) order.tracking.carrier = carrier.trim();
     if (trackingNumber !== undefined) {
@@ -495,6 +524,86 @@ router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res
   } catch (err) {
     console.error('Order status update error:', err);
     res.status(500).json({ success: false, error: 'Failed to update order status.' });
+  }
+});
+
+// PUT /api/orders/:id/tracking (Client Admin Update Courier Tracking)
+router.put('/:id/tracking', authenticateToken, requireClientAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { carrier, trackingNumber, estimatedDelivery } = req.body;
+    const db = getDb();
+
+    const index = (db.orders || []).findIndex((o) => o.id === id || String(o.orderNumber) === id);
+    if (index === -1) {
+      return res.status(404).json({ success: false, error: 'Order not found.' });
+    }
+
+    const order = db.orders[index];
+    if (!order.tracking) {
+      order.tracking = { carrier: '', trackingNumber: '', shippedAt: null };
+    }
+
+    if (carrier !== undefined) order.tracking.carrier = carrier.trim();
+    if (trackingNumber !== undefined) {
+      order.tracking.trackingNumber = trackingNumber.trim();
+      if (trackingNumber.trim() && !order.tracking.shippedAt) {
+        order.tracking.shippedAt = new Date().toISOString();
+        if (order.orderStatus === 'PENDING' || order.orderStatus === 'CONFIRMED') {
+          order.orderStatus = 'SHIPPED';
+        }
+      }
+    }
+    if (estimatedDelivery !== undefined) {
+      order.tracking.estimatedDelivery = estimatedDelivery.trim();
+    }
+
+    db.orders[index] = order;
+    saveDb(db);
+
+    if (mongoose.connection.readyState === 1) {
+      await Order.findOneAndUpdate({ id: order.id }, order).catch(() => {});
+    }
+
+    addLog('INFO', 'ORDERS', `Tracking updated for Order ${order.id}: ${order.tracking.carrier} - ${order.tracking.trackingNumber} by ${req.user.name}`);
+
+    res.json({
+      success: true,
+      order
+    });
+  } catch (err) {
+    console.error('Order tracking update error:', err);
+    res.status(500).json({ success: false, error: 'Failed to update order tracking.' });
+  }
+});
+
+// DELETE /api/orders/:id (Client Admin / Super Admin Delete Order)
+router.delete('/:id', authenticateToken, requireClientAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = getDb();
+    const index = (db.orders || []).findIndex((o) => o.id === id || String(o.orderNumber) === id);
+
+    if (index === -1) {
+      return res.status(404).json({ success: false, error: 'Order not found.' });
+    }
+
+    const deleted = db.orders.splice(index, 1)[0];
+    saveDb(db);
+
+    if (mongoose.connection.readyState === 1) {
+      await Order.deleteOne({ id: deleted.id }).catch(() => {});
+    }
+
+    addLog('WARN', 'ORDERS', `Deleted order ${deleted.id} by ${req.user.name}`);
+
+    res.json({
+      success: true,
+      message: `Order #${deleted.id} deleted successfully.`
+    });
+  } catch (err) {
+    console.error('Order delete error:', err);
+    res.status(500).json({ success: false, error: 'Failed to delete order.' });
   }
 });
 

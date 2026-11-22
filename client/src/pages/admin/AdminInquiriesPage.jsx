@@ -8,7 +8,8 @@ import {
   Mail, 
   RefreshCw, 
   X,
-  ExternalLink
+  ExternalLink,
+  Trash2
 } from 'lucide-react';
 
 export default function AdminInquiriesPage() {
@@ -47,6 +48,24 @@ export default function AdminInquiriesPage() {
       }
       showToast(`Inquiry marked ${newStatus === 'resolved' ? 'Resolved' : 'Pending'}.`, 'info');
       logActivity(`Toggled customer inquiry #${inq.id} to ${newStatus}`, 'support');
+    }
+  };
+
+  const handleDeleteInquiry = async (inq) => {
+    if (!window.confirm(`Permanently delete inquiry from "${inq.name}"?`)) return;
+    const res = await apiRequest(`/store/inquiries/${inq.id}`, {
+      method: 'DELETE'
+    });
+
+    if (res.success) {
+      setInquiries((prev) => prev.filter((i) => i.id !== inq.id));
+      if (selectedInquiry?.id === inq.id) {
+        setSelectedInquiry(null);
+      }
+      showToast('Customer inquiry deleted permanently.', 'info');
+      logActivity(`Deleted customer inquiry #${inq.id}`, 'support');
+    } else {
+      showToast(res.error || 'Failed to delete inquiry.', 'error');
     }
   };
 
@@ -146,13 +165,23 @@ export default function AdminInquiriesPage() {
                     </span>
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedInquiry(inq)}
-                      className="px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] text-xs font-mono text-[#F5F4F2]"
-                    >
-                      View Message
-                    </button>
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedInquiry(inq)}
+                        className="px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] text-xs font-mono text-[#F5F4F2]"
+                      >
+                        View
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteInquiry(inq)}
+                        title="Delete Inquiry"
+                        className="p-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-[#8C8C8C] hover:text-[#C8202B] transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -211,17 +240,27 @@ export default function AdminInquiriesPage() {
             </div>
 
             <div className="pt-4 border-t border-[#242424] flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => handleToggleResolved(selectedInquiry)}
-                className={`px-3 py-1.5 border text-xs font-mono uppercase tracking-wider transition-colors ${
-                  selectedInquiry.status === 'resolved'
-                    ? 'bg-[#EAB308]/10 border-[#EAB308]/30 text-[#EAB308]'
-                    : 'bg-[#4CAF50]/10 border-[#4CAF50]/30 text-[#4CAF50]'
-                }`}
-              >
-                {selectedInquiry.status === 'resolved' ? 'Mark as Pending' : 'Mark as Resolved'}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleToggleResolved(selectedInquiry)}
+                  className={`px-3 py-1.5 border text-xs font-mono uppercase tracking-wider transition-colors ${
+                    selectedInquiry.status === 'resolved'
+                      ? 'bg-[#EAB308]/10 border-[#EAB308]/30 text-[#EAB308]'
+                      : 'bg-[#4CAF50]/10 border-[#4CAF50]/30 text-[#4CAF50]'
+                  }`}
+                >
+                  {selectedInquiry.status === 'resolved' ? 'Mark as Pending' : 'Mark as Resolved'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteInquiry(selectedInquiry)}
+                  className="px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono uppercase text-[#C8202B] inline-flex items-center gap-1.5 transition-colors"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  <span>Delete</span>
+                </button>
+              </div>
 
               <a
                 href={`mailto:${selectedInquiry.email}?subject=Re: ${encodeURIComponent(selectedInquiry.subject || 'RK Nutrition Inquiry')}`}

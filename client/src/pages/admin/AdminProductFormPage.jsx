@@ -267,7 +267,7 @@ export default function AdminProductFormPage() {
   };
 
   // --- Form Validation & Submission ---
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setValidationErrors([]);
     const errors = [];
@@ -347,7 +347,7 @@ export default function AdminProductFormPage() {
 
     let result;
     if (isEditMode) {
-      result = updateProduct(existingProduct.id, payload);
+      result = await updateProduct(existingProduct.id, payload);
       if (result.success) {
         showToast(`Updated "${payload.name}" successfully.`, 'success');
         logActivity(`Updated product specifications for ${payload.name} (${payload.sku})`, 'products');
@@ -357,7 +357,7 @@ export default function AdminProductFormPage() {
         setIsSubmitting(false);
       }
     } else {
-      result = addProduct(payload);
+      result = await addProduct(payload);
       if (result.success) {
         showToast(`Added "${payload.name}" to catalog.`, 'success');
         logActivity(`Created new product: ${payload.name} (${payload.sku})`, 'products');

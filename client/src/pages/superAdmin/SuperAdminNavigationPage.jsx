@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
-import { Compass, Save, ArrowUp, ArrowDown, Eye, EyeOff } from 'lucide-react';
+import { Compass, Save, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Trash2 } from 'lucide-react';
 
 export default function SuperAdminNavigationPage() {
   const { content, updateNavigation, showToast } = useContent();
@@ -40,6 +40,9 @@ export default function SuperAdminNavigationPage() {
     }
   }, [content]);
 
+  const [newHeader, setNewHeader] = useState({ label: '', path: '' });
+  const [newFooter, setNewFooter] = useState({ label: '', path: '' });
+
   const handleToggleHeader = (index) => {
     const updated = [...headerLinks];
     updated[index] = { ...updated[index], visible: !updated[index].visible };
@@ -54,6 +57,38 @@ export default function SuperAdminNavigationPage() {
     updated[index] = updated[target];
     updated[target] = temp;
     setHeaderLinks(updated);
+  };
+
+  const handleAddHeader = (e) => {
+    e.preventDefault();
+    if (!newHeader.label.trim() || !newHeader.path.trim()) return;
+    setHeaderLinks([...headerLinks, { label: newHeader.label.trim(), path: newHeader.path.trim(), visible: true }]);
+    setNewHeader({ label: '', path: '' });
+  };
+
+  const handleDeleteHeader = (index) => {
+    setHeaderLinks(headerLinks.filter((_, i) => i !== index));
+  };
+
+  const handleAddFooter = (e) => {
+    e.preventDefault();
+    if (!newFooter.label.trim() || !newFooter.path.trim()) return;
+    setFooterLinks([...footerLinks, { label: newFooter.label.trim(), path: newFooter.path.trim() }]);
+    setNewFooter({ label: '', path: '' });
+  };
+
+  const handleDeleteFooter = (index) => {
+    setFooterLinks(footerLinks.filter((_, i) => i !== index));
+  };
+
+  const handleMoveFooter = (index, direction) => {
+    const target = direction === 'up' ? index - 1 : index + 1;
+    if (target < 0 || target >= footerLinks.length) return;
+    const updated = [...footerLinks];
+    const temp = updated[index];
+    updated[index] = updated[target];
+    updated[target] = temp;
+    setFooterLinks(updated);
   };
 
   const handleSave = async (e) => {
@@ -152,9 +187,119 @@ export default function SuperAdminNavigationPage() {
                   >
                     <ArrowDown className="w-3.5 h-3.5" />
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteHeader(idx)}
+                    title="Delete link"
+                    className="p-1.5 bg-[#1E293B] hover:bg-[#EF4444]/20 hover:text-[#EF4444] text-[#94A3B8] transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Add Header Link Inline */}
+          <div className="pt-3 border-t border-[#1E293B] flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              placeholder="Label (e.g. Clearance)"
+              value={newHeader.label}
+              onChange={(e) => setNewHeader({ ...newHeader, label: e.target.value })}
+              className="bg-[#0F172A] border border-[#1E293B] px-3 py-1.5 text-xs text-[#F1F5F9] focus:outline-none focus:border-[#38BDF8] flex-1"
+            />
+            <input
+              type="text"
+              placeholder="Route / Path (e.g. /products)"
+              value={newHeader.path}
+              onChange={(e) => setNewHeader({ ...newHeader, path: e.target.value })}
+              className="bg-[#0F172A] border border-[#1E293B] px-3 py-1.5 text-xs text-[#F1F5F9] focus:outline-none focus:border-[#38BDF8] flex-1"
+            />
+            <button
+              type="button"
+              onClick={handleAddHeader}
+              className="px-3 py-1.5 bg-[#38BDF8] hover:bg-[#0EA5E9] text-[#0A0E17] font-bold text-xs uppercase flex items-center justify-center gap-1 transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Footer Navigation Links */}
+        <div className="p-6 bg-[#0A0E17] border border-[#1E293B] space-y-4">
+          <h2 className="text-sm uppercase font-bold text-[#F1F5F9] tracking-wider pb-3 border-b border-[#1E293B]">
+            Footer Quick Links
+          </h2>
+
+          <div className="space-y-2">
+            {footerLinks.map((item, idx) => (
+              <div key={idx} className="p-3 bg-[#0F172A] border border-[#1E293B] flex items-center justify-between text-xs">
+                <div className="flex items-center gap-3">
+                  <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center">
+                    {idx + 1}
+                  </span>
+                  <div>
+                    <span className="font-bold text-[#F1F5F9] uppercase">{item.label}</span>
+                    <span className="text-[10px] text-[#64748B] block">Route: {item.path}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    disabled={idx === 0}
+                    onClick={() => handleMoveFooter(idx, 'up')}
+                    className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                  >
+                    <ArrowUp className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    disabled={idx === footerLinks.length - 1}
+                    onClick={() => handleMoveFooter(idx, 'down')}
+                    className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                  >
+                    <ArrowDown className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteFooter(idx)}
+                    title="Delete footer link"
+                    className="p-1.5 bg-[#1E293B] hover:bg-[#EF4444]/20 hover:text-[#EF4444] text-[#94A3B8] transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Add Footer Link Inline */}
+          <div className="pt-3 border-t border-[#1E293B] flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              placeholder="Label (e.g. Terms)"
+              value={newFooter.label}
+              onChange={(e) => setNewFooter({ ...newFooter, label: e.target.value })}
+              className="bg-[#0F172A] border border-[#1E293B] px-3 py-1.5 text-xs text-[#F1F5F9] focus:outline-none focus:border-[#38BDF8] flex-1"
+            />
+            <input
+              type="text"
+              placeholder="Route / Path (e.g. /terms)"
+              value={newFooter.path}
+              onChange={(e) => setNewFooter({ ...newFooter, path: e.target.value })}
+              className="bg-[#0F172A] border border-[#1E293B] px-3 py-1.5 text-xs text-[#F1F5F9] focus:outline-none focus:border-[#38BDF8] flex-1"
+            />
+            <button
+              type="button"
+              onClick={handleAddFooter}
+              className="px-3 py-1.5 bg-[#38BDF8] hover:bg-[#0EA5E9] text-[#0A0E17] font-bold text-xs uppercase flex items-center justify-center gap-1 transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Add</span>
+            </button>
           </div>
         </div>
 

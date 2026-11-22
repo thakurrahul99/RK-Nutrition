@@ -41,8 +41,8 @@ router.put('/methods', authenticateToken, requireClientAdmin, async (req, res) =
   });
 });
 
-// GET /api/payments/config (SUPER_ADMIN ONLY)
-router.get('/config', authenticateToken, requireSuperAdmin, (req, res) => {
+// GET /api/payments/config & /api/payments/gateway-config (Admin & Super Admin Gateway Info)
+const handleGetGatewayConfig = (req, res) => {
   const db = getDb();
   const cfg = db.gatewayConfig || {};
 
@@ -62,10 +62,13 @@ router.get('/config', authenticateToken, requireSuperAdmin, (req, res) => {
       statusMessage: cfg.statusMessage || ''
     }
   });
-});
+};
 
-// PUT /api/payments/config (SUPER_ADMIN ONLY)
-router.put('/config', authenticateToken, requireSuperAdmin, async (req, res) => {
+router.get('/config', authenticateToken, requireClientAdmin, handleGetGatewayConfig);
+router.get('/gateway-config', authenticateToken, requireClientAdmin, handleGetGatewayConfig);
+
+// PUT /api/payments/config & /api/payments/gateway-config (SUPER_ADMIN ONLY)
+const handleUpdateGatewayConfig = async (req, res) => {
   const { provider, mode, keyId, keySecret, webhookSecret } = req.body;
   const db = getDb();
 
@@ -102,7 +105,10 @@ router.put('/config', authenticateToken, requireSuperAdmin, async (req, res) => 
       statusMessage: cfg.statusMessage
     }
   });
-});
+};
+
+router.put('/config', authenticateToken, requireSuperAdmin, handleUpdateGatewayConfig);
+router.put('/gateway-config', authenticateToken, requireSuperAdmin, handleUpdateGatewayConfig);
 
 // POST /api/payments/validate-cart (Mixed cart payment rules validation)
 router.post('/validate-cart', (req, res) => {

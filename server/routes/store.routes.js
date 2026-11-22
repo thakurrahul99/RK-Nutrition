@@ -164,7 +164,8 @@ router.put('/inquiries/:id', authenticateToken, requireClientAdmin, async (req, 
     return res.status(404).json({ success: false, error: 'Inquiry not found.' });
   }
 
-  db.inquiries[index].status = status === 'RESOLVED' ? 'RESOLVED' : 'PENDING';
+  const isResolved = String(status || '').toUpperCase() === 'RESOLVED';
+  db.inquiries[index].status = isResolved ? 'RESOLVED' : 'PENDING';
   db.inquiries[index].updatedAt = new Date().toISOString();
   saveDb(db);
 
@@ -172,9 +173,36 @@ router.put('/inquiries/:id', authenticateToken, requireClientAdmin, async (req, 
     await Inquiry.findOneAndUpdate({ id }, { status: db.inquiries[index].status }).catch(() => {});
   }
 
+  addLog('INFO', 'INQUIRIES', `Updated customer inquiry #${id} status to ${db.inquiries[index].status} by ${req.user.name}`);
+
   res.json({
     success: true,
     inquiry: db.inquiries[index]
+  });
+});
+
+// DELETE /api/store/inquiries/:id (Client Admin deletes inquiry)
+router.delete('/inquiries/:id', authenticateToken, requireClientAdmin, async (req, res) => {
+  const { id } = req.params;
+  const db = getDb();
+  const index = (db.inquiries || []).findIndex((i) => i.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ success: false, error: 'Inquiry not found.' });
+  }
+
+  const deleted = db.inquiries.splice(index, 1)[0];
+  saveDb(db);
+
+  if (mongoose.connection.readyState === 1) {
+    await Inquiry.deleteOne({ id }).catch(() => {});
+  }
+
+  addLog('INFO', 'INQUIRIES', `Deleted customer inquiry #${deleted.id} by ${req.user.name}`);
+
+  res.json({
+    success: true,
+    message: 'Inquiry deleted successfully.'
   });
 });
 

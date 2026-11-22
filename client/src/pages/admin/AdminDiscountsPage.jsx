@@ -6,6 +6,7 @@ import {
   Tag, 
   Plus, 
   Trash2, 
+  Edit3,
   X,
   RefreshCw, 
   AlertCircle,
@@ -19,6 +20,7 @@ export default function AdminDiscountsPage() {
   const [coupons, setCoupons] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -76,7 +78,39 @@ export default function AdminDiscountsPage() {
     }
   };
 
-  const handleCreateCoupon = async (e) => {
+  const handleOpenCreate = () => {
+    setEditingCoupon(null);
+    setNewCoupon({
+      code: '',
+      discountType: 'percentage',
+      discountValue: '',
+      minCartValue: '',
+      maxUses: 100,
+      expiryDate: '2027-12-31',
+      description: '',
+      isActive: true
+    });
+    setFormError('');
+    setShowCreateModal(true);
+  };
+
+  const handleOpenEdit = (c) => {
+    setEditingCoupon(c);
+    setNewCoupon({
+      code: c.code,
+      discountType: c.discountType || 'percentage',
+      discountValue: c.discountValue,
+      minCartValue: c.minCartValue || '',
+      maxUses: c.maxUses || 100,
+      expiryDate: c.expiryDate || '2027-12-31',
+      description: c.description || '',
+      isActive: c.isActive !== false
+    });
+    setFormError('');
+    setShowCreateModal(true);
+  };
+
+  const handleSaveCoupon = async (e) => {
     e.preventDefault();
     setFormError('');
 
@@ -97,28 +131,44 @@ export default function AdminDiscountsPage() {
     }
 
     setIsSubmitting(true);
-    const res = await apiRequest('/discounts', {
-      method: 'POST',
-      body: JSON.stringify(newCoupon)
-    });
-
-    if (res.success && res.coupon) {
-      setCoupons([res.coupon, ...coupons]);
-      showToast(`Coupon "${res.coupon.code}" created successfully.`, 'success');
-      logActivity(`Created new promotional coupon: ${res.coupon.code}`, 'discounts');
-      setShowCreateModal(false);
-      setNewCoupon({
-        code: '',
-        discountType: 'percentage',
-        discountValue: '',
-        minCartValue: '',
-        maxUses: 100,
-        expiryDate: '2027-12-31',
-        description: '',
-        isActive: true
+    let res;
+    if (editingCoupon) {
+      res = await apiRequest(`/discounts/${editingCoupon.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(newCoupon)
       });
+      if (res.success && res.coupon) {
+        setCoupons(coupons.map((c) => (c.id === editingCoupon.id ? res.coupon : c)));
+        showToast(`Coupon "${res.coupon.code}" updated successfully.`, 'success');
+        logActivity(`Updated promotional coupon: ${res.coupon.code}`, 'discounts');
+        setShowCreateModal(false);
+        setEditingCoupon(null);
+      } else {
+        setFormError(res.error || 'Failed to update coupon code.');
+      }
     } else {
-      setFormError(res.error || 'Failed to create coupon code.');
+      res = await apiRequest('/discounts', {
+        method: 'POST',
+        body: JSON.stringify(newCoupon)
+      });
+      if (res.success && res.coupon) {
+        setCoupons([res.coupon, ...coupons]);
+        showToast(`Coupon "${res.coupon.code}" created successfully.`, 'success');
+        logActivity(`Created new promotional coupon: ${res.coupon.code}`, 'discounts');
+        setShowCreateModal(false);
+        setNewCoupon({
+          code: '',
+          discountType: 'percentage',
+          discountValue: '',
+          minCartValue: '',
+          maxUses: 100,
+          expiryDate: '2027-12-31',
+          description: '',
+          isActive: true
+        });
+      } else {
+        setFormError(res.error || 'Failed to create coupon code.');
+      }
     }
     setIsSubmitting(false);
   };
@@ -157,7 +207,7 @@ export default function AdminDiscountsPage() {
 
           <button
             type="button"
-            onClick={() => setShowCreateModal(true)}
+            onClick={handleOpenCreate}
             className="inline-flex items-center gap-2 px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20"
           >
             <Plus className="w-4 h-4" />
@@ -247,14 +297,24 @@ export default function AdminDiscountsPage() {
 
                   {/* Actions */}
                   <td className="py-3 px-4 text-right">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(c)}
-                      className="p-1.5 text-[#666666] hover:text-[#C8202B] hover:bg-[#1E1E1E] transition-colors"
-                      title="Delete Coupon"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex items-center justify-end gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEdit(c)}
+                        className="p-1.5 text-[#666666] hover:text-[#38BDF8] hover:bg-[#1E1E1E] transition-colors"
+                        title="Edit Coupon"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(c)}
+                        className="p-1.5 text-[#666666] hover:text-[#C8202B] hover:bg-[#1E1E1E] transition-colors"
+                        title="Delete Coupon"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -274,11 +334,11 @@ export default function AdminDiscountsPage() {
             <div className="flex items-center justify-between pb-4 border-b border-[#242424]">
               <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
                 <Tag className="w-4 h-4" />
-                <span>New Promotion</span>
+                <span>{editingCoupon ? 'Update Promotion' : 'New Promotion'}</span>
               </div>
               <button
                 type="button"
-                onClick={() => setShowCreateModal(false)}
+                onClick={() => { setShowCreateModal(false); setEditingCoupon(null); }}
                 className="p-1 text-[#8C8C8C] hover:text-[#F5F4F2]"
               >
                 <X className="w-4 h-4" />
@@ -292,7 +352,7 @@ export default function AdminDiscountsPage() {
               </div>
             )}
 
-            <form onSubmit={handleCreateCoupon} className="mt-4 space-y-4">
+            <form onSubmit={handleSaveCoupon} className="mt-4 space-y-4">
               <div>
                 <label className="block text-[10px] font-mono uppercase text-[#A0A0A0] mb-1">
                   Coupon Code *
@@ -395,7 +455,7 @@ export default function AdminDiscountsPage() {
               <div className="pt-2 flex justify-end gap-2">
                 <button
                   type="button"
-                  onClick={() => setShowCreateModal(false)}
+                  onClick={() => { setShowCreateModal(false); setEditingCoupon(null); }}
                   className="px-4 py-2 bg-[#1C1C1C] hover:bg-[#252525] text-xs font-mono text-[#8C8C8C]"
                 >
                   Cancel
@@ -405,7 +465,7 @@ export default function AdminDiscountsPage() {
                   disabled={isSubmitting}
                   className="px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
                 >
-                  {isSubmitting ? 'Creating...' : 'Create Coupon'}
+                  {isSubmitting ? 'Saving...' : editingCoupon ? 'Update Coupon' : 'Create Coupon'}
                 </button>
               </div>
             </form>

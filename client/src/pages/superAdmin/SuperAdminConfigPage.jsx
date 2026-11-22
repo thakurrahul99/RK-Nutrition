@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { apiRequest } from '../../services/api';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
@@ -7,6 +7,7 @@ import {
   Database, 
   Save, 
   Download, 
+  Upload,
   AlertTriangle, 
   Eye, 
   EyeOff, 
@@ -184,6 +185,46 @@ export default function SuperAdminConfigPage() {
       logActivity('Super Admin generated and downloaded full database JSON snapshot', 'backup');
     } else {
       showToast(res.error || 'Failed to download database backup.', 'error');
+    }
+  };
+
+  const [isRestoring, setIsRestoring] = useState(false);
+  const restoreFileInputRef = useRef(null);
+
+  const handleRestoreFile = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!window.confirm(`Warning: Restoring "${file.name}" will overwrite current store products and settings. Continue?`)) {
+      if (restoreFileInputRef.current) restoreFileInputRef.current.value = '';
+      return;
+    }
+
+    setIsRestoring(true);
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+
+      if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.products)) {
+        throw new Error('Invalid backup file. The JSON must contain a valid database snapshot with products.');
+      }
+
+      const res = await apiRequest('/content/restore', {
+        method: 'POST',
+        body: JSON.stringify({ database: parsed })
+      });
+
+      if (res.success) {
+        showToast('Database successfully restored from backup snapshot.', 'success');
+        logActivity(`Super Admin restored database from backup file: ${file.name}`, 'backup');
+      } else {
+        throw new Error(res.error || 'Restore failed on server.');
+      }
+    } catch (err) {
+      showToast(err.message || 'Failed to restore backup.', 'error');
+    } finally {
+      setIsRestoring(false);
+      if (restoreFileInputRef.current) restoreFileInputRef.current.value = '';
     }
   };
 
@@ -681,7 +722,7 @@ export default function SuperAdminConfigPage() {
       {/* Tab 4: Database Snapshot & Backups */}
       {activeTab === 'backup' && (
         <div className="p-6 bg-[#0A0E17] border border-[#1E293B] space-y-5">
-          <div className="flex items-center justify-between pb-3 border-b border-[#1E293B]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E293B] gap-3">
             <div>
               <h2 className="text-sm uppercase font-bold text-[#F1F5F9] tracking-wider">
                 Atomic Database Snapshot & Disaster Recovery
@@ -691,14 +732,33 @@ export default function SuperAdminConfigPage() {
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={handleDownloadBackup}
-              className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0EA5E9] text-xs uppercase font-bold text-[#0A0E17] flex items-center gap-2 transition-colors shadow-lg shadow-[#38BDF8]/20"
-            >
-              <Download className="w-4 h-4" />
-              <span>Download JSON Backup</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <input 
+                type="file" 
+                ref={restoreFileInputRef} 
+                onChange={handleRestoreFile} 
+                accept=".json,application/json" 
+                className="hidden" 
+              />
+              <button
+                type="button"
+                disabled={isRestoring}
+                onClick={() => restoreFileInputRef.current?.click()}
+                className="px-3.5 py-2 bg-[#1E293B] hover:bg-[#334155] border border-[#334155] text-xs uppercase font-bold text-[#F1F5F9] flex items-center gap-1.5 transition-colors disabled:opacity-50"
+              >
+                <Upload className="w-3.5 h-3.5 text-[#38BDF8]" />
+                <span>{isRestoring ? 'Restoring...' : 'Restore Backup'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleDownloadBackup}
+                className="px-4 py-2 bg-[#38BDF8] hover:bg-[#0EA5E9] text-xs uppercase font-bold text-[#0A0E17] flex items-center gap-2 transition-colors shadow-lg shadow-[#38BDF8]/20"
+              >
+                <Download className="w-4 h-4" />
+                <span>Download JSON Backup</span>
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

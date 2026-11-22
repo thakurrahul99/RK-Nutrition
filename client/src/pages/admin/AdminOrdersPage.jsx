@@ -13,7 +13,8 @@ import {
   MapPin, 
   Phone, 
   Mail, 
-  RefreshCw
+  RefreshCw,
+  Trash2
 } from 'lucide-react';
 
 export default function AdminOrdersPage() {
@@ -109,6 +110,25 @@ export default function AdminOrdersPage() {
       showToast(res.error || 'Failed to update tracking.', 'error');
     }
     setIsUpdatingTracking(false);
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    if (!window.confirm(`Permanently delete Order #${orderId}? This cannot be undone.`)) return;
+
+    const res = await apiRequest(`/orders/${orderId}`, {
+      method: 'DELETE'
+    });
+
+    if (res.success) {
+      setOrders((prev) => prev.filter((o) => o.id !== orderId));
+      if (selectedOrder?.id === orderId) {
+        setSelectedOrder(null);
+      }
+      showToast(`Order #${orderId} deleted permanently.`, 'info');
+      logActivity(`Deleted order #${orderId}`, 'orders');
+    } else {
+      showToast(res.error || 'Failed to delete order.', 'error');
+    }
   };
 
   // Filtered orders
@@ -336,14 +356,24 @@ export default function AdminOrdersPage() {
 
                     {/* Actions */}
                     <td className="py-3 px-4 text-right">
-                      <button
-                        type="button"
-                        onClick={() => openOrderDetails(order)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono text-[#F5F4F2] transition-colors"
-                      >
-                        <Eye className="w-3.5 h-3.5 text-[#C8202B]" />
-                        <span>View</span>
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => openOrderDetails(order)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono text-[#F5F4F2] transition-colors"
+                        >
+                          <Eye className="w-3.5 h-3.5 text-[#C8202B]" />
+                          <span>View</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteOrder(order.id)}
+                          title="Delete Order"
+                          className="p-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-[#8C8C8C] hover:text-[#C8202B] transition-colors"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -385,6 +415,15 @@ export default function AdminOrdersPage() {
                 >
                   <Printer className="w-3.5 h-3.5 text-[#C8202B]" />
                   <span>Invoice</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteOrder(selectedOrder.id)}
+                  title="Delete Order"
+                  className="px-2.5 py-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono text-[#C8202B] flex items-center gap-1.5 transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Delete</span>
                 </button>
                 <button
                   type="button"

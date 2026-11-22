@@ -70,11 +70,11 @@ export default function AdminProductListPage() {
     });
   }, [products, searchQuery, selectedCategory, selectedStatus, selectedFeatured]);
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (!productToDelete) return;
     setIsDeleting(true);
 
-    const result = deleteProduct(productToDelete.id);
+    const result = await deleteProduct(productToDelete.id);
     if (result.success) {
       showToast(`Deleted "${productToDelete.name}" from catalog.`, 'info');
       logActivity(`Deleted product: ${productToDelete.name} (${productToDelete.sku || productToDelete.id})`, 'products');
