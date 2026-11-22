@@ -216,13 +216,19 @@ async function runAdminCrudTests() {
 
   // 8. Super Admin Content & Backup/Restore
   const updateHomepageRes = await request('PUT', '/api/content/homepage', {
-    hero: { headlineWhite: 'ELITE FUEL' }
+    hero: { headlineWhite: 'FUEL YOUR', headingLine1: 'FUEL YOUR', headingLine2: 'POTENTIAL.', headingLine3: 'NOT THE NOISE.' }
   }, superAdminToken);
   assert.strictEqual(updateHomepageRes.status, 200, 'Homepage content update should succeed');
   console.log('  ✔ [PASS] Super Admin Homepage configuration UPDATE succeeded');
 
   const updateNavRes = await request('PUT', '/api/content/navigation', {
-    headerLinks: [{ label: 'Products', path: '/products', visible: true }]
+    headerLinks: [
+      { id: 'nav-1', label: 'Home', path: '/', visible: true },
+      { id: 'nav-2', label: 'Products', path: '/products', visible: true },
+      { id: 'nav-3', label: 'Categories', path: '/categories', visible: true },
+      { id: 'nav-4', label: 'About', path: '/about', visible: true },
+      { id: 'nav-5', label: 'Contact', path: '/contact', visible: true }
+    ]
   }, superAdminToken);
   assert.strictEqual(updateNavRes.status, 200, 'Navigation update should succeed');
   console.log('  ✔ [PASS] Super Admin Navigation UPDATE succeeded');

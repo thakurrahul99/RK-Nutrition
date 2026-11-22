@@ -29,16 +29,18 @@ export default function Navbar({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const defaultNavItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Products', path: '/products' },
+    { label: 'Categories', path: '/categories' },
+    { label: 'About', path: '/about' },
+    { label: 'Contact', path: '/contact' }
+  ];
   const configuredNav = content?.navigation?.headerLinks;
-  const navItems = Array.isArray(configuredNav) && configuredNav.length > 0
+  const visibleConfigured = Array.isArray(configuredNav)
     ? configuredNav.filter((item) => item.visible !== false)
-    : [
-        { label: 'Home', path: '/' },
-        { label: 'Products', path: '/products' },
-        { label: 'Categories', path: '/categories' },
-        { label: 'About', path: '/about' },
-        { label: 'Contact', path: '/contact' }
-      ];
+    : [];
+  const navItems = visibleConfigured.length >= 2 ? visibleConfigured : defaultNavItems;
 
   return (
     <header
