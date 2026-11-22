@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
-import { ChevronDown, HelpCircle, ArrowRight, Mail, Phone } from 'lucide-react';
+import { ChevronDown, HelpCircle, ArrowRight, Mail } from 'lucide-react';
 
 const DEFAULT_FAQ_ITEMS = [
   {
