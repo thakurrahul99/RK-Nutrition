@@ -10,7 +10,9 @@ import {
   Eye, 
   EyeOff, 
   Save, 
-  X
+  X,
+  Edit3,
+  Check
 } from 'lucide-react';
 
 export default function SuperAdminPagesPage() {
@@ -25,6 +27,9 @@ export default function SuperAdminPagesPage() {
   const [newQuestion, setNewQuestion] = useState('');
   const [newAnswer, setNewAnswer] = useState('');
   const [isAddingFaq, setIsAddingFaq] = useState(false);
+  const [editingFaqId, setEditingFaqId] = useState(null);
+  const [editQuestion, setEditQuestion] = useState('');
+  const [editAnswer, setEditAnswer] = useState('');
 
   // About Form
   const [aboutForm, setAboutForm] = useState({
@@ -110,6 +115,34 @@ export default function SuperAdminPagesPage() {
     setNewQuestion('');
     setNewAnswer('');
     setIsAddingFaq(false);
+  };
+
+  const handleStartEditFaq = (item) => {
+    setEditingFaqId(item.id);
+    setEditQuestion(item.question);
+    setEditAnswer(item.answer);
+  };
+
+  const handleSaveEditFaq = (e) => {
+    e.preventDefault();
+    if (!editQuestion.trim() || !editAnswer.trim()) return;
+
+    setFaqList(
+      faqList.map((f) =>
+        f.id === editingFaqId
+          ? { ...f, question: editQuestion.trim(), answer: editAnswer.trim() }
+          : f
+      )
+    );
+    setEditingFaqId(null);
+    setEditQuestion('');
+    setEditAnswer('');
+  };
+
+  const handleCancelEditFaq = () => {
+    setEditingFaqId(null);
+    setEditQuestion('');
+    setEditAnswer('');
   };
 
   // Save all pages content
@@ -270,61 +303,127 @@ export default function SuperAdminPagesPage() {
                 key={item.id}
                 className="p-4 bg-[#0F172A] border border-[#1E293B] space-y-2"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3">
-                    <span className="w-5 h-5 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center shrink-0 mt-0.5">
-                      {idx + 1}
-                    </span>
-                    <h3 className="font-heading text-sm uppercase font-bold text-[#F1F5F9]">
-                      {item.question}
-                    </h3>
-                  </div>
+                {editingFaqId === item.id ? (
+                  <form onSubmit={handleSaveEditFaq} className="space-y-3">
+                    <div className="flex items-center justify-between pb-1 border-b border-[#1E293B]">
+                      <span className="text-[10px] uppercase font-bold text-[#38BDF8]">
+                        Editing Question #{idx + 1}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCancelEditFaq}
+                        className="text-[#94A3B8] hover:text-[#F1F5F9]"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
 
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => handleToggleFaq(item.id)}
-                      className={`p-1.5 border transition-colors ${
-                        item.visible
-                          ? 'border-[#10B981]/40 text-[#10B981]'
-                          : 'border-[#64748B]/40 text-[#64748B]'
-                      }`}
-                      title={item.visible ? 'Visible on /faq' : 'Hidden from /faq'}
-                    >
-                      {item.visible ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
-                    </button>
-                    <button
-                      type="button"
-                      disabled={idx === 0}
-                      onClick={() => handleMoveFaq(idx, 'up')}
-                      className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
-                      title="Move Up"
-                    >
-                      <ArrowUp className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      disabled={idx === faqList.length - 1}
-                      onClick={() => handleMoveFaq(idx, 'down')}
-                      className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
-                      title="Move Down"
-                    >
-                      <ArrowDown className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteFaq(item.id)}
-                      className="p-1.5 text-[#F43F5E] hover:bg-[#1E293B]"
-                      title="Delete FAQ"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
+                    <div>
+                      <label className="block text-[10px] uppercase text-[#94A3B8] mb-1">Question</label>
+                      <input
+                        type="text"
+                        required
+                        value={editQuestion}
+                        onChange={(e) => setEditQuestion(e.target.value)}
+                        className="w-full bg-[#0A0E17] border border-[#1E293B] px-3 py-1.5 text-xs text-[#F1F5F9] focus:border-[#38BDF8] focus:outline-none"
+                      />
+                    </div>
 
-                <p className="text-xs text-[#94A3B8] font-body leading-relaxed pl-8">
-                  {item.answer}
-                </p>
+                    <div>
+                      <label className="block text-[10px] uppercase text-[#94A3B8] mb-1">Answer</label>
+                      <textarea
+                        rows={3}
+                        required
+                        value={editAnswer}
+                        onChange={(e) => setEditAnswer(e.target.value)}
+                        className="w-full bg-[#0A0E17] border border-[#1E293B] p-2 text-xs text-[#F1F5F9] focus:border-[#38BDF8] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={handleCancelEditFaq}
+                        className="px-2.5 py-1 bg-[#1E293B] text-[11px] text-[#94A3B8] hover:text-[#F1F5F9]"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-3 py-1 bg-[#38BDF8] text-[#0A0E17] text-[11px] uppercase font-bold flex items-center gap-1"
+                      >
+                        <Check className="w-3 h-3" />
+                        <span>Update FAQ</span>
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <span className="w-5 h-5 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center shrink-0 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <h3 className="font-heading text-sm uppercase font-bold text-[#F1F5F9]">
+                          {item.question}
+                        </h3>
+                      </div>
+
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => handleStartEditFaq(item)}
+                          className="p-1.5 bg-[#1E293B] hover:bg-[#38BDF8]/20 hover:text-[#38BDF8] text-[#94A3B8] transition-colors"
+                          title="Edit Question & Answer"
+                        >
+                          <Edit3 className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleFaq(item.id)}
+                          className={`p-1.5 border transition-colors ${
+                            item.visible
+                              ? 'border-[#10B981]/40 text-[#10B981]'
+                              : 'border-[#64748B]/40 text-[#64748B]'
+                          }`}
+                          title={item.visible ? 'Visible on /faq' : 'Hidden from /faq'}
+                        >
+                          {item.visible ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                        </button>
+                        <button
+                          type="button"
+                          disabled={idx === 0}
+                          onClick={() => handleMoveFaq(idx, 'up')}
+                          className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                          title="Move Up"
+                        >
+                          <ArrowUp className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          disabled={idx === faqList.length - 1}
+                          onClick={() => handleMoveFaq(idx, 'down')}
+                          className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                          title="Move Down"
+                        >
+                          <ArrowDown className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteFaq(item.id)}
+                          className="p-1.5 text-[#F43F5E] hover:bg-[#1E293B]"
+                          title="Delete FAQ"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-[#94A3B8] font-body leading-relaxed pl-8">
+                      {item.answer}
+                    </p>
+                  </>
+                )}
               </div>
             ))}
           </div>

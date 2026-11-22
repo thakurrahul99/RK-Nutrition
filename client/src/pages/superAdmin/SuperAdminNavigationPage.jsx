@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
-import { Compass, Save, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Trash2 } from 'lucide-react';
+import { Compass, Save, ArrowUp, ArrowDown, Eye, EyeOff, Plus, Trash2, Edit3, Check, X } from 'lucide-react';
 
 export default function SuperAdminNavigationPage() {
   const { content, updateNavigation, showToast } = useContent();
@@ -42,6 +42,54 @@ export default function SuperAdminNavigationPage() {
 
   const [newHeader, setNewHeader] = useState({ label: '', path: '' });
   const [newFooter, setNewFooter] = useState({ label: '', path: '' });
+
+  const [editingHeaderIdx, setEditingHeaderIdx] = useState(null);
+  const [editHeaderForm, setEditHeaderForm] = useState({ label: '', path: '' });
+
+  const [editingFooterIdx, setEditingFooterIdx] = useState(null);
+  const [editFooterForm, setEditFooterForm] = useState({ label: '', path: '' });
+
+  const handleStartEditHeader = (index) => {
+    setEditingHeaderIdx(index);
+    setEditHeaderForm({ label: headerLinks[index].label, path: headerLinks[index].path });
+  };
+
+  const handleSaveEditHeader = (index) => {
+    if (!editHeaderForm.label.trim() || !editHeaderForm.path.trim()) return;
+    const updated = [...headerLinks];
+    updated[index] = {
+      ...updated[index],
+      label: editHeaderForm.label.trim(),
+      path: editHeaderForm.path.trim()
+    };
+    setHeaderLinks(updated);
+    setEditingHeaderIdx(null);
+  };
+
+  const handleCancelEditHeader = () => {
+    setEditingHeaderIdx(null);
+  };
+
+  const handleStartEditFooter = (index) => {
+    setEditingFooterIdx(index);
+    setEditFooterForm({ label: footerLinks[index].label, path: footerLinks[index].path });
+  };
+
+  const handleSaveEditFooter = (index) => {
+    if (!editFooterForm.label.trim() || !editFooterForm.path.trim()) return;
+    const updated = [...footerLinks];
+    updated[index] = {
+      ...updated[index],
+      label: editFooterForm.label.trim(),
+      path: editFooterForm.path.trim()
+    };
+    setFooterLinks(updated);
+    setEditingFooterIdx(null);
+  };
+
+  const handleCancelEditFooter = () => {
+    setEditingFooterIdx(null);
+  };
 
   const handleToggleHeader = (index) => {
     const updated = [...headerLinks];
@@ -148,54 +196,107 @@ export default function SuperAdminNavigationPage() {
 
           <div className="space-y-2">
             {headerLinks.map((item, idx) => (
-              <div key={idx} className="p-3 bg-[#0F172A] border border-[#1E293B] flex items-center justify-between text-xs">
-                <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center">
-                    {idx + 1}
-                  </span>
-                  <div>
-                    <span className="font-bold text-[#F1F5F9] uppercase">{item.label}</span>
-                    <span className="text-[10px] text-[#64748B] block">Route: {item.path}</span>
+              <div key={idx} className="p-3 bg-[#0F172A] border border-[#1E293B] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                {editingHeaderIdx === idx ? (
+                  <div className="flex-1 flex flex-col sm:flex-row gap-2 items-center">
+                    <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center shrink-0">
+                      {idx + 1}
+                    </span>
+                    <input
+                      type="text"
+                      value={editHeaderForm.label}
+                      onChange={(e) => setEditHeaderForm({ ...editHeaderForm, label: e.target.value })}
+                      placeholder="Label"
+                      className="bg-[#0A0E17] border border-[#38BDF8]/60 px-2 py-1 text-xs text-[#F1F5F9] focus:outline-none flex-1 w-full sm:w-auto"
+                    />
+                    <input
+                      type="text"
+                      value={editHeaderForm.path}
+                      onChange={(e) => setEditHeaderForm({ ...editHeaderForm, path: e.target.value })}
+                      placeholder="Route / Path"
+                      className="bg-[#0A0E17] border border-[#38BDF8]/60 px-2 py-1 text-xs text-[#F1F5F9] focus:outline-none flex-1 w-full sm:w-auto"
+                    />
+                    <div className="flex items-center gap-1 self-end sm:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => handleSaveEditHeader(idx)}
+                        className="p-1.5 bg-[#38BDF8] text-[#0A0E17] hover:bg-[#0EA5E9] transition-colors"
+                        title="Save link changes"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCancelEditHeader}
+                        className="p-1.5 bg-[#1E293B] text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+                        title="Cancel"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3">
+                      <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+                      <div>
+                        <span className="font-bold text-[#F1F5F9] uppercase">{item.label}</span>
+                        <span className="text-[10px] text-[#64748B] block">Route: {item.path}</span>
+                      </div>
+                    </div>
 
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => handleToggleHeader(idx)}
-                    className={`p-1.5 border transition-colors ${
-                      item.visible !== false
-                        ? 'border-[#10B981]/40 text-[#10B981]'
-                        : 'border-[#64748B]/40 text-[#64748B]'
-                    }`}
-                  >
-                    {item.visible !== false ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
-                  </button>
-                  <button
-                    type="button"
-                    disabled={idx === 0}
-                    onClick={() => handleMoveHeader(idx, 'up')}
-                    className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
-                  >
-                    <ArrowUp className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={idx === headerLinks.length - 1}
-                    onClick={() => handleMoveHeader(idx, 'down')}
-                    className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
-                  >
-                    <ArrowDown className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteHeader(idx)}
-                    title="Delete link"
-                    className="p-1.5 bg-[#1E293B] hover:bg-[#EF4444]/20 hover:text-[#EF4444] text-[#94A3B8] transition-colors"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                    <div className="flex items-center gap-1 self-end sm:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => handleStartEditHeader(idx)}
+                        title="Edit link label and route"
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#38BDF8]/20 hover:text-[#38BDF8] text-[#94A3B8] transition-colors"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleToggleHeader(idx)}
+                        className={`p-1.5 border transition-colors ${
+                          item.visible !== false
+                            ? 'border-[#10B981]/40 text-[#10B981]'
+                            : 'border-[#64748B]/40 text-[#64748B]'
+                        }`}
+                        title={item.visible !== false ? 'Visible on navbar' : 'Hidden from navbar'}
+                      >
+                        {item.visible !== false ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={idx === 0}
+                        onClick={() => handleMoveHeader(idx, 'up')}
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                        title="Move Up"
+                      >
+                        <ArrowUp className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={idx === headerLinks.length - 1}
+                        onClick={() => handleMoveHeader(idx, 'down')}
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                        title="Move Down"
+                      >
+                        <ArrowDown className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteHeader(idx)}
+                        title="Delete link"
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#EF4444]/20 hover:text-[#EF4444] text-[#94A3B8] transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -235,43 +336,95 @@ export default function SuperAdminNavigationPage() {
 
           <div className="space-y-2">
             {footerLinks.map((item, idx) => (
-              <div key={idx} className="p-3 bg-[#0F172A] border border-[#1E293B] flex items-center justify-between text-xs">
-                <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center">
-                    {idx + 1}
-                  </span>
-                  <div>
-                    <span className="font-bold text-[#F1F5F9] uppercase">{item.label}</span>
-                    <span className="text-[10px] text-[#64748B] block">Route: {item.path}</span>
+              <div key={idx} className="p-3 bg-[#0F172A] border border-[#1E293B] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+                {editingFooterIdx === idx ? (
+                  <div className="flex-1 flex flex-col sm:flex-row gap-2 items-center">
+                    <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center shrink-0">
+                      {idx + 1}
+                    </span>
+                    <input
+                      type="text"
+                      value={editFooterForm.label}
+                      onChange={(e) => setEditFooterForm({ ...editFooterForm, label: e.target.value })}
+                      placeholder="Label"
+                      className="bg-[#0A0E17] border border-[#38BDF8]/60 px-2 py-1 text-xs text-[#F1F5F9] focus:outline-none flex-1 w-full sm:w-auto"
+                    />
+                    <input
+                      type="text"
+                      value={editFooterForm.path}
+                      onChange={(e) => setEditFooterForm({ ...editFooterForm, path: e.target.value })}
+                      placeholder="Route / Path"
+                      className="bg-[#0A0E17] border border-[#38BDF8]/60 px-2 py-1 text-xs text-[#F1F5F9] focus:outline-none flex-1 w-full sm:w-auto"
+                    />
+                    <div className="flex items-center gap-1 self-end sm:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => handleSaveEditFooter(idx)}
+                        className="p-1.5 bg-[#38BDF8] text-[#0A0E17] hover:bg-[#0EA5E9] transition-colors"
+                        title="Save link changes"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCancelEditFooter}
+                        className="p-1.5 bg-[#1E293B] text-[#94A3B8] hover:text-[#F1F5F9] transition-colors"
+                        title="Cancel"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3">
+                      <span className="w-6 h-6 rounded bg-[#1E293B] text-[10px] font-bold text-[#38BDF8] flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+                      <div>
+                        <span className="font-bold text-[#F1F5F9] uppercase">{item.label}</span>
+                        <span className="text-[10px] text-[#64748B] block">Route: {item.path}</span>
+                      </div>
+                    </div>
 
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    disabled={idx === 0}
-                    onClick={() => handleMoveFooter(idx, 'up')}
-                    className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
-                  >
-                    <ArrowUp className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    disabled={idx === footerLinks.length - 1}
-                    onClick={() => handleMoveFooter(idx, 'down')}
-                    className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
-                  >
-                    <ArrowDown className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteFooter(idx)}
-                    title="Delete footer link"
-                    className="p-1.5 bg-[#1E293B] hover:bg-[#EF4444]/20 hover:text-[#EF4444] text-[#94A3B8] transition-colors"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                    <div className="flex items-center gap-1 self-end sm:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => handleStartEditFooter(idx)}
+                        title="Edit footer link"
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#38BDF8]/20 hover:text-[#38BDF8] text-[#94A3B8] transition-colors"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={idx === 0}
+                        onClick={() => handleMoveFooter(idx, 'up')}
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                        title="Move Up"
+                      >
+                        <ArrowUp className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={idx === footerLinks.length - 1}
+                        onClick={() => handleMoveFooter(idx, 'down')}
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#334155] disabled:opacity-30 text-[#F1F5F9]"
+                        title="Move Down"
+                      >
+                        <ArrowDown className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteFooter(idx)}
+                        title="Delete footer link"
+                        className="p-1.5 bg-[#1E293B] hover:bg-[#EF4444]/20 hover:text-[#EF4444] text-[#94A3B8] transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
