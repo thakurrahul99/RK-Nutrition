@@ -26,23 +26,23 @@ export function HeroProductFallback({ className = '' }) {
       />
 
       {/* Supplement Container 2D Rendering */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-[125px] sm:max-w-[220px]">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-[125px] sm:max-w-[220px] max-h-full">
         
         {/* Screw-on Ribbed Lid with Knurled Texture */}
-        <div className="w-[74%] h-5 sm:h-9 bg-gradient-to-r from-[#141414] via-[#2A2A2A] to-[#121212] rounded-t-sm border-t border-x border-[#383838] shadow-md flex items-center justify-around px-1 sm:px-2 overflow-hidden">
+        <div className="w-[74%] h-3.5 min-[360px]:h-4 sm:h-9 bg-gradient-to-r from-[#141414] via-[#2A2A2A] to-[#121212] rounded-t-sm border-t border-x border-[#383838] shadow-md flex items-center justify-around px-1 sm:px-2 overflow-hidden shrink-0">
           {Array.from({ length: 16 }).map((_, i) => (
             <div key={i} className="w-[1px] sm:w-[1.5px] h-full bg-[#404040]/90 shadow-[0_0_1px_rgba(255,255,255,0.15)]" />
           ))}
         </div>
 
         {/* Signature Anodized Red Accent Ring */}
-        <div className="w-[78%] h-1 sm:h-2.5 bg-gradient-to-r from-[#B01726] via-[#FF1732] to-[#8E101D] shadow-md shadow-[#D51F32]/50" />
+        <div className="w-[78%] h-0.5 min-[360px]:h-1 sm:h-2.5 bg-gradient-to-r from-[#B01726] via-[#FF1732] to-[#8E101D] shadow-md shadow-[#D51F32]/50 shrink-0" />
 
         {/* Jar Shoulder Curve */}
-        <div className="w-[90%] h-3 sm:h-7 bg-gradient-to-r from-[#121212] via-[#222222] to-[#0E0E0E] border-x border-[#2A2A2A] [clip-path:polygon(7%_0%,93%_0%,100%_100%,0%_100%)]" />
+        <div className="w-[90%] h-2 min-[360px]:h-2.5 sm:h-7 bg-gradient-to-r from-[#121212] via-[#222222] to-[#0E0E0E] border-x border-[#2A2A2A] [clip-path:polygon(7%_0%,93%_0%,100%_100%,0%_100%)] shrink-0" />
 
         {/* Main Matte Black Container Body */}
-        <div className="w-full h-40 min-[360px]:h-44 sm:h-80 bg-gradient-to-r from-[#0D0D0D] via-[#1A1A1A] to-[#0A0A0A] border-x border-b border-[#2A2A2A] rounded-b-md shadow-2xl flex flex-col items-center justify-between p-2 sm:p-5 relative overflow-hidden">
+        <div className="w-full h-24 min-[360px]:h-28 min-[375px]:h-32 sm:h-80 bg-gradient-to-r from-[#0D0D0D] via-[#1A1A1A] to-[#0A0A0A] border-x border-b border-[#2A2A2A] rounded-b-md shadow-2xl flex flex-col items-center justify-between p-1.5 sm:p-5 relative overflow-hidden">
           
           {/* Subtle Cylinder Highlight */}
           <div className="absolute top-0 left-2.5 sm:left-7 w-2 sm:w-3.5 h-full bg-gradient-to-r from-white/[0.10] to-transparent pointer-events-none" />
