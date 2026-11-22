@@ -520,6 +520,27 @@ export const getDb = () => {
       if (!dbCache.categories) dbCache.categories = getDefaultCategories();
       if (!dbCache.reviews) dbCache.reviews = [];
       if (!dbCache.newsletters) dbCache.newsletters = [];
+
+      // Sync admin users with environment credentials if defined
+      if (process.env.SUPER_ADMIN_EMAIL && Array.isArray(dbCache.users)) {
+        const superAdmin = dbCache.users.find((u) => u.role === 'SUPER_ADMIN' || u.id === 'user-super-admin');
+        if (superAdmin) {
+          superAdmin.email = process.env.SUPER_ADMIN_EMAIL.toLowerCase();
+          if (process.env.SUPER_ADMIN_PASSWORD) {
+            superAdmin.passwordHash = bcrypt.hashSync(process.env.SUPER_ADMIN_PASSWORD, 10);
+          }
+        }
+      }
+      if (process.env.CLIENT_ADMIN_EMAIL && Array.isArray(dbCache.users)) {
+        const clientAdmin = dbCache.users.find((u) => u.role === 'CLIENT_ADMIN' || u.id === 'user-client-admin');
+        if (clientAdmin) {
+          clientAdmin.email = process.env.CLIENT_ADMIN_EMAIL.toLowerCase();
+          if (process.env.CLIENT_ADMIN_PASSWORD) {
+            clientAdmin.passwordHash = bcrypt.hashSync(process.env.CLIENT_ADMIN_PASSWORD, 10);
+          }
+        }
+      }
+
       return dbCache;
     } catch (e) {
       console.error('[DB] Error reading cache file, re-seeding:', e);

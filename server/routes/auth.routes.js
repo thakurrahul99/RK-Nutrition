@@ -308,9 +308,14 @@ router.post('/reset-password', authRateLimiter, async (req, res) => {
 
 // GET /api/auth/me
 router.get('/me', authenticateToken, (req, res) => {
+  const db = getDb();
+  const user = (db.users || []).find((u) => u.id === req.user.id);
   res.json({
     success: true,
-    user: req.user
+    user: {
+      ...req.user,
+      addresses: user?.addresses || req.user.addresses || []
+    }
   });
 });
 
@@ -422,7 +427,7 @@ router.get('/addresses', authenticateToken, (req, res) => {
 });
 
 // POST /api/auth/addresses (Add Address)
-router.post('/addresses', authenticateToken, (req, res) => {
+router.post('/addresses', authenticateToken, async (req, res) => {
   const { fullName, phone, addressLine1, addressLine2, city, state, postalCode, country, isDefault } = req.body;
 
   if (!fullName || !phone || !addressLine1 || !city || !postalCode) {
@@ -455,6 +460,10 @@ router.post('/addresses', authenticateToken, (req, res) => {
   user.addresses.push(newAddress);
   saveDb(db);
 
+  if (mongoose.connection.readyState === 1) {
+    await User.findOneAndUpdate({ id: req.user.id }, { addresses: user.addresses }).catch(() => {});
+  }
+
   res.status(201).json({
     success: true,
     address: newAddress,
@@ -463,7 +472,7 @@ router.post('/addresses', authenticateToken, (req, res) => {
 });
 
 // PUT /api/auth/addresses/:id (Update Address)
-router.put('/addresses/:id', authenticateToken, (req, res) => {
+router.put('/addresses/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const db = getDb();
   const user = (db.users || []).find((u) => u.id === req.user.id);
@@ -486,6 +495,11 @@ router.put('/addresses/:id', authenticateToken, (req, res) => {
   };
 
   saveDb(db);
+
+  if (mongoose.connection.readyState === 1) {
+    await User.findOneAndUpdate({ id: req.user.id }, { addresses: user.addresses }).catch(() => {});
+  }
+
   res.json({
     success: true,
     address: user.addresses[addrIdx],
@@ -494,7 +508,7 @@ router.put('/addresses/:id', authenticateToken, (req, res) => {
 });
 
 // DELETE /api/auth/addresses/:id (Remove Address)
-router.delete('/addresses/:id', authenticateToken, (req, res) => {
+router.delete('/addresses/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const db = getDb();
   const user = (db.users || []).find((u) => u.id === req.user.id);
@@ -502,6 +516,10 @@ router.delete('/addresses/:id', authenticateToken, (req, res) => {
 
   user.addresses = (user.addresses || []).filter((a) => a.id !== id);
   saveDb(db);
+
+  if (mongoose.connection.readyState === 1) {
+    await User.findOneAndUpdate({ id: req.user.id }, { addresses: user.addresses }).catch(() => {});
+  }
 
   res.json({
     success: true,

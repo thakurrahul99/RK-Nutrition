@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { X, Search, ShoppingBag, Heart, ArrowRight } from 'lucide-react';
+import { NavLink, Link } from 'react-router-dom';
+import { X, Search, ShoppingBag, Heart, ArrowRight, User, Package, LogOut } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function MobileMenu({
   isOpen,
@@ -14,6 +15,7 @@ export default function MobileMenu({
   const { content } = useContent();
   const { openCart, itemCount } = useCart();
   const { openWishlist, wishlistCount } = useWishlist();
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     if (isOpen) {
@@ -108,6 +110,75 @@ export default function MobileMenu({
               </NavLink>
             ))}
           </nav>
+
+          {/* Customer Account Section in Mobile Menu */}
+          <div className="mt-6 pt-4 border-t border-[#262626]">
+            {isAuthenticated && user ? (
+              <div className="bg-[#161616] border border-[#2E2E2E] p-3 space-y-2.5">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-[#222222] border border-[#C8202B] flex items-center justify-center font-heading font-black text-sm text-[#F5F4F2]">
+                    {user.avatarInitials || 'RK'}
+                  </div>
+                  <div className="overflow-hidden">
+                    <p className="font-heading text-sm text-[#F5F4F2] font-bold uppercase truncate">
+                      {user.name}
+                    </p>
+                    <p className="text-[10px] font-mono text-[#8C8C8C] truncate">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-[#222222]">
+                  <Link
+                    to="/account"
+                    onClick={onClose}
+                    className="py-1.5 px-2 bg-[#202020] hover:bg-[#282828] text-center text-xs font-mono uppercase text-[#F5F4F2] flex items-center justify-center gap-1.5"
+                  >
+                    <User className="w-3.5 h-3.5 text-[#C8202B]" />
+                    <span>Profile</span>
+                  </Link>
+                  <Link
+                    to="/account?tab=orders"
+                    onClick={onClose}
+                    className="py-1.5 px-2 bg-[#202020] hover:bg-[#282828] text-center text-xs font-mono uppercase text-[#F5F4F2] flex items-center justify-center gap-1.5"
+                  >
+                    <Package className="w-3.5 h-3.5 text-[#C8202B]" />
+                    <span>Orders</span>
+                  </Link>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    onClose();
+                  }}
+                  className="w-full py-1 text-center text-xs font-mono uppercase text-red-400 hover:text-red-300 flex items-center justify-center gap-1.5"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  to="/login"
+                  onClick={onClose}
+                  className="py-2.5 bg-[#C8202B] hover:bg-[#D51F32] text-white font-heading font-bold text-center text-xs uppercase tracking-wider transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={onClose}
+                  className="py-2.5 bg-[#1A1A1A] hover:bg-[#222222] border border-[#2E2E2E] text-[#F5F4F2] font-heading font-bold text-center text-xs uppercase tracking-wider transition-colors"
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Footer Quick Actions: Wishlist & Cart */}

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { Search, User, ShoppingBag, Menu, X, Heart } from 'lucide-react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Search, User, ShoppingBag, Menu, X, Heart, LogOut, Package, MapPin, Shield } from 'lucide-react';
 import { brandConfig } from '../config/brandConfig';
 import { useContent } from '../context/ContentContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function Navbar({
   onOpenSearch,
@@ -17,6 +18,8 @@ export default function Navbar({
   const { content } = useContent();
   const { openCart, itemCount } = useCart();
   const { openWishlist, wishlistCount } = useWishlist();
+  const { user, isAuthenticated, logout, isClientAdmin, isSuperAdmin } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,30 +130,103 @@ export default function Navbar({
               )}
             </button>
 
-            {/* Account icon is desktop-only; its hover portal dropdown is not mobile-friendly */}
+            {/* Account Icon & Portal Dropdown */}
             <div className="relative group hidden sm:block">
-              <button
-                type="button"
-                aria-label="Account portals and customer desk"
-                className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
-              >
-                <User className="w-5 h-5" />
-              </button>
-              <div className="absolute right-0 top-full mt-2 hidden group-hover:block z-50 bg-[#161616] border border-[#2E2E2E] p-3 text-xs text-[#8C8C8C] whitespace-nowrap shadow-2xl font-mono space-y-2">
-                <span className="text-[#F5F4F2] font-bold block uppercase font-heading text-sm border-b border-[#262626] pb-1.5">
-                  RK Account Access
-                </span>
-                <div className="flex flex-col gap-1.5 text-xs">
-                  <Link to="/admin" className="hover:text-[#C8202B] transition-colors py-1">
-                    Store Manager Console →
-                  </Link>
-                  <Link to="/super-admin" className="hover:text-[#C8202B] transition-colors py-1">
-                    Developer CMS Console →
-                  </Link>
-                  <Link to="/contact" className="hover:text-[#C8202B] transition-colors py-1 text-[#666666]">
-                    Customer Help Desk
-                  </Link>
-                </div>
+              {isAuthenticated && user ? (
+                <button
+                  type="button"
+                  onClick={() => navigate('/account')}
+                  aria-label="Athlete Account"
+                  className="flex items-center gap-2 p-1.5 hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+                >
+                  <div className="w-8 h-8 rounded-none bg-[#1A1A1A] border border-[#C8202B] flex items-center justify-center font-heading font-black text-xs text-[#F5F4F2] shadow-sm">
+                    {user.avatarInitials || 'RK'}
+                  </div>
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  aria-label="Customer Sign In"
+                  className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer inline-flex items-center justify-center"
+                >
+                  <User className="w-5 h-5" />
+                </Link>
+              )}
+
+              {/* Dropdown Menu */}
+              <div className="absolute right-0 top-full mt-1.5 hidden group-hover:block z-50 bg-[#161616] border border-[#2E2E2E] p-3 text-xs text-[#8C8C8C] whitespace-nowrap shadow-2xl font-mono space-y-2 min-w-[200px]">
+                {isAuthenticated && user ? (
+                  <>
+                    <div className="border-b border-[#262626] pb-2">
+                      <span className="text-[#F5F4F2] font-bold block uppercase font-heading text-sm truncate max-w-[180px]">
+                        {user.name}
+                      </span>
+                      <span className="text-[10px] text-[#C8202B] uppercase tracking-wider block font-semibold">
+                        {user.role === 'SUPER_ADMIN' ? 'Super Admin' : user.role === 'CLIENT_ADMIN' ? 'Store Manager' : 'Athlete Account'}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col gap-1 text-xs">
+                      <Link to="/account" className="hover:text-[#F5F4F2] hover:bg-[#1F1F1F] px-2 py-1.5 transition-colors flex items-center gap-2">
+                        <User className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <span>My Account</span>
+                      </Link>
+                      <Link to="/account?tab=orders" className="hover:text-[#F5F4F2] hover:bg-[#1F1F1F] px-2 py-1.5 transition-colors flex items-center gap-2">
+                        <Package className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <span>My Orders</span>
+                      </Link>
+                      <Link to="/account?tab=addresses" className="hover:text-[#F5F4F2] hover:bg-[#1F1F1F] px-2 py-1.5 transition-colors flex items-center gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <span>Saved Addresses</span>
+                      </Link>
+
+                      {(isClientAdmin || isSuperAdmin) && (
+                        <div className="pt-1 border-t border-[#262626] mt-1">
+                          <Link to="/admin" className="text-yellow-400/90 hover:text-yellow-300 px-2 py-1.5 flex items-center gap-2 transition-colors">
+                            <Shield className="w-3.5 h-3.5" />
+                            <span>Store Management →</span>
+                          </Link>
+                        </div>
+                      )}
+
+                      <div className="pt-1 border-t border-[#262626] mt-1">
+                        <button
+                          type="button"
+                          onClick={logout}
+                          className="w-full text-left text-red-400 hover:text-red-300 px-2 py-1.5 flex items-center gap-2 transition-colors cursor-pointer"
+                        >
+                          <LogOut className="w-3.5 h-3.5" />
+                          <span>Sign Out</span>
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-[#F5F4F2] font-bold block uppercase font-heading text-sm border-b border-[#262626] pb-1.5">
+                      Customer Access
+                    </span>
+                    <div className="flex flex-col gap-1.5 text-xs">
+                      <Link
+                        to="/login"
+                        className="w-full py-1.5 px-3 bg-[#C8202B] hover:bg-[#D51F32] text-white font-bold text-center uppercase tracking-wider transition-colors"
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        to="/register"
+                        className="w-full py-1.5 px-3 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] text-[#F5F4F2] text-center uppercase tracking-wider transition-colors"
+                      >
+                        Create Account
+                      </Link>
+                      <div className="pt-2 border-t border-[#262626] mt-1 flex flex-col gap-1 text-[11px]">
+                        <Link to="/admin/login" className="hover:text-[#C8202B] transition-colors py-0.5 text-[#666666]">
+                          Store Manager Login →
+                        </Link>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 

@@ -5,6 +5,9 @@ const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const MAX_ATTEMPTS = 15;
 
 export const authRateLimiter = (req, res, next) => {
+  if (process.env.NODE_ENV === 'test') {
+    return next();
+  }
   const ip = req.ip || req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown-ip';
   const now = Date.now();
 

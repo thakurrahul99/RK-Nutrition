@@ -139,6 +139,51 @@ export function AuthProvider({ children }) {
     return { success: false, error: res.error || 'Failed to update password.' };
   };
 
+  const refreshUser = async () => {
+    const res = await apiRequest('/auth/me');
+    if (res.success && res.user) {
+      setUser(res.user);
+      localStorage.setItem('rk_auth_user', JSON.stringify(res.user));
+      return { success: true, user: res.user };
+    }
+    return { success: false };
+  };
+
+  const addAddress = async (addressData) => {
+    const res = await apiRequest('/auth/addresses', {
+      method: 'POST',
+      body: JSON.stringify(addressData)
+    });
+    if (res.success) {
+      await refreshUser();
+      return { success: true, addresses: res.addresses, address: res.address };
+    }
+    return { success: false, error: res.error || 'Failed to add address.' };
+  };
+
+  const updateAddress = async (id, addressData) => {
+    const res = await apiRequest(`/auth/addresses/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(addressData)
+    });
+    if (res.success) {
+      await refreshUser();
+      return { success: true, addresses: res.addresses, address: res.address };
+    }
+    return { success: false, error: res.error || 'Failed to update address.' };
+  };
+
+  const deleteAddress = async (id) => {
+    const res = await apiRequest(`/auth/addresses/${id}`, {
+      method: 'DELETE'
+    });
+    if (res.success) {
+      await refreshUser();
+      return { success: true, addresses: res.addresses };
+    }
+    return { success: false, error: res.error || 'Failed to delete address.' };
+  };
+
   const isAuthenticated = Boolean(user && token);
   const isSuperAdmin = user?.role === 'SUPER_ADMIN';
   const isClientAdmin = user?.role === 'CLIENT_ADMIN' || user?.role === 'SUPER_ADMIN';
@@ -160,6 +205,10 @@ export function AuthProvider({ children }) {
         logout,
         updateProfile,
         changePassword,
+        refreshUser,
+        addAddress,
+        updateAddress,
+        deleteAddress,
         recentActivity,
         logActivity
       }}
@@ -177,13 +226,19 @@ export function useAuth() {
       adminUser: null,
       token: null,
       isAuthenticated: false,
+      isCustomer: false,
       isClientAdmin: false,
       isSuperAdmin: false,
       isLoading: false,
       login: async () => ({ success: false }),
+      register: async () => ({ success: false }),
       logout: () => {},
       updateProfile: async () => ({ success: false }),
       changePassword: async () => ({ success: false }),
+      refreshUser: async () => ({ success: false }),
+      addAddress: async () => ({ success: false }),
+      updateAddress: async () => ({ success: false }),
+      deleteAddress: async () => ({ success: false }),
       recentActivity: [],
       logActivity: () => {}
     };

@@ -28,7 +28,9 @@ const attachUser = (req, user) => {
     name: user.name,
     email: user.email,
     role: user.role,
-    avatarInitials: user.avatarInitials
+    phone: user.phone || '',
+    avatarInitials: user.avatarInitials || 'RK',
+    addresses: user.addresses || []
   };
 };
 

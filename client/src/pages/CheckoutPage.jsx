@@ -12,9 +12,13 @@ import {
   AlertCircle, 
   CheckCircle2, 
   ShoppingBag,
-  Info
+  Info,
+  User as UserIcon,
+  Plus
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
+import { apiRequest } from '../services/api';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -33,6 +37,8 @@ export default function CheckoutPage() {
     validateCartPayments
   } = useCart();
 
+  const { user, isAuthenticated, addAddress } = useAuth();
+
   // Form Fields
   const [formData, setFormData] = useState({
     name: '',
@@ -45,6 +51,8 @@ export default function CheckoutPage() {
     notes: ''
   });
 
+  const [selectedAddressId, setSelectedAddressId] = useState('custom');
+  const [saveAddressToAccount, setSaveAddressToAccount] = useState(false);
   const [errors, setErrors] = useState({});
   const [couponCodeInput, setCouponCodeInput] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
@@ -61,6 +69,60 @@ export default function CheckoutPage() {
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+
+  // Auto-fill user contact info & saved address if available
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || '',
+        email: prev.email || user.email || '',
+        phone: prev.phone || user.phone || ''
+      }));
+
+      // If user has saved addresses and none selected yet, pick default
+      if (Array.isArray(user.addresses) && user.addresses.length > 0 && selectedAddressId === 'custom') {
+        const defaultAddr = user.addresses.find((a) => a.isDefault) || user.addresses[0];
+        if (defaultAddr) {
+          setSelectedAddressId(defaultAddr.id);
+          setFormData((prev) => ({
+            ...prev,
+            name: defaultAddr.fullName || prev.name || user.name || '',
+            phone: defaultAddr.phone || prev.phone || user.phone || '',
+            address: defaultAddr.addressLine1 + (defaultAddr.addressLine2 ? ', ' + defaultAddr.addressLine2 : ''),
+            city: defaultAddr.city || '',
+            state: defaultAddr.state || '',
+            pincode: defaultAddr.postalCode || ''
+          }));
+        }
+      }
+    }
+  }, [user, selectedAddressId]);
+
+  const handleSelectAddress = (addr) => {
+    if (addr === 'custom') {
+      setSelectedAddressId('custom');
+      setFormData((prev) => ({
+        ...prev,
+        address: '',
+        city: '',
+        state: '',
+        pincode: ''
+      }));
+    } else {
+      setSelectedAddressId(addr.id);
+      setFormData((prev) => ({
+        ...prev,
+        name: addr.fullName || prev.name,
+        phone: addr.phone || prev.phone,
+        address: addr.addressLine1 + (addr.addressLine2 ? ', ' + addr.addressLine2 : ''),
+        city: addr.city,
+        state: addr.state,
+        pincode: addr.postalCode
+      }));
+      setErrors({});
+    }
+  };
 
   // Validate mixed-cart payment capabilities
   useEffect(() => {
@@ -187,16 +249,31 @@ export default function CheckoutPage() {
         couponCode: appliedCoupon?.code || null
       };
 
-      const res = await fetch('/api/orders', {
+      const data = await apiRequest('/orders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
+      if (!data.success || !data.order) {
         throw new Error(data.error || 'Failed to place order.');
+      }
+
+      // If requested, save this address to customer account
+      if (isAuthenticated && saveAddressToAccount && selectedAddressId === 'custom') {
+        try {
+          await addAddress({
+            fullName: formData.name.trim(),
+            phone: formData.phone.trim(),
+            addressLine1: formData.address.trim(),
+            city: formData.city.trim(),
+            state: formData.state.trim(),
+            postalCode: formData.pincode.trim(),
+            country: 'India',
+            isDefault: (user?.addresses || []).length === 0
+          });
+        } catch (e) {
+          console.warn('Failed to save address after order:', e);
+        }
       }
 
       // Clear cart on successful placement
@@ -280,6 +357,24 @@ export default function CheckoutPage() {
             </div>
           )}
 
+          {/* Guest Sign-In Banner */}
+          {!isAuthenticated && (
+            <div className="p-4 bg-[#181818] border border-[#2E2E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-body shadow-sm">
+              <div className="flex items-center gap-2.5 text-[#F5F4F2]">
+                <UserIcon className="w-4 h-4 text-[#C8202B] shrink-0" />
+                <span>
+                  Already an RK Nutrition athlete? <strong className="text-white">Sign in</strong> for express checkout with saved delivery addresses.
+                </span>
+              </div>
+              <Link
+                to="/login?redirect=/checkout"
+                className="px-3.5 py-1.5 bg-[#C8202B] hover:bg-[#D51F32] text-white text-xs font-mono uppercase tracking-wider font-bold whitespace-nowrap text-center transition-colors"
+              >
+                Sign In →
+              </Link>
+            </div>
+          )}
+
           {/* Form */}
           <form id="checkout-form" onSubmit={handleSubmitOrder} className="space-y-6">
             
@@ -355,6 +450,58 @@ export default function CheckoutPage() {
                   Shipping Address
                 </h2>
               </div>
+
+              {/* Saved Address Book Selection if authenticated & has addresses */}
+              {isAuthenticated && Array.isArray(user?.addresses) && user.addresses.length > 0 && (
+                <div className="space-y-3 pb-3 border-b border-[#222222]">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#A3A3A3] block">
+                    Choose Delivery Address:
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {user.addresses.map((addr) => (
+                      <div
+                        key={addr.id}
+                        onClick={() => handleSelectAddress(addr)}
+                        className={`p-3.5 border cursor-pointer transition-all text-xs font-body ${
+                          selectedAddressId === addr.id
+                            ? 'border-[#C8202B] bg-[#1C1415] text-[#F5F4F2]'
+                            : 'border-[#2E2E2E] bg-[#181818] text-[#8C8C8C] hover:border-[#444444]'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between pb-1">
+                          <span className="font-heading uppercase font-bold text-sm text-[#F5F4F2]">
+                            {addr.fullName}
+                          </span>
+                          {addr.isDefault && (
+                            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#C8202B] text-white font-bold">
+                              DEFAULT
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] truncate">{addr.addressLine1}</p>
+                        <p className="text-[11px] truncate">
+                          {addr.city}, {addr.state} - {addr.postalCode}
+                        </p>
+                        <p className="text-[10px] font-mono text-[#777777] pt-1">
+                          Ph: +91 {addr.phone}
+                        </p>
+                      </div>
+                    ))}
+
+                    <div
+                      onClick={() => handleSelectAddress('custom')}
+                      className={`p-3.5 border border-dashed cursor-pointer transition-all text-xs font-body flex items-center justify-center gap-2 ${
+                        selectedAddressId === 'custom'
+                          ? 'border-[#C8202B] bg-[#1C1415] text-[#F5F4F2]'
+                          : 'border-[#2E2E2E] bg-[#181818] text-[#8C8C8C] hover:border-[#444444]'
+                      }`}
+                    >
+                      <Plus className="w-4 h-4 text-[#C8202B]" />
+                      <span className="font-mono uppercase text-xs">Different Delivery Address</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-4">
                 {/* Street Address */}
@@ -438,6 +585,21 @@ export default function CheckoutPage() {
                     className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] text-xs text-[#F5F4F2] px-3.5 py-2 focus:outline-none"
                   />
                 </div>
+
+                {/* Save Address to Account Checkbox */}
+                {isAuthenticated && selectedAddressId === 'custom' && (
+                  <div className="pt-2">
+                    <label className="flex items-center gap-2 cursor-pointer text-xs text-[#8C8C8C] select-none font-body">
+                      <input
+                        type="checkbox"
+                        checked={saveAddressToAccount}
+                        onChange={(e) => setSaveAddressToAccount(e.target.checked)}
+                        className="w-4 h-4 bg-[#111111] border border-[#2E2E2E] rounded accent-[#C8202B] cursor-pointer"
+                      />
+                      <span>Save this shipping address to my account for future orders</span>
+                    </label>
+                  </div>
+                )}
               </div>
             </div>
 

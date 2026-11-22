@@ -24,6 +24,13 @@ import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import NotFoundPage from './pages/NotFoundPage';
 import DocumentMeta from './components/common/DocumentMeta';
 
+// Customer Authentication & Account Pages
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import AccountPage from './pages/AccountPage';
+
 // Admin Architecture - Client Admin
 import { AuthProvider } from './context/AuthContext';
 import { ContentProvider, useContent } from './context/ContentContext';
@@ -168,6 +175,13 @@ export default function App() {
                       <Route path="/shipping-policy" element={<ShippingPolicyPage />} />
                       <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                       <Route path="/terms-of-service" element={<TermsPage />} />
+
+                      {/* Customer Authentication & Dashboard */}
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/register" element={<RegisterPage />} />
+                      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                      <Route path="/reset-password" element={<ResetPasswordPage />} />
+                      <Route path="/account" element={<AccountPage />} />
                     </Route>
 
                     {/* Client Admin Authentication (Standalone) */}

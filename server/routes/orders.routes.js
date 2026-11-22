@@ -69,15 +69,29 @@ router.get('/', authenticateToken, requireClientAdmin, async (req, res) => {
 router.get('/my-orders', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    const userEmail = req.user.email.toLowerCase();
-    const db = getDb();
+    const userEmail = (req.user.email || '').toLowerCase();
+    let orders = [];
 
-    const orders = (db.orders || []).filter(
-      (o) => o.userId === userId || o.customer?.email?.toLowerCase() === userEmail
-    );
+    if (mongoose.connection.readyState === 1) {
+      try {
+        orders = await Order.find({
+          $or: [
+            { userId: userId },
+            { 'customer.email': userEmail }
+          ]
+        }).sort({ createdAt: -1 }).lean();
+      } catch (e) {
+        console.warn('MongoDB my-orders query error:', e.message);
+      }
+    }
 
-    // Sort newest first
-    orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (!orders || orders.length === 0) {
+      const db = getDb();
+      orders = (db.orders || []).filter(
+        (o) => o.userId === userId || o.customer?.email?.toLowerCase() === userEmail
+      );
+      orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
 
     res.json({
       success: true,
