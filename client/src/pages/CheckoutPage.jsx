@@ -282,7 +282,7 @@ export default function CheckoutPage() {
       clearCart();
 
       // Redirect to confirmation page
-      navigate(`/order-confirmation/${data.order.id}`);
+      navigate(`/order-confirmation/${data.order.id}`, { state: { order: data.order } });
     } catch (err) {
       setSubmitError(err.message || 'An unexpected error occurred while placing your order.');
       setSubmitting(false);
