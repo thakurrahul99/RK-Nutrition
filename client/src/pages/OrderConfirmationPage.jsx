@@ -296,7 +296,7 @@ export default function OrderConfirmationPage() {
           </p>
         </div>
         <a
-          href={`https://wa.me/917452013333?text=${encodeURIComponent(`Hi RK Nutrition, I have a question regarding my Order #${order.id}.`)}`}
+          href={`https://wa.me/918630663134?text=${encodeURIComponent(`Hi RK Nutrition, I have a question regarding my Order #${order.id}.`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="px-4 py-2.5 bg-[#25D366] hover:bg-[#20BD5A] text-white text-xs font-heading uppercase tracking-wider font-bold transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-[#25D366]/20"

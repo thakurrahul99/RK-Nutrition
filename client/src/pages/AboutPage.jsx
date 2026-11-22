@@ -341,12 +341,12 @@ export default function AboutPage() {
                 Official correspondence, batch verification, and institutional collaborations.
               </p>
               <a
-                href="https://wa.me/917452013333"
+                href="https://wa.me/918630663134"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-[#25D366] hover:underline pt-1 font-bold"
               >
-                <span>Chat on WhatsApp (7452013333) →</span>
+                <span>Chat on WhatsApp (8630663134) →</span>
               </a>
             </div>
           </div>

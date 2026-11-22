@@ -661,12 +661,12 @@ export default function AccountPage() {
                 <div className="p-3 bg-[#1A1A1A] border border-[#2E2E2E] space-y-1">
                   <span className="text-[#8C8C8C] block uppercase text-[10px]">WhatsApp Fast Desk</span>
                   <a 
-                    href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20need%20assistance%20with%20my%20account%20or%20orders." 
+                    href="https://wa.me/918630663134?text=Hi%20RK%20Nutrition%2C%20I%20need%20assistance%20with%20my%20account%20or%20orders." 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-[#25D366] hover:underline font-bold block text-sm pt-0.5"
                   >
-                    Chat on WhatsApp (7452013333)
+                    Chat on WhatsApp (8630663134)
                   </a>
                 </div>
 

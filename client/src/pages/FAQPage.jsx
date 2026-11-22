@@ -159,7 +159,7 @@ export default function FAQPage() {
           </div>
           <div className="flex items-center gap-3 flex-wrap">
             <a
-              href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20have%20a%20question%20about%20your%20products."
+              href="https://wa.me/918630663134?text=Hi%20RK%20Nutrition%2C%20I%20have%20a%20question%20about%20your%20products."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 bg-[#25D366] hover:bg-[#20BD5A] text-white font-heading uppercase text-xs tracking-wider font-bold transition-all shadow-lg shadow-[#25D366]/20"

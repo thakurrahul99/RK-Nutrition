@@ -1007,7 +1007,7 @@ export default function CheckoutPage() {
             <div className="p-3 bg-[#141414] border border-[#242424] text-[11px] font-mono text-[#8C8C8C] space-y-1">
               <span className="text-[#F5F4F2] font-semibold block uppercase">Need Checkout Help?</span>
               <p>
-                Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold">+91 86306 63134</a> or WhatsApp <a href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20need%20help%20with%20checkout" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline font-bold">7452013333</a>
+                Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold">+91 86306 63134</a> or WhatsApp <a href="https://wa.me/918630663134?text=Hi%20RK%20Nutrition%2C%20I%20need%20help%20with%20checkout" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline font-bold">8630663134</a>
               </p>
             </div>
 

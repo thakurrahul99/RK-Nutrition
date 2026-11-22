@@ -39,7 +39,7 @@ export default function Footer() {
     instagram: 'https://instagram.com/rknutrition',
     youtube: 'https://youtube.com/@rknutrition',
     twitter: 'https://x.com/rknutrition',
-    whatsapp: 'https://wa.me/917452013333'
+    whatsapp: 'https://wa.me/918630663134'
   };
 
   const isValidUrl = (url) => typeof url === 'string' && url.trim().length > 0 && url.trim() !== '#' && !url.startsWith('javascript:');
@@ -134,9 +134,9 @@ export default function Footer() {
                   </svg>
                 </a>
               )}
-              {isValidUrl(socialLinks.whatsapp || 'https://wa.me/917452013333') && (
+              {isValidUrl(socialLinks.whatsapp || 'https://wa.me/918630663134') && (
                 <a
-                  href={socialLinks.whatsapp || 'https://wa.me/917452013333'}
+                  href={socialLinks.whatsapp || 'https://wa.me/918630663134'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-8 h-8 bg-[#141414] border border-[#242424] hover:border-[#25D366] hover:text-[#25D366] text-[#8C8C8C] flex items-center justify-center transition-colors"
@@ -258,12 +258,12 @@ export default function Footer() {
               <div className="flex items-center justify-between pt-1 border-t border-[#1C1C1C] text-[10px] text-[#666666]">
                 <span>Mon–Sat: 09:00–19:00 IST</span>
                 <a 
-                  href="https://wa.me/917452013333" 
+                  href="https://wa.me/918630663134" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-[#25D366] hover:underline font-bold"
                 >
-                  WhatsApp: 7452013333
+                  WhatsApp: 8630663134
                 </a>
               </div>
             </div>

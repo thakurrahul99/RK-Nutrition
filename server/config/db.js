@@ -375,7 +375,7 @@ export const getInitialSeed = () => {
           address: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India',
           phone: '+91 86306 63134',
           secondaryPhone: '+91 74520 13333',
-          whatsapp: 'https://wa.me/917452013333'
+          whatsapp: 'https://wa.me/918630663134'
         },
         faq: [
           {

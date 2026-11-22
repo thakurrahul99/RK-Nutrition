@@ -199,12 +199,12 @@ export default function ContactPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
                 <div>
                   <span className="font-heading text-xl text-[#F5F4F2] block font-bold">
-                    +91 74520 13333
+                    +91 86306 63134
                   </span>
                   <span className="text-xs text-[#8C8C8C]">Direct chat with supplement specialist</span>
                 </div>
                 <a
-                  href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20have%20an%20inquiry%20about%20your%20supplements"
+                  href="https://wa.me/918630663134?text=Hi%20RK%20Nutrition%2C%20I%20have%20an%20inquiry%20about%20your%20supplements"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2.5 bg-[#25D366] hover:bg-[#20BD5A] text-white font-heading uppercase text-xs tracking-wider font-bold transition-all flex items-center justify-center gap-2 shrink-0 shadow-lg shadow-[#25D366]/20 cursor-pointer"

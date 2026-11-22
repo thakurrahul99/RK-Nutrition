@@ -92,7 +92,7 @@ const DEFAULT_CONTENT = {
       address: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India',
       phone: '+91 86306 63134',
       secondaryPhone: '+91 74520 13333',
-      whatsapp: 'https://wa.me/917452013333'
+      whatsapp: 'https://wa.me/918630663134'
     },
     faq: DEFAULT_FAQ_ITEMS,
     shippingPolicy: {
@@ -148,7 +148,7 @@ const DEFAULT_CONTENT = {
       instagram: 'https://instagram.com/rknutrition',
       youtube: 'https://youtube.com/@rknutrition',
       twitter: 'https://x.com/rknutrition',
-      whatsapp: 'https://wa.me/917452013333',
+      whatsapp: 'https://wa.me/918630663134',
       linkedin: 'https://linkedin.com/company/rknutrition'
     }
   },

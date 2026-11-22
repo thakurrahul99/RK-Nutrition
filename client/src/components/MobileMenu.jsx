@@ -261,7 +261,7 @@ export default function MobileMenu({
               <span>Call Us</span>
             </a>
             <a
-              href="https://wa.me/917452013333"
+              href="https://wa.me/918630663134"
               target="_blank"
               rel="noopener noreferrer"
               className="py-2 px-2 bg-[#181818] border border-[#2A2A2A] text-center text-[#25D366] hover:border-[#25D366] transition-colors flex items-center justify-center gap-1.5 font-bold"

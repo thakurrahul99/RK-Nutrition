@@ -27,7 +27,7 @@ export default function SuperAdminNavigationPage() {
     instagram: 'https://instagram.com/rknutrition',
     youtube: 'https://youtube.com/@rknutrition',
     twitter: 'https://twitter.com/rknutrition',
-    whatsapp: 'https://wa.me/917452013333'
+    whatsapp: 'https://wa.me/918630663134'
   });
 
   const [isSaving, setIsSaving] = useState(false);

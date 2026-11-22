@@ -4,7 +4,7 @@ import { brandConfig } from '../../config/brandConfig';
 export default function FloatingWhatsApp() {
   const [isHovered, setIsHovered] = useState(false);
   const { contact } = brandConfig;
-  const whatsappUrl = contact?.whatsapp?.getChatUrl("Hi RK Nutrition, I have an inquiry about your supplements.") || 'https://wa.me/917452013333';
+  const whatsappUrl = contact?.whatsapp?.getChatUrl("Hi RK Nutrition, I have an inquiry about your supplements.") || 'https://wa.me/918630663134';
 
   return (
     <aside 
@@ -30,7 +30,7 @@ export default function FloatingWhatsApp() {
         rel="noopener noreferrer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        aria-label="Chat with RK Nutrition Support on WhatsApp (7452013333)"
+        aria-label="Chat with RK Nutrition Support on WhatsApp (8630663134)"
         className="relative w-13 h-13 sm:w-14 sm:h-14 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-full flex items-center justify-center shadow-2xl shadow-[#25D366]/40 transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white cursor-pointer"
       >
         {/* Subtle Ping Wave */}
