@@ -131,7 +131,8 @@ const DEFAULT_CONTENT = {
       { id: 'nav-2', label: 'Products', path: '/products', visible: true },
       { id: 'nav-3', label: 'Categories', path: '/categories', visible: true },
       { id: 'nav-4', label: 'About', path: '/about', visible: true },
-      { id: 'nav-5', label: 'Contact', path: '/contact', visible: true }
+      { id: 'nav-5', label: 'Learn', path: '/learn', visible: true },
+      { id: 'nav-6', label: 'Contact', path: '/contact', visible: true }
     ],
     footerLinks: [
       { id: 'foot-1', label: 'Home', path: '/', visible: true },
