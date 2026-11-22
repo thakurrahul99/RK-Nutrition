@@ -47,18 +47,18 @@ export default function HeroSection() {
 
             {/* STEP 1: Hero Visual Wrapper (wraps Headline + Mobile Tub) */}
             <div className="hero-visual relative w-full">
-              {/* Product Tub (Mobile Only: clamp(112px, 36vw, 160px), right: 0, top: -1vw, bottom fade ~18%, halo glow) */}
+              {/* Product Tub (Mobile Only: clamp(100px, 32vw, 144px), right: 0, top: -1vw, bottom fade ~18%, halo glow) */}
               <div 
-                className="absolute right-0 top-[-1vw] w-[clamp(112px,36vw,160px)] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible [mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)]"
+                className="absolute right-0 top-[-1vw] w-[clamp(100px,32vw,144px)] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible [mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)]"
                 aria-hidden="true"
               >
                 {/* 1.4x radial halo glow behind tub */}
-                <div className="absolute inset-[-20%] bg-[radial-gradient(circle,rgba(225,29,46,0.28)_0%,transparent_65%)] pointer-events-none -z-10" />
-                <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_10px_28px_rgba(225,29,46,0.4)]" />
+                <div className="absolute inset-[-20%] bg-[radial-gradient(circle,rgba(225,29,46,0.22)_0%,transparent_65%)] pointer-events-none -z-10" />
+                <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_10px_28px_rgba(225,29,46,0.35)]" />
               </div>
 
               {/* STEP 2: Main Headline */}
-              <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.28em+16px)] sm:mb-6 select-none [transform:scaleY(1.45)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
+              <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.34em+16px)] sm:mb-6 select-none [transform:scaleY(1.52)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
                 <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
                 <span className="block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">{headingLine2}</span>
                 <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>

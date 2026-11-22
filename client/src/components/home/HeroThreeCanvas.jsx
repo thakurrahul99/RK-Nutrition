@@ -234,6 +234,7 @@ function HeroThreeCanvasComponent({ className = '' }) {
       renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true,
+        preserveDrawingBuffer: true,
         powerPreference: 'high-performance'
       });
     } catch {
