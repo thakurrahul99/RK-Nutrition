@@ -1,4 +1,5 @@
-import { ArrowRight, Layers, Heart } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, Heart } from 'lucide-react';
 import { useWishlist } from '../../context/WishlistContext';
 
 export default function ProductCard({ product, onSelectProduct }) {
@@ -9,15 +10,14 @@ export default function ProductCard({ product, onSelectProduct }) {
     images = [],
     price,
     salePrice,
-    variants = [],
-    availability
+    variants = []
   } = product;
 
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isSaved = isInWishlist(id);
+  const [imageError, setImageError] = useState(false);
 
   const mainImage = images && images.length > 0 ? images[0] : null;
-  const hasVariants = variants && variants.length > 0;
   const hasSale = typeof salePrice === 'number' && typeof price === 'number' && salePrice < price;
   const discountPercent = hasSale ? Math.round(((price - salePrice) / price) * 100) : 0;
 
@@ -34,144 +34,116 @@ export default function ProductCard({ product, onSelectProduct }) {
     toggleWishlist(id);
   };
 
+  // Derive initials for fallback placeholder
+  const getInitials = (str = '') => {
+    return str
+      .split(' ')
+      .map((w) => w[0])
+      .filter(Boolean)
+      .slice(0, 3)
+      .join('')
+      .toUpperCase() || 'RK';
+  };
+
   return (
     <article
       onClick={() => onSelectProduct && onSelectProduct(product)}
-      className="group relative bg-[#161616] border border-[#262626] hover:border-[#C8202B] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer shadow-lg"
+      className="group relative bg-[#141414] border border-[#1F1F1F] hover:border-[#333333] transition-all duration-200 flex flex-col justify-between overflow-hidden cursor-pointer"
     >
-      {/* Signature RK red corner block accent */}
-      <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#C8202B] z-20 pointer-events-none" />
-
-      {/* Top Media Area with Aspect Ratio & Subtle Zoom */}
-      <div className="relative aspect-[4/5] bg-[#1A1A1A] overflow-hidden flex items-center justify-center border-b border-[#222222]">
+      {/* Media Container: Square 1:1 Aspect Ratio */}
+      <div className="relative aspect-square w-full bg-[#121212] overflow-hidden flex items-center justify-center p-3 sm:p-4 border-b border-[#1A1A1A]">
         
-        {/* Subtle RK Monogram Watermark */}
-        <span 
-          className="absolute font-heading font-black text-8xl text-white/[0.025] select-none pointer-events-none tracking-tighter"
-          aria-hidden="true"
-        >
-          RK
-        </span>
-
-        {/* Abstract Athletic Steel Backdrop Graphic */}
-        <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#F5F4F2_1px,transparent_1px)] [background-size:16px_16px]" />
-        
-        {mainImage ? (
+        {mainImage && !imageError ? (
           <img
             src={mainImage}
             alt={name}
             loading="lazy"
-            className="relative w-3/4 h-3/4 object-contain transition-transform duration-500 group-hover:scale-105 filter drop-shadow-xl"
+            decoding="async"
+            width="300"
+            height="300"
+            onError={() => setImageError(true)}
+            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="relative flex flex-col items-center justify-center text-center p-6 space-y-3 z-10">
-            <div className="w-16 h-16 bg-[#141414] border border-[#282828] group-hover:border-[#C8202B] transition-colors flex items-center justify-center relative overflow-hidden shadow-xl">
-              <span className="font-heading font-black text-2xl text-[#F5F4F2]">RK</span>
-              <div className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" />
-            </div>
-            <span className="font-heading text-xs tracking-widest text-[#8C8C8C] group-hover:text-[#F5F4F2] uppercase transition-colors">
-              ATHLETIC GRADE
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-sm bg-[#1A1A1A] border border-[#242424] flex items-center justify-center text-center">
+            <span className="font-heading font-black text-base sm:text-lg text-[#666666] tracking-wider">
+              {getInitials(name)}
             </span>
           </div>
         )}
 
-        {/* Category Tag with Brand Accent */}
-        <div className="absolute top-3 left-3 z-10">
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-[#F5F4F2] bg-[#111111]/90 border border-[#2E2E2E] px-2.5 py-1">
-            <span className="w-1 h-1 bg-[#C8202B]" />
-            {category}
-          </span>
-        </div>
+        {/* Save Badge: Top Left */}
+        {hasSale && (
+          <div className="absolute top-2 left-2 z-10">
+            <span className="inline-block text-[10px] font-mono uppercase tracking-wider text-white bg-[#E11D2E] px-1.5 py-0.5 font-bold">
+              Save {discountPercent}%
+            </span>
+          </div>
+        )}
 
-        {/* Wishlist Button (Top Right) */}
+        {/* Wishlist Button: Top Right */}
         <button
           type="button"
           onClick={handleWishlistClick}
           aria-label={isSaved ? `Remove ${name} from saved items` : `Save ${name} to wishlist`}
-          className={`absolute top-3 right-3 z-20 p-2 rounded-none transition-all duration-200 border cursor-pointer ${
+          className={`absolute top-2 right-2 z-20 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center border transition-colors cursor-pointer ${
             isSaved 
-              ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] shadow-lg shadow-[#C8202B]/30' 
-              : 'bg-[#111111]/80 text-[#8C8C8C] border-[#2E2E2E] hover:text-[#C8202B] hover:border-[#C8202B]'
+              ? 'bg-[#E11D2E] text-white border-[#E11D2E]' 
+              : 'bg-[#181818]/90 text-[#8C8C8C] border-[#262626] hover:text-[#E11D2E] hover:border-[#383838]'
           }`}
         >
           <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
         </button>
 
-        {/* Discount Badge if on sale */}
-        {hasSale && (
-          <div className="absolute bottom-12 left-3 z-10">
-            <span className="inline-block text-[10px] font-mono uppercase tracking-widest text-[#F5F4F2] bg-[#C8202B] px-2 py-0.5 font-bold shadow-md">
-              SAVE {discountPercent}%
-            </span>
-          </div>
-        )}
-
-        {/* Availability Badge if explicitly coming soon */}
-        {availability === 'coming-soon' && (
-          <div className="absolute bottom-12 right-3 z-10">
-            <span className="inline-block text-[10px] font-mono uppercase tracking-widest text-[#C8202B] bg-[#111111]/90 border border-[#C8202B]/60 px-2 py-0.5 font-semibold">
-              COMING SOON
-            </span>
-          </div>
-        )}
-
-        {/* Hover overlay hint */}
-        <div className="absolute inset-x-0 bottom-0 py-2.5 bg-[#111111]/90 backdrop-blur-sm border-t border-[#262626] translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex items-center justify-center gap-1.5 text-xs font-heading uppercase tracking-wider text-[#F5F4F2]">
-          <span>View Specifications</span>
-          <ArrowRight className="w-3.5 h-3.5 text-[#C8202B]" />
+        {/* Desktop Quick Specs Overlay on Hover */}
+        <div className="hidden sm:flex absolute inset-x-0 bottom-0 py-2 bg-[#111111]/90 backdrop-blur-xs border-t border-[#222222] translate-y-full group-hover:translate-y-0 transition-transform duration-200 items-center justify-center gap-1.5 text-xs font-heading uppercase tracking-wider text-[#F5F4F2]">
+          <span>View Details</span>
+          <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E]" />
         </div>
       </div>
 
-      {/* Product Content Details */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
-        
+      {/* Product Information Details */}
+      <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-2">
         <div>
-          <div className="text-[10px] font-mono uppercase text-[#C8202B] tracking-wider mb-1 block">
-            RK NUTRITION • FORMULATION
-          </div>
-          <h3 className="font-heading text-lg sm:text-xl text-[#F5F4F2] uppercase font-bold tracking-wide group-hover:text-[#F5F4F2] transition-colors line-clamp-2">
+          <span className="text-[11px] font-heading uppercase tracking-wider text-[#8C8C8C] block truncate mb-1">
+            {category || 'Supplement'}
+          </span>
+          <h3 className="text-xs sm:text-sm font-body font-semibold text-[#F5F4F2] leading-tight line-clamp-2 group-hover:text-white transition-colors">
             {name}
           </h3>
-
-          {/* Variants info when available */}
-          {hasVariants && (
-            <div className="flex items-center gap-1.5 text-xs text-[#8C8C8C] font-mono mt-1.5">
-              <Layers className="w-3.5 h-3.5 text-[#C8202B]" />
-              <span>{variants.length} {variants.length === 1 ? 'Variant' : 'Variants'}</span>
-            </div>
-          )}
         </div>
 
-        {/* Price Area: Only when real price is available */}
-        <div className="pt-3 border-t border-[#222222] flex items-center justify-between">
-          <div>
+        {/* Price Row */}
+        <div className="pt-2 border-t border-[#1C1C1C] flex items-center justify-between">
+          <div className="flex items-baseline gap-1.5 sm:gap-2">
             {typeof price === 'number' ? (
-              <div className="flex items-baseline gap-2">
-                {hasSale ? (
-                  <>
-                    <span className="font-heading text-xl text-[#C8202B] font-bold">
-                      {formatCurrency(salePrice)}
-                    </span>
-                    <span className="text-xs text-[#666666] line-through font-mono">
-                      {formatCurrency(price)}
-                    </span>
-                  </>
-                ) : (
-                  <span className="font-heading text-xl text-[#F5F4F2] font-bold">
+              hasSale ? (
+                <>
+                  <span className="font-heading text-sm sm:text-base text-[#E11D2E] font-bold">
+                    {formatCurrency(salePrice)}
+                  </span>
+                  <span className="text-[11px] sm:text-xs text-[#666666] line-through font-mono">
                     {formatCurrency(price)}
                   </span>
-                )}
-              </div>
+                </>
+              ) : (
+                <span className="font-heading text-sm sm:text-base text-[#F5F4F2] font-bold">
+                  {formatCurrency(price)}
+                </span>
+              )
             ) : (
-              <span className="text-xs font-mono uppercase text-[#8C8C8C]">
+              <span className="text-xs font-mono text-[#8C8C8C]">
                 Pricing on Launch
               </span>
             )}
           </div>
 
-          <div className="w-8 h-8 rounded-none bg-[#1F1F1F] group-hover:bg-[#C8202B] transition-colors flex items-center justify-center text-[#8C8C8C] group-hover:text-[#F5F4F2]">
-            <ArrowRight className="w-4 h-4" />
-          </div>
+          {/* Desktop Variants Count */}
+          {variants.length > 1 && (
+            <span className="hidden sm:inline-block text-[10px] font-mono text-[#666666] uppercase">
+              {variants.length} Sizes
+            </span>
+          )}
         </div>
 
       </div>

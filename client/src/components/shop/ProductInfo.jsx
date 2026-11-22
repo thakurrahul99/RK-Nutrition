@@ -332,13 +332,20 @@ export default function ProductInfo({ product }) {
         {/* Guarantees Strip */}
         <div className="pt-2 grid grid-cols-2 gap-2 text-[11px] font-mono text-[#8C8C8C]">
           <div className="flex items-center gap-2 p-2 bg-[#141414] border border-[#222222]">
-            <ShieldCheck className="w-4 h-4 text-[#C8202B] shrink-0" />
-            <span>100% Label Transparency</span>
+            <ShieldCheck className="w-4 h-4 text-[#E11D2E] shrink-0" />
+            <span>Label Transparency</span>
           </div>
           <div className="flex items-center gap-2 p-2 bg-[#141414] border border-[#222222]">
-            <CheckCircle2 className="w-4 h-4 text-[#C8202B] shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-[#E11D2E] shrink-0" />
             <span>Free Shipping Above ₹999</span>
           </div>
+        </div>
+
+        {/* FSSAI Statutory Dietary Supplement Disclaimer */}
+        <div className="pt-2">
+          <p className="text-[11px] text-[#666666] font-body leading-relaxed border-t border-[#1F1F1F] pt-3">
+            * Disclaimer: These products are dietary supplements, not intended to diagnose, treat, cure, or prevent any disease.
+          </p>
         </div>
       </div>
 

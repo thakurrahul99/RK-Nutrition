@@ -1,78 +1,16 @@
-import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCategories } from '../context/CategoryContext';
-import { Dumbbell, Flame, Sparkles, Layers, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Dumbbell, Flame, Sparkles, Layers, ArrowRight } from 'lucide-react';
 
 export default function CategoryShowcaseSection() {
   const { categories } = useCategories();
-  const scrollRef = useRef(null);
-
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [isMouseDown, setIsMouseDown] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeftPos, setScrollLeftPos] = useState(0);
-  const [hasDragged, setHasDragged] = useState(false);
-
-  const updateScrollButtons = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    updateScrollButtons();
-    el.addEventListener('scroll', updateScrollButtons, { passive: true });
-    window.addEventListener('resize', updateScrollButtons);
-    return () => {
-      el.removeEventListener('scroll', updateScrollButtons);
-      window.removeEventListener('resize', updateScrollButtons);
-    };
-  }, [categories]);
-
-  const scroll = (direction) => {
-    if (!scrollRef.current) return;
-    const container = scrollRef.current;
-    const scrollAmount = container.clientWidth * 0.75;
-    container.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth'
-    });
-  };
-
-  const handleMouseDown = (e) => {
-    if (!scrollRef.current) return;
-    setIsMouseDown(true);
-    setHasDragged(false);
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeftPos(scrollRef.current.scrollLeft);
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isMouseDown || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 1.2;
-    if (Math.abs(walk) > 6) {
-      setHasDragged(true);
-    }
-    scrollRef.current.scrollLeft = scrollLeftPos - walk;
-  };
-
-  const handleMouseUp = () => {
-    setIsMouseDown(false);
-    setTimeout(() => setHasDragged(false), 50);
-  };
 
   const getCategoryIcon = (slug = '') => {
     const s = slug.toLowerCase();
-    if (s.includes('protein')) return <Dumbbell className="w-6 h-6 text-[#C8202B]" />;
-    if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-6 h-6 text-[#C8202B]" />;
-    if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-6 h-6 text-[#C8202B]" />;
-    return <Layers className="w-6 h-6 text-[#C8202B]" />;
+    if (s.includes('protein')) return <Dumbbell className="w-5 h-5 text-[#E11D2E]" />;
+    if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-5 h-5 text-[#E11D2E]" />;
+    if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-5 h-5 text-[#E11D2E]" />;
+    return <Layers className="w-5 h-5 text-[#E11D2E]" />;
   };
 
   if (!categories || categories.length === 0) return null;
@@ -81,124 +19,64 @@ export default function CategoryShowcaseSection() {
     <section 
       id="categories" 
       aria-label="Product Category Showcase"
-      className="relative py-12 sm:py-20 bg-[#141414] border-b border-[#222222]"
+      className="py-14 sm:py-20 lg:py-24 bg-[#0E0E0E] border-t border-[#1F1F1F] relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Clean Section Header with Carousel Navigation */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4 sm:gap-6">
+        {/* Section Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
-              <span className="w-8 h-[2px] bg-[#C8202B]" />
-              RK NUTRITION • CATEGORIES
-            </div>
-            <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95]">
-              PURPOSE-DRIVEN <span className="text-[#C8202B]">CATEGORIES.</span>
+            <span className="text-[11px] font-heading uppercase tracking-[0.16em] text-[#8C8C8C] block mb-2">
+              TRAINING CATEGORIES
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl text-[#F5F4F2] uppercase font-bold tracking-tight">
+              PURPOSE-DRIVEN <span className="text-[#E11D2E]">CATEGORIES.</span>
             </h2>
           </div>
 
-          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
-            <Link
-              to="/categories"
-              className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#C8202B] hover:text-[#F5F4F2] transition-colors font-bold whitespace-nowrap"
-            >
-              <span>Category Overview</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-
-            {/* Carousel Navigation Arrow Buttons */}
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => scroll('left')}
-                disabled={!canScrollLeft}
-                aria-label="Previous categories"
-                className="w-9 h-9 sm:w-10 sm:h-10 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
-              >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scroll('right')}
-                disabled={!canScrollRight}
-                aria-label="Next categories"
-                className="w-9 h-9 sm:w-10 sm:h-10 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
-              >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-            </div>
-          </div>
+          <Link
+            to="/categories"
+            className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-wider text-[#F5F4F2] hover:text-[#E11D2E] transition-colors font-bold whitespace-nowrap self-start sm:self-end"
+          >
+            <span>Category Overview</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E]" />
+          </Link>
         </div>
 
-        {/* Horizontal Scroll Track */}
-        <div 
-          ref={scrollRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          className={`flex gap-4 sm:gap-6 overflow-x-auto pb-4 pt-1 scroll-smooth snap-x snap-mandatory horizontal-scroll-track ${isMouseDown ? 'cursor-grabbing select-none' : 'cursor-grab'}`}
-        >
+        {/* Responsive Grid: 2-column mobile, 3-4 column desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
           {categories.map((category) => (
             <Link 
               key={category.id || category.slug} 
               id={`cat-${category.slug}`}
               to={`/categories/${category.slug}`}
-              onClickCapture={(e) => {
-                if (hasDragged) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }
-              }}
-              className="shrink-0 w-[270px] min-[360px]:w-[290px] sm:w-[350px] lg:w-[420px] snap-start relative bg-[#1A1A1A] border border-[#282828] hover:border-[#C8202B] transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-xl cursor-pointer"
+              className="bg-[#141414] border border-[#1F1F1F] hover:border-[#333333] transition-all p-4 sm:p-6 flex flex-col justify-between group cursor-pointer"
             >
-              {/* Signature RK red corner block accent */}
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#C8202B] z-10" />
-
-              {/* Subtle background RK watermark */}
-              <span 
-                className="absolute -bottom-8 -right-4 font-heading font-black text-9xl text-white/[0.02] select-none pointer-events-none tracking-tighter"
-                aria-hidden="true"
-              >
-                RK
-              </span>
-
-              {/* Category Card Header */}
-              <div className="p-5 sm:p-7 pb-4 relative z-10 flex-1 flex flex-col">
-                <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <div className="w-12 h-12 bg-[#202020] border border-[#2E2E2E] group-hover:border-[#C8202B] flex items-center justify-center transition-colors">
+              <div>
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-10 h-10 bg-[#1A1A1A] border border-[#242424] flex items-center justify-center group-hover:border-[#333333] transition-colors">
                     {category.image ? (
                       <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
                     ) : (
                       getCategoryIcon(category.slug)
                     )}
                   </div>
-                  <span className="font-mono text-sm text-[#C8202B] font-bold">
-                    RK-{category.slug.toUpperCase().slice(0, 4)}
+                  <span className="text-[10px] font-mono text-[#666666] uppercase">
+                    {category.productCount ? `${category.productCount} Formulations` : 'Explore'}
                   </span>
                 </div>
 
-                <div className="space-y-2">
-                  <span className="inline-block text-[11px] font-mono uppercase tracking-widest text-[#8C8C8C] bg-[#222222] px-2.5 py-1">
-                    {category.productCount ? `${category.productCount} Formulation${category.productCount === 1 ? '' : 's'}` : 'Performance Pillar'}
-                  </span>
-                  <h3 className="font-heading text-2xl sm:text-3xl text-[#F5F4F2] uppercase font-black tracking-tight group-hover:text-[#F5F4F2] transition-colors">
-                    {category.name}
-                  </h3>
-                  <p className="font-heading text-sm text-[#C8202B] uppercase tracking-wider font-semibold">
-                    {category.tagline || 'Athletic Standard'}
-                  </p>
-                </div>
-
-                <p className="text-sm text-[#8C8C8C] leading-relaxed mt-4 font-body line-clamp-3">
-                  {category.description || 'Targeted formulations engineered strictly around the physical demands of high-performance athletic training.'}
+                <h3 className="font-heading text-base sm:text-xl text-[#F5F4F2] uppercase font-bold tracking-tight group-hover:text-white transition-colors">
+                  {category.name}
+                </h3>
+                <p className="text-xs text-[#8C8C8C] font-body mt-1 leading-relaxed line-clamp-2">
+                  {category.description || 'Targeted formulations engineered strictly around the physical demands of athletic training.'}
                 </p>
               </div>
 
-              {/* Category Card Footer CTA */}
-              <div className="p-5 sm:p-7 pt-4 border-t border-[#242424] flex items-center justify-between text-xs font-heading uppercase tracking-widest text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors relative z-10">
-                <span>View {category.name} Products</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+              <div className="pt-3 mt-4 border-t border-[#1C1C1C] flex items-center justify-between text-[11px] font-mono text-[#666666] group-hover:text-[#F5F4F2] transition-colors">
+                <span>View Products</span>
+                <span className="text-[#E11D2E]">→</span>
               </div>
             </Link>
           ))}

@@ -79,7 +79,7 @@ export const brandConfig = {
       code: "03",
       title: "Pre-Workout",
       tagline: "Focus & Muscular Endurance",
-      description: "Targeted performance preparation formulated with clinically dosed active compounds for mental alertness, muscular endurance, and training readiness.",
+      description: "Targeted performance preparation formulated with research-backed active compounds for mental alertness, muscular endurance, and training readiness.",
       accent: "Performance Catalyst",
       features: [
         "6,000mg L-Citrulline Malate for nitric oxide support",

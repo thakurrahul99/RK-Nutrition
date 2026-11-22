@@ -90,11 +90,11 @@ export default function ShippingPolicyPage() {
 
           <div className="space-y-3">
             <h2 className="font-heading text-xl uppercase font-bold text-[#F5F4F2] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#C8202B]" />
+              <span className="w-2 h-2 rounded-full bg-[#E11D2E]" />
               2. Packaging & Tamper-Evident Security
             </h2>
             <p className="text-sm text-[#8C8C8C] leading-relaxed">
-              All RK Nutrition proteins, gainers, and pre-workouts are sealed under strict pharmaceutical standards. Outer cartons feature reinforced tamper-evident tape. If an outer package arrives visibly breached or crushed, please refuse delivery and immediately document photo evidence with the carrier.
+              All RK Nutrition proteins, gainers, and pre-workouts are sealed under rigorous quality-verified manufacturing standards. Outer cartons feature reinforced tamper-evident tape. If an outer package arrives visibly breached or crushed, please refuse delivery and immediately document photo evidence with the carrier.
             </p>
           </div>
 

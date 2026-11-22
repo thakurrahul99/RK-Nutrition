@@ -34,6 +34,7 @@ export default function Navbar({
     { label: 'Products', path: '/products' },
     { label: 'Categories', path: '/categories' },
     { label: 'About', path: '/about' },
+    { label: 'Learn', path: '/learn' },
     { label: 'Contact', path: '/contact' }
   ];
   const configuredNav = content?.navigation?.headerLinks;
@@ -112,7 +113,7 @@ export default function Navbar({
               type="button"
               onClick={onOpenSearch}
               aria-label="Open search interface"
-              className="p-2 sm:p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] cursor-pointer"
             >
               <Search className="w-5 h-5" />
             </button>
@@ -122,11 +123,11 @@ export default function Navbar({
               type="button"
               onClick={openWishlist}
               aria-label={`View saved items (${wishlistCount})`}
-              className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] cursor-pointer"
             >
-              <Heart className={`w-5 h-5 ${wishlistCount > 0 ? 'text-[#C8202B] fill-[#C8202B]' : ''}`} />
+              <Heart className={`w-5 h-5 ${wishlistCount > 0 ? 'text-[#E11D2E] fill-[#E11D2E]' : ''}`} />
               {wishlistCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-[#C8202B] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111]">
+                <span className="absolute 1 top-1 right-1 min-w-[18px] h-[18px] bg-[#E11D2E] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111]">
                   {wishlistCount}
                 </span>
               )}
@@ -223,15 +224,15 @@ export default function Navbar({
               type="button"
               onClick={openCart || onCartClick}
               aria-label={`View shopping bag with ${itemCount} items`}
-              className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] cursor-pointer"
             >
               <ShoppingBag className="w-5 h-5" />
               {itemCount > 0 ? (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-[#C8202B] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111]">
+                <span className="absolute top-1 right-1 min-w-[18px] h-[18px] bg-[#E11D2E] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111]">
                   {itemCount}
                 </span>
               ) : (
-                <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[#444444] rounded-full" />
+                <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#444444] rounded-full" />
               )}
             </button>
 
@@ -241,7 +242,7 @@ export default function Navbar({
               onClick={onOpenMobileMenu}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
-              className="md:hidden p-2.5 text-[#F5F4F2] hover:bg-[#1C1C1C] border border-[#282828] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B]"
+              className="md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center text-[#F5F4F2] hover:bg-[#1C1C1C] border border-[#282828] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E]"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>

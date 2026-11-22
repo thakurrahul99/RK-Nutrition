@@ -12,7 +12,7 @@ export default function DocumentMeta() {
     const seo = content?.advanced?.seo || {};
     const defaultTitle = 'RK Nutrition — Premium Sports Nutrition & Supplements';
     const baseTitle = seo.siteTitle || defaultTitle;
-    const metaDesc = seo.metaDescription || 'Engineered for athletes and fitness enthusiasts. High-yield Whey Protein Isolate, Mass Gainer, and Pre-Workout formulations with 100% verified label transparency and zero amino spiking.';
+    const metaDesc = seo.metaDescription || 'Engineered for athletes and fitness enthusiasts. High-yield Whey Protein Isolate, Mass Gainer, and Pre-Workout formulations with verified label transparency.';
     const canonical = seo.canonicalUrl || 'https://rknutrition.com';
     const ogTitle = seo.ogTitle || baseTitle;
     const ogDesc = seo.ogDescription || metaDesc;

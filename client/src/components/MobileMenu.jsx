@@ -38,6 +38,7 @@ export default function MobileMenu({
         { label: 'Products', path: '/products' },
         { label: 'Categories', path: '/categories' },
         { label: 'About', path: '/about' },
+        { label: 'Learn', path: '/learn' },
         { label: 'Contact', path: '/contact' }
       ];
 
