@@ -10,8 +10,7 @@ import {
   ShieldCheck, 
   AlertCircle,
   Clock,
-  Layers,
-  HelpCircle
+  Layers
 } from 'lucide-react';
 import DocumentMeta from '../components/common/DocumentMeta';
 
