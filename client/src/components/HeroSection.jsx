@@ -50,25 +50,25 @@ export default function HeroSection() {
                     </span>
                   </div>
 
-                  {/* 2. Main Headline (Taller vertical presence, balanced line distribution, occupying empty space naturally) */}
-                  <h1 className="font-heading font-black text-[clamp(1.22rem,6.6vw,1.45rem)] min-[360px]:text-[clamp(1.55rem,7.2vw,2.35rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[1.38] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-4 min-[360px]:gap-8 min-[390px]:gap-10 sm:gap-0 sm:block mb-4 min-[390px]:mb-6 sm:mb-6">
-                    <span className="block text-[#F2F2F2] whitespace-nowrap">{headingLine1}</span>
-                    <span className="block text-[#D51F32] whitespace-nowrap">{headingLine2}</span>
-                    <span className="block text-[#F2F2F2] whitespace-nowrap">{headingLine3}</span>
+                  {/* 2. Main Headline (Vertically stretched, bolder athletic poster typography, fit to viewport) */}
+                  <h1 className="font-heading font-black text-[clamp(1.22rem,6.2vw,1.65rem)] min-[360px]:text-[clamp(1.32rem,6.1vw,2.05rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[1.12] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-2.5 min-[360px]:gap-3.5 min-[390px]:gap-4.5 sm:gap-0 sm:block scale-y-[1.28] min-[360px]:scale-y-[1.35] min-[390px]:scale-y-[1.40] sm:scale-y-100 origin-top-left mb-3.5 min-[390px]:mb-4.5 sm:mb-6 select-none [-webkit-text-stroke:0.75px_currentColor]">
+                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{headingLine1}</span>
+                    <span className="block text-[#D51F32] whitespace-nowrap drop-shadow-[0_0_15px_rgba(213,31,50,0.4)]">{headingLine2}</span>
+                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">{headingLine3}</span>
                   </h1>
                 </div>
 
-                {/* Mobile product visual sits cleanly beside headline without downward translation/overlap */}
-                <div className="flex lg:hidden items-center justify-end min-w-0 self-start pt-6 min-[360px]:pt-7 min-[390px]:pt-7.5 shrink-0">
-                  <HeroProduct3D className="!w-[96px] min-[360px]:!w-[110px] min-[390px]:!w-[116px] min-[430px]:!w-[124px] !max-w-none" />
+                {/* Mobile product visual sits cleanly beside headline with larger prominent sizing */}
+                <div className="flex lg:hidden items-center justify-end min-w-0 self-start pt-1 min-[360px]:pt-1.5 min-[390px]:pt-2 shrink-0">
+                  <HeroProduct3D className="!w-[110px] min-[360px]:!w-[126px] min-[375px]:!w-[134px] min-[390px]:!w-[142px] min-[430px]:!w-[156px] !max-w-none drop-shadow-2xl" />
                 </div>
               </div>
             </div>
 
-            {/* Middle Section on Mobile: Subtext & Action CTA Buttons */}
+            {/* Middle Section on Mobile: Subtext & Action CTA Buttons (Proportionally balanced across viewport) */}
             <div className="w-full my-auto py-2.5 sm:py-0">
               {/* 3. Supporting Text */}
-              <p className="max-w-xl text-xs min-[360px]:text-[13px] sm:text-base md:text-lg text-[#A1A1A1] font-normal leading-relaxed mb-3.5 min-[390px]:mb-4 sm:mb-8 font-body">
+              <p className="max-w-xl text-[12.5px] min-[360px]:text-[13.5px] min-[390px]:text-[14px] sm:text-base md:text-lg text-[#B5B5B5] font-normal leading-relaxed mb-4 min-[390px]:mb-5 sm:mb-8 font-body">
                 {subtext}
               </p>
 
@@ -76,7 +76,7 @@ export default function HeroSection() {
               <div className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
                 <Link
                   to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-9 py-2.5 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-xs sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center whitespace-nowrap"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-9 py-3 min-[390px]:py-3.5 sm:py-3.5 bg-[#D51F32] hover:bg-[#B81727] active:bg-[#9E1220] text-[#F2F2F2] font-heading text-xs min-[360px]:text-[13px] sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#D51F32]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center whitespace-nowrap"
                 >
                   <span>{primaryCtaText}</span>
                   <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1 shrink-0" />
@@ -84,7 +84,7 @@ export default function HeroSection() {
 
                 <Link
                   to={secondaryCtaHref.startsWith('#') ? '/categories' : secondaryCtaHref}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center px-2.5 sm:px-9 py-2.5 sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#D51F32] font-heading text-xs sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D51F32] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center whitespace-nowrap"
+                  className="flex-1 sm:flex-none inline-flex items-center justify-center px-2.5 sm:px-9 py-3 min-[390px]:py-3.5 sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#D51F32] font-heading text-xs min-[360px]:text-[13px] sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D51F32] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center whitespace-nowrap"
                 >
                   <span>{secondaryCtaText}</span>
                 </Link>
@@ -92,7 +92,7 @@ export default function HeroSection() {
             </div>
 
             {/* 6. Supporting Brand Details (Touches Bottom of Screen Viewport) */}
-            <div className="pt-2.5 sm:pt-6 border-t border-[#1F1F1F] w-full flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 text-left">
+            <div className="pt-2.5 min-[390px]:pt-3 sm:pt-6 border-t border-[#1F1F1F] w-full flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-3 text-left">
               <div>
                 <span className="text-[11px] min-[360px]:text-xs sm:text-sm font-heading font-bold text-[#F2F2F2] tracking-wider uppercase block">
                   {supportingLabel}
@@ -101,7 +101,7 @@ export default function HeroSection() {
                   ZERO AMINO SPIKING • TRANSPARENT LABELS • CLINICALLY DOSED
                 </span>
               </div>
-              <div className="hidden sm:flex items-center gap-2 text-[10px] font-mono text-[#666666] uppercase tracking-widest">
+              <div className="flex items-center gap-2 text-[9px] min-[360px]:text-[10px] sm:text-[10px] font-mono text-[#666666] uppercase tracking-widest mt-0.5 sm:mt-0">
                 <span>EST. 2026</span>
                 <span>•</span>
                 <span className="text-[#D51F32]">100% PURE FORMULATION</span>
