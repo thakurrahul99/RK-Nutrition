@@ -34,7 +34,7 @@ export default function SuperAdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090E] text-[#E2E8F0] flex items-center justify-center p-4 relative overflow-hidden font-mono">
+    <div className="min-h-[100svh] bg-[#07090E] text-[#E2E8F0] flex items-center justify-center p-3 sm:p-4 relative overflow-hidden font-mono">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#38BDF8_1px,transparent_1px),linear-gradient(to_bottom,#38BDF8_1px,transparent_1px)] [background-size:32px_32px]" />
@@ -46,12 +46,12 @@ export default function SuperAdminLoginPage() {
 
       <div className="relative z-10 w-full max-w-md">
         {/* Card Box */}
-        <div className="bg-[#0A0E17] border border-[#1E293B] p-8 shadow-2xl relative">
+        <div className="bg-[#0A0E17] border border-[#1E293B] p-5 sm:p-8 shadow-2xl relative">
           {/* Cyan Top Bar Indicator */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-[#38BDF8]" />
 
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-[#0F172A] border border-[#38BDF8]/40 mb-4 shadow-lg">
               <Terminal className="w-6 h-6 text-[#38BDF8]" />
             </div>
@@ -72,7 +72,7 @@ export default function SuperAdminLoginPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             <div>
               <label className="block text-xs font-mono uppercase tracking-wider text-[#94A3B8] mb-2">
                 Developer Identity (Email)
@@ -126,7 +126,7 @@ export default function SuperAdminLoginPage() {
           </form>
 
           {/* Admin Portal Switch */}
-          <div className="mt-6 pt-5 border-t border-[#1E293B] space-y-3">
+          <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#1E293B] space-y-3">
             <div className="p-3 bg-[#0F172A] border border-[#1E293B] text-[11px] font-mono text-[#94A3B8] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-3.5 h-3.5 text-[#C8202B]" />
@@ -143,7 +143,7 @@ export default function SuperAdminLoginPage() {
         </div>
 
         {/* Back to Public Site */}
-        <div className="text-center mt-6">
+        <div className="text-center mt-4 sm:mt-6">
           <Link
             to="/"
             className="text-xs font-mono text-[#64748B] hover:text-[#E2E8F0] transition-colors"
