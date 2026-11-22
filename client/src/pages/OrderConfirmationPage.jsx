@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
+import { apiRequest } from '../services/api';
 import { 
   CheckCircle2, 
   Package, 
@@ -14,7 +15,9 @@ import {
 
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
-  const [order, setOrder] = useState(null);
+  const location = useLocation();
+  // Show the just-created order immediately; phone verification remains for direct visits/reloads.
+  const [order, setOrder] = useState(location.state?.order || null);
   const [loading, setLoading] = useState(false);
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(null);
@@ -25,9 +28,10 @@ export default function OrderConfirmationPage() {
     setOrder(null);
     setLoading(true);
     try {
-      const res = await fetch(`/api/orders/public/${encodeURIComponent(orderId)}?phone=${encodeURIComponent(phone)}`);
-      const data = await res.json();
-      if (!res.ok || !data.success) {
+      const data = await apiRequest(`/orders/public/${encodeURIComponent(orderId)}?phone=${encodeURIComponent(phone)}`, {
+        method: 'GET'
+      });
+      if (!data.success || !data.order) {
         throw new Error(data.error || 'Unable to verify order details.');
       }
       setOrder(data.order);
