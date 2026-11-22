@@ -1,7 +1,7 @@
 import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/common/ScrollToTop';
-import AnnouncementBar from './components/AnnouncementBar';
+
 import Navbar from './components/Navbar';
 import MobileMenu from './components/MobileMenu';
 import SearchModal from './components/SearchModal';
