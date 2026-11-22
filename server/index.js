@@ -162,15 +162,22 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Initialize database cache & Mongoose connection on boot
+// Production API must not accept requests until MongoDB is ready.
 getDb();
-connectDb().catch((err) => console.warn('[DB Boot Warning]:', err.message));
 
-// Start Server if not imported by test suite
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, HOST, () => {
-    console.log(`[RK Nutrition Server] API listening on ${HOST}:${PORT}`);
-  });
+  connectDb()
+    .then(() => {
+      app.listen(PORT, HOST, () => {
+        console.log(`[RK Nutrition Server] API listening on ${HOST}:${PORT}`);
+      });
+    })
+    .catch((err) => {
+      console.error('[RK Nutrition Server] Startup aborted:', err.message);
+      process.exit(1);
+    });
+} else {
+  connectDb().catch((err) => console.warn('[DB Test Boot Warning]:', err.message));
 }
 
 export default app;
