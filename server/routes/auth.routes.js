@@ -43,13 +43,10 @@ router.post('/register', authRateLimiter, async (req, res) => {
     const cleanPhone = phone ? phone.trim() : '';
 
     // Check if user already exists
-    let userExists = false;
-    if (mongoose.connection.readyState === 1) {
-      userExists = await User.findOne({ email: cleanEmail });
-    } else {
-      const db = getDb();
-      userExists = (db.users || []).some((u) => u.email.toLowerCase() === cleanEmail);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ success: false, error: 'Account service is temporarily unavailable. Please try again shortly.' });
     }
+    const userExists = await User.findOne({ email: cleanEmail }).select('_id');
 
     if (userExists) {
       return res.status(400).json({ success: false, error: 'An account with this email address already exists.' });
@@ -72,15 +69,8 @@ router.post('/register', authRateLimiter, async (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    if (mongoose.connection.readyState === 1) {
-      await User.create(newUserObj);
-    }
-
-    // Always mirror to resilient store
-    const db = getDb();
-    db.users = db.users || [];
-    db.users.push(newUserObj);
-    saveDb(db);
+    // Persist the account in MongoDB before issuing a success response or JWT.
+    await User.create(newUserObj);
 
     addLog('INFO', 'AUTH', `New customer account registered: ${cleanEmail}`);
 
@@ -129,13 +119,10 @@ router.post('/login', authRateLimiter, async (req, res) => {
     const normalizedEmail = email.trim().toLowerCase();
     let user = null;
 
-    if (mongoose.connection.readyState === 1) {
-      user = await User.findOne({ email: normalizedEmail });
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ success: false, error: 'Login service is temporarily unavailable. Please try again shortly.' });
     }
-    if (!user) {
-      const db = getDb();
-      user = (db.users || []).find((u) => u.email.toLowerCase() === normalizedEmail);
-    }
+    user = await User.findOne({ email: normalizedEmail });
 
     if (!user) {
       addLog('WARN', 'AUTH', `Failed login attempt for non-existent account: ${normalizedEmail}`);
