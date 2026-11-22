@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:40px_40px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#C8202B]/[0.06] rounded-full blur-[140px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#E11D2E]/[0.06] rounded-full blur-[140px]" />
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[420px] opacity-10">
           <RKWatermark className="w-full h-auto" />
         </div>
@@ -48,16 +48,16 @@ export default function AdminLoginPage() {
         {/* Card Box */}
         <div className="bg-[#141414] border border-[#262626] p-5 sm:p-8 shadow-2xl relative">
           {/* Crimson Top Bar Indicator */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-[#C8202B]" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-[#E11D2E]" />
 
           {/* Header */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1A1A1A] border border-[#2E2E2E] mb-4 relative">
               <span className="font-heading font-black text-2xl text-[#F5F4F2]">RK</span>
-              <div className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" />
+              <div className="absolute top-0 right-0 w-2 h-2 bg-[#E11D2E]" />
             </div>
             <h1 className="font-heading text-2xl uppercase tracking-wider text-[#F5F4F2] font-black">
-              Store Owner <span className="text-[#C8202B]">Admin</span>
+              Store Owner <span className="text-[#E11D2E]">Admin</span>
             </h1>
             <p className="text-xs text-[#8C8C8C] mt-1 font-mono uppercase tracking-widest">
               Products, Inventory, Orders & Payments
@@ -66,8 +66,8 @@ export default function AdminLoginPage() {
 
           {/* Error Banner */}
           {error && (
-            <div className="mb-6 p-3 bg-[#C8202B]/10 border border-[#C8202B]/40 text-[#F5F4F2] text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0" />
+            <div className="mb-6 p-3 bg-[#E11D2E]/10 border border-[#E11D2E]/40 text-[#F5F4F2] text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0" />
               <span>{error}</span>
             </div>
           )}
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="storeowner@rknutrition.com"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none pl-10 pr-3 py-2.5 text-sm text-[#F5F4F2] placeholder-[#555555] transition-colors"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none pl-10 pr-3 py-2.5 text-sm text-[#F5F4F2] placeholder-[#555555] transition-colors"
                 />
               </div>
             </div>
@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none pl-10 pr-10 py-2.5 text-sm text-[#F5F4F2] placeholder-[#555555] transition-colors"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none pl-10 pr-10 py-2.5 text-sm text-[#F5F4F2] placeholder-[#555555] transition-colors"
                 />
                 <button
                   type="button"
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 bg-[#C8202B] hover:bg-[#AC1721] disabled:opacity-50 text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold flex items-center justify-center gap-2 transition-colors shadow-lg shadow-[#C8202B]/20"
+              className="w-full py-3 bg-[#E11D2E] hover:bg-[#AC1721] disabled:opacity-50 text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold flex items-center justify-center gap-2 transition-colors shadow-lg shadow-[#E11D2E]/20"
             >
               <span>{isSubmitting ? 'Authenticating...' : 'Sign In To Store Admin'}</span>
               <ArrowRight className="w-4 h-4" />

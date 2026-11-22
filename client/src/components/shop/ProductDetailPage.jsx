@@ -80,7 +80,7 @@ export default function ProductDetailPage({ product, onBackToShop }) {
           <span>/</span>
           <span className="text-[#8C8C8C]">{product.category}</span>
           <span>/</span>
-          <span className="text-[#C8202B] truncate max-w-xs">{product.name}</span>
+          <span className="text-[#E11D2E] truncate max-w-xs">{product.name}</span>
         </nav>
 
         {/* 2-Column Product Detail Layout */}

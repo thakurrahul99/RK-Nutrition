@@ -24,17 +24,17 @@ export default function CategoryDetailPage() {
 
   const getCategoryIcon = (slug = '') => {
     const s = slug.toLowerCase();
-    if (s.includes('protein')) return <Dumbbell className="w-6 h-6 text-[#C8202B]" />;
-    if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-6 h-6 text-[#C8202B]" />;
-    if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-6 h-6 text-[#C8202B]" />;
-    return <Layers className="w-6 h-6 text-[#C8202B]" />;
+    if (s.includes('protein')) return <Dumbbell className="w-6 h-6 text-[#E11D2E]" />;
+    if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-6 h-6 text-[#E11D2E]" />;
+    if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-6 h-6 text-[#E11D2E]" />;
+    return <Layers className="w-6 h-6 text-[#E11D2E]" />;
   };
 
   if (!categoryMeta) {
     return (
       <div className="min-h-[70vh] bg-[#111111] text-[#F5F4F2] flex items-center justify-center p-8 text-center">
         <div className="max-w-md space-y-4">
-          <Layers className="w-12 h-12 text-[#C8202B] mx-auto" />
+          <Layers className="w-12 h-12 text-[#E11D2E] mx-auto" />
           <h2 className="font-heading text-3xl uppercase font-bold text-[#F5F4F2]">
             Category Not Found
           </h2>
@@ -44,7 +44,7 @@ export default function CategoryDetailPage() {
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/categories"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#C8202B] text-[#F5F4F2] font-heading uppercase tracking-wider text-xs font-bold"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#E11D2E] text-[#F5F4F2] font-heading uppercase tracking-wider text-xs font-bold"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>All Categories</span>
@@ -78,7 +78,7 @@ export default function CategoryDetailPage() {
               CATEGORIES
             </Link>
             <span>/</span>
-            <span className="text-[#C8202B]">{categoryMeta.name.toUpperCase()}</span>
+            <span className="text-[#E11D2E]">{categoryMeta.name.toUpperCase()}</span>
           </nav>
 
           <div className="space-y-3 pb-6">
@@ -86,7 +86,7 @@ export default function CategoryDetailPage() {
               <div className="w-10 h-10 bg-[#1E1E1E] border border-[#2E2E2E] flex items-center justify-center">
                 {getCategoryIcon(categoryMeta.slug)}
               </div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold">
                 CATEGORY // {categoryMeta.slug.toUpperCase()}
               </span>
             </div>
@@ -96,7 +96,7 @@ export default function CategoryDetailPage() {
             </h1>
 
             {categoryMeta.tagline && (
-              <p className="font-heading text-base text-[#C8202B] uppercase tracking-wider font-semibold">
+              <p className="font-heading text-base text-[#E11D2E] uppercase tracking-wider font-semibold">
                 {categoryMeta.tagline}
               </p>
             )}
@@ -113,7 +113,7 @@ export default function CategoryDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-8 border-b border-[#222222] text-xs font-mono text-[#8C8C8C]">
           <span className="flex items-center gap-2">
-            <Package className="w-4 h-4 text-[#C8202B]" />
+            <Package className="w-4 h-4 text-[#E11D2E]" />
             <strong className="text-[#F5F4F2]">{categoryProducts.length}</strong> {categoryProducts.length === 1 ? 'Product' : 'Products'} available in {categoryMeta.name}
           </span>
 
@@ -127,7 +127,7 @@ export default function CategoryDetailPage() {
             <span className="text-[#333333]">|</span>
             <Link
               to="/products"
-              className="text-[#C8202B] hover:text-[#F5F4F2] transition-colors"
+              className="text-[#E11D2E] hover:text-[#F5F4F2] transition-colors"
             >
               View Full Catalogue →
             </Link>

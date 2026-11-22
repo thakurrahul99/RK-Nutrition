@@ -77,11 +77,11 @@ export default function SearchModal({ isOpen, onClose }) {
         className="w-full max-w-2xl bg-[#141414] border border-[#2A2A2A] shadow-2xl shadow-black overflow-hidden relative"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="h-1 w-full bg-[#C8202B]" />
+        <div className="h-1 w-full bg-[#E11D2E]" />
 
         {/* Input Header */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-[#262626]">
-          <Search className="w-5 h-5 text-[#C8202B] shrink-0" />
+          <Search className="w-5 h-5 text-[#E11D2E] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -126,14 +126,14 @@ export default function SearchModal({ isOpen, onClose }) {
                       key={p.id}
                       type="button"
                       onClick={() => handleProductClick(p.id)}
-                      className="w-full p-3 bg-[#1A1A1A] hover:bg-[#202020] border border-[#262626] hover:border-[#C8202B] text-left transition-all flex items-center justify-between group cursor-pointer"
+                      className="w-full p-3 bg-[#1A1A1A] hover:bg-[#202020] border border-[#262626] hover:border-[#E11D2E] text-left transition-all flex items-center justify-between group cursor-pointer"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-[#141414] border border-[#2D2D2D] flex items-center justify-center text-[#C8202B] shrink-0">
+                        <div className="w-8 h-8 bg-[#141414] border border-[#2D2D2D] flex items-center justify-center text-[#E11D2E] shrink-0">
                           <Package className="w-4 h-4" />
                         </div>
                         <div>
-                          <span className="font-heading text-base text-[#F5F4F2] uppercase tracking-wider group-hover:text-[#C8202B] transition-colors block">
+                          <span className="font-heading text-base text-[#F5F4F2] uppercase tracking-wider group-hover:text-[#E11D2E] transition-colors block">
                             {p.name}
                           </span>
                           <span className="text-xs font-mono text-[#8C8C8C]">
@@ -141,7 +141,7 @@ export default function SearchModal({ isOpen, onClose }) {
                           </span>
                         </div>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-[#8C8C8C] group-hover:text-[#C8202B] group-hover:translate-x-1 transition-all" />
+                      <ArrowRight className="w-4 h-4 text-[#8C8C8C] group-hover:text-[#E11D2E] group-hover:translate-x-1 transition-all" />
                     </button>
                   ))}
                 </div>
@@ -166,17 +166,17 @@ export default function SearchModal({ isOpen, onClose }) {
                     key={cat.id || cat.slug}
                     type="button"
                     onClick={() => handleCategoryClick(cat.slug || cat.id)}
-                    className="w-full p-3.5 bg-[#1A1A1A] hover:bg-[#202020] border border-[#262626] hover:border-[#C8202B] text-left transition-all flex items-center justify-between group cursor-pointer"
+                    className="w-full p-3.5 bg-[#1A1A1A] hover:bg-[#202020] border border-[#262626] hover:border-[#E11D2E] text-left transition-all flex items-center justify-between group cursor-pointer"
                   >
                     <div>
-                      <span className="font-heading text-lg text-[#F5F4F2] uppercase tracking-wider group-hover:text-[#C8202B] transition-colors block">
+                      <span className="font-heading text-lg text-[#F5F4F2] uppercase tracking-wider group-hover:text-[#E11D2E] transition-colors block">
                         {cat.name || cat.title}
                       </span>
                       <span className="text-xs text-[#8C8C8C] line-clamp-1 mt-0.5 font-body">
                         {cat.tagline || cat.description}
                       </span>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-[#8C8C8C] group-hover:text-[#C8202B] group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="w-4 h-4 text-[#8C8C8C] group-hover:text-[#E11D2E] group-hover:translate-x-1 transition-all" />
                   </button>
                 ))}
               </div>
@@ -198,10 +198,10 @@ export default function SearchModal({ isOpen, onClose }) {
                   key={sc.path}
                   type="button"
                   onClick={() => handleShortcutClick(sc.path)}
-                  className="p-3 bg-[#181818] hover:bg-[#1E1E1E] border border-[#242424] hover:border-[#C8202B] text-left text-xs font-heading uppercase tracking-wider text-[#F5F4F2] flex items-center justify-between group transition-colors cursor-pointer"
+                  className="p-3 bg-[#181818] hover:bg-[#1E1E1E] border border-[#242424] hover:border-[#E11D2E] text-left text-xs font-heading uppercase tracking-wider text-[#F5F4F2] flex items-center justify-between group transition-colors cursor-pointer"
                 >
                   <span>{sc.label}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[#555555] group-hover:text-[#C8202B] transition-colors" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#555555] group-hover:text-[#E11D2E] transition-colors" />
                 </button>
               ))}
             </div>

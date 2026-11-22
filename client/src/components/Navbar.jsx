@@ -57,18 +57,18 @@ export default function Navbar({
           {/* Brand Wordmark (Always navigates to Home) */}
           <Link
             to="/"
-            className="flex items-center gap-1.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] text-left"
+            className="flex items-center gap-1.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] text-left"
             aria-label={`${name} Home`}
           >
-            <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#C8202B] transition-colors relative overflow-hidden">
+            <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#E11D2E] transition-colors relative overflow-hidden">
               <span className="font-heading font-black text-xl text-[#F5F4F2] tracking-tighter">
                 RK
               </span>
-              <div className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" />
+              <div className="absolute top-0 right-0 w-2 h-2 bg-[#E11D2E]" />
             </div>
             <div className="flex flex-col text-left">
               <span className="font-heading font-bold text-[15px] min-[360px]:text-base sm:text-2xl text-[#F5F4F2] tracking-[0.04em] sm:tracking-wider uppercase leading-none whitespace-nowrap transition-colors">
-                RK <span className="text-[#C8202B]">NUTRITION</span>
+                RK <span className="text-[#E11D2E]">NUTRITION</span>
               </span>
               <span className="text-[8px] sm:text-[9px] tracking-[0.12em] sm:tracking-widest text-[#8C8C8C] uppercase font-semibold mt-0.5">
                 SPORTS NUTRITION
@@ -95,7 +95,7 @@ export default function Navbar({
                   <>
                     <span>{item.label}</span>
                     <span
-                      className={`absolute bottom-0 left-0 h-[2px] bg-[#C8202B] transition-all duration-300 ${
+                      className={`absolute bottom-0 left-0 h-[2px] bg-[#E11D2E] transition-all duration-300 ${
                         isActive ? 'w-full' : 'w-0 group-hover:w-full'
                       }`}
                     />
@@ -127,7 +127,7 @@ export default function Navbar({
             >
               <Heart className={`w-5 h-5 ${wishlistCount > 0 ? 'text-[#E11D2E] fill-[#E11D2E]' : ''}`} />
               {wishlistCount > 0 && (
-                <span className="absolute 1 top-1 right-1 min-w-[18px] h-[18px] bg-[#E11D2E] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111]">
+                <span className="absolute top-1 right-1 min-w-[18px] h-[18px] bg-[#E11D2E] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111] animate-scale-in">
                   {wishlistCount}
                 </span>
               )}
@@ -140,9 +140,9 @@ export default function Navbar({
                   type="button"
                   onClick={() => navigate('/account')}
                   aria-label="Athlete Account"
-                  className="flex items-center gap-2 p-1.5 hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+                  className="flex items-center gap-2 p-1.5 hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] cursor-pointer"
                 >
-                  <div className="w-8 h-8 rounded-none bg-[#1A1A1A] border border-[#C8202B] flex items-center justify-center font-heading font-black text-xs text-[#F5F4F2] shadow-sm">
+                  <div className="w-8 h-8 rounded-none bg-[#1A1A1A] border border-[#E11D2E] flex items-center justify-center font-heading font-black text-xs text-[#F5F4F2] shadow-sm">
                     {user.avatarInitials || 'RK'}
                   </div>
                 </button>
@@ -150,7 +150,7 @@ export default function Navbar({
                 <Link
                   to="/login"
                   aria-label="Customer Sign In"
-                  className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer inline-flex items-center justify-center"
+                  className="p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] cursor-pointer inline-flex items-center justify-center"
                 >
                   <User className="w-5 h-5" />
                 </Link>
@@ -164,22 +164,22 @@ export default function Navbar({
                       <span className="text-[#F5F4F2] font-bold block uppercase font-heading text-sm truncate max-w-[180px]">
                         {user.name}
                       </span>
-                      <span className="text-[10px] text-[#C8202B] uppercase tracking-wider block font-semibold">
+                      <span className="text-[10px] text-[#E11D2E] uppercase tracking-wider block font-semibold">
                         {user.role === 'SUPER_ADMIN' ? 'Super Admin' : user.role === 'CLIENT_ADMIN' ? 'Store Manager' : 'Athlete Account'}
                       </span>
                     </div>
 
                     <div className="flex flex-col gap-1 text-xs">
                       <Link to="/account" className="hover:text-[#F5F4F2] hover:bg-[#1F1F1F] px-2 py-1.5 transition-colors flex items-center gap-2">
-                        <User className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <User className="w-3.5 h-3.5 text-[#E11D2E]" />
                         <span>My Account</span>
                       </Link>
                       <Link to="/account?tab=orders" className="hover:text-[#F5F4F2] hover:bg-[#1F1F1F] px-2 py-1.5 transition-colors flex items-center gap-2">
-                        <Package className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <Package className="w-3.5 h-3.5 text-[#E11D2E]" />
                         <span>My Orders</span>
                       </Link>
                       <Link to="/account?tab=addresses" className="hover:text-[#F5F4F2] hover:bg-[#1F1F1F] px-2 py-1.5 transition-colors flex items-center gap-2">
-                        <MapPin className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <MapPin className="w-3.5 h-3.5 text-[#E11D2E]" />
                         <span>Saved Addresses</span>
                       </Link>
 
@@ -203,7 +203,7 @@ export default function Navbar({
                     <div className="flex flex-col gap-1.5 text-xs">
                       <Link
                         to="/login"
-                        className="w-full py-1.5 px-3 bg-[#C8202B] hover:bg-[#D51F32] text-white font-bold text-center uppercase tracking-wider transition-colors"
+                        className="w-full py-1.5 px-3 bg-[#E11D2E] hover:bg-[#C81A27] text-white font-bold text-center uppercase tracking-wider transition-colors"
                       >
                         Sign In
                       </Link>

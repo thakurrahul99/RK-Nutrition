@@ -17,22 +17,22 @@ export default function NotFoundPage() {
     <div className="min-h-[80vh] bg-[#111111] text-[#F5F4F2] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20 relative overflow-hidden">
       {/* Background Lighting & Grid */}
       <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#C8202B]/10 rounded-full blur-[140px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#E11D2E]/10 rounded-full blur-[140px]" />
         <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:40px_40px]" />
       </div>
 
       <div className="max-w-2xl w-full text-center relative z-10 space-y-8">
         
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#161616] border border-[#2E2E2E] text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold">
-          <span className="w-1.5 h-1.5 bg-[#C8202B] animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#161616] border border-[#2E2E2E] text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold">
+          <span className="w-1.5 h-1.5 bg-[#E11D2E] animate-pulse" />
           <span>ERROR 404 • ROUTE NOT LOCATED</span>
         </div>
 
         {/* Large 404 Headline */}
         <div className="space-y-2">
           <h1 className="font-heading font-black text-7xl sm:text-8xl md:text-9xl tracking-tight text-[#F5F4F2] uppercase leading-none">
-            404<span className="text-[#C8202B]">.</span>
+            404<span className="text-[#E11D2E]">.</span>
           </h1>
           <h2 className="font-heading text-2xl sm:text-3xl text-[#F5F4F2] uppercase font-bold tracking-wider">
             PAGE NOT FOUND
@@ -44,7 +44,7 @@ export default function NotFoundPage() {
 
         {/* Instant Search Bar */}
         <form onSubmit={handleSearchSubmit} className="max-w-md mx-auto relative">
-          <div className="flex items-center bg-[#161616] border border-[#2A2A2A] focus-within:border-[#C8202B] transition-colors p-1.5">
+          <div className="flex items-center bg-[#161616] border border-[#2A2A2A] focus-within:border-[#E11D2E] transition-colors p-1.5">
             <Search className="w-4 h-4 text-[#8C8C8C] ml-3 shrink-0" />
             <input
               type="text"
@@ -55,7 +55,7 @@ export default function NotFoundPage() {
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase tracking-wider text-xs font-bold transition-colors shrink-0 cursor-pointer"
+              className="px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase tracking-wider text-xs font-bold transition-colors shrink-0 cursor-pointer"
             >
               Search
             </button>
@@ -66,11 +66,11 @@ export default function NotFoundPage() {
         <div className="pt-6 border-t border-[#222222] grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto text-left">
           <Link
             to="/products"
-            className="p-4 bg-[#141414] border border-[#242424] hover:border-[#C8202B] transition-colors group flex flex-col justify-between"
+            className="p-4 bg-[#141414] border border-[#242424] hover:border-[#E11D2E] transition-colors group flex flex-col justify-between"
           >
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase text-[#C8202B]">01 • CATALOGUE</span>
-              <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors block">
+              <span className="text-[10px] font-mono uppercase text-[#E11D2E]">01 • CATALOGUE</span>
+              <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#E11D2E] transition-colors block">
                 All Products
               </span>
               <p className="text-[11px] text-[#7C7C7C] font-body">
@@ -79,17 +79,17 @@ export default function NotFoundPage() {
             </div>
             <div className="pt-3 flex items-center justify-between text-xs text-[#555555]">
               <span>Shop</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#C8202B] group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             to="/categories"
-            className="p-4 bg-[#141414] border border-[#242424] hover:border-[#C8202B] transition-colors group flex flex-col justify-between"
+            className="p-4 bg-[#141414] border border-[#242424] hover:border-[#E11D2E] transition-colors group flex flex-col justify-between"
           >
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase text-[#C8202B]">02 • CATEGORIES</span>
-              <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors block">
+              <span className="text-[10px] font-mono uppercase text-[#E11D2E]">02 • CATEGORIES</span>
+              <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#E11D2E] transition-colors block">
                 Categories
               </span>
               <p className="text-[11px] text-[#7C7C7C] font-body">
@@ -98,17 +98,17 @@ export default function NotFoundPage() {
             </div>
             <div className="pt-3 flex items-center justify-between text-xs text-[#555555]">
               <span>Browse</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#C8202B] group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             to="/"
-            className="p-4 bg-[#141414] border border-[#242424] hover:border-[#C8202B] transition-colors group flex flex-col justify-between"
+            className="p-4 bg-[#141414] border border-[#242424] hover:border-[#E11D2E] transition-colors group flex flex-col justify-between"
           >
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase text-[#C8202B]">03 • HOME</span>
-              <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors block">
+              <span className="text-[10px] font-mono uppercase text-[#E11D2E]">03 • HOME</span>
+              <span className="font-heading text-lg font-bold text-[#F5F4F2] group-hover:text-[#E11D2E] transition-colors block">
                 Storefront
               </span>
               <p className="text-[11px] text-[#7C7C7C] font-body">
@@ -117,7 +117,7 @@ export default function NotFoundPage() {
             </div>
             <div className="pt-3 flex items-center justify-between text-xs text-[#555555]">
               <span>Return</span>
-              <ArrowLeft className="w-3.5 h-3.5 text-[#C8202B] group-hover:-translate-x-1 transition-transform" />
+              <ArrowLeft className="w-3.5 h-3.5 text-[#E11D2E] group-hover:-translate-x-1 transition-transform" />
             </div>
           </Link>
         </div>

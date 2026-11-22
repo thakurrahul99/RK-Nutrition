@@ -27,7 +27,7 @@ export default function ProductSort({
           id="shop-sort"
           value={selectedSort}
           onChange={(e) => onSelectSort(e.target.value)}
-          className="appearance-none bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] text-[#F5F4F2] text-xs font-mono uppercase tracking-wider py-2.5 pl-3.5 pr-8 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C8202B] transition-colors cursor-pointer"
+          className="appearance-none bg-[#161616] border border-[#2A2A2A] hover:border-[#E11D2E] text-[#F5F4F2] text-xs font-mono uppercase tracking-wider py-2.5 pl-3.5 pr-8 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#E11D2E] transition-colors cursor-pointer"
         >
           {sortOptions.map((opt) => (
             <option key={opt.id} value={opt.id} className="bg-[#161616] text-[#F5F4F2]">

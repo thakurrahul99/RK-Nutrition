@@ -43,13 +43,13 @@ export default function BrandValuesSection() {
   const getValueIcon = (index) => {
     switch (index) {
       case 0:
-        return <FileText className="w-6 h-6 text-[#C8202B]" />;
+        return <FileText className="w-6 h-6 text-[#E11D2E]" />;
       case 1:
-        return <ShieldCheck className="w-6 h-6 text-[#C8202B]" />;
+        return <ShieldCheck className="w-6 h-6 text-[#E11D2E]" />;
       case 2:
-        return <Scale className="w-6 h-6 text-[#C8202B]" />;
+        return <Scale className="w-6 h-6 text-[#E11D2E]" />;
       default:
-        return <ShieldCheck className="w-6 h-6 text-[#C8202B]" />;
+        return <ShieldCheck className="w-6 h-6 text-[#E11D2E]" />;
     }
   };
 
@@ -62,13 +62,13 @@ export default function BrandValuesSection() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-3">
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
             FORMULATION STANDARDS
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
           </div>
           <h2 className="font-heading text-4xl sm:text-5xl md:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.98]">
-            OUR QUALITY <span className="text-[#C8202B]">PILLARS.</span>
+            OUR QUALITY <span className="text-[#E11D2E]">PILLARS.</span>
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#8C8C8C] leading-relaxed">
             The non-negotiable principles that dictate how we source raw materials, test purity, and formulate every container.
@@ -81,7 +81,7 @@ export default function BrandValuesSection() {
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
               aria-label="Previous quality pillar"
-              className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
+              className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#E11D2E] hover:bg-[#E11D2E] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -90,7 +90,7 @@ export default function BrandValuesSection() {
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
               aria-label="Next quality pillar"
-              className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
+              className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#E11D2E] hover:bg-[#E11D2E] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -105,10 +105,10 @@ export default function BrandValuesSection() {
           {values.map((val, idx) => (
             <div 
               key={val.title}
-              className="shrink-0 md:shrink w-[280px] min-[360px]:w-[300px] sm:w-[360px] md:w-auto snap-start relative bg-[#161616] border border-[#262626] hover:border-[#C8202B] p-6 sm:p-8 md:p-10 flex flex-col justify-between transition-all duration-300 group shadow-lg overflow-hidden"
+              className="shrink-0 md:shrink w-[280px] min-[360px]:w-[300px] sm:w-[360px] md:w-auto snap-start relative bg-[#161616] border border-[#262626] hover:border-[#E11D2E] p-6 sm:p-8 md:p-10 flex flex-col justify-between transition-all duration-300 group shadow-lg overflow-hidden"
             >
               {/* Signature RK red corner block accent */}
-              <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#C8202B] z-10" />
+              <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#E11D2E] z-10" />
 
               {/* Subtle background RK watermark */}
               <span 
@@ -121,15 +121,15 @@ export default function BrandValuesSection() {
               {/* Header with Number and Icon */}
               <div>
                 <div className="flex items-center justify-between mb-6 sm:mb-8 pb-4 border-b border-[#242424]">
-                  <span className="font-heading font-black text-3xl sm:text-4xl text-[#3A3A3A] group-hover:text-[#C8202B] transition-colors">
+                  <span className="font-heading font-black text-3xl sm:text-4xl text-[#3A3A3A] group-hover:text-[#E11D2E] transition-colors">
                     {val.number}
                   </span>
-                  <div className="p-2.5 sm:p-3 bg-[#1A1A1A] border border-[#2A2A2A] group-hover:border-[#C8202B] transition-colors">
+                  <div className="p-2.5 sm:p-3 bg-[#1A1A1A] border border-[#2A2A2A] group-hover:border-[#E11D2E] transition-colors">
                     {getValueIcon(idx)}
                   </div>
                 </div>
 
-                <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-[#C8202B] block mb-1">
+                <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-[#E11D2E] block mb-1">
                   {val.subheading}
                 </span>
 
@@ -145,7 +145,7 @@ export default function BrandValuesSection() {
               {/* Bottom decorative bar */}
               <div className="mt-6 sm:mt-8 pt-4 border-t border-[#242424] flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-[#5A5A5A] uppercase">
                 <span>RK STANDARD</span>
-                <span className="group-hover:text-[#C8202B] transition-colors">STANDARD #{val.number}</span>
+                <span className="group-hover:text-[#E11D2E] transition-colors">STANDARD #{val.number}</span>
               </div>
             </div>
           ))}

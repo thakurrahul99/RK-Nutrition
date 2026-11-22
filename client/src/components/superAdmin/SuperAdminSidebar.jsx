@@ -73,12 +73,12 @@ export default function SuperAdminSidebar({ isOpen, onClose }) {
           {/* Quick Switch to Store Admin */}
           <div className="p-3 mx-3 my-2 bg-[#1E293B]/60 border border-[#334155] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-4 h-4 text-[#C8202B]" />
+              <ShoppingBag className="w-4 h-4 text-[#E11D2E]" />
               <span className="text-[11px] font-mono text-[#E2E8F0] uppercase font-semibold">Client Store</span>
             </div>
             <Link 
               to="/admin"
-              className="text-[10px] font-mono uppercase bg-[#C8202B]/20 hover:bg-[#C8202B]/30 text-[#F87171] px-2 py-1 flex items-center gap-1 transition-colors"
+              className="text-[10px] font-mono uppercase bg-[#E11D2E]/20 hover:bg-[#E11D2E]/30 text-[#F87171] px-2 py-1 flex items-center gap-1 transition-colors"
             >
               <span>Store Admin →</span>
             </Link>

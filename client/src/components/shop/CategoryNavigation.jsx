@@ -20,9 +20,9 @@ export default function CategoryNavigation({
                 key={cat.id}
                 type="button"
                 onClick={() => onSelectCategory(cat.id)}
-                className={`group relative whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-heading tracking-wider uppercase transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C8202B] ${
+                className={`group relative whitespace-nowrap px-4 py-2 text-xs sm:text-sm font-heading tracking-wider uppercase transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#E11D2E] ${
                   isSelected
-                    ? 'text-[#F5F4F2] bg-[#1E1E1E] border border-[#C8202B]'
+                    ? 'text-[#F5F4F2] bg-[#1E1E1E] border border-[#E11D2E]'
                     : 'text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#1A1A1A] border border-transparent'
                 }`}
               >
@@ -32,7 +32,7 @@ export default function CategoryNavigation({
                     <span 
                       className={`text-[10px] font-mono px-1.5 py-0.2 rounded-none ${
                         isSelected 
-                          ? 'bg-[#C8202B] text-[#F5F4F2]' 
+                          ? 'bg-[#E11D2E] text-[#F5F4F2]' 
                           : 'bg-[#222222] text-[#8C8C8C] group-hover:text-[#F5F4F2]'
                       }`}
                     >
@@ -41,7 +41,7 @@ export default function CategoryNavigation({
                   )}
                 </span>
                 {isSelected && (
-                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#C8202B]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#E11D2E]" />
                 )}
               </button>
             );

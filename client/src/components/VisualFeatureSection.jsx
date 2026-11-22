@@ -23,28 +23,28 @@ export default function VisualFeatureSection() {
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
         >
-          <line x1="0" y1="600" x2="600" y2="0" stroke="#C8202B" strokeWidth="1.5" strokeDasharray="12 12" />
-          <line x1="1440" y1="0" x2="840" y2="600" stroke="#C8202B" strokeWidth="1.5" strokeDasharray="12 12" />
+          <line x1="0" y1="600" x2="600" y2="0" stroke="#E11D2E" strokeWidth="1.5" strokeDasharray="12 12" />
+          <line x1="1440" y1="0" x2="840" y2="600" stroke="#E11D2E" strokeWidth="1.5" strokeDasharray="12 12" />
         </svg>
 
         {/* Horizontal Red Accent Lines */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8202B]/60 to-transparent" />
-        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#C8202B]/60 to-transparent" />
+        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#E11D2E]/60 to-transparent" />
+        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#E11D2E]/60 to-transparent" />
       </div>
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
         
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#181818] border border-[#2A2A2A] text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-8">
-          <span className="w-1.5 h-1.5 bg-[#C8202B]" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#181818] border border-[#2A2A2A] text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-8">
+          <span className="w-1.5 h-1.5 bg-[#E11D2E]" />
           {visualFeature.badge}
-          <span className="w-1.5 h-1.5 bg-[#C8202B]" />
+          <span className="w-1.5 h-1.5 bg-[#E11D2E]" />
         </div>
 
         {/* Large Editorial Headline */}
         <h2 className="font-heading text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.9] mb-8">
           <span className="block drop-shadow-md">{visualFeature.line1}</span>
-          <span className="block text-[#C8202B] text-glow-red mt-2">{visualFeature.line2}</span>
+          <span className="block text-[#E11D2E] text-glow-red mt-2">{visualFeature.line2}</span>
         </h2>
 
         {/* Subtext */}
@@ -54,9 +54,9 @@ export default function VisualFeatureSection() {
 
         {/* Center Geometric Accent Bar */}
         <div className="mt-12 flex items-center justify-center gap-3">
-          <div className="w-16 h-[2px] bg-[#C8202B]" />
-          <div className="w-3 h-3 rotate-45 border border-[#C8202B] bg-[#111111]" />
-          <div className="w-16 h-[2px] bg-[#C8202B]" />
+          <div className="w-16 h-[2px] bg-[#E11D2E]" />
+          <div className="w-3 h-3 rotate-45 border border-[#E11D2E] bg-[#111111]" />
+          <div className="w-16 h-[2px] bg-[#E11D2E]" />
         </div>
 
       </div>

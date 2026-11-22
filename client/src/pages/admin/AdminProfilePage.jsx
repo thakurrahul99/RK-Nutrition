@@ -72,9 +72,9 @@ export default function AdminProfilePage() {
         <button
           type="button"
           onClick={logout}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
         >
-          <LogOut className="w-3.5 h-3.5 text-[#C8202B]" />
+          <LogOut className="w-3.5 h-3.5 text-[#E11D2E]" />
           <span>Sign Out</span>
         </button>
       </div>
@@ -85,9 +85,9 @@ export default function AdminProfilePage() {
           {/* Identity Card */}
           <div className="bg-[#141414] border border-[#242424] p-6 space-y-4">
             <div className="flex items-center gap-4 pb-4 border-b border-[#242424]">
-              <div className="w-14 h-14 bg-[#1C1C1C] border border-[#2E2E2E] text-[#C8202B] font-heading font-black text-xl flex items-center justify-center relative">
+              <div className="w-14 h-14 bg-[#1C1C1C] border border-[#2E2E2E] text-[#E11D2E] font-heading font-black text-xl flex items-center justify-center relative">
                 {adminUser?.avatarInitials || 'RK'}
-                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#C8202B]" />
+                <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#E11D2E]" />
               </div>
               <div>
                 <h2 className="font-heading font-bold text-lg uppercase text-[#F5F4F2]">
@@ -119,7 +119,7 @@ export default function AdminProfilePage() {
                   type="text"
                   value={profileForm.name}
                   onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 />
               </div>
 
@@ -131,7 +131,7 @@ export default function AdminProfilePage() {
                   type="email"
                   value={profileForm.email}
                   onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 />
               </div>
 
@@ -143,13 +143,13 @@ export default function AdminProfilePage() {
                   type="text"
                   value={profileForm.role}
                   onChange={(e) => setProfileForm({ ...profileForm, role: e.target.value })}
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs font-bold tracking-widest transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs font-bold tracking-widest transition-colors flex items-center justify-center gap-2"
               >
                 <Save className="w-3.5 h-3.5" />
                 <span>Save Profile Info</span>
@@ -165,7 +165,7 @@ export default function AdminProfilePage() {
             <div className="text-xs font-mono space-y-1.5 text-[#8C8C8C]">
               <div>Environment: <span className="text-[#F5F4F2]">Vite + React (Windows Node Runtime)</span></div>
               <div>Host Location: <span className="text-[#F5F4F2]">127.0.0.1:5173 (Localhost)</span></div>
-              <div>Authentication Scope: <span className="text-[#C8202B]">rk_admin_auth (LocalStorage)</span></div>
+              <div>Authentication Scope: <span className="text-[#E11D2E]">rk_admin_auth (LocalStorage)</span></div>
             </div>
           </div>
         </div>
@@ -175,7 +175,7 @@ export default function AdminProfilePage() {
           {/* Password Form */}
           <div className="bg-[#141414] border border-[#242424] p-6 space-y-4">
             <div className="flex items-center gap-2 pb-3 border-b border-[#242424]">
-              <Key className="w-4 h-4 text-[#C8202B]" />
+              <Key className="w-4 h-4 text-[#E11D2E]" />
               <h2 className="font-heading text-sm uppercase font-bold text-[#F5F4F2] tracking-wider">
                 Change Admin Password
               </h2>
@@ -184,10 +184,10 @@ export default function AdminProfilePage() {
             {passwordStatus && (
               <div className={`p-3 text-xs flex items-center gap-2 ${
                 passwordStatus.type === 'error' 
-                  ? 'bg-[#C8202B]/10 border border-[#C8202B]/40 text-[#F5F4F2]' 
+                  ? 'bg-[#E11D2E]/10 border border-[#E11D2E]/40 text-[#F5F4F2]' 
                   : 'bg-[#4CAF50]/10 border border-[#4CAF50]/30 text-[#4CAF50]'
               }`}>
-                {passwordStatus.type === 'error' ? <AlertCircle className="w-4 h-4 text-[#C8202B]" /> : <CheckCircle2 className="w-4 h-4" />}
+                {passwordStatus.type === 'error' ? <AlertCircle className="w-4 h-4 text-[#E11D2E]" /> : <CheckCircle2 className="w-4 h-4" />}
                 <span>{passwordStatus.message}</span>
               </div>
             )}
@@ -203,7 +203,7 @@ export default function AdminProfilePage() {
                   onChange={(e) => setPassForm({ ...passForm, currentPassword: e.target.value })}
                   placeholder="••••••••••••"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 />
               </div>
 
@@ -217,7 +217,7 @@ export default function AdminProfilePage() {
                   onChange={(e) => setPassForm({ ...passForm, newPassword: e.target.value })}
                   placeholder="••••••••••••"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 />
               </div>
 
@@ -231,15 +231,15 @@ export default function AdminProfilePage() {
                   onChange={(e) => setPassForm({ ...passForm, confirmPassword: e.target.value })}
                   placeholder="••••••••••••"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-[#F5F4F2] font-heading uppercase text-xs font-bold tracking-widest transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-[#F5F4F2] font-heading uppercase text-xs font-bold tracking-widest transition-colors flex items-center justify-center gap-2"
               >
-                <Lock className="w-3.5 h-3.5 text-[#C8202B]" />
+                <Lock className="w-3.5 h-3.5 text-[#E11D2E]" />
                 <span>Update Password</span>
               </button>
             </form>

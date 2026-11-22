@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { brandConfig } from '../config/brandConfig';
 import { useContent } from '../context/ContentContext';
-import { Mail, ArrowUp } from 'lucide-react';
+import { Mail, ArrowUp, ShieldCheck, CheckCircle2, FlaskConical, Truck, Send } from 'lucide-react';
 
 export default function Footer() {
   const { name } = brandConfig;
   const { content } = useContent();
   const currentYear = new Date().getFullYear();
+  const [subscribed, setSubscribed] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -45,6 +47,30 @@ export default function Footer() {
   return (
     <footer id="contact-footer" className="bg-[#090909] border-t border-[#1C1C1C] text-[#F5F4F2]">
       
+      {/* Trust & Verification Strip */}
+      <div className="border-b border-[#1A1A1A] bg-[#0C0C0C]/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono text-[#8C8C8C]">
+            <div className="flex items-center gap-2.5">
+              <ShieldCheck className="w-4 h-4 text-[#E11D2E] shrink-0" />
+              <span>100% Authentic Sourced</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <CheckCircle2 className="w-4 h-4 text-[#E11D2E] shrink-0" />
+              <span>FSSAI Certified Labs</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <FlaskConical className="w-4 h-4 text-[#E11D2E] shrink-0" />
+              <span>Zero Amino Spiking</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <Truck className="w-4 h-4 text-[#E11D2E] shrink-0" />
+              <span>Free Delivery Over ₹999</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Footer Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
@@ -52,7 +78,7 @@ export default function Footer() {
           {/* Brand & Identity Column (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
             <Link to="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 bg-[#161616] border border-[#242424] flex items-center justify-center font-heading font-black text-sm text-[#F5F4F2]">
+              <div className="w-8 h-8 bg-[#161616] border border-[#242424] group-hover:border-[#E11D2E] flex items-center justify-center font-heading font-black text-sm text-[#F5F4F2] transition-colors">
                 RK
               </div>
               <span className="font-heading font-black text-xl text-[#F5F4F2] tracking-wider uppercase">
@@ -151,12 +177,37 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Contact Inquiry Column (3 cols) */}
-          <div className="lg:col-span-3 space-y-3">
-            <span className="text-[11px] font-heading uppercase tracking-wider text-[#F5F4F2] font-bold block">
-              Inquiries
-            </span>
-            <div className="p-3 bg-[#121212] border border-[#1F1F1F] space-y-1.5 text-xs font-mono">
+          {/* Contact Inquiry & Newsletter Column (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <div>
+              <span className="text-[11px] font-heading uppercase tracking-wider text-[#F5F4F2] font-bold block mb-2">
+                Athlete Dispatch
+              </span>
+              <form onSubmit={(e) => { e.preventDefault(); setSubscribed(true); }} className="space-y-2">
+                <div className="flex gap-1.5">
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter athlete email"
+                    className="bg-[#141414] border border-[#242424] focus:border-[#E11D2E] text-xs font-mono px-3 py-2 text-[#F5F4F2] placeholder-[#666666] flex-1 focus:outline-none transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    aria-label="Subscribe to dispatch"
+                    className="px-3 bg-[#E11D2E] hover:bg-[#C81A27] text-white flex items-center justify-center transition-all btn-shimmer active:scale-95 cursor-pointer"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                {subscribed && (
+                  <span className="text-[10px] font-mono text-emerald-400 block animate-fade-in">
+                    ✓ Registered for RK Athlete drops.
+                  </span>
+                )}
+              </form>
+            </div>
+
+            <div className="p-3 bg-[#121212] border border-[#1F1F1F] space-y-1 text-xs font-mono">
               <div className="flex items-center gap-1.5 text-[#8C8C8C]">
                 <Mail className="w-3.5 h-3.5 text-[#E11D2E]" />
                 <span>contact@rknutrition.com</span>

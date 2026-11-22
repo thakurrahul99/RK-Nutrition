@@ -20,14 +20,14 @@ export default function PrivacyPolicyPage() {
             <span>HOME</span>
           </Link>
           <span>/</span>
-          <span className="text-[#C8202B]">LEGAL</span>
+          <span className="text-[#E11D2E]">LEGAL</span>
           <span>/</span>
           <span className="text-[#F5F4F2]">PRIVACY POLICY</span>
         </nav>
 
         {/* Header */}
         <div className="pb-8 border-b border-[#222222] mb-10">
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-3">
             <Shield className="w-4 h-4" />
             LEGAL ARCHITECTURE // COMPLIANCE
           </div>
@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Content Body */}
         <div className="space-y-8 font-body text-sm sm:text-base text-[#CCCCCC] leading-relaxed">
-          <div className="p-6 bg-[#161616] border-l-2 border-[#C8202B] text-[#F5F4F2]">
+          <div className="p-6 bg-[#161616] border-l-2 border-[#E11D2E] text-[#F5F4F2]">
             <p className="font-medium leading-relaxed">
               {bodyText}
             </p>
@@ -70,14 +70,14 @@ export default function PrivacyPolicyPage() {
               3. Data Retention & Contact
             </h2>
             <p className="text-[#8C8C8C]">
-              Inquiry submissions and fulfillment records are retained only as long as necessary to satisfy operational and statutory requirements under Indian law. For privacy-related inquiries, reach our official compliance desk at <a href="mailto:contact@rknutrition.com" className="text-[#C8202B] underline">contact@rknutrition.com</a>.
+              Inquiry submissions and fulfillment records are retained only as long as necessary to satisfy operational and statutory requirements under Indian law. For privacy-related inquiries, reach our official compliance desk at <a href="mailto:contact@rknutrition.com" className="text-[#E11D2E] underline">contact@rknutrition.com</a>.
             </p>
           </section>
         </div>
 
         {/* Bottom Navigation */}
         <div className="mt-12 pt-8 border-t border-[#222222] flex items-center justify-between text-xs font-mono text-[#8C8C8C]">
-          <Link to="/" className="text-[#C8202B] hover:text-[#F5F4F2] transition-colors uppercase">
+          <Link to="/" className="text-[#E11D2E] hover:text-[#F5F4F2] transition-colors uppercase">
             ← Return to Homepage
           </Link>
           <Link to="/terms-of-service" className="text-[#8C8C8C] hover:text-[#F5F4F2] transition-colors uppercase">

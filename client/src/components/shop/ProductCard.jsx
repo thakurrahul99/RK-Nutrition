@@ -34,7 +34,6 @@ export default function ProductCard({ product, onSelectProduct }) {
     toggleWishlist(id);
   };
 
-  // Derive initials for fallback placeholder
   const getInitials = (str = '') => {
     return str
       .split(' ')
@@ -48,65 +47,79 @@ export default function ProductCard({ product, onSelectProduct }) {
   return (
     <article
       onClick={() => onSelectProduct && onSelectProduct(product)}
-      className="group relative bg-[#141414] border border-[#1F1F1F] hover:border-[#333333] transition-all duration-200 flex flex-col justify-between overflow-hidden cursor-pointer"
+      className="card-hover-lift group relative bg-[#131313] border border-[#202020] hover:border-[#E11D2E]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
     >
-      {/* Media Container: Square 1:1 Aspect Ratio */}
-      <div className="relative aspect-square w-full bg-[#121212] overflow-hidden flex items-center justify-center p-3 sm:p-4 border-b border-[#1A1A1A]">
+      {/* Media Container: Square 1:1 Aspect Ratio with Dynamic Ambient Glow */}
+      <div className="relative aspect-square w-full bg-[#101010] overflow-hidden flex items-center justify-center p-3 sm:p-5 border-b border-[#1A1A1A]">
         
+        {/* Soft Radial Ambient Glow that breathes on card hover */}
+        <div 
+          className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(225,29,46,0.22)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
+          aria-hidden="true"
+        />
+
+        {/* Technical Watermark Monogram */}
+        <span 
+          className="absolute font-heading font-black text-7xl sm:text-8xl text-white/[0.02] select-none pointer-events-none tracking-tighter"
+          aria-hidden="true"
+        >
+          RK
+        </span>
+
         {mainImage && !imageError ? (
           <img
             src={mainImage}
             alt={name}
             loading="lazy"
             decoding="async"
-            width="300"
-            height="300"
+            width="320"
+            height="320"
             onError={() => setImageError(true)}
-            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105 filter drop-shadow-lg"
           />
         ) : (
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-sm bg-[#1A1A1A] border border-[#242424] flex items-center justify-center text-center">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-sm bg-[#181818] border border-[#2A2A2A] flex items-center justify-center text-center">
             <span className="font-heading font-black text-base sm:text-lg text-[#666666] tracking-wider">
               {getInitials(name)}
             </span>
           </div>
         )}
 
-        {/* Save Badge: Top Left */}
+        {/* Save Discount Badge: Top Left */}
         {hasSale && (
           <div className="absolute top-2 left-2 z-10">
-            <span className="inline-block text-[10px] font-mono uppercase tracking-wider text-white bg-[#E11D2E] px-1.5 py-0.5 font-bold">
+            <span className="inline-block text-[10px] font-mono uppercase tracking-wider text-white bg-[#E11D2E] px-2 py-0.5 font-bold shadow-md shadow-[#E11D2E]/20">
               Save {discountPercent}%
             </span>
           </div>
         )}
 
-        {/* Wishlist Button: Top Right */}
+        {/* Wishlist Button: Top Right with tactile feedback */}
         <button
           type="button"
           onClick={handleWishlistClick}
           aria-label={isSaved ? `Remove ${name} from saved items` : `Save ${name} to wishlist`}
-          className={`absolute top-2 right-2 z-20 w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center border transition-colors cursor-pointer ${
+          className={`absolute top-2 right-2 z-20 w-8 h-8 flex items-center justify-center border transition-all duration-200 active:scale-90 cursor-pointer ${
             isSaved 
-              ? 'bg-[#E11D2E] text-white border-[#E11D2E]' 
-              : 'bg-[#181818]/90 text-[#8C8C8C] border-[#262626] hover:text-[#E11D2E] hover:border-[#383838]'
+              ? 'bg-[#E11D2E] text-white border-[#E11D2E] shadow-md shadow-[#E11D2E]/30' 
+              : 'bg-[#181818]/90 text-[#8C8C8C] border-[#2A2A2A] hover:text-[#E11D2E] hover:border-[#E11D2E]/60 backdrop-blur-sm'
           }`}
         >
           <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
         </button>
 
         {/* Desktop Quick Specs Overlay on Hover */}
-        <div className="hidden sm:flex absolute inset-x-0 bottom-0 py-2 bg-[#111111]/90 backdrop-blur-xs border-t border-[#222222] translate-y-full group-hover:translate-y-0 transition-transform duration-200 items-center justify-center gap-1.5 text-xs font-heading uppercase tracking-wider text-[#F5F4F2]">
-          <span>View Details</span>
-          <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E]" />
+        <div className="hidden sm:flex absolute inset-x-0 bottom-0 py-2.5 bg-[#0E0E0E]/95 backdrop-blur-md border-t border-[#222222] translate-y-full group-hover:translate-y-0 transition-transform duration-250 ease-out items-center justify-center gap-2 text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]">
+          <span>View Formulation</span>
+          <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E] transition-transform duration-200 group-hover:translate-x-1" />
         </div>
       </div>
 
       {/* Product Information Details */}
-      <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-2">
+      <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-2 relative">
         <div>
-          <span className="text-[11px] font-heading uppercase tracking-wider text-[#8C8C8C] block truncate mb-1">
-            {category || 'Supplement'}
+          <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#8C8C8C] block truncate mb-1">
+            {category || 'Performance Formulation'}
           </span>
           <h3 className="text-xs sm:text-sm font-body font-semibold text-[#F5F4F2] leading-tight line-clamp-2 group-hover:text-white transition-colors">
             {name}
@@ -140,12 +153,14 @@ export default function ProductCard({ product, onSelectProduct }) {
 
           {/* Desktop Variants Count */}
           {variants.length > 1 && (
-            <span className="hidden sm:inline-block text-[10px] font-mono text-[#666666] uppercase">
+            <span className="hidden sm:inline-block text-[10px] font-mono text-[#777777] uppercase bg-[#181818] px-1.5 py-0.5 border border-[#242424]">
               {variants.length} Sizes
             </span>
           )}
         </div>
 
+        {/* Subtle Bottom Accent Indicator on Hover */}
+        <div className="absolute bottom-0 left-0 h-[2px] w-0 group-hover:w-full bg-[#E11D2E] transition-all duration-300 pointer-events-none" />
       </div>
     </article>
   );

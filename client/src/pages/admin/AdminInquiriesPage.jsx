@@ -85,7 +85,7 @@ export default function AdminInquiriesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <MessageSquare className="w-4 h-4" />
             <span>Support & Communications</span>
           </div>
@@ -115,7 +115,7 @@ export default function AdminInquiriesPage() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search inquiries by sender, email, subject, or message content..."
-          className="w-full bg-[#141414] border border-[#242424] focus:border-[#C8202B] focus:outline-none pl-9 pr-4 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
+          className="w-full bg-[#141414] border border-[#242424] focus:border-[#E11D2E] focus:outline-none pl-9 pr-4 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
         />
       </div>
 
@@ -177,7 +177,7 @@ export default function AdminInquiriesPage() {
                         type="button"
                         onClick={() => handleDeleteInquiry(inq)}
                         title="Delete Inquiry"
-                        className="p-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-[#8C8C8C] hover:text-[#C8202B] transition-colors"
+                        className="p-1.5 bg-[#1C1C1C] hover:bg-[#E11D2E]/20 border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-[#8C8C8C] hover:text-[#E11D2E] transition-colors"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -199,7 +199,7 @@ export default function AdminInquiriesPage() {
         >
           <div className="w-full max-w-lg bg-[#141414] border border-[#2E2E2E] p-6 shadow-2xl relative">
             <div className="flex items-center justify-between pb-4 border-b border-[#242424]">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
                 <MessageSquare className="w-4 h-4" />
                 <span>Message Details</span>
               </div>
@@ -255,7 +255,7 @@ export default function AdminInquiriesPage() {
                 <button
                   type="button"
                   onClick={() => handleDeleteInquiry(selectedInquiry)}
-                  className="px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono uppercase text-[#C8202B] inline-flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#E11D2E]/20 border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-mono uppercase text-[#E11D2E] inline-flex items-center gap-1.5 transition-colors"
                 >
                   <Trash2 className="w-3 h-3" />
                   <span>Delete</span>
@@ -264,7 +264,7 @@ export default function AdminInquiriesPage() {
 
               <a
                 href={`mailto:${selectedInquiry.email}?subject=Re: ${encodeURIComponent(selectedInquiry.subject || 'RK Nutrition Inquiry')}`}
-                className="px-4 py-1.5 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] text-xs font-heading uppercase font-bold tracking-wider inline-flex items-center gap-1.5"
+                className="px-4 py-1.5 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] text-xs font-heading uppercase font-bold tracking-wider inline-flex items-center gap-1.5"
               >
                 <span>Reply by Email</span>
                 <ExternalLink className="w-3.5 h-3.5" />

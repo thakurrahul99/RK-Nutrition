@@ -55,7 +55,7 @@ export default function OrderConfirmationPage() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center space-y-3 font-mono text-xs uppercase tracking-widest text-[#8C8C8C]">
-          <div className="w-8 h-8 border-2 border-[#C8202B] border-t-transparent animate-spin mx-auto" />
+          <div className="w-8 h-8 border-2 border-[#E11D2E] border-t-transparent animate-spin mx-auto" />
           <p>Verifying Order Confirmation...</p>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function OrderConfirmationPage() {
       <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
         <div className="max-w-md w-full bg-[#161616] border border-[#262626] p-6 sm:p-8 space-y-5">
           <div className="text-center space-y-3">
-            <AlertCircle className="w-10 h-10 text-[#C8202B] mx-auto" />
+            <AlertCircle className="w-10 h-10 text-[#E11D2E] mx-auto" />
             <h1 className="font-heading text-xl uppercase tracking-wider text-[#F5F4F2] font-bold">
               Verify Your Order
             </h1>
@@ -76,7 +76,7 @@ export default function OrderConfirmationPage() {
             </p>
           </div>
           {error && (
-            <div className="p-3 bg-[#C8202B]/10 border border-[#C8202B]/40 text-sm text-[#F5F4F2]" role="alert">
+            <div className="p-3 bg-[#E11D2E]/10 border border-[#E11D2E]/40 text-sm text-[#F5F4F2]" role="alert">
               {error}
             </div>
           )}
@@ -91,13 +91,13 @@ export default function OrderConfirmationPage() {
                 placeholder="Enter phone number"
                 required
                 minLength={10}
-                className="mt-2 w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3 py-3 text-sm text-[#F5F4F2]"
+                className="mt-2 w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3 py-3 text-sm text-[#F5F4F2]"
               />
             </label>
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#C8202B] hover:bg-[#AC1721] disabled:opacity-50 text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold transition-colors"
+              className="w-full py-3 bg-[#E11D2E] hover:bg-[#AC1721] disabled:opacity-50 text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold transition-colors"
             >
               {loading ? 'Verifying…' : 'View Order'}
             </button>
@@ -117,14 +117,14 @@ export default function OrderConfirmationPage() {
       
       {/* 1. Header Banner */}
       <div className="bg-[#141414] border border-[#242424] p-6 sm:p-8 text-center space-y-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-[#C8202B]/10 rounded-bl-full pointer-events-none" />
+        <div className="absolute top-0 right-0 w-24 h-24 bg-[#E11D2E]/10 rounded-bl-full pointer-events-none" />
         
         <div className="w-16 h-16 bg-[#181818] border border-[#2E2E2E] flex items-center justify-center mx-auto text-[#22C55E]">
           <CheckCircle2 className="w-9 h-9" />
         </div>
 
         <div className="space-y-1">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] font-bold">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-bold">
             Order Confirmed // Ready For Dispatch
           </span>
           <h1 className="font-heading text-3xl sm:text-4xl text-[#F5F4F2] uppercase font-black tracking-tight">
@@ -153,7 +153,7 @@ export default function OrderConfirmationPage() {
         
         <div className="flex items-center justify-between pb-4 border-b border-[#222222]">
           <h2 className="font-heading font-bold text-lg uppercase tracking-wider text-[#F5F4F2] flex items-center gap-2">
-            <Package className="w-5 h-5 text-[#C8202B]" />
+            <Package className="w-5 h-5 text-[#E11D2E]" />
             Ordered Items ({items.length})
           </h2>
           <button
@@ -183,7 +183,7 @@ export default function OrderConfirmationPage() {
                     {item.name}
                   </h3>
                   {item.variant && (
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#C8202B] block">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#E11D2E] block">
                       {item.variant}
                     </span>
                   )}
@@ -240,7 +240,7 @@ export default function OrderConfirmationPage() {
         
         {/* Shipping Address */}
         <div className="bg-[#141414] border border-[#242424] p-6 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#C8202B] font-bold">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E11D2E] font-bold">
             <MapPin className="w-4 h-4" />
             <span>Delivery Destination</span>
           </div>
@@ -250,12 +250,12 @@ export default function OrderConfirmationPage() {
             <p>{customer?.city}, {customer?.state} - {customer?.pincode}</p>
             <div className="pt-2 flex flex-col gap-1 text-[#8C8C8C] font-mono text-[11px]">
               <span className="flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5 text-[#C8202B]" />
+                <Phone className="w-3.5 h-3.5 text-[#E11D2E]" />
                 {customer?.phone}
               </span>
               {customer?.email && (
                 <span className="flex items-center gap-1.5">
-                  <Mail className="w-3.5 h-3.5 text-[#C8202B]" />
+                  <Mail className="w-3.5 h-3.5 text-[#E11D2E]" />
                   {customer?.email}
                 </span>
               )}
@@ -265,7 +265,7 @@ export default function OrderConfirmationPage() {
 
         {/* Fulfillment & Courier Info */}
         <div className="bg-[#141414] border border-[#242424] p-6 space-y-3">
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#C8202B] font-bold">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E11D2E] font-bold">
             <Truck className="w-4 h-4" />
             <span>Courier & Tracking</span>
           </div>
@@ -302,7 +302,7 @@ export default function OrderConfirmationPage() {
           
           <Link
             to="/products"
-            className="flex-1 sm:flex-initial px-6 py-3.5 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20"
+            className="flex-1 sm:flex-initial px-6 py-3.5 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs tracking-widest font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#E11D2E]/20"
           >
             <span>Explore More Products</span>
             <ArrowRight className="w-4 h-4" />

@@ -135,7 +135,7 @@ export default function AdminPaymentsPage() {
   if (isLoading || !methods) {
     return (
       <div className="py-20 text-center font-mono text-xs text-[#8C8C8C] flex items-center justify-center gap-2">
-        <RefreshCw className="w-4 h-4 animate-spin text-[#C8202B]" />
+        <RefreshCw className="w-4 h-4 animate-spin text-[#E11D2E]" />
         <span>Loading Payment Operations...</span>
       </div>
     );
@@ -146,7 +146,7 @@ export default function AdminPaymentsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <CreditCard className="w-4 h-4" />
             <span>Financial Operations</span>
           </div>
@@ -162,7 +162,7 @@ export default function AdminPaymentsPage() {
           type="button"
           onClick={handleSaveMethods}
           disabled={isSaving}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#E11D2E]/20"
         >
           <Save className="w-4 h-4" />
           <span>{isSaving ? 'Saving...' : 'Save Settings'}</span>
@@ -173,7 +173,7 @@ export default function AdminPaymentsPage() {
       <div className="p-5 bg-[#141414] border border-[#242424] space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-[#C8202B]" />
+            <ShieldCheck className="w-4 h-4 text-[#E11D2E]" />
             <span>Payment Gateway Infrastructure Status</span>
           </span>
           <span className={`text-[10px] font-mono px-2 py-0.5 border ${
@@ -207,7 +207,7 @@ export default function AdminPaymentsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Cash on Delivery (COD) */}
-          <div className={`p-5 bg-[#141414] border transition-all ${methods.cod.enabled ? 'border-[#C8202B]/60 shadow-lg shadow-[#C8202B]/5' : 'border-[#242424]'}`}>
+          <div className={`p-5 bg-[#141414] border transition-all ${methods.cod.enabled ? 'border-[#E11D2E]/60 shadow-lg shadow-[#E11D2E]/5' : 'border-[#242424]'}`}>
             <div className="flex items-center justify-between pb-3 border-b border-[#202020]">
               <span className="font-heading font-bold uppercase text-[#F5F4F2] text-sm">
                 Cash On Delivery (COD)
@@ -216,7 +216,7 @@ export default function AdminPaymentsPage() {
                 type="button"
                 onClick={() => handleToggleMethod('cod')}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer transition-colors duration-200 ease-in-out border-2 border-transparent ${
-                  methods.cod.enabled ? 'bg-[#C8202B]' : 'bg-[#2A2A2A]'
+                  methods.cod.enabled ? 'bg-[#E11D2E]' : 'bg-[#2A2A2A]'
                 }`}
               >
                 <span
@@ -241,7 +241,7 @@ export default function AdminPaymentsPage() {
                   min="0"
                   value={methods.cod.extraFee || 0}
                   onChange={(e) => handleMethodFieldChange('cod', 'extraFee', Number(e.target.value))}
-                  className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1 text-xs text-[#F5F4F2] font-mono focus:border-[#C8202B] focus:outline-none"
+                  className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1 text-xs text-[#F5F4F2] font-mono focus:border-[#E11D2E] focus:outline-none"
                 />
               </div>
 
@@ -254,14 +254,14 @@ export default function AdminPaymentsPage() {
                   min="500"
                   value={methods.cod.maxLimit || 10000}
                   onChange={(e) => handleMethodFieldChange('cod', 'maxLimit', Number(e.target.value))}
-                  className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1 text-xs text-[#F5F4F2] font-mono focus:border-[#C8202B] focus:outline-none"
+                  className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1 text-xs text-[#F5F4F2] font-mono focus:border-[#E11D2E] focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Instant UPI Payments */}
-          <div className={`p-5 bg-[#141414] border transition-all ${methods.upi.enabled ? 'border-[#C8202B]/60 shadow-lg shadow-[#C8202B]/5' : 'border-[#242424]'}`}>
+          <div className={`p-5 bg-[#141414] border transition-all ${methods.upi.enabled ? 'border-[#E11D2E]/60 shadow-lg shadow-[#E11D2E]/5' : 'border-[#242424]'}`}>
             <div className="flex items-center justify-between pb-3 border-b border-[#202020]">
               <span className="font-heading font-bold uppercase text-[#F5F4F2] text-sm">
                 Instant UPI (PhonePe / GPay)
@@ -270,7 +270,7 @@ export default function AdminPaymentsPage() {
                 type="button"
                 onClick={() => handleToggleMethod('upi')}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer transition-colors duration-200 ease-in-out border-2 border-transparent ${
-                  methods.upi.enabled ? 'bg-[#C8202B]' : 'bg-[#2A2A2A]'
+                  methods.upi.enabled ? 'bg-[#E11D2E]' : 'bg-[#2A2A2A]'
                 }`}
               >
                 <span
@@ -292,7 +292,7 @@ export default function AdminPaymentsPage() {
           </div>
 
           {/* Credit & Debit Cards */}
-          <div className={`p-5 bg-[#141414] border transition-all ${methods.card.enabled ? 'border-[#C8202B]/60 shadow-lg shadow-[#C8202B]/5' : 'border-[#242424]'}`}>
+          <div className={`p-5 bg-[#141414] border transition-all ${methods.card.enabled ? 'border-[#E11D2E]/60 shadow-lg shadow-[#E11D2E]/5' : 'border-[#242424]'}`}>
             <div className="flex items-center justify-between pb-3 border-b border-[#202020]">
               <span className="font-heading font-bold uppercase text-[#F5F4F2] text-sm">
                 Cards & Net Banking
@@ -301,7 +301,7 @@ export default function AdminPaymentsPage() {
                 type="button"
                 onClick={() => handleToggleMethod('card')}
                 className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer transition-colors duration-200 ease-in-out border-2 border-transparent ${
-                  methods.card.enabled ? 'bg-[#C8202B]' : 'bg-[#2A2A2A]'
+                  methods.card.enabled ? 'bg-[#E11D2E]' : 'bg-[#2A2A2A]'
                 }`}
               >
                 <span
@@ -327,7 +327,7 @@ export default function AdminPaymentsPage() {
       {/* 2. Interactive Mixed-Cart Payment Rule Inspector */}
       <div className="p-6 bg-[#141414] border border-[#242424] space-y-6">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <HelpCircle className="w-4 h-4" />
             <span>Cart Rule Policy Tester</span>
           </div>
@@ -335,7 +335,7 @@ export default function AdminPaymentsPage() {
             Mixed-Cart Payment Simulator
           </h2>
           <p className="text-xs text-[#8C8C8C] mt-1 font-body">
-            Test how different product combinations evaluate payment method eligibility. If any item in the cart is tagged as <strong className="text-[#C8202B]">Prepaid Only</strong>, Cash on Delivery is automatically blocked for the entire order.
+            Test how different product combinations evaluate payment method eligibility. If any item in the cart is tagged as <strong className="text-[#E11D2E]">Prepaid Only</strong>, Cash on Delivery is automatically blocked for the entire order.
           </p>
         </div>
 
@@ -352,13 +352,13 @@ export default function AdminPaymentsPage() {
                   key={p.id}
                   type="button"
                   onClick={() => handleAddSimItem(p)}
-                  className="px-3 py-1.5 bg-[#181818] hover:bg-[#202020] border border-[#2A2A2A] hover:border-[#C8202B]/60 text-xs font-mono text-[#F5F4F2] flex items-center gap-2 transition-colors"
+                  className="px-3 py-1.5 bg-[#181818] hover:bg-[#202020] border border-[#2A2A2A] hover:border-[#E11D2E]/60 text-xs font-mono text-[#F5F4F2] flex items-center gap-2 transition-colors"
                 >
-                  <Plus className="w-3 h-3 text-[#C8202B]" />
+                  <Plus className="w-3 h-3 text-[#E11D2E]" />
                   <span>{p.name}</span>
                   <span className={`text-[10px] px-1 py-0.2 border ${
                     rule === 'PREPAID_ONLY' || rule === 'COD_DISABLED'
-                      ? 'border-[#C8202B] text-[#C8202B]'
+                      ? 'border-[#E11D2E] text-[#E11D2E]'
                       : 'border-[#4CAF50] text-[#4CAF50]'
                   }`}>
                     {rule}
@@ -377,7 +377,7 @@ export default function AdminPaymentsPage() {
               <button
                 type="button"
                 onClick={() => setSimCartItems([])}
-                className="text-[#C8202B] hover:underline"
+                className="text-[#E11D2E] hover:underline"
               >
                 Clear Cart
               </button>
@@ -397,7 +397,7 @@ export default function AdminPaymentsPage() {
                     <span className="font-mono text-[10px] text-[#8C8C8C]">x{it.quantity}</span>
                     <span className={`text-[10px] font-mono px-1 py-0.2 border ${
                       it.paymentRule === 'PREPAID_ONLY' || it.paymentRule === 'COD_DISABLED'
-                        ? 'border-[#C8202B] text-[#C8202B]'
+                        ? 'border-[#E11D2E] text-[#E11D2E]'
                         : 'border-[#4CAF50] text-[#4CAF50]'
                     }`}>
                       Rule: {it.paymentRule}
@@ -406,7 +406,7 @@ export default function AdminPaymentsPage() {
                   <button
                     type="button"
                     onClick={() => handleRemoveSimItem(it.productId)}
-                    className="text-[#666666] hover:text-[#C8202B]"
+                    className="text-[#666666] hover:text-[#E11D2E]"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -436,7 +436,7 @@ export default function AdminPaymentsPage() {
             <div className={`p-3 text-xs flex items-start gap-2 border ${
               simResult.codAllowed
                 ? 'bg-[#4CAF50]/10 border-[#4CAF50]/30 text-[#A5D6A7]'
-                : 'bg-[#C8202B]/10 border-[#C8202B]/30 text-[#EF9A9A]'
+                : 'bg-[#E11D2E]/10 border-[#E11D2E]/30 text-[#EF9A9A]'
             }`}>
               {simResult.codAllowed ? (
                 <>
@@ -445,7 +445,7 @@ export default function AdminPaymentsPage() {
                 </>
               ) : (
                 <>
-                  <AlertTriangle className="w-4 h-4 text-[#C8202B] shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-4 h-4 text-[#E11D2E] shrink-0 mt-0.5" />
                   <div>
                     <strong className="block uppercase font-bold text-[#F5F4F2]">Cash On Delivery Blocked</strong>
                     <span>{simResult.codBlockedReason}</span>

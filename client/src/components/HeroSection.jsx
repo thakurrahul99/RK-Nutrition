@@ -24,23 +24,26 @@ export default function HeroSection() {
       aria-label="Hero Section"
       className="relative bg-[#0B0B0B] border-b border-[#1A1A1A] overflow-hidden"
     >
-      {/* 1. Subtle Studio Ambient Lighting */}
+      {/* 1. Subtle Studio Ambient Lighting & High-Tech Atmosphere */}
       <div className="absolute inset-0 pointer-events-none select-none z-0" aria-hidden="true">
-        {/* Soft Radial Red Studio Flare at Top-Right on Mobile & Desktop */}
-        <div className="absolute right-0 top-0 w-[260px] sm:w-[480px] lg:w-[640px] h-[260px] sm:h-[480px] lg:h-[640px] bg-[radial-gradient(circle_at_top_right,rgba(225,29,46,0.20)_0%,rgba(11,11,11,0)_70%)] pointer-events-none" />
+        {/* Soft Animated Breathing Red Studio Flare at Top-Right */}
+        <div className="absolute right-0 top-0 w-[260px] sm:w-[480px] lg:w-[680px] h-[260px] sm:h-[480px] lg:h-[680px] bg-[radial-gradient(circle_at_top_right,rgba(225,29,46,0.22)_0%,rgba(11,11,11,0)_72%)] pointer-events-none animate-ambient-breath" />
+        
+        {/* Fine Technical Grid Matrix */}
+        <div className="absolute inset-0 bg-tech-grid opacity-40 pointer-events-none" />
       </div>
 
-      {/* 2. Main Hero Grid Container: padding 18px 16px 28px on mobile */}
+      {/* 2. Main Hero Grid Container */}
       <div className="relative max-w-7xl mx-auto px-4 py-[18px] pb-[28px] sm:px-6 lg:px-8 sm:py-12 lg:py-18 z-10 w-full overflow-hidden sm:overflow-visible">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-12 items-center">
           
           {/* Left Column (Desktop) / Main Stack (Mobile) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left w-full relative">
             
-            {/* 1. Tag Pill */}
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1 bg-[#121212] border border-[#242424] mb-[16px] sm:mb-5 max-w-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] shrink-0" aria-hidden="true" />
-              <span className="text-[9px] sm:text-xs font-mono font-bold tracking-[1.2px] sm:tracking-[0.22em] text-[#A1A1A1] uppercase truncate">
+            {/* 1. Tag Pill with Beacon Indicator */}
+            <div className="hero-anim-pill inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1.5 bg-[#121212]/90 backdrop-blur-md border border-[#242424] hover:border-[#E11D2E]/40 transition-colors mb-[16px] sm:mb-5 max-w-full shadow-lg shadow-black/40">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] shrink-0 animate-pulse" aria-hidden="true" />
+              <span className="text-[9px] sm:text-xs font-mono font-bold tracking-[1.2px] sm:tracking-[0.22em] text-[#C4C4C4] uppercase truncate">
                 {eyebrow}
               </span>
             </div>
@@ -53,20 +56,26 @@ export default function HeroSection() {
                 aria-hidden="true"
               >
                 {/* 1.4x radial halo glow behind tub */}
-                <div className="absolute inset-[-20%] bg-[radial-gradient(circle,rgba(225,29,46,0.22)_0%,transparent_65%)] pointer-events-none -z-10" />
-                <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_10px_28px_rgba(225,29,46,0.35)]" />
+                <div className="absolute inset-[-20%] bg-[radial-gradient(circle,rgba(225,29,46,0.24)_0%,transparent_65%)] pointer-events-none -z-10" />
+                <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_10px_28px_rgba(225,29,46,0.4)]" />
               </div>
 
-              {/* STEP 2: Main Headline */}
+              {/* STEP 2: Main Headline with Staggered Line Reveals */}
               <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.34em+16px)] sm:mb-6 select-none [transform:scaleY(1.52)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
-                <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
-                <span className="block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">{headingLine2}</span>
-                <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>
+                <span className="hero-anim-line-1 block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                  {headingLine1}
+                </span>
+                <span className="hero-anim-line-2 block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">
+                  {headingLine2}
+                </span>
+                <span className="hero-anim-line-3 block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                  {headingLine3}
+                </span>
               </h1>
             </div>
 
             {/* Mobile-Only "BUILT FOR YOUR ROUTINE." Block (Immediately below headline+tub) */}
-            <div className="block sm:hidden w-full pt-2.5 border-t border-[#1F1F1F] mb-[18px] text-left relative z-[2]">
+            <div className="hero-anim-footer block sm:hidden w-full pt-2.5 border-t border-[#1F1F1F] mb-[18px] text-left relative z-[2]">
               <div>
                 <span className="text-[14px] font-heading font-extrabold text-[#FFFFFF] tracking-[0.5px] uppercase block">
                   {supportingLabel}
@@ -78,31 +87,31 @@ export default function HeroSection() {
               <div className="flex items-center gap-2 text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9px] font-mono text-[#9CA3AF] uppercase tracking-[0.8px] min-[360px]:tracking-[1px] mt-[6px] whitespace-nowrap">
                 <span>EST. 2026</span>
                 <span>•</span>
-                <span className="text-[#E11D2E]">100% PURE FORMULATION</span>
+                <span className="text-[#E11D2E] font-bold">100% PURE FORMULATION</span>
               </div>
             </div>
 
-            {/* Paragraph / Supporting Text */}
-            <div className="w-full relative z-[2]">
+            {/* Paragraph / Supporting Text with Smooth Reveal */}
+            <div className="hero-anim-desc w-full relative z-[2]">
               <p className="max-w-xl text-[14px] sm:text-base md:text-lg text-[#B8BCC4] font-normal leading-[1.55] sm:leading-relaxed mb-[20px] sm:mb-8 font-body">
                 {subtext}
               </p>
             </div>
 
             {/* Buttons: Full width & 48px on mobile, auto width & side-by-side on desktop */}
-            <div className="w-full sm:w-auto relative z-[2] mb-2 sm:mb-8">
+            <div className="hero-anim-cta w-full sm:w-auto relative z-[2] mb-2 sm:mb-8">
               <div className="flex flex-col min-[360px]:flex-row items-stretch min-[360px]:items-center gap-[10px] sm:gap-4 w-full sm:w-auto">
                 <Link
                   to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
-                  className="w-full min-[360px]:flex-1 sm:w-auto sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#E11D2E] hover:bg-[#C81827] active:bg-[#AC1721] text-[#F2F2F2] font-heading text-[12px] sm:text-lg font-bold tracking-[1px] sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#E11D2E]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center whitespace-nowrap"
+                  className="btn-shimmer w-full min-[360px]:flex-1 sm:w-auto sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#E11D2E] hover:bg-[#C81827] active:scale-[0.98] text-[#F2F2F2] font-heading text-[12px] sm:text-lg font-bold tracking-[1px] sm:tracking-widest uppercase transition-all duration-200 shadow-xl shadow-[#E11D2E]/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center whitespace-nowrap"
                 >
                   <span>{primaryCtaText}</span>
-                  <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1 shrink-0" />
+                  <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1.5 shrink-0" />
                 </Link>
 
                 <Link
                   to={secondaryCtaHref.startsWith('#') ? '/categories' : secondaryCtaHref}
-                  className="w-full min-[360px]:flex-1 sm:w-auto sm:flex-none inline-flex items-center justify-center px-3 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#E11D2E] font-heading text-[12px] sm:text-lg font-bold tracking-[1px] sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center whitespace-nowrap"
+                  className="w-full min-[360px]:flex-1 sm:w-auto sm:flex-none inline-flex items-center justify-center px-3 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#121212]/90 hover:bg-[#1A1A1A] active:scale-[0.98] text-[#F2F2F2] border border-[#282828] hover:border-[#E11D2E]/80 font-heading text-[12px] sm:text-lg font-bold tracking-[1px] sm:tracking-widest uppercase transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center whitespace-nowrap backdrop-blur-sm"
                 >
                   <span>{secondaryCtaText}</span>
                 </Link>
@@ -110,7 +119,7 @@ export default function HeroSection() {
             </div>
 
             {/* Desktop-Only "BUILT FOR YOUR ROUTINE." Footer Bar */}
-            <div className="hidden sm:flex pt-6 border-t border-[#1F1F1F] w-full flex-row items-center justify-between gap-3 text-left relative z-[2]">
+            <div className="hero-anim-footer hidden sm:flex pt-6 border-t border-[#1F1F1F] w-full flex-row items-center justify-between gap-3 text-left relative z-[2]">
               <div>
                 <span className="text-sm font-heading font-bold text-[#F2F2F2] tracking-wider uppercase block">
                   {supportingLabel}
@@ -122,7 +131,7 @@ export default function HeroSection() {
               <div className="flex items-center gap-2 text-[10px] font-mono text-[#666666] uppercase tracking-widest">
                 <span>EST. 2026</span>
                 <span>•</span>
-                <span className="text-[#E11D2E]">100% PURE FORMULATION</span>
+                <span className="text-[#E11D2E] font-bold">100% PURE FORMULATION</span>
               </div>
             </div>
 

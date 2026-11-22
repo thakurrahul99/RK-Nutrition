@@ -56,7 +56,7 @@ export default function FAQPage() {
       {/* FAQ Hero */}
       <section className="relative bg-[#141414] border-b border-[#222222] pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none select-none">
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C8202B]/10 rounded-full blur-3xl -translate-y-1/2" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E11D2E]/10 rounded-full blur-3xl -translate-y-1/2" />
           <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:48px_48px]" />
         </div>
 
@@ -67,17 +67,17 @@ export default function FAQPage() {
               HOME
             </Link>
             <span>/</span>
-            <span className="text-[#C8202B]">FAQ</span>
+            <span className="text-[#E11D2E]">FAQ</span>
           </nav>
 
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-4">
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-4">
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
             FREQUENTLY ASKED QUESTIONS
           </div>
 
           <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95] mb-6">
             FREQUENTLY ASKED <br />
-            <span className="text-[#C8202B]">QUESTIONS</span>
+            <span className="text-[#E11D2E]">QUESTIONS</span>
           </h1>
 
           <p className="max-w-2xl text-base sm:text-lg text-[#8C8C8C] leading-relaxed font-body">
@@ -91,8 +91,8 @@ export default function FAQPage() {
         <div className="space-y-4">
           
           <div className="flex items-center justify-between pb-4 border-b border-[#262626] mb-8">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold">
-              <HelpCircle className="w-4 h-4 text-[#C8202B]" />
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold">
+              <HelpCircle className="w-4 h-4 text-[#E11D2E]" />
               <span>KNOWLEDGE BASE • 6 QUESTIONS</span>
             </div>
             <span className="text-xs font-mono text-[#5A5A5A] uppercase">
@@ -116,15 +116,15 @@ export default function FAQPage() {
                     aria-controls={answerId}
                     onClick={() => toggleAccordion(index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
-                    className="w-full flex items-center justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+                    className="w-full flex items-center justify-between text-left group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] cursor-pointer"
                   >
-                    <span className="font-heading text-xl sm:text-2xl text-[#F5F4F2] uppercase tracking-wide group-hover:text-[#C8202B] transition-colors pr-4">
+                    <span className="font-heading text-xl sm:text-2xl text-[#F5F4F2] uppercase tracking-wide group-hover:text-[#E11D2E] transition-colors pr-4">
                       {item.question}
                     </span>
-                    <div className={`p-2 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#C8202B] transition-colors shrink-0 ${isOpen ? 'border-[#C8202B]' : ''}`}>
+                    <div className={`p-2 bg-[#1A1A1A] border border-[#2E2E2E] group-hover:border-[#E11D2E] transition-colors shrink-0 ${isOpen ? 'border-[#E11D2E]' : ''}`}>
                       <ChevronDown
                         className={`w-4 h-4 text-[#8C8C8C] transition-transform duration-300 ${
-                          isOpen ? 'rotate-180 text-[#C8202B]' : ''
+                          isOpen ? 'rotate-180 text-[#E11D2E]' : ''
                         }`}
                       />
                     </div>
@@ -159,7 +159,7 @@ export default function FAQPage() {
           </div>
           <Link
             to="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-sm tracking-wider transition-colors shadow-lg shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-sm tracking-wider transition-colors shadow-lg shrink-0"
           >
             <Mail className="w-4 h-4" />
             <span>Contact Us</span>

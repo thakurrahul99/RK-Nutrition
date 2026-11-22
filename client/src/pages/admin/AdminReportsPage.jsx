@@ -38,7 +38,7 @@ export default function AdminReportsPage() {
   if (isLoading || !reports) {
     return (
       <div className="py-20 text-center font-mono text-xs text-[#8C8C8C] flex items-center justify-center gap-2">
-        <RefreshCw className="w-4 h-4 animate-spin text-[#C8202B]" />
+        <RefreshCw className="w-4 h-4 animate-spin text-[#E11D2E]" />
         <span>Compiling Store Performance Metrics...</span>
       </div>
     );
@@ -53,7 +53,7 @@ export default function AdminReportsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <BarChart3 className="w-4 h-4" />
             <span>Store Intelligence</span>
           </div>
@@ -118,7 +118,7 @@ export default function AdminReportsPage() {
             <h2 className="font-heading text-sm uppercase font-bold text-[#F5F4F2] tracking-wider">
               Payment Method Breakdown
             </h2>
-            <CreditCard className="w-4 h-4 text-[#C8202B]" />
+            <CreditCard className="w-4 h-4 text-[#E11D2E]" />
           </div>
 
           <div className="space-y-4">
@@ -160,12 +160,12 @@ export default function AdminReportsPage() {
             <h2 className="font-heading text-sm uppercase font-bold text-[#F5F4F2] tracking-wider">
               Category Volume Distribution
             </h2>
-            <PieChart className="w-4 h-4 text-[#C8202B]" />
+            <PieChart className="w-4 h-4 text-[#E11D2E]" />
           </div>
 
           <div className="space-y-3">
             {[
-              { label: 'Whey Protein', count: reports.categorySales?.protein || 0, color: '#C8202B' },
+              { label: 'Whey Protein', count: reports.categorySales?.protein || 0, color: '#E11D2E' },
               { label: 'Mass Gainers', count: reports.categorySales?.['mass-gainer'] || 0, color: '#EAB308' },
               { label: 'Pre-Workout & Energy', count: reports.categorySales?.['pre-workout'] || 0, color: '#2196F3' }
             ].map((cat) => (
@@ -185,13 +185,13 @@ export default function AdminReportsPage() {
       {reports.lowStockProducts && reports.lowStockProducts.length > 0 && (
         <div className="p-6 bg-[#141414] border border-[#242424] space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-[#202020]">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#C8202B] font-bold">
+            <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#E11D2E] font-bold">
               <AlertTriangle className="w-4 h-4" />
               <span>Critical Inventory Warning</span>
             </div>
             <Link 
               to="/admin/inventory"
-              className="text-xs font-mono uppercase text-[#C8202B] hover:underline flex items-center gap-1"
+              className="text-xs font-mono uppercase text-[#E11D2E] hover:underline flex items-center gap-1"
             >
               <span>Restock Matrix</span>
               <ArrowRight className="w-3 h-3" />
@@ -200,11 +200,11 @@ export default function AdminReportsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {reports.lowStockProducts.map((p) => (
-              <div key={p.id} className="p-4 bg-[#111111] border border-[#C8202B]/30 space-y-1">
+              <div key={p.id} className="p-4 bg-[#111111] border border-[#E11D2E]/30 space-y-1">
                 <span className="font-heading font-bold uppercase text-xs text-[#F5F4F2] block truncate">{p.name}</span>
                 <span className="font-mono text-[10px] text-[#8C8C8C] block">SKU: {p.sku}</span>
                 <div className="flex items-center justify-between text-xs pt-2">
-                  <span className="text-[#8C8C8C] font-mono">Stock: <strong className="text-[#C8202B] font-bold">{p.stock}</strong></span>
+                  <span className="text-[#8C8C8C] font-mono">Stock: <strong className="text-[#E11D2E] font-bold">{p.stock}</strong></span>
                   <span className="text-[#666666] font-mono">Alert: {p.threshold}</span>
                 </div>
               </div>

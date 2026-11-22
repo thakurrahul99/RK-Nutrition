@@ -190,12 +190,12 @@ export default function ProductsPage() {
             <button
               type="button"
               onClick={() => setIsMobileFiltersOpen(true)}
-              className="lg:hidden inline-flex items-center gap-2 px-3.5 py-2.5 bg-[#161616] border border-[#2E2E2E] hover:border-[#C8202B] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
+              className="lg:hidden inline-flex items-center gap-2 px-3.5 py-2.5 bg-[#161616] border border-[#2E2E2E] hover:border-[#E11D2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-[#C8202B]" />
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[#E11D2E]" />
               <span>Filters</span>
               {hasActiveFilters && (
-                <span className="w-1.5 h-1.5 bg-[#C8202B] rounded-full" />
+                <span className="w-1.5 h-1.5 bg-[#E11D2E] rounded-full" />
               )}
             </button>
 
@@ -240,7 +240,7 @@ export default function ProductsPage() {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="text-[#C8202B] hover:text-[#F5F4F2] transition-colors"
+                  className="text-[#E11D2E] hover:text-[#F5F4F2] transition-colors"
                 >
                   Clear All Filters
                 </button>

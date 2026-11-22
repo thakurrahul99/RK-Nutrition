@@ -183,7 +183,7 @@ export default function AdminDiscountsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <Tag className="w-4 h-4" />
             <span>Store Marketing</span>
           </div>
@@ -208,7 +208,7 @@ export default function AdminDiscountsPage() {
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#E11D2E]/20"
           >
             <Plus className="w-4 h-4" />
             <span>Create Coupon</span>
@@ -249,7 +249,7 @@ export default function AdminDiscountsPage() {
                       <button
                         type="button"
                         onClick={() => copyToClipboard(c.code)}
-                        className="text-[#666666] hover:text-[#C8202B] p-1"
+                        className="text-[#666666] hover:text-[#E11D2E] p-1"
                         title="Copy code"
                       >
                         <Copy className="w-3.5 h-3.5" />
@@ -309,7 +309,7 @@ export default function AdminDiscountsPage() {
                       <button
                         type="button"
                         onClick={() => handleDelete(c)}
-                        className="p-1.5 text-[#666666] hover:text-[#C8202B] hover:bg-[#1E1E1E] transition-colors"
+                        className="p-1.5 text-[#666666] hover:text-[#E11D2E] hover:bg-[#1E1E1E] transition-colors"
                         title="Delete Coupon"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -332,7 +332,7 @@ export default function AdminDiscountsPage() {
         >
           <div className="w-full max-w-md bg-[#141414] border border-[#2E2E2E] p-6 shadow-2xl relative">
             <div className="flex items-center justify-between pb-4 border-b border-[#242424]">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
                 <Tag className="w-4 h-4" />
                 <span>{editingCoupon ? 'Update Promotion' : 'New Promotion'}</span>
               </div>
@@ -346,8 +346,8 @@ export default function AdminDiscountsPage() {
             </div>
 
             {formError && (
-              <div className="mt-4 p-3 bg-[#C8202B]/10 border border-[#C8202B]/30 text-xs text-[#F5F4F2] flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0" />
+              <div className="mt-4 p-3 bg-[#E11D2E]/10 border border-[#E11D2E]/30 text-xs text-[#F5F4F2] flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0" />
                 <span>{formError}</span>
               </div>
             )}
@@ -363,7 +363,7 @@ export default function AdminDiscountsPage() {
                   value={newCoupon.code}
                   onChange={(e) => setNewCoupon({ ...newCoupon, code: e.target.value.toUpperCase() })}
                   placeholder="e.g. RKPOWER15"
-                  className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] font-mono uppercase focus:outline-none"
+                  className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] font-mono uppercase focus:outline-none"
                 />
               </div>
 
@@ -375,7 +375,7 @@ export default function AdminDiscountsPage() {
                   <select
                     value={newCoupon.discountType}
                     onChange={(e) => setNewCoupon({ ...newCoupon, discountType: e.target.value })}
-                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
+                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
                   >
                     <option value="percentage">Percentage (%)</option>
                     <option value="fixed">Fixed INR (₹)</option>
@@ -393,7 +393,7 @@ export default function AdminDiscountsPage() {
                     value={newCoupon.discountValue}
                     onChange={(e) => setNewCoupon({ ...newCoupon, discountValue: e.target.value })}
                     placeholder={newCoupon.discountType === 'percentage' ? 'e.g. 15' : 'e.g. 200'}
-                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] font-mono focus:outline-none"
+                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] font-mono focus:outline-none"
                   />
                 </div>
               </div>
@@ -409,7 +409,7 @@ export default function AdminDiscountsPage() {
                     value={newCoupon.minCartValue}
                     onChange={(e) => setNewCoupon({ ...newCoupon, minCartValue: e.target.value })}
                     placeholder="e.g. 1500"
-                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] font-mono focus:outline-none"
+                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] font-mono focus:outline-none"
                   />
                 </div>
 
@@ -422,7 +422,7 @@ export default function AdminDiscountsPage() {
                     min="1"
                     value={newCoupon.maxUses}
                     onChange={(e) => setNewCoupon({ ...newCoupon, maxUses: e.target.value })}
-                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] font-mono focus:outline-none"
+                    className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] font-mono focus:outline-none"
                   />
                 </div>
               </div>
@@ -435,7 +435,7 @@ export default function AdminDiscountsPage() {
                   type="date"
                   value={newCoupon.expiryDate}
                   onChange={(e) => setNewCoupon({ ...newCoupon, expiryDate: e.target.value })}
-                  className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
+                  className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
                 />
               </div>
 
@@ -448,7 +448,7 @@ export default function AdminDiscountsPage() {
                   value={newCoupon.description}
                   onChange={(e) => setNewCoupon({ ...newCoupon, description: e.target.value })}
                   placeholder="e.g. Athlete launch promotion"
-                  className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
+                  className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
                 />
               </div>
 
@@ -463,7 +463,7 @@ export default function AdminDiscountsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
+                  className="px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
                 >
                   {isSubmitting ? 'Saving...' : editingCoupon ? 'Update Coupon' : 'Create Coupon'}
                 </button>

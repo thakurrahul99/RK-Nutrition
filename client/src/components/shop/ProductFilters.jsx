@@ -22,7 +22,7 @@ export default function ProductFilters({
       {/* Header & Reset Action */}
       <div className="flex items-center justify-between pb-4 border-b border-[#262626]">
         <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-[#C8202B]" />
+          <Filter className="w-4 h-4 text-[#E11D2E]" />
           <span className="font-heading uppercase text-sm tracking-widest text-[#F5F4F2] font-bold">
             Filters
           </span>
@@ -31,7 +31,7 @@ export default function ProductFilters({
           <button
             type="button"
             onClick={onResetFilters}
-            className="text-xs text-[#C8202B] hover:text-[#F5F4F2] font-mono uppercase tracking-wider flex items-center gap-1 transition-colors"
+            className="text-xs text-[#E11D2E] hover:text-[#F5F4F2] font-mono uppercase tracking-wider flex items-center gap-1 transition-colors"
           >
             <RotateCcw className="w-3 h-3" />
             <span>Reset</span>
@@ -52,13 +52,13 @@ export default function ProductFilters({
               onClick={() => onSelectCategory(cat.id)}
               className={`w-full flex items-center justify-between px-3 py-2 text-xs font-heading uppercase tracking-wider transition-colors text-left ${
                 selectedCategory === cat.id
-                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#C8202B]'
+                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#E11D2E]'
                   : 'text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#161616]'
               }`}
             >
               <span>{cat.label}</span>
               {selectedCategory === cat.id && (
-                <span className="w-1.5 h-1.5 bg-[#C8202B]" />
+                <span className="w-1.5 h-1.5 bg-[#E11D2E]" />
               )}
             </button>
           ))}
@@ -79,7 +79,7 @@ export default function ProductFilters({
                 onClick={() => onSelectVariant(selectedVariant === v ? '' : v)}
                 className={`px-3 py-1.5 text-xs font-mono transition-colors border ${
                   selectedVariant === v
-                    ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B]'
+                    ? 'bg-[#E11D2E] text-[#F5F4F2] border-[#E11D2E]'
                     : 'bg-[#161616] text-[#8C8C8C] border-[#2E2E2E] hover:border-[#8C8C8C] hover:text-[#F5F4F2]'
                 }`}
               >
@@ -102,7 +102,7 @@ export default function ProductFilters({
               onClick={() => onSelectPriceRange('all')}
               className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
                 selectedPriceRange === 'all'
-                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#C8202B]'
+                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#E11D2E]'
                   : 'text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#161616]'
               }`}
             >
@@ -113,7 +113,7 @@ export default function ProductFilters({
               onClick={() => onSelectPriceRange('under-3000')}
               className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
                 selectedPriceRange === 'under-3000'
-                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#C8202B]'
+                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#E11D2E]'
                   : 'text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#161616]'
               }`}
             >
@@ -124,7 +124,7 @@ export default function ProductFilters({
               onClick={() => onSelectPriceRange('3000-plus')}
               className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
                 selectedPriceRange === '3000-plus'
-                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#C8202B]'
+                  ? 'bg-[#1E1E1E] text-[#F5F4F2] border-l-2 border-[#E11D2E]'
                   : 'text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#161616]'
               }`}
             >
@@ -177,7 +177,7 @@ export default function ProductFilters({
               <button
                 type="button"
                 onClick={onCloseMobileDrawer}
-                className="w-full py-3 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-sm tracking-wider transition-colors"
+                className="w-full py-3 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-sm tracking-wider transition-colors"
               >
                 Apply Filters
               </button>

@@ -14,7 +14,7 @@ export default function SuperAdminBrandingPage() {
     colors: {
       primaryBlack: '#111111',
       darkGrey: '#1A1A1A',
-      accentRed: '#C8202B',
+      accentRed: '#E11D2E',
       accentRedHover: '#AC1721',
       offWhite: '#F5F4F2',
       mutedGrey: '#8C8C8C'
@@ -129,7 +129,7 @@ export default function SuperAdminBrandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { key: 'primaryBlack', label: 'Primary Black (Dark Canvas)', default: '#111111' },
-              { key: 'accentRed', label: 'RK Signature Red (Accent)', default: '#C8202B' },
+              { key: 'accentRed', label: 'RK Signature Red (Accent)', default: '#E11D2E' },
               { key: 'accentRedHover', label: 'Red Hover State', default: '#AC1721' },
               { key: 'darkGrey', label: 'Dark Charcoal Surface', default: '#1A1A1A' },
               { key: 'offWhite', label: 'Off-White Text Tone', default: '#F5F4F2' },
@@ -175,7 +175,7 @@ export default function SuperAdminBrandingPage() {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center space-y-2">
                 <div className="font-heading font-black text-4xl text-[#F5F4F2] tracking-wider uppercase">
-                  RK <span className="text-[#C8202B]">NUTRITION</span>
+                  RK <span className="text-[#E11D2E]">NUTRITION</span>
                 </div>
                 <div className="text-xs font-mono text-[#8C8C8C] uppercase tracking-widest">
                   {brandingForm.tagline}

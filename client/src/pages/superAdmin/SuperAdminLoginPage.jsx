@@ -129,12 +129,12 @@ export default function SuperAdminLoginPage() {
           <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#1E293B] space-y-3">
             <div className="p-3 bg-[#0F172A] border border-[#1E293B] text-[11px] font-mono text-[#94A3B8] flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <ShoppingBag className="w-3.5 h-3.5 text-[#C8202B]" />
+                <ShoppingBag className="w-3.5 h-3.5 text-[#E11D2E]" />
                 <span>Store Owner?</span>
               </div>
               <Link 
                 to="/admin/login" 
-                className="text-[#C8202B] hover:underline font-bold"
+                className="text-[#E11D2E] hover:underline font-bold"
               >
                 Store Admin Login →
               </Link>

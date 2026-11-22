@@ -70,18 +70,27 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#111111]">
+    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#0E0E0E] relative overflow-hidden page-enter">
+      {/* Background ambient red flare */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none opacity-25 blur-3xl"
+        style={{
+          background: 'radial-gradient(circle, rgba(225, 29, 46, 0.4) 0%, transparent 70%)'
+        }}
+        aria-hidden="true"
+      />
+
       <DocumentMeta 
         title="Customer Sign In | RK Nutrition" 
         description="Sign in to your RK Nutrition customer account to track orders, manage delivery addresses, and view your supplement stack." 
       />
 
-      <div className="w-full max-w-md space-y-6 sm:space-y-8 bg-[#161616] border border-[#262626] p-5 sm:p-10 shadow-2xl relative">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C8202B] via-[#E52535] to-[#8A141D]" />
+      <div className="w-full max-w-md space-y-6 sm:space-y-8 bg-[#141414] border border-[#262626] p-5 sm:p-10 shadow-2xl relative z-10 card-hover-lift">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E11D2E] via-[#FF3B4E] to-[#B01422]" />
 
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#1F1F1F] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#C8202B] mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#1A1A1A] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#E11D2E] mb-2">
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>ATHLETE PORTAL</span>
           </div>
@@ -99,7 +108,7 @@ export default function LoginPage() {
             role="alert"
             className="p-3.5 bg-[#2B1416] border border-[#852229] text-[#FFA8AE] text-xs sm:text-sm flex items-start gap-2.5 font-body"
           >
-            <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0 mt-0.5" />
             <span>{errorMessage}</span>
           </div>
         )}
@@ -120,7 +129,7 @@ export default function LoginPage() {
                 placeholder="athlete@example.com"
                 required
                 autoComplete="email"
-                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] pl-10 pr-4 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body outline-none transition-colors"
+                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] pl-10 pr-4 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body outline-none transition-colors"
               />
             </div>
           </div>
@@ -133,7 +142,7 @@ export default function LoginPage() {
               </label>
               <Link
                 to="/forgot-password"
-                className="text-xs text-[#8C8C8C] hover:text-[#C8202B] transition-colors font-body"
+                className="text-xs text-[#8C8C8C] hover:text-[#E11D2E] transition-colors font-body"
               >
                 Forgot password?
               </Link>
@@ -147,7 +156,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
-                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] pl-10 pr-11 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body outline-none transition-colors"
+                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] pl-10 pr-11 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body outline-none transition-colors"
               />
               <button
                 type="button"
@@ -167,7 +176,7 @@ export default function LoginPage() {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 bg-[#111111] border border-[#2E2E2E] rounded accent-[#C8202B] cursor-pointer"
+                className="w-4 h-4 bg-[#111111] border border-[#2E2E2E] rounded accent-[#E11D2E] cursor-pointer"
               />
               <span>Remember email on this device</span>
             </label>
@@ -177,7 +186,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 bg-[#C8202B] hover:bg-[#D51F32] disabled:bg-[#44181B] disabled:cursor-not-allowed text-[#F5F4F2] font-heading text-base uppercase tracking-wider font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20"
+            className="w-full py-3.5 px-4 bg-[#E11D2E] hover:bg-[#C81A27] disabled:bg-[#44181B] disabled:cursor-not-allowed text-[#F5F4F2] font-heading text-base uppercase tracking-wider font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#E11D2E]/25 btn-shimmer relative overflow-hidden group/btn active:scale-[0.99] cursor-pointer"
           >
             {loading ? (
               <>
@@ -187,7 +196,7 @@ export default function LoginPage() {
             ) : (
               <>
                 <span>SIGN IN TO ACCOUNT</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
               </>
             )}
           </button>
@@ -199,7 +208,7 @@ export default function LoginPage() {
             New to RK Nutrition?{' '}
             <Link
               to={redirectPath ? `/register?redirect=${encodeURIComponent(redirectPath)}` : '/register'}
-              className="text-[#F5F4F2] hover:text-[#C8202B] font-semibold underline underline-offset-4 ml-1 transition-colors"
+              className="text-[#F5F4F2] hover:text-[#E11D2E] font-semibold underline underline-offset-4 ml-1 transition-colors"
             >
               Create an Athlete Account
             </Link>

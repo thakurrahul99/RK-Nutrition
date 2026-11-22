@@ -81,11 +81,11 @@ export default function ProductReviews({ productId, productName }) {
           </div>
           {averageRating && (
             <div className="flex items-center gap-2 mt-1">
-              <div className="flex text-[#C8202B]">
+              <div className="flex text-[#E11D2E]">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-4 h-4 ${i < Math.round(averageRating) ? 'fill-[#C8202B]' : 'text-[#333333]'}`}
+                    className={`w-4 h-4 ${i < Math.round(averageRating) ? 'fill-[#E11D2E]' : 'text-[#333333]'}`}
                   />
                 ))}
               </div>
@@ -99,7 +99,7 @@ export default function ProductReviews({ productId, productName }) {
         <button
           type="button"
           onClick={() => setIsFormOpen(!isFormOpen)}
-          className="px-5 py-2.5 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] border border-[#333333] hover:border-[#C8202B] font-heading uppercase text-xs tracking-wider font-bold transition-colors cursor-pointer"
+          className="px-5 py-2.5 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] border border-[#333333] hover:border-[#E11D2E] font-heading uppercase text-xs tracking-wider font-bold transition-colors cursor-pointer"
         >
           {isFormOpen ? 'Cancel Review' : 'Write A Review'}
         </button>
@@ -116,7 +116,7 @@ export default function ProductReviews({ productId, productName }) {
       {isFormOpen && (
         <form onSubmit={handleSubmit} className="p-6 bg-[#161616] border border-[#2A2A2A] space-y-4">
           <div className="flex items-center justify-between border-b border-[#242424] pb-3">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
               SUBMIT FORMULATION FEEDBACK
             </span>
             <span className="text-xs text-[#8C8C8C] font-mono">
@@ -143,12 +143,12 @@ export default function ProductReviews({ productId, productName }) {
                   onClick={() => setRating(star)}
                   onMouseEnter={() => setHoverRating(star)}
                   onMouseLeave={() => setHoverRating(0)}
-                  className="p-1 text-[#C8202B] focus:outline-none cursor-pointer"
+                  className="p-1 text-[#E11D2E] focus:outline-none cursor-pointer"
                   aria-label={`Rate ${star} stars`}
                 >
                   <Star
                     className={`w-6 h-6 transition-colors ${
-                      star <= (hoverRating || rating) ? 'fill-[#C8202B] text-[#C8202B]' : 'text-[#333333]'
+                      star <= (hoverRating || rating) ? 'fill-[#E11D2E] text-[#E11D2E]' : 'text-[#333333]'
                     }`}
                   />
                 </button>
@@ -162,7 +162,7 @@ export default function ProductReviews({ productId, productName }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label htmlFor="review-author" className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] block">
-                Your Name <span className="text-[#C8202B]">*</span>
+                Your Name <span className="text-[#E11D2E]">*</span>
               </label>
               <input
                 id="review-author"
@@ -171,7 +171,7 @@ export default function ProductReviews({ productId, productName }) {
                 value={authorName}
                 onChange={(e) => setAuthorName(e.target.value)}
                 placeholder="e.g. Arjun S."
-                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-xs text-[#F5F4F2] focus:outline-none"
+                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-xs text-[#F5F4F2] focus:outline-none"
               />
             </div>
 
@@ -185,14 +185,14 @@ export default function ProductReviews({ productId, productName }) {
                 value={reviewTitle}
                 onChange={(e) => setReviewTitle(e.target.value)}
                 placeholder="e.g. Clean mixability, zero bloating"
-                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-xs text-[#F5F4F2] focus:outline-none"
+                className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-xs text-[#F5F4F2] focus:outline-none"
               />
             </div>
           </div>
 
           <div className="space-y-1">
             <label htmlFor="review-comment" className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] block">
-              Detailed Comments <span className="text-[#C8202B]">*</span>
+              Detailed Comments <span className="text-[#E11D2E]">*</span>
             </label>
             <textarea
               id="review-comment"
@@ -201,7 +201,7 @@ export default function ProductReviews({ productId, productName }) {
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               placeholder="Describe your experience regarding taste, mixability, digestion, and performance results..."
-              className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-xs text-[#F5F4F2] focus:outline-none"
+              className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-xs text-[#F5F4F2] focus:outline-none"
             />
           </div>
 
@@ -211,7 +211,7 @@ export default function ProductReviews({ productId, productName }) {
             </span>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase tracking-wider text-xs font-bold transition-colors cursor-pointer"
+              className="px-6 py-2.5 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase tracking-wider text-xs font-bold transition-colors cursor-pointer"
             >
               Submit Review
             </button>
@@ -237,11 +237,11 @@ export default function ProductReviews({ productId, productName }) {
               <div key={rev.id} className="py-5 space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="flex text-[#C8202B]">
+                    <div className="flex text-[#E11D2E]">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-3.5 h-3.5 ${i < rev.rating ? 'fill-[#C8202B]' : 'text-[#333333]'}`}
+                          className={`w-3.5 h-3.5 ${i < rev.rating ? 'fill-[#E11D2E]' : 'text-[#333333]'}`}
                         />
                       ))}
                     </div>

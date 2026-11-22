@@ -46,7 +46,7 @@ export default function AdminHeader({ onToggleMobileSidebar }) {
         </button>
 
         <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-[#8C8C8C]">
-          <span className="text-[#C8202B] font-bold uppercase tracking-wider">Store Admin</span>
+          <span className="text-[#E11D2E] font-bold uppercase tracking-wider">Store Admin</span>
           <ChevronRight className="w-3.5 h-3.5 text-[#4A4A4A]" />
           <span className="text-[#F5F4F2] font-heading font-medium tracking-wide uppercase truncate max-w-[160px] sm:max-w-none">
             {currentTitle}
@@ -82,7 +82,7 @@ export default function AdminHeader({ onToggleMobileSidebar }) {
           to="/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
           title="Open public website in a new tab"
         >
           <span>Live Store</span>
@@ -94,10 +94,10 @@ export default function AdminHeader({ onToggleMobileSidebar }) {
           to="/admin/profile"
           className="flex items-center gap-2 pl-2 pr-3 py-1 bg-[#1A1A1A] hover:bg-[#222222] border border-[#2B2B2B] transition-colors group"
         >
-          <div className="w-6 h-6 rounded-none bg-[#C8202B] text-[#F5F4F2] font-heading font-bold text-xs flex items-center justify-center">
+          <div className="w-6 h-6 rounded-none bg-[#E11D2E] text-[#F5F4F2] font-heading font-bold text-xs flex items-center justify-center">
             {adminUser?.avatarInitials || 'SO'}
           </div>
-          <span className="hidden sm:inline text-xs font-heading font-semibold text-[#F5F4F2] uppercase tracking-wider group-hover:text-[#C8202B] transition-colors">
+          <span className="hidden sm:inline text-xs font-heading font-semibold text-[#F5F4F2] uppercase tracking-wider group-hover:text-[#E11D2E] transition-colors">
             {adminUser?.name?.split(' ')[0] || 'Owner'}
           </span>
         </Link>

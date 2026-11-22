@@ -15,7 +15,7 @@ export default function ProductSearch({
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search products or categories..."
           aria-label="Search product catalogue"
-          className="w-full bg-[#161616] border border-[#2A2A2A] focus:border-[#C8202B] text-[#F5F4F2] placeholder-[#666666] text-xs font-mono py-2.5 pl-9 pr-8 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#C8202B] transition-colors"
+          className="w-full bg-[#161616] border border-[#2A2A2A] focus:border-[#E11D2E] text-[#F5F4F2] placeholder-[#666666] text-xs font-mono py-2.5 pl-9 pr-8 focus:outline-none focus-visible:ring-1 focus-visible:ring-[#E11D2E] transition-colors"
         />
         {searchQuery && (
           <button

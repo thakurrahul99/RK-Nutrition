@@ -145,7 +145,7 @@ export default function SuperAdminDashboardPage() {
         <div className="bg-[#0A0E17] border border-[#1E293B] p-3 sm:p-4">
           <div className="flex items-center justify-between">
             <span className="text-[10px] sm:text-[11px] text-[#64748B] uppercase tracking-wider">Catalog Entities</span>
-            <HardDrive className="w-4 h-4 text-[#C8202B]" />
+            <HardDrive className="w-4 h-4 text-[#E11D2E]" />
           </div>
           <div className="mt-2 text-base sm:text-xl font-bold text-[#F1F5F9]">
             {products.length} Products

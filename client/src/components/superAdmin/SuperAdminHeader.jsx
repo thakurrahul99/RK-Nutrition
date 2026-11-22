@@ -63,7 +63,7 @@ export default function SuperAdminHeader({ onToggleMobileSidebar }) {
           className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1E293B] hover:bg-[#334155] border border-[#475569] text-xs font-mono uppercase tracking-wider text-[#F1F5F9] transition-colors"
           title="Switch to Store Operations Admin Panel"
         >
-          <ShoppingBag className="w-3.5 h-3.5 text-[#C8202B]" />
+          <ShoppingBag className="w-3.5 h-3.5 text-[#E11D2E]" />
           <span className="hidden sm:inline">Store Admin</span>
         </Link>
 

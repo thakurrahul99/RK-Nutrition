@@ -122,7 +122,7 @@ export default function AdminInventoryPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <Boxes className="w-4 h-4" />
             <span>Warehouse Operations</span>
           </div>
@@ -172,7 +172,7 @@ export default function AdminInventoryPage() {
 
         <div className="bg-[#141414] border border-[#242424] p-4">
           <span className="text-[11px] font-mono text-[#8C8C8C] uppercase tracking-wider block">Out of Stock</span>
-          <span className="font-heading font-black text-2xl text-[#C8202B] block mt-1">
+          <span className="font-heading font-black text-2xl text-[#E11D2E] block mt-1">
             {outOfStockItems.length}
           </span>
           <span className="text-[10px] font-mono text-[#666666]">0 inventory units</span>
@@ -181,9 +181,9 @@ export default function AdminInventoryPage() {
 
       {/* Low Stock Urgent Notice */}
       {lowStockItems.length > 0 && (
-        <div className="p-4 bg-[#C8202B]/10 border border-[#C8202B]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4 bg-[#E11D2E]/10 border border-[#E11D2E]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5 text-[#C8202B] shrink-0" />
+            <AlertTriangle className="w-5 h-5 text-[#E11D2E] shrink-0" />
             <div>
               <span className="font-bold text-[#F5F4F2] uppercase font-heading block">
                 Restock Alert Triggered ({lowStockItems.length} items)
@@ -196,7 +196,7 @@ export default function AdminInventoryPage() {
           <button
             type="button"
             onClick={() => setFilterStatus('low')}
-            className="px-3 py-1.5 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-mono uppercase text-[11px] shrink-0"
+            className="px-3 py-1.5 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-mono uppercase text-[11px] shrink-0"
           >
             Show Low Stock Only
           </button>
@@ -212,7 +212,7 @@ export default function AdminInventoryPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by product name, SKU, or category..."
-            className="w-full bg-[#141414] border border-[#242424] focus:border-[#C8202B] focus:outline-none pl-9 pr-4 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
+            className="w-full bg-[#141414] border border-[#242424] focus:border-[#E11D2E] focus:outline-none pl-9 pr-4 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
           />
         </div>
 
@@ -229,7 +229,7 @@ export default function AdminInventoryPage() {
               onClick={() => setFilterStatus(tab.id)}
               className={`px-3 py-2 text-xs font-mono uppercase tracking-wider transition-colors whitespace-nowrap border ${
                 filterStatus === tab.id
-                  ? 'bg-[#C8202B] border-[#C8202B] text-[#F5F4F2] font-bold'
+                  ? 'bg-[#E11D2E] border-[#E11D2E] text-[#F5F4F2] font-bold'
                   : 'bg-[#141414] border-[#242424] text-[#8C8C8C] hover:text-[#F5F4F2]'
               }`}
             >
@@ -272,7 +272,7 @@ export default function AdminInventoryPage() {
                 let statusBadge;
                 if (activeStock <= 0) {
                   statusBadge = (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#C8202B]/10 border border-[#C8202B]/30 text-[#C8202B] font-mono text-[10px] uppercase font-bold">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#E11D2E]/10 border border-[#E11D2E]/30 text-[#E11D2E] font-mono text-[10px] uppercase font-bold">
                       <XCircle className="w-3 h-3" />
                       <span>Out of Stock</span>
                     </span>
@@ -301,7 +301,7 @@ export default function AdminInventoryPage() {
                         <span>{p.name}</span>
                         <Link 
                           to={`/admin/products/${p.id}/edit`}
-                          className="text-[#666666] hover:text-[#C8202B]" 
+                          className="text-[#666666] hover:text-[#E11D2E]" 
                           title="Edit Full Product Profile"
                         >
                           <ArrowUpRight className="w-3.5 h-3.5" />
@@ -331,7 +331,7 @@ export default function AdminInventoryPage() {
                           max="999"
                           value={activeThreshold}
                           onChange={(e) => handleThresholdChange(p.id, e.target.value)}
-                          className="w-16 bg-[#181818] border border-[#2C2C2C] focus:border-[#C8202B] px-2 py-1 text-center font-mono text-xs text-[#F5F4F2] focus:outline-none"
+                          className="w-16 bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-2 py-1 text-center font-mono text-xs text-[#F5F4F2] focus:outline-none"
                         />
                         <span className="font-mono text-[#666666] text-[10px]">units</span>
                       </div>
@@ -362,7 +362,7 @@ export default function AdminInventoryPage() {
                           min="0"
                           value={activeStock}
                           onChange={(e) => handleStockChange(p.id, e.target.value)}
-                          className={`w-20 bg-[#181818] border ${hasUnsavedChanges ? 'border-[#C8202B] text-[#C8202B] font-bold' : 'border-[#2C2C2C] text-[#F5F4F2]'} px-2 py-1 text-center font-mono text-sm focus:border-[#C8202B] focus:outline-none`}
+                          className={`w-20 bg-[#181818] border ${hasUnsavedChanges ? 'border-[#E11D2E] text-[#E11D2E] font-bold' : 'border-[#2C2C2C] text-[#F5F4F2]'} px-2 py-1 text-center font-mono text-sm focus:border-[#E11D2E] focus:outline-none`}
                         />
 
                         <button
@@ -391,7 +391,7 @@ export default function AdminInventoryPage() {
                           type="button"
                           disabled={isSavingId === p.id}
                           onClick={() => handleSaveStock(p)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading uppercase tracking-wider text-[#F5F4F2] font-bold transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading uppercase tracking-wider text-[#F5F4F2] font-bold transition-colors"
                         >
                           <Save className="w-3.5 h-3.5" />
                           <span>{isSavingId === p.id ? 'Saving...' : 'Save'}</span>

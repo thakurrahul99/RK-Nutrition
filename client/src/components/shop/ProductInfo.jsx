@@ -39,6 +39,7 @@ export default function ProductInfo({ product }) {
   );
   const [quantity, setQuantity] = useState(1);
   const [feedbackMessage, setFeedbackMessage] = useState(null);
+  const [justAdded, setJustAdded] = useState(false);
 
   // Active selected variant
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) || null;
@@ -79,8 +80,8 @@ export default function ProductInfo({ product }) {
       setFeedbackMessage({ type: 'error', text: res.message });
       setTimeout(() => setFeedbackMessage(null), 3000);
     } else {
-      setFeedbackMessage({ type: 'success', text: `Added ${quantity} × ${name} to your cart.` });
-      setTimeout(() => setFeedbackMessage(null), 2500);
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 2200);
     }
   };
 
@@ -100,7 +101,7 @@ export default function ProductInfo({ product }) {
       
       {/* Category Tag & Stock Status Badges */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold bg-[#1F1F1F] px-2.5 py-1 border border-[#2E2E2E]">
+        <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold bg-[#181818] px-2.5 py-1 border border-[#282828]">
           {category}
         </span>
 
@@ -112,7 +113,7 @@ export default function ProductInfo({ product }) {
           )}
 
           {isComingSoon ? (
-            <span className="text-xs font-mono uppercase tracking-widest text-[#F5F4F2] bg-[#1A1A1A] px-2.5 py-1 border border-[#C8202B]/60">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#F5F4F2] bg-[#1A1A1A] px-2.5 py-1 border border-[#E11D2E]/60">
               Coming Soon
             </span>
           ) : isOutOfStock ? (
@@ -150,7 +151,7 @@ export default function ProductInfo({ product }) {
                 <span className="text-lg text-[#666666] line-through font-mono">
                   {formatCurrency(originalPrice)}
                 </span>
-                <span className="text-xs font-mono text-[#C8202B] uppercase font-bold bg-[#C8202B]/10 border border-[#C8202B]/30 px-2 py-0.5">
+                <span className="text-xs font-mono text-[#E11D2E] uppercase font-bold bg-[#E11D2E]/10 border border-[#E11D2E]/30 px-2 py-0.5">
                   Save {discountPercent}%
                 </span>
               </>
@@ -175,7 +176,7 @@ export default function ProductInfo({ product }) {
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between text-xs font-mono uppercase tracking-wider text-[#8C8C8C]">
             <span className="flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-[#C8202B]" />
+              <Layers className="w-3.5 h-3.5 text-[#E11D2E]" />
               Select Variant
             </span>
             {selectedVariant && (
@@ -198,9 +199,9 @@ export default function ProductInfo({ product }) {
                     setSelectedVariantId(variant.id);
                     setQuantity(1);
                   }}
-                  className={`px-4 py-2.5 text-xs font-mono uppercase tracking-wider border transition-colors flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2.5 text-xs font-mono uppercase tracking-wider border transition-all flex items-center gap-2 cursor-pointer active:scale-95 ${
                     isSelected
-                      ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] font-bold shadow-md shadow-[#C8202B]/20'
+                      ? 'bg-[#E11D2E] text-[#F5F4F2] border-[#E11D2E] font-bold shadow-md shadow-[#E11D2E]/30'
                       : variantOutOfStock
                       ? 'bg-[#141414] text-[#444444] border-[#222222] line-through cursor-not-allowed'
                       : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:border-[#F5F4F2] hover:text-[#F5F4F2]'
@@ -231,7 +232,7 @@ export default function ProductInfo({ product }) {
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity <= 1}
                 onClick={() => handleQuantityChange(-1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
@@ -243,7 +244,7 @@ export default function ProductInfo({ product }) {
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
                 onClick={() => handleQuantityChange(1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
@@ -254,10 +255,10 @@ export default function ProductInfo({ product }) {
               type="button"
               onClick={() => toggleWishlist(id)}
               aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
-              className={`h-12 w-12 shrink-0 border flex items-center justify-center transition-colors cursor-pointer ${
+              className={`h-12 w-12 shrink-0 border flex items-center justify-center transition-all duration-200 active:scale-75 cursor-pointer ${
                 isSaved
-                  ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] shadow-lg shadow-[#C8202B]/20'
-                  : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#C8202B] hover:border-[#C8202B]'
+                  ? 'bg-[#E11D2E] text-[#F5F4F2] border-[#E11D2E] shadow-lg shadow-[#E11D2E]/30'
+                  : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#E11D2E] hover:border-[#E11D2E]'
               }`}
             >
               <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
@@ -272,7 +273,7 @@ export default function ProductInfo({ product }) {
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity <= 1}
                 onClick={() => handleQuantityChange(-1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
@@ -284,22 +285,35 @@ export default function ProductInfo({ product }) {
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
                 onClick={() => handleQuantityChange(1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Add to Cart Button */}
+            {/* Add to Cart Button with tactile success feedback */}
             <button
               type="button"
               disabled={isOutOfStock || isComingSoon}
               onClick={handleAddToCart}
-              className="flex-1 h-12 px-6 bg-[#1F1F1F] hover:bg-[#282828] text-[#F5F4F2] hover:text-white border border-[#333333] hover:border-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-wider font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className={`flex-1 h-12 px-6 border disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-wider font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
+                justAdded
+                  ? 'bg-emerald-950/40 text-emerald-400 border-emerald-600/80 shadow-lg shadow-emerald-950/50'
+                  : 'bg-[#181818] hover:bg-[#222222] text-[#F5F4F2] hover:text-white border-[#333333] hover:border-[#8C8C8C]'
+              }`}
             >
-              <ShoppingCart className="w-4 h-4 text-[#C8202B]" />
-              <span>{isOutOfStock ? 'Out of Stock' : isComingSoon ? 'Coming Soon' : 'Add To Cart'}</span>
+              {justAdded ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 animate-pulse" />
+                  <span>Added To Bag!</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-4 h-4 text-[#E11D2E]" />
+                  <span>{isOutOfStock ? 'Out of Stock' : isComingSoon ? 'Coming Soon' : 'Add To Cart'}</span>
+                </>
+              )}
             </button>
 
             {/* Buy Now Button */}
@@ -307,7 +321,7 @@ export default function ProductInfo({ product }) {
               type="button"
               disabled={isOutOfStock || isComingSoon}
               onClick={handleBuyNow}
-              className="flex-1 h-12 px-6 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-widest font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20 cursor-pointer"
+              className="flex-1 h-12 px-6 bg-[#E11D2E] hover:bg-[#C81A27] text-[#F5F4F2] disabled:opacity-40 disabled:cursor-not-allowed font-heading uppercase text-sm tracking-widest font-black transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#E11D2E]/25 btn-shimmer relative overflow-hidden group/btn active:scale-[0.98] cursor-pointer"
             >
               <Zap className="w-4 h-4" />
               <span>Buy Now</span>
@@ -318,10 +332,10 @@ export default function ProductInfo({ product }) {
               type="button"
               onClick={() => toggleWishlist(id)}
               aria-label={isSaved ? 'Remove from wishlist' : 'Save to wishlist'}
-              className={`hidden sm:flex h-12 w-12 shrink-0 border items-center justify-center transition-colors cursor-pointer ${
+              className={`hidden sm:flex h-12 w-12 shrink-0 border items-center justify-center transition-all duration-200 active:scale-75 cursor-pointer ${
                 isSaved
-                  ? 'bg-[#C8202B] text-[#F5F4F2] border-[#C8202B] shadow-lg shadow-[#C8202B]/20'
-                  : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#C8202B] hover:border-[#C8202B]'
+                  ? 'bg-[#E11D2E] text-[#F5F4F2] border-[#E11D2E] shadow-lg shadow-[#E11D2E]/30'
+                  : 'bg-[#181818] text-[#8C8C8C] border-[#2C2C2C] hover:text-[#E11D2E] hover:border-[#E11D2E]'
               }`}
             >
               <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />

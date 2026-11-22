@@ -126,7 +126,7 @@ export default function AdminProductListPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <Package className="w-4 h-4" />
             <span>Catalog Management</span>
           </div>
@@ -142,7 +142,7 @@ export default function AdminProductListPage() {
           <button
             type="button"
             onClick={handleResetCatalog}
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] text-xs font-mono text-[#8C8C8C] hover:text-[#C8202B] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] text-xs font-mono text-[#8C8C8C] hover:text-[#E11D2E] transition-colors"
             title="Reset to the 3 verified foundational products"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -151,7 +151,7 @@ export default function AdminProductListPage() {
 
           <Link
             to="/admin/products/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#E11D2E]/20"
           >
             <Plus className="w-4 h-4" />
             <span>Add Product</span>
@@ -187,7 +187,7 @@ export default function AdminProductListPage() {
 
         <div className="bg-[#141414] border border-[#242424] p-4">
           <div className="text-[11px] font-mono text-[#8C8C8C] uppercase tracking-wider">Featured</div>
-          <div className="mt-1 font-heading font-bold text-2xl text-[#C8202B]">
+          <div className="mt-1 font-heading font-bold text-2xl text-[#E11D2E]">
             {products.filter((p) => p.featured).length}
           </div>
           <div className="text-[10px] font-mono text-[#666666] mt-0.5">Homepage showcase</div>
@@ -204,7 +204,7 @@ export default function AdminProductListPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by product name, SKU, or category..."
-            className="w-full bg-[#181818] border border-[#2B2B2B] focus:border-[#C8202B] focus:outline-none pl-9 pr-3 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
+            className="w-full bg-[#181818] border border-[#2B2B2B] focus:border-[#E11D2E] focus:outline-none pl-9 pr-3 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
           />
           {searchQuery && (
             <button
@@ -223,7 +223,7 @@ export default function AdminProductListPage() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="bg-[#181818] border border-[#2B2B2B] focus:border-[#C8202B] focus:outline-none px-3 py-2 text-xs text-[#F5F4F2]"
+            className="bg-[#181818] border border-[#2B2B2B] focus:border-[#E11D2E] focus:outline-none px-3 py-2 text-xs text-[#F5F4F2]"
           >
             <option value="all">All Categories</option>
             {adminCategories.map((c) => (
@@ -237,7 +237,7 @@ export default function AdminProductListPage() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-[#181818] border border-[#2B2B2B] focus:border-[#C8202B] focus:outline-none px-3 py-2 text-xs text-[#F5F4F2]"
+            className="bg-[#181818] border border-[#2B2B2B] focus:border-[#E11D2E] focus:outline-none px-3 py-2 text-xs text-[#F5F4F2]"
           >
             <option value="all">All Statuses</option>
             <option value="published">Published</option>
@@ -248,7 +248,7 @@ export default function AdminProductListPage() {
           <select
             value={selectedFeatured}
             onChange={(e) => setSelectedFeatured(e.target.value)}
-            className="bg-[#181818] border border-[#2B2B2B] focus:border-[#C8202B] focus:outline-none px-3 py-2 text-xs text-[#F5F4F2]"
+            className="bg-[#181818] border border-[#2B2B2B] focus:border-[#E11D2E] focus:outline-none px-3 py-2 text-xs text-[#F5F4F2]"
           >
             <option value="all">All Items</option>
             <option value="featured">Featured Only</option>
@@ -264,7 +264,7 @@ export default function AdminProductListPage() {
                 setSelectedStatus('all');
                 setSelectedFeatured('all');
               }}
-              className="text-xs font-mono text-[#C8202B] hover:text-[#F5F4F2] underline underline-offset-4 px-2 py-1"
+              className="text-xs font-mono text-[#E11D2E] hover:text-[#F5F4F2] underline underline-offset-4 px-2 py-1"
             >
               Reset Filters
             </button>
@@ -293,7 +293,7 @@ export default function AdminProductListPage() {
               <div className="flex items-center justify-center gap-3 pt-2">
                 <Link
                   to="/admin/products/new"
-                  className="px-4 py-2 bg-[#C8202B] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
+                  className="px-4 py-2 bg-[#E11D2E] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
                 >
                   Create Product
                 </Link>
@@ -363,14 +363,14 @@ export default function AdminProductListPage() {
                               </span>
                             )}
                             {product.featured && (
-                              <div className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" title="Featured Product" />
+                              <div className="absolute top-0 right-0 w-2 h-2 bg-[#E11D2E]" title="Featured Product" />
                             )}
                           </div>
 
                           <div className="min-w-0">
                             <Link
                               to={`/admin/products/${product.id}/edit`}
-                              className="font-heading font-bold text-sm text-[#F5F4F2] hover:text-[#C8202B] uppercase tracking-wide truncate block transition-colors"
+                              className="font-heading font-bold text-sm text-[#F5F4F2] hover:text-[#E11D2E] uppercase tracking-wide truncate block transition-colors"
                             >
                               {product.name}
                             </Link>
@@ -398,7 +398,7 @@ export default function AdminProductListPage() {
                         <div className="flex items-center gap-1.5 font-mono text-xs">
                           <span className={`font-bold ${
                             Number(product.stock) <= (product.lowStockThreshold || 10)
-                              ? 'text-[#C8202B]'
+                              ? 'text-[#E11D2E]'
                               : 'text-[#4CAF50]'
                           }`}>
                             {product.stock ?? 40}
@@ -411,7 +411,7 @@ export default function AdminProductListPage() {
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <span className={`px-2 py-0.5 border text-[10px] font-mono uppercase ${
                           product.paymentRule === 'PREPAID_ONLY' || product.paymentRule === 'COD_DISABLED'
-                            ? 'bg-[#C8202B]/10 border-[#C8202B]/30 text-[#C8202B]'
+                            ? 'bg-[#E11D2E]/10 border-[#E11D2E]/30 text-[#E11D2E]'
                             : 'bg-[#1C1C1C] border-[#2D2D2D] text-[#8C8C8C]'
                         }`}>
                           {product.paymentRule || 'ALL'}
@@ -453,8 +453,8 @@ export default function AdminProductListPage() {
                       {/* Featured */}
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         {product.featured ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#C8202B] font-bold">
-                            <Star className="w-3.5 h-3.5 fill-[#C8202B]" />
+                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#E11D2E] font-bold">
+                            <Star className="w-3.5 h-3.5 fill-[#E11D2E]" />
                             <span className="hidden sm:inline">Yes</span>
                           </span>
                         ) : (
@@ -501,7 +501,7 @@ export default function AdminProductListPage() {
                           <button
                             type="button"
                             onClick={() => setProductToDelete(product)}
-                            className="p-1.5 text-[#8C8C8C] hover:text-[#C8202B] hover:bg-[#202020] transition-colors"
+                            className="p-1.5 text-[#8C8C8C] hover:text-[#E11D2E] hover:bg-[#202020] transition-colors"
                             title="Delete product"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -532,7 +532,7 @@ export default function AdminProductListPage() {
         >
           <div className="w-full max-w-md bg-[#161616] border border-[#2B2B2B] p-6 shadow-2xl relative">
             <div className="flex items-center justify-between pb-3 border-b border-[#262626]">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#C8202B]">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E11D2E]">
                 <AlertCircle className="w-4 h-4" />
                 <span>Confirm Product Deletion</span>
               </div>
@@ -571,7 +571,7 @@ export default function AdminProductListPage() {
                 type="button"
                 disabled={isDeleting}
                 onClick={handleDeleteConfirm}
-                className="px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-1.5"
+                className="px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-1.5"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>{isDeleting ? 'Deleting...' : 'Confirm Delete'}</span>

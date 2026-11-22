@@ -293,10 +293,10 @@ export default function AdminCategoriesPage() {
   // Fallback category icon based on slug
   const renderCategoryIcon = (slug) => {
     const s = slug.toLowerCase();
-    if (s.includes('protein')) return <Dumbbell className="w-5 h-5 text-[#C8202B]" />;
-    if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-5 h-5 text-[#C8202B]" />;
-    if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-5 h-5 text-[#C8202B]" />;
-    return <Layers className="w-5 h-5 text-[#C8202B]" />;
+    if (s.includes('protein')) return <Dumbbell className="w-5 h-5 text-[#E11D2E]" />;
+    if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-5 h-5 text-[#E11D2E]" />;
+    if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-5 h-5 text-[#E11D2E]" />;
+    return <Layers className="w-5 h-5 text-[#E11D2E]" />;
   };
 
   return (
@@ -305,7 +305,7 @@ export default function AdminCategoriesPage() {
       {/* 1. Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-[#242424]">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono text-[#C8202B] uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#E11D2E] uppercase tracking-wider">
             <Layers className="w-4 h-4" />
             <span>Store Operations • Catalog Architecture</span>
           </div>
@@ -320,7 +320,7 @@ export default function AdminCategoriesPage() {
         <button
           type="button"
           onClick={handleOpenAddModal}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20 shrink-0"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#E11D2E]/20 shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Add Category</span>
@@ -355,7 +355,7 @@ export default function AdminCategoriesPage() {
 
         <div className="bg-[#141414] border border-[#242424] p-4">
           <div className="text-[11px] font-mono text-[#8C8C8C] uppercase tracking-wider">Assigned Products</div>
-          <div className="mt-1 font-heading font-bold text-2xl text-[#C8202B]">
+          <div className="mt-1 font-heading font-bold text-2xl text-[#E11D2E]">
             {stats.totalProducts}
           </div>
           <div className="text-[10px] font-mono text-[#666666] mt-0.5">Across all categories</div>
@@ -371,7 +371,7 @@ export default function AdminCategoriesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search categories by name, slug, or tagline..."
-            className="w-full bg-[#181818] border border-[#2B2B2B] focus:border-[#C8202B] focus:outline-none pl-9 pr-8 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
+            className="w-full bg-[#181818] border border-[#2B2B2B] focus:border-[#E11D2E] focus:outline-none pl-9 pr-8 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
           />
           {searchQuery && (
             <button
@@ -393,7 +393,7 @@ export default function AdminCategoriesPage() {
       <div className="bg-[#141414] border border-[#242424] overflow-hidden">
         {isLoading && adminCategories.length === 0 ? (
           <div className="py-16 text-center text-xs font-mono text-[#8C8C8C]">
-            <div className="w-6 h-6 border-2 border-[#C8202B] border-t-transparent animate-spin mx-auto mb-2" />
+            <div className="w-6 h-6 border-2 border-[#E11D2E] border-t-transparent animate-spin mx-auto mb-2" />
             Loading categories...
           </div>
         ) : filteredCategories.length === 0 ? (
@@ -409,7 +409,7 @@ export default function AdminCategoriesPage() {
               <button
                 type="button"
                 onClick={handleOpenAddModal}
-                className="mt-2 px-4 py-2 bg-[#C8202B] text-xs font-heading uppercase tracking-wider text-[#F5F4F2]"
+                className="mt-2 px-4 py-2 bg-[#E11D2E] text-xs font-heading uppercase tracking-wider text-[#F5F4F2]"
               >
                 Create First Category
               </button>
@@ -488,7 +488,7 @@ export default function AdminCategoriesPage() {
                         </div>
 
                         {cat.tagline && (
-                          <p className="text-[11px] font-mono text-[#C8202B]">
+                          <p className="text-[11px] font-mono text-[#E11D2E]">
                             {cat.tagline}
                           </p>
                         )}
@@ -507,7 +507,7 @@ export default function AdminCategoriesPage() {
                         href={`/categories/${cat.slug}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[#8C8C8C] hover:text-[#C8202B] transition-colors inline-flex items-center gap-1"
+                        className="text-[#8C8C8C] hover:text-[#E11D2E] transition-colors inline-flex items-center gap-1"
                         title="View public category page"
                       >
                         <span>/{cat.slug}</span>
@@ -522,7 +522,7 @@ export default function AdminCategoriesPage() {
                         className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#1A1A1A] hover:bg-[#222222] border border-[#2C2C2C] text-xs font-mono text-[#F5F4F2] transition-colors"
                         title={`View ${cat.productCount || 0} assigned products`}
                       >
-                        <Package className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <Package className="w-3.5 h-3.5 text-[#E11D2E]" />
                         <span>{cat.productCount || 0}</span>
                       </Link>
                     </td>
@@ -596,7 +596,7 @@ export default function AdminCategoriesPage() {
             {/* Modal Header */}
             <div className="p-5 border-b border-[#242424] flex items-center justify-between bg-[#161616]">
               <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-[#C8202B]" />
+                <Layers className="w-4 h-4 text-[#E11D2E]" />
                 <h3 className="font-heading font-bold text-base uppercase tracking-wider text-[#F5F4F2]">
                   {editingCategory ? `Edit Category: ${editingCategory.name}` : 'Add New Category'}
                 </h3>
@@ -616,24 +616,24 @@ export default function AdminCategoriesPage() {
               {/* Category Name */}
               <div>
                 <label className="block text-xs font-mono uppercase tracking-wider text-[#8C8C8C] mb-1.5">
-                  Category Name <span className="text-[#C8202B]">*</span>
+                  Category Name <span className="text-[#E11D2E]">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={handleNameChange}
                   placeholder="e.g. Creatine & Cellular Hydration"
-                  className={`w-full bg-[#181818] border ${formErrors.name ? 'border-[#C8202B]' : 'border-[#2E2E2E]'} focus:border-[#C8202B] text-sm text-[#F5F4F2] px-3 py-2.5 focus:outline-none`}
+                  className={`w-full bg-[#181818] border ${formErrors.name ? 'border-[#E11D2E]' : 'border-[#2E2E2E]'} focus:border-[#E11D2E] text-sm text-[#F5F4F2] px-3 py-2.5 focus:outline-none`}
                 />
                 {formErrors.name && (
-                  <p className="text-[11px] font-mono text-[#C8202B] mt-1">{formErrors.name}</p>
+                  <p className="text-[11px] font-mono text-[#E11D2E] mt-1">{formErrors.name}</p>
                 )}
               </div>
 
               {/* Slug */}
               <div>
                 <label className="block text-xs font-mono uppercase tracking-wider text-[#8C8C8C] mb-1.5">
-                  Category Slug (URL Path) <span className="text-[#C8202B]">*</span>
+                  Category Slug (URL Path) <span className="text-[#E11D2E]">*</span>
                 </label>
                 <div className="flex items-center">
                   <span className="bg-[#181818] border border-r-0 border-[#2E2E2E] text-xs font-mono text-[#666666] px-3 py-2.5">
@@ -647,11 +647,11 @@ export default function AdminCategoriesPage() {
                       if (formErrors.slug) setFormErrors((prev) => ({ ...prev, slug: null }));
                     }}
                     placeholder="creatine"
-                    className={`flex-1 bg-[#181818] border ${formErrors.slug ? 'border-[#C8202B]' : 'border-[#2E2E2E]'} focus:border-[#C8202B] text-xs font-mono text-[#F5F4F2] px-3 py-2.5 focus:outline-none`}
+                    className={`flex-1 bg-[#181818] border ${formErrors.slug ? 'border-[#E11D2E]' : 'border-[#2E2E2E]'} focus:border-[#E11D2E] text-xs font-mono text-[#F5F4F2] px-3 py-2.5 focus:outline-none`}
                   />
                 </div>
                 {formErrors.slug && (
-                  <p className="text-[11px] font-mono text-[#C8202B] mt-1">{formErrors.slug}</p>
+                  <p className="text-[11px] font-mono text-[#E11D2E] mt-1">{formErrors.slug}</p>
                 )}
                 <span className="text-[10px] font-mono text-[#666666] mt-1 block">
                   Used in storefront URLs and product category filters.
@@ -668,7 +668,7 @@ export default function AdminCategoriesPage() {
                   value={formData.tagline}
                   onChange={(e) => setFormData((prev) => ({ ...prev, tagline: e.target.value }))}
                   placeholder="e.g. Intracellular Hydration & Explosive Power"
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] text-xs text-[#F5F4F2] px-3 py-2 focus:outline-none"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] text-xs text-[#F5F4F2] px-3 py-2 focus:outline-none"
                 />
               </div>
 
@@ -682,7 +682,7 @@ export default function AdminCategoriesPage() {
                   value={formData.description}
                   onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
                   placeholder="Comprehensive description of the athletic objectives this category serves..."
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] text-xs text-[#F5F4F2] px-3 py-2 focus:outline-none font-body leading-relaxed"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] text-xs text-[#F5F4F2] px-3 py-2 focus:outline-none font-body leading-relaxed"
                 />
               </div>
 
@@ -717,7 +717,7 @@ export default function AdminCategoriesPage() {
                         onClick={() => imageInputRef.current?.click()}
                         className="px-3 py-1.5 bg-[#202020] hover:bg-[#282828] border border-[#333333] text-xs font-mono text-[#F5F4F2] flex items-center gap-1.5 transition-colors"
                       >
-                        <Upload className="w-3.5 h-3.5 text-[#C8202B]" />
+                        <Upload className="w-3.5 h-3.5 text-[#E11D2E]" />
                         <span>{isUploadingImage ? 'Uploading...' : 'Upload Image'}</span>
                       </button>
 
@@ -754,7 +754,7 @@ export default function AdminCategoriesPage() {
                     min={1}
                     value={formData.displayOrder}
                     onChange={(e) => setFormData((prev) => ({ ...prev, displayOrder: e.target.value }))}
-                    className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] text-xs font-mono text-[#F5F4F2] px-3 py-2 focus:outline-none"
+                    className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] text-xs font-mono text-[#F5F4F2] px-3 py-2 focus:outline-none"
                   />
                   <span className="text-[10px] font-mono text-[#666666] mt-1 block">
                     Lower numbers appear first.
@@ -770,7 +770,7 @@ export default function AdminCategoriesPage() {
                       type="checkbox"
                       checked={formData.isActive}
                       onChange={(e) => setFormData((prev) => ({ ...prev, isActive: e.target.checked }))}
-                      className="w-4 h-4 accent-[#C8202B]"
+                      className="w-4 h-4 accent-[#E11D2E]"
                     />
                     <span className="text-xs text-[#F5F4F2] font-mono uppercase">
                       {formData.isActive ? 'Active on Storefront' : 'Hidden / Inactive'}
@@ -795,7 +795,7 @@ export default function AdminCategoriesPage() {
                 type="submit"
                 form="category-form"
                 disabled={isSubmitting}
-                className="px-5 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-1.5 shadow-lg shadow-[#C8202B]/20"
+                className="px-5 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-1.5 shadow-lg shadow-[#E11D2E]/20"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>{isSubmitting ? 'Saving...' : editingCategory ? 'Update Category' : 'Create Category'}</span>

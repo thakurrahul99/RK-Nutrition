@@ -12,8 +12,8 @@ export default function RKWatermark({ className = '' }) {
       <line x1="250" y1="0" x2="250" y2="400" stroke="#F5F4F2" strokeOpacity="0.04" strokeDasharray="4 8" />
       
       {/* Signature Red Corner Accent Line & Block */}
-      <path d="M 440 40 L 480 40 L 480 80" stroke="#C8202B" strokeWidth="2" strokeOpacity="0.35" />
-      <rect x="472" y="32" width="8" height="8" fill="#C8202B" fillOpacity="0.5" />
+      <path d="M 440 40 L 480 40 L 480 80" stroke="#E11D2E" strokeWidth="2" strokeOpacity="0.35" />
+      <rect x="472" y="32" width="8" height="8" fill="#E11D2E" fillOpacity="0.5" />
 
       {/* Massive Bold Architectural RK Monogram */}
       <text
@@ -40,7 +40,7 @@ export default function RKWatermark({ className = '' }) {
         fontFamily="monospace"
         fontWeight="600"
         fontSize="11"
-        fill="#C8202B"
+        fill="#E11D2E"
         fillOpacity="0.3"
         textAnchor="middle"
         letterSpacing="12"

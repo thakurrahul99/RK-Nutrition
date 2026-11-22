@@ -263,10 +263,10 @@ export default function LearnPage() {
               <div className="pt-4 flex flex-wrap items-center gap-4">
                 <Link
                   to={currentTopic.ctaLink}
-                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#E11D2E] hover:bg-[#C8202B] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm font-bold transition-colors shadow-lg cursor-pointer"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#E11D2E] hover:bg-[#C81A27] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm font-bold transition-all shadow-lg shadow-[#E11D2E]/25 btn-shimmer relative overflow-hidden group/btn active:scale-95 cursor-pointer"
                 >
                   <span>{currentTopic.ctaText}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
                 </Link>
                 <Link
                   to="/products"

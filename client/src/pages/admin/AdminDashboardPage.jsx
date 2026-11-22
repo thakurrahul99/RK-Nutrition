@@ -113,16 +113,16 @@ export default function AdminDashboardPage() {
     <div className="space-y-8">
       {/* 1. Welcome & Status Banner */}
       <div className="bg-[#141414] border border-[#242424] p-6 sm:p-8 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C8202B] via-[#C8202B]/60 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E11D2E] via-[#E11D2E]/60 to-transparent" />
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
-              <span className="w-2 h-2 rounded-full bg-[#C8202B] animate-pulse" />
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
+              <span className="w-2 h-2 rounded-full bg-[#E11D2E] animate-pulse" />
               <span>Client Store Operations</span>
             </div>
             <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl uppercase font-black text-[#F5F4F2] tracking-tight">
-              Welcome, <span className="text-[#C8202B]">{adminUser?.name || 'Store Owner'}</span>
+              Welcome, <span className="text-[#E11D2E]">{adminUser?.name || 'Store Owner'}</span>
             </h1>
             <p className="text-sm text-[#8C8C8C] max-w-2xl font-body">
               Manage your products, live inventory, shipping logistics, customer orders, payment rules, and discount promotions.
@@ -132,7 +132,7 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-3 shrink-0">
             <Link
               to="/admin/products/new"
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#E11D2E]/20"
             >
               <Plus className="w-4 h-4" />
               <span>Add New Product</span>
@@ -147,7 +147,7 @@ export default function AdminDashboardPage() {
         <div className="bg-[#141414] border border-[#242424] p-3.5 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">Catalog</span>
-            <Package className="w-4 h-4 text-[#C8202B]" />
+            <Package className="w-4 h-4 text-[#E11D2E]" />
           </div>
           <div className="mt-2 font-heading font-black text-2xl sm:text-3xl text-[#F5F4F2]">
             {products.length}
@@ -191,14 +191,14 @@ export default function AdminDashboardPage() {
         <div className="bg-[#141414] border border-[#242424] p-3.5 sm:p-5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">Low Stock</span>
-            <AlertTriangle className={`w-4 h-4 ${lowStockCount > 0 ? 'text-[#C8202B]' : 'text-[#4CAF50]'}`} />
+            <AlertTriangle className={`w-4 h-4 ${lowStockCount > 0 ? 'text-[#E11D2E]' : 'text-[#4CAF50]'}`} />
           </div>
-          <div className={`mt-2 font-heading font-black text-2xl sm:text-3xl ${lowStockCount > 0 ? 'text-[#C8202B]' : 'text-[#4CAF50]'}`}>
+          <div className={`mt-2 font-heading font-black text-2xl sm:text-3xl ${lowStockCount > 0 ? 'text-[#E11D2E]' : 'text-[#4CAF50]'}`}>
             {lowStockCount}
           </div>
           <div className="mt-1 text-[10px] sm:text-[11px] font-mono text-[#8C8C8C]">
             {lowStockCount > 0 ? (
-              <Link to="/admin/inventory" className="text-[#C8202B] hover:underline">
+              <Link to="/admin/inventory" className="text-[#E11D2E] hover:underline">
                 Restock Needs →
               </Link>
             ) : (
@@ -224,23 +224,23 @@ export default function AdminDashboardPage() {
               <Link
                 key={action.path}
                 to={action.path}
-                className="group p-5 bg-[#141414] hover:bg-[#181818] border border-[#242424] hover:border-[#C8202B]/60 transition-all flex flex-col justify-between relative"
+                className="group p-5 bg-[#141414] hover:bg-[#181818] border border-[#242424] hover:border-[#E11D2E]/60 transition-all flex flex-col justify-between relative"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <div className="w-9 h-9 bg-[#1C1C1C] border border-[#2D2D2D] flex items-center justify-center group-hover:border-[#C8202B]/40 transition-colors">
-                      <Icon className="w-4 h-4 text-[#C8202B]" />
+                    <div className="w-9 h-9 bg-[#1C1C1C] border border-[#2D2D2D] flex items-center justify-center group-hover:border-[#E11D2E]/40 transition-colors">
+                      <Icon className="w-4 h-4 text-[#E11D2E]" />
                     </div>
                     <span className={`text-[10px] font-mono px-2 py-0.5 border ${
                       action.alert 
-                        ? 'bg-[#C8202B]/10 border-[#C8202B]/30 text-[#C8202B]' 
+                        ? 'bg-[#E11D2E]/10 border-[#E11D2E]/30 text-[#E11D2E]' 
                         : 'bg-[#1D1D1D] border-[#2A2A2A] text-[#8C8C8C]'
                     }`}>
                       {action.badge}
                     </span>
                   </div>
 
-                  <h3 className="font-heading text-sm uppercase font-bold text-[#F5F4F2] group-hover:text-[#C8202B] transition-colors">
+                  <h3 className="font-heading text-sm uppercase font-bold text-[#F5F4F2] group-hover:text-[#E11D2E] transition-colors">
                     {action.title}
                   </h3>
                   <p className="text-xs text-[#8C8C8C] mt-1.5 leading-relaxed font-body">
@@ -248,7 +248,7 @@ export default function AdminDashboardPage() {
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-[#202020] flex items-center justify-between text-xs font-heading uppercase text-[#C8202B] tracking-wider">
+                <div className="mt-4 pt-3 border-t border-[#202020] flex items-center justify-between text-xs font-heading uppercase text-[#E11D2E] tracking-wider">
                   <span>Manage</span>
                   <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -262,7 +262,7 @@ export default function AdminDashboardPage() {
       <div className="bg-[#141414] border border-[#242424] p-6">
         <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#222222]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#C8202B]" />
+            <span className="w-2 h-2 rounded-full bg-[#E11D2E]" />
             <h3 className="font-heading text-sm uppercase font-bold text-[#F5F4F2] tracking-wider">
               Recent Store Activity
             </h3>

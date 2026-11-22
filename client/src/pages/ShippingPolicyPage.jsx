@@ -17,16 +17,16 @@ export default function ShippingPolicyPage() {
               HOME
             </Link>
             <span>/</span>
-            <span className="text-[#C8202B]">SHIPPING & RETURNS</span>
+            <span className="text-[#E11D2E]">SHIPPING & RETURNS</span>
           </nav>
 
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-4">
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-4">
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
             LOGISTICS STANDARDS
           </div>
 
           <h1 className="font-heading text-4xl sm:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95] mb-4">
-            SHIPPING & <span className="text-[#C8202B]">RETURNS.</span>
+            SHIPPING & <span className="text-[#E11D2E]">RETURNS.</span>
           </h1>
 
           <p className="max-w-2xl text-base text-[#8C8C8C] leading-relaxed font-body">
@@ -41,7 +41,7 @@ export default function ShippingPolicyPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 bg-[#161616] border border-[#242424] space-y-3">
             <div className="w-10 h-10 bg-[#1C1C1C] border border-[#2D2D2D] flex items-center justify-center">
-              <Clock className="w-5 h-5 text-[#C8202B]" />
+              <Clock className="w-5 h-5 text-[#E11D2E]" />
             </div>
             <h3 className="font-heading text-base font-bold uppercase text-[#F5F4F2]">
               24-48h Fast Dispatch
@@ -53,7 +53,7 @@ export default function ShippingPolicyPage() {
 
           <div className="p-6 bg-[#161616] border border-[#242424] space-y-3">
             <div className="w-10 h-10 bg-[#1C1C1C] border border-[#2D2D2D] flex items-center justify-center">
-              <Truck className="w-5 h-5 text-[#C8202B]" />
+              <Truck className="w-5 h-5 text-[#E11D2E]" />
             </div>
             <h3 className="font-heading text-base font-bold uppercase text-[#F5F4F2]">
               Free Shipping Over ₹1,999
@@ -65,7 +65,7 @@ export default function ShippingPolicyPage() {
 
           <div className="p-6 bg-[#161616] border border-[#242424] space-y-3">
             <div className="w-10 h-10 bg-[#1C1C1C] border border-[#2D2D2D] flex items-center justify-center">
-              <RotateCcw className="w-5 h-5 text-[#C8202B]" />
+              <RotateCcw className="w-5 h-5 text-[#E11D2E]" />
             </div>
             <h3 className="font-heading text-base font-bold uppercase text-[#F5F4F2]">
               7-Day Return Guarantee
@@ -80,7 +80,7 @@ export default function ShippingPolicyPage() {
         <div className="bg-[#141414] border border-[#242424] p-8 space-y-8 font-body">
           <div className="space-y-3">
             <h2 className="font-heading text-xl uppercase font-bold text-[#F5F4F2] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#C8202B]" />
+              <span className="w-2 h-2 rounded-full bg-[#E11D2E]" />
               1. Delivery Coverage & Transit Times
             </h2>
             <p className="text-sm text-[#8C8C8C] leading-relaxed">
@@ -100,14 +100,14 @@ export default function ShippingPolicyPage() {
 
           <div className="space-y-3">
             <h2 className="font-heading text-xl uppercase font-bold text-[#F5F4F2] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#C8202B]" />
+              <span className="w-2 h-2 rounded-full bg-[#E11D2E]" />
               3. Returns & Replacement Eligibility
             </h2>
             <p className="text-sm text-[#8C8C8C] leading-relaxed">
               Due to strict health and consumable safety regulations, opened, unsealed, or partially consumed dietary supplements cannot be restocked or returned. Replacements are immediately dispatched at our expense if an incorrect formulation was received or if a container was compromised during transit.
             </p>
             <div className="p-4 bg-[#111111] border border-[#222222] text-xs font-mono text-[#8C8C8C] flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0 mt-0.5" />
+              <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0 mt-0.5" />
               <span>To initiate a return or replacement, email our desk at <strong className="text-[#F5F4F2]">support@rknutrition.com</strong> with your Order ID, batch number, and high-resolution photo proof within 7 days of delivery.</span>
             </div>
           </div>

@@ -58,11 +58,11 @@ export default function AdminSidebar({ isOpen, onClose }) {
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-[#181818] border border-[#2D2D2D] flex items-center justify-center relative">
                 <span className="font-heading font-black text-base text-[#F5F4F2]">RK</span>
-                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-[#C8202B]" />
+                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-[#E11D2E]" />
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-black text-sm tracking-wider uppercase text-[#F5F4F2]">
-                  RK <span className="text-[#C8202B]">NUTRITION</span>
+                  RK <span className="text-[#E11D2E]">NUTRITION</span>
                 </span>
                 <span className="text-[10px] font-mono tracking-widest text-[#8C8C8C] uppercase -mt-0.5">
                   Store Operations
@@ -113,12 +113,12 @@ export default function AdminSidebar({ isOpen, onClose }) {
                   className={({ isActive }) => `
                     flex items-center gap-3 px-3.5 py-2.5 text-xs font-heading font-semibold uppercase tracking-wider transition-all relative
                     ${isActive 
-                      ? 'bg-[#1C1C1C] text-[#F5F4F2] border-l-2 border-[#C8202B] shadow-inner' 
+                      ? 'bg-[#1C1C1C] text-[#F5F4F2] border-l-2 border-[#E11D2E] shadow-inner' 
                       : 'text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#161616]'
                     }
                   `}
                 >
-                  <Icon className="w-4 h-4 shrink-0 text-[#C8202B]" />
+                  <Icon className="w-4 h-4 shrink-0 text-[#E11D2E]" />
                   <span>{item.label}</span>
                 </NavLink>
               );
@@ -129,7 +129,7 @@ export default function AdminSidebar({ isOpen, onClose }) {
         {/* Bottom Panel: Store Owner details & Logout */}
         <div className="p-4 border-t border-[#242424] space-y-3 bg-[#0F0F0F]">
           <div className="flex items-center gap-3 px-2 py-1.5">
-            <div className="w-8 h-8 bg-[#202020] border border-[#2D2D2D] text-[#C8202B] font-heading font-bold text-xs flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#202020] border border-[#2D2D2D] text-[#E11D2E] font-heading font-bold text-xs flex items-center justify-center">
               {adminUser?.avatarInitials || 'SO'}
             </div>
             <div className="flex flex-col truncate">
@@ -145,9 +145,9 @@ export default function AdminSidebar({ isOpen, onClose }) {
           <button
             type="button"
             onClick={logout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#171717] hover:bg-[#202020] border border-[#262626] hover:border-[#C8202B]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#171717] hover:bg-[#202020] border border-[#262626] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
           >
-            <LogOut className="w-3.5 h-3.5 text-[#C8202B]" />
+            <LogOut className="w-3.5 h-3.5 text-[#E11D2E]" />
             <span>Sign Out</span>
           </button>
 

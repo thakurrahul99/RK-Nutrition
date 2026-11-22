@@ -45,9 +45,9 @@ export default function EmptyState({
     <div className="py-20 px-4 text-center max-w-xl mx-auto my-8">
       {/* Graphic Container with Knurled Border */}
       <div className="relative inline-flex items-center justify-center w-20 h-20 bg-[#161616] border border-[#2E2E2E] mb-6 shadow-xl">
-        <PackageSearch className="w-9 h-9 text-[#C8202B]" />
-        <span className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" />
-        <span className="absolute bottom-0 left-0 w-2 h-2 bg-[#C8202B]" />
+        <PackageSearch className="w-9 h-9 text-[#E11D2E]" />
+        <span className="absolute top-0 right-0 w-2 h-2 bg-[#E11D2E]" />
+        <span className="absolute bottom-0 left-0 w-2 h-2 bg-[#E11D2E]" />
       </div>
 
       {/* Main Title */}
@@ -66,7 +66,7 @@ export default function EmptyState({
           <button
             type="button"
             onClick={onResetFilters}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm transition-colors shadow-lg"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm transition-colors shadow-lg"
           >
             <RefreshCw className="w-4 h-4" />
             <span>{content.resetLabel}</span>
@@ -77,7 +77,7 @@ export default function EmptyState({
           <button
             type="button"
             onClick={onBackToHome}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1A1A1A] hover:bg-[#222222] border border-[#2E2E2E] hover:border-[#C8202B] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm transition-colors"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1A1A1A] hover:bg-[#222222] border border-[#2E2E2E] hover:border-[#E11D2E] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Home</span>

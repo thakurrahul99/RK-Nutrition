@@ -62,7 +62,7 @@ export default function ContactPage() {
       {/* Contact Hero */}
       <section className="relative bg-[#141414] border-b border-[#222222] pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none select-none">
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C8202B]/10 rounded-full blur-3xl -translate-y-1/2" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E11D2E]/10 rounded-full blur-3xl -translate-y-1/2" />
           <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:48px_48px]" />
         </div>
 
@@ -73,16 +73,16 @@ export default function ContactPage() {
               HOME
             </Link>
             <span>/</span>
-            <span className="text-[#C8202B]">CONTACT</span>
+            <span className="text-[#E11D2E]">CONTACT</span>
           </nav>
 
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-4">
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-4">
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
             OFFICIAL INQUIRY DESK
           </div>
 
           <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95] mb-6">
-            LET'S <span className="text-[#C8202B]">CONNECT.</span>
+            LET'S <span className="text-[#E11D2E]">CONNECT.</span>
           </h1>
 
           <p className="max-w-2xl text-base sm:text-lg text-[#8C8C8C] leading-relaxed font-body">
@@ -98,7 +98,7 @@ export default function ContactPage() {
           {/* Left Column: Contact Details (5 cols) */}
           <div className="lg:col-span-5 space-y-8">
             <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] font-semibold block mb-2">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold block mb-2">
                 VERIFIED CHANNELS
               </span>
               <h2 className="font-heading text-3xl sm:text-4xl text-[#F5F4F2] uppercase font-bold tracking-tight mb-4">
@@ -111,13 +111,13 @@ export default function ContactPage() {
 
             {/* Electronic Mail Card */}
             <div className="p-6 bg-[#161616] border border-[#282828] space-y-2 shadow-lg">
-              <div className="flex items-center gap-2.5 text-xs text-[#C8202B] font-mono">
+              <div className="flex items-center gap-2.5 text-xs text-[#E11D2E] font-mono">
                 <Mail className="w-4 h-4" />
                 <span className="uppercase">Direct Email Desk</span>
               </div>
               <a
                 href="mailto:contact@rknutrition.com"
-                className="font-heading text-xl text-[#F5F4F2] hover:text-[#C8202B] tracking-wide transition-colors block"
+                className="font-heading text-xl text-[#F5F4F2] hover:text-[#E11D2E] tracking-wide transition-colors block"
               >
                 contact@rknutrition.com
               </a>
@@ -128,7 +128,7 @@ export default function ContactPage() {
 
             {/* Operating Response Expectation */}
             <div className="p-6 bg-[#161616] border border-[#282828] space-y-2">
-              <div className="flex items-center gap-2.5 text-xs text-[#C8202B] font-mono">
+              <div className="flex items-center gap-2.5 text-xs text-[#E11D2E] font-mono">
                 <Clock className="w-4 h-4" />
                 <span className="uppercase">Response Standards</span>
               </div>
@@ -141,8 +141,8 @@ export default function ContactPage() {
             </div>
 
             {/* Direct FAQ Callout */}
-            <div className="p-6 bg-[#1A1A1A] border-l-2 border-[#C8202B] space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#C8202B]">
+            <div className="p-6 bg-[#1A1A1A] border-l-2 border-[#E11D2E] space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E11D2E]">
                 <HelpCircle className="w-4 h-4" />
                 <span>Quick Answers</span>
               </div>
@@ -154,7 +154,7 @@ export default function ContactPage() {
               </p>
               <Link
                 to="/faq"
-                className="inline-flex items-center gap-2 text-xs font-mono uppercase text-[#C8202B] hover:text-[#F5F4F2] transition-colors pt-1"
+                className="inline-flex items-center gap-2 text-xs font-mono uppercase text-[#E11D2E] hover:text-[#F5F4F2] transition-colors pt-1"
               >
                 <span>Visit FAQ Page</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -165,7 +165,7 @@ export default function ContactPage() {
           {/* Right Column: Contact Form (7 cols) */}
           <div className="lg:col-span-7 bg-[#161616] border border-[#282828] p-8 sm:p-10 shadow-2xl">
             <div className="pb-6 border-b border-[#262626] mb-8">
-              <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] block mb-1">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] block mb-1">
                 MESSAGE FORM
               </span>
               <h3 className="font-heading text-2xl sm:text-3xl text-[#F5F4F2] uppercase font-bold tracking-tight">
@@ -178,7 +178,7 @@ export default function ContactPage() {
               {/* Full Name Field */}
               <div className="space-y-1.5">
                 <label htmlFor="contact-name" className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] block">
-                  Full Name <span className="text-[#C8202B]">*</span>
+                  Full Name <span className="text-[#E11D2E]">*</span>
                 </label>
                 <input
                   id="contact-name"
@@ -187,18 +187,18 @@ export default function ContactPage() {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. John Doe"
                   className={`w-full bg-[#111111] border px-4 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body focus:outline-none transition-colors ${
-                    errors.name ? 'border-[#C8202B]' : 'border-[#2E2E2E] focus:border-[#C8202B]'
+                    errors.name ? 'border-[#E11D2E]' : 'border-[#2E2E2E] focus:border-[#E11D2E]'
                   }`}
                 />
                 {errors.name && (
-                  <span className="text-xs text-[#C8202B] font-mono block">{errors.name}</span>
+                  <span className="text-xs text-[#E11D2E] font-mono block">{errors.name}</span>
                 )}
               </div>
 
               {/* Email Address Field */}
               <div className="space-y-1.5">
                 <label htmlFor="contact-email" className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] block">
-                  Email Address <span className="text-[#C8202B]">*</span>
+                  Email Address <span className="text-[#E11D2E]">*</span>
                 </label>
                 <input
                   id="contact-email"
@@ -207,11 +207,11 @@ export default function ContactPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="e.g. athlete@example.com"
                   className={`w-full bg-[#111111] border px-4 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body focus:outline-none transition-colors ${
-                    errors.email ? 'border-[#C8202B]' : 'border-[#2E2E2E] focus:border-[#C8202B]'
+                    errors.email ? 'border-[#E11D2E]' : 'border-[#2E2E2E] focus:border-[#E11D2E]'
                   }`}
                 />
                 {errors.email && (
-                  <span className="text-xs text-[#C8202B] font-mono block">{errors.email}</span>
+                  <span className="text-xs text-[#E11D2E] font-mono block">{errors.email}</span>
                 )}
               </div>
 
@@ -224,7 +224,7 @@ export default function ContactPage() {
                   id="contact-subject"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 text-sm text-[#F5F4F2] font-body focus:outline-none transition-colors cursor-pointer"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 text-sm text-[#F5F4F2] font-body focus:outline-none transition-colors cursor-pointer"
                 >
                   <option value="general">General Brand Inquiry</option>
                   <option value="products">Product Formulations & Ingredients</option>
@@ -236,7 +236,7 @@ export default function ContactPage() {
               {/* Message Field */}
               <div className="space-y-1.5">
                 <label htmlFor="contact-message" className="text-xs font-mono uppercase tracking-wider text-[#8C8C8C] block">
-                  Message <span className="text-[#C8202B]">*</span>
+                  Message <span className="text-[#E11D2E]">*</span>
                 </label>
                 <textarea
                   id="contact-message"
@@ -245,11 +245,11 @@ export default function ContactPage() {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Detail your question or inquiry here..."
                   className={`w-full bg-[#111111] border px-4 py-3 text-sm text-[#F5F4F2] placeholder-[#555555] font-body focus:outline-none transition-colors ${
-                    errors.message ? 'border-[#C8202B]' : 'border-[#2E2E2E] focus:border-[#C8202B]'
+                    errors.message ? 'border-[#E11D2E]' : 'border-[#2E2E2E] focus:border-[#E11D2E]'
                   }`}
                 />
                 {errors.message && (
-                  <span className="text-xs text-[#C8202B] font-mono block">{errors.message}</span>
+                  <span className="text-xs text-[#E11D2E] font-mono block">{errors.message}</span>
                 )}
               </div>
 
@@ -267,7 +267,7 @@ export default function ContactPage() {
               )}
 
               {errors.form && (
-                <div className="p-3 bg-[#C8202B]/10 border border-[#C8202B]/40 text-xs font-mono text-[#F5F4F2]">
+                <div className="p-3 bg-[#E11D2E]/10 border border-[#E11D2E]/40 text-xs font-mono text-[#F5F4F2]">
                   {errors.form}
                 </div>
               )}
@@ -276,7 +276,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-[#C8202B] hover:bg-[#AC1721] disabled:bg-[#551A1E] text-[#F5F4F2] font-heading uppercase text-base tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+                className="w-full py-4 bg-[#E11D2E] hover:bg-[#AC1721] disabled:bg-[#551A1E] text-[#F5F4F2] font-heading uppercase text-base tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg"
               >
                 <Send className="w-4 h-4" />
                 <span>{isSubmitting ? 'Processing...' : 'Submit Inquiry'}</span>

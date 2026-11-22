@@ -25,7 +25,7 @@ export default function ProductDetailsPage() {
           <button
             type="button"
             onClick={() => navigate('/products')}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#C8202B] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#E11D2E] text-[#F5F4F2] font-heading uppercase tracking-wider text-sm cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Products</span>

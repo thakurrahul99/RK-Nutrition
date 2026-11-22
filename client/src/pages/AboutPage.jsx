@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom';
 import { brandConfig } from '../config/brandConfig';
 import { useContent } from '../context/ContentContext';
 import { ArrowRight, CheckCircle2, ShieldCheck, Flame, Compass, HelpCircle, Mail } from 'lucide-react';
+import useScrollReveal from '../hooks/useScrollReveal';
 
 export default function AboutPage() {
   const { tagline } = brandConfig;
   const { content } = useContent();
   const about = content?.pages?.about || {};
+  const revealContainerRef = useScrollReveal();
 
   const heroHeadline = about.headline || 'PURE SPORTS NUTRITION. BACKED BY SCIENCE.';
   const heroSubheadline = about.subheadline || 'RK Nutrition was established to eliminate deceptive marketing, proprietary filler blends, and amino spiking from sports supplements.';
@@ -36,13 +38,13 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#111111] text-[#F5F4F2] page-enter">
+    <div className="min-h-screen bg-[#0E0E0E] text-[#F5F4F2] page-enter" ref={revealContainerRef}>
       
       {/* Section A — About Hero */}
-      <section className="relative bg-[#141414] border-b border-[#222222] pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative bg-[#111111] border-b border-[#222222] pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none select-none">
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C8202B]/12 rounded-full blur-3xl -translate-y-1/2" />
-          <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:48px_48px]" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#E11D2E]/10 rounded-full blur-3xl -translate-y-1/2" />
+          <div className="absolute inset-0 opacity-[0.05] bg-tech-grid" />
         </div>
 
         <div className="relative max-w-7xl mx-auto">
@@ -52,11 +54,11 @@ export default function AboutPage() {
               HOME
             </Link>
             <span>/</span>
-            <span className="text-[#C8202B]">ABOUT</span>
+            <span className="text-[#E11D2E]">ABOUT</span>
           </nav>
 
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-4">
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#E11D2E] font-bold mb-4">
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
             THE RK NUTRITION MINDSET
           </div>
 
@@ -75,13 +77,13 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-widest text-[#C8202B] font-semibold">
-              <span className="w-1.5 h-1.5 bg-[#C8202B]" />
+            <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-widest text-[#E11D2E] font-semibold">
+              <span className="w-1.5 h-1.5 bg-[#E11D2E]" />
               PHILOSOPHY & MISSION
             </div>
 
             <h2 className="font-heading text-3xl sm:text-5xl text-[#F5F4F2] uppercase font-black leading-tight">
-              BUILT ON <span className="text-[#C8202B]">INTEGRITY.</span>
+              BUILT ON <span className="text-[#E11D2E]">INTEGRITY.</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[#F5F4F2] leading-relaxed font-body font-medium">
@@ -92,7 +94,7 @@ export default function AboutPage() {
               {missionText}
             </p>
 
-            <div className="p-6 bg-[#161616] border-l-2 border-[#C8202B] space-y-2 mt-6">
+            <div className="p-6 bg-[#141414] border-l-2 border-[#E11D2E] space-y-2 mt-6">
               <span className="font-heading text-lg text-[#F5F4F2] uppercase tracking-wide block">
                 The RK Creed
               </span>
@@ -104,18 +106,18 @@ export default function AboutPage() {
 
           {/* Editorial Detail Card */}
           <div className="lg:col-span-5 relative">
-            <div className="bg-[#161616] border border-[#282828] p-8 sm:p-10 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-[#C8202B]" />
-              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-[#C8202B]" />
+            <div className="bg-[#141414] border border-[#242424] p-8 sm:p-10 shadow-2xl relative overflow-hidden card-hover-lift">
+              <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-[#E11D2E]" />
+              <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-[#E11D2E]" />
               
               <div className="space-y-6">
-                <span className="text-xs font-mono uppercase tracking-widest text-[#C8202B] block">
+                <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] block">
                   STANDARDS OF EXCELLENCE
                 </span>
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-[#C8202B] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-[#E11D2E] shrink-0 mt-0.5" />
                     <div>
                       <span className="font-heading text-lg text-[#F5F4F2] uppercase block">
                         Transparent Macro Profiles
@@ -127,7 +129,7 @@ export default function AboutPage() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <ShieldCheck className="w-5 h-5 text-[#C8202B] shrink-0 mt-0.5" />
+                    <ShieldCheck className="w-5 h-5 text-[#E11D2E] shrink-0 mt-0.5" />
                     <div>
                       <span className="font-heading text-lg text-[#F5F4F2] uppercase block">
                         Functional Dosing
@@ -139,7 +141,7 @@ export default function AboutPage() {
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <Flame className="w-5 h-5 text-[#C8202B] shrink-0 mt-0.5" />
+                    <Flame className="w-5 h-5 text-[#E11D2E] shrink-0 mt-0.5" />
                     <div>
                       <span className="font-heading text-lg text-[#F5F4F2] uppercase block">
                         Athletic Integrity
@@ -155,7 +157,7 @@ export default function AboutPage() {
                   <span className="font-heading text-3xl font-black text-[#F5F4F2] tracking-wider block">
                     RK NUTRITION
                   </span>
-                  <span className="text-[11px] font-mono tracking-widest text-[#C8202B] uppercase font-bold mt-0.5 block">
+                  <span className="text-[11px] font-mono tracking-widest text-[#E11D2E] uppercase font-bold mt-0.5 block">
                     PURE NUTRITION • ZERO COMPROMISE
                   </span>
                 </div>
@@ -169,10 +171,10 @@ export default function AboutPage() {
       {/* Section C — The RK Mindset (3 Interactive Cards) */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-[#222222]">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-widest text-[#C8202B] font-bold mb-3">
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-widest text-[#E11D2E] font-bold mb-3">
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
             THE CORE PILLARS
-            <span className="w-6 h-[2px] bg-[#C8202B]" />
+            <span className="w-6 h-[2px] bg-[#E11D2E]" />
           </div>
           <h2 className="font-heading text-3xl sm:text-5xl text-[#F5F4F2] uppercase font-black tracking-tight">
             THE RK STANDARD
@@ -183,17 +185,17 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {mindsetCards.map((card) => (
+          {mindsetCards.map((card, idx) => (
             <div
               key={card.number}
-              className="p-8 bg-[#161616] border border-[#262626] hover:border-[#C8202B] transition-all duration-300 relative group flex flex-col justify-between"
+              className={`p-8 bg-[#141414] border border-[#242424] hover:border-[#E11D2E]/60 transition-all duration-300 relative group flex flex-col justify-between card-hover-lift reveal-init stagger-${idx + 1}`}
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-heading text-4xl sm:text-5xl font-black text-[#333333] group-hover:text-[#C8202B] transition-colors">
+                  <span className="font-heading text-4xl sm:text-5xl font-black text-[#333333] group-hover:text-[#E11D2E] transition-colors">
                     {card.number}
                   </span>
-                  <div className="w-2 h-2 bg-[#2E2E2E] group-hover:bg-[#C8202B] transition-colors" />
+                  <div className="w-2 h-2 bg-[#2E2E2E] group-hover:bg-[#E11D2E] transition-colors" />
                 </div>
 
                 <h3 className="font-heading text-2xl sm:text-3xl text-[#F5F4F2] uppercase font-bold tracking-tight mb-3">
@@ -211,7 +213,7 @@ export default function AboutPage() {
 
               <div className="pt-6 mt-6 border-t border-[#242424] flex items-center justify-between text-xs font-mono text-[#555555] uppercase">
                 <span>Pillar Standard</span>
-                <span className="text-[#C8202B] group-hover:translate-x-1 transition-transform">→</span>
+                <span className="text-[#E11D2E] group-hover:translate-x-1 transition-transform">→</span>
               </div>
             </div>
           ))}
@@ -222,16 +224,16 @@ export default function AboutPage() {
       <section className="relative py-24 px-4 sm:px-6 lg:px-8 border-b border-[#222222] overflow-hidden bg-black">
         {/* Background Atmosphere */}
         <div className="absolute inset-0 opacity-20 pointer-events-none select-none">
-          <div className="absolute inset-0 [background:radial-gradient(circle_at_center,_#C8202B_0%,_transparent_70%)] opacity-30" />
-          <div className="absolute inset-0 [background-image:linear-gradient(45deg,#111111_25%,transparent_25%),linear-gradient(-45deg,#111111_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#111111_75%),linear-gradient(-45deg,transparent_75%,#111111_75%)] [background-size:20px_20px]" />
+          <div className="absolute inset-0 [background:radial-gradient(circle_at_center,_rgba(225,29,46,0.3)_0%,_transparent_70%)]" />
+          <div className="absolute inset-0 opacity-[0.05] bg-tech-grid" />
         </div>
 
         <div className="relative max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Visual Frame 1: High-Contrast Monochromatic Editorial */}
-            <div className="lg:col-span-7 bg-[#141414] border border-[#2B2B2B] p-8 sm:p-12 relative overflow-hidden">
-              <div className="text-xs font-mono text-[#C8202B] uppercase tracking-widest mb-3">
+            <div className="lg:col-span-7 bg-[#141414] border border-[#262626] p-8 sm:p-12 relative overflow-hidden card-hover-lift">
+              <div className="text-xs font-mono text-[#E11D2E] uppercase tracking-widest mb-3">
                 EVIDENCE & INTEGRITY • NO SHORTCUTS
               </div>
               <h3 className="font-heading text-3xl sm:text-5xl text-[#F5F4F2] uppercase font-black leading-tight tracking-tight mb-6">
@@ -243,22 +245,22 @@ export default function AboutPage() {
               
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-[#242424] text-xs font-mono">
                 <div>
-                  <span className="text-[#C8202B] block font-bold text-lg font-heading">01</span>
+                  <span className="text-[#E11D2E] block font-bold text-lg font-heading">01</span>
                   <span className="text-[#8C8C8C] uppercase">Zero Amino Spiking</span>
                 </div>
                 <div>
-                  <span className="text-[#C8202B] block font-bold text-lg font-heading">02</span>
+                  <span className="text-[#E11D2E] block font-bold text-lg font-heading">02</span>
                   <span className="text-[#8C8C8C] uppercase">Pure Micro-Filtration</span>
                 </div>
                 <div>
-                  <span className="text-[#C8202B] block font-bold text-lg font-heading">03</span>
+                  <span className="text-[#E11D2E] block font-bold text-lg font-heading">03</span>
                   <span className="text-[#8C8C8C] uppercase">100% Label Disclosure</span>
                 </div>
               </div>
             </div>
 
             {/* Visual Frame 2: Editorial Quote Block */}
-            <div className="lg:col-span-5 bg-[#171717] border border-[#2E2E2E] p-8 sm:p-10 flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-[#141414] border border-[#262626] p-8 sm:p-10 flex flex-col justify-between card-hover-lift">
               <div className="space-y-4">
                 <span className="text-xs font-mono uppercase tracking-widest text-[#8C8C8C]">
                   NUTRITIONAL CODE OF INTEGRITY
@@ -268,7 +270,7 @@ export default function AboutPage() {
                 </blockquote>
               </div>
 
-              <div className="pt-8 mt-8 border-t border-[#282828] flex items-center justify-between">
+              <div className="pt-8 mt-8 border-t border-[#242424] flex items-center justify-between">
                 <div>
                   <span className="font-heading text-base text-[#F5F4F2] uppercase block font-bold">
                     RK NUTRITION
@@ -277,8 +279,8 @@ export default function AboutPage() {
                     Performance Nutrition
                   </span>
                 </div>
-                <div className="w-10 h-10 bg-[#C8202B]/10 border border-[#C8202B]/40 flex items-center justify-center">
-                  <span className="font-heading font-black text-[#C8202B]">RK</span>
+                <div className="w-10 h-10 bg-[#E11D2E]/10 border border-[#E11D2E]/40 flex items-center justify-center">
+                  <span className="font-heading font-black text-[#E11D2E]">RK</span>
                 </div>
               </div>
             </div>
@@ -290,7 +292,7 @@ export default function AboutPage() {
       {/* Section E — Return Navigation (No Dead Ends, No Misleading Buy Now) */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         <div className="max-w-2xl mx-auto space-y-4 mb-10">
-          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-widest text-[#C8202B] font-bold">
+          <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-widest text-[#E11D2E] font-bold">
             <Compass className="w-4 h-4" />
             <span>CONTINUE EXPLORING</span>
           </div>
@@ -306,11 +308,11 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
           <Link
             to="/products"
-            className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
+            className="p-5 bg-[#141414] border border-[#242424] hover:border-[#E11D2E]/60 text-left transition-all duration-300 group flex flex-col justify-between card-hover-lift"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">01 • CATALOGUE</span>
-              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
+              <span className="text-xs font-mono uppercase text-[#E11D2E] block mb-1">01 • CATALOGUE</span>
+              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#E11D2E] transition-colors">
                 All Products
               </span>
               <p className="text-xs text-[#8C8C8C] mt-2 font-body">
@@ -319,17 +321,17 @@ export default function AboutPage() {
             </div>
             <div className="pt-4 mt-2 flex items-center justify-between text-xs font-mono text-[#555555]">
               <span>Explore</span>
-              <ArrowRight className="w-4 h-4 text-[#C8202B] group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-[#E11D2E] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             to="/categories"
-            className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
+            className="p-5 bg-[#141414] border border-[#242424] hover:border-[#E11D2E]/60 text-left transition-all duration-300 group flex flex-col justify-between card-hover-lift"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">02 • CATEGORIES</span>
-              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
+              <span className="text-xs font-mono uppercase text-[#E11D2E] block mb-1">02 • CATEGORIES</span>
+              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#E11D2E] transition-colors">
                 Browse Categories
               </span>
               <p className="text-xs text-[#8C8C8C] mt-2 font-body">
@@ -338,17 +340,17 @@ export default function AboutPage() {
             </div>
             <div className="pt-4 mt-2 flex items-center justify-between text-xs font-mono text-[#555555]">
               <span>Browse</span>
-              <ArrowRight className="w-4 h-4 text-[#C8202B] group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 text-[#E11D2E] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             to="/faq"
-            className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
+            className="p-5 bg-[#141414] border border-[#242424] hover:border-[#E11D2E]/60 text-left transition-all duration-300 group flex flex-col justify-between card-hover-lift"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">03 • KNOWLEDGE</span>
-              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
+              <span className="text-xs font-mono uppercase text-[#E11D2E] block mb-1">03 • KNOWLEDGE</span>
+              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#E11D2E] transition-colors">
                 FAQ & Answers
               </span>
               <p className="text-xs text-[#8C8C8C] mt-2 font-body">
@@ -357,17 +359,17 @@ export default function AboutPage() {
             </div>
             <div className="pt-4 mt-2 flex items-center justify-between text-xs font-mono text-[#555555]">
               <span>Learn</span>
-              <HelpCircle className="w-4 h-4 text-[#C8202B] group-hover:translate-x-1 transition-transform" />
+              <HelpCircle className="w-4 h-4 text-[#E11D2E] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
 
           <Link
             to="/contact"
-            className="p-5 bg-[#161616] border border-[#282828] hover:border-[#C8202B] text-left transition-colors group flex flex-col justify-between"
+            className="p-5 bg-[#141414] border border-[#242424] hover:border-[#E11D2E]/60 text-left transition-all duration-300 group flex flex-col justify-between card-hover-lift"
           >
             <div>
-              <span className="text-xs font-mono uppercase text-[#C8202B] block mb-1">04 • CONNECT</span>
-              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#C8202B] transition-colors">
+              <span className="text-xs font-mono uppercase text-[#E11D2E] block mb-1">04 • CONNECT</span>
+              <span className="font-heading text-xl text-[#F5F4F2] uppercase font-bold block group-hover:text-[#E11D2E] transition-colors">
                 Contact Us
               </span>
               <p className="text-xs text-[#8C8C8C] mt-2 font-body">
@@ -376,7 +378,7 @@ export default function AboutPage() {
             </div>
             <div className="pt-4 mt-2 flex items-center justify-between text-xs font-mono text-[#555555]">
               <span>Connect</span>
-              <Mail className="w-4 h-4 text-[#C8202B] group-hover:translate-x-1 transition-transform" />
+              <Mail className="w-4 h-4 text-[#E11D2E] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
         </div>

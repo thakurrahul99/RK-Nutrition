@@ -380,7 +380,7 @@ export default function AdminProductFormPage() {
         </p>
         <Link
           to="/admin/products"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#C8202B] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-[#E11D2E] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Products</span>
@@ -402,7 +402,7 @@ export default function AdminProductFormPage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
               <span>{isEditMode ? 'Edit Mode' : 'New Creation'}</span>
             </div>
             <h1 className="font-heading text-2xl sm:text-3xl uppercase font-black text-[#F5F4F2] tracking-tight mt-0.5">
@@ -422,7 +422,7 @@ export default function AdminProductFormPage() {
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 px-5 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#C8202B]/20 disabled:opacity-60"
+            className="inline-flex items-center gap-2 px-5 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] transition-colors shadow-lg shadow-[#E11D2E]/20 disabled:opacity-60"
           >
             <Save className="w-4 h-4" />
             <span>{isSubmitting ? 'Saving...' : isEditMode ? 'Update Product' : 'Publish Product'}</span>
@@ -432,8 +432,8 @@ export default function AdminProductFormPage() {
 
       {/* Validation Error Banner */}
       {validationErrors.length > 0 && (
-        <div className="p-4 bg-[#C8202B]/10 border border-[#C8202B]/50 text-xs text-[#F5F4F2] space-y-1">
-          <div className="flex items-center gap-2 font-mono font-bold text-[#C8202B] uppercase">
+        <div className="p-4 bg-[#E11D2E]/10 border border-[#E11D2E]/50 text-xs text-[#F5F4F2] space-y-1">
+          <div className="flex items-center gap-2 font-mono font-bold text-[#E11D2E] uppercase">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>Please resolve the following before saving:</span>
           </div>
@@ -458,7 +458,7 @@ export default function AdminProductFormPage() {
 
             <div>
               <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
-                Product Name <span className="text-[#C8202B]">*</span>
+                Product Name <span className="text-[#E11D2E]">*</span>
               </label>
               <input
                 type="text"
@@ -466,14 +466,14 @@ export default function AdminProductFormPage() {
                 onChange={handleNameChange}
                 placeholder="e.g. RK Pure Whey Isolate"
                 required
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2.5 text-sm text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2.5 text-sm text-[#F5F4F2]"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
-                  Product Slug / URL Key <span className="text-[#C8202B]">*</span>
+                  Product Slug / URL Key <span className="text-[#E11D2E]">*</span>
                 </label>
                 <input
                   type="text"
@@ -481,7 +481,7 @@ export default function AdminProductFormPage() {
                   onChange={handleSlugChange}
                   placeholder="e.g. rk-pure-whey-isolate"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-xs font-mono text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-xs font-mono text-[#F5F4F2]"
                 />
                 <span className="text-[10px] font-mono text-[#666666] mt-1 block">
                   Route destination: /product/{formData.slug || 'slug'}
@@ -490,7 +490,7 @@ export default function AdminProductFormPage() {
 
               <div>
                 <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
-                  SKU / Master Code <span className="text-[#C8202B]">*</span>
+                  SKU / Master Code <span className="text-[#E11D2E]">*</span>
                 </label>
                 <input
                   type="text"
@@ -498,7 +498,7 @@ export default function AdminProductFormPage() {
                   onChange={(e) => setFormData({ ...formData, sku: e.target.value.toUpperCase() })}
                   placeholder="e.g. RK-PRO-001"
                   required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-xs font-mono text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-xs font-mono text-[#F5F4F2]"
                 />
               </div>
             </div>
@@ -506,12 +506,12 @@ export default function AdminProductFormPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
-                  Category Assignment <span className="text-[#C8202B]">*</span>
+                  Category Assignment <span className="text-[#E11D2E]">*</span>
                 </label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 >
                   {categoryOptions.map((c) => (
                     <option key={c.id || c.slug} value={c.slug || c.id}>
@@ -524,7 +524,7 @@ export default function AdminProductFormPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
-                    Original Price (₹) <span className="text-[#C8202B]">*</span>
+                    Original Price (₹) <span className="text-[#E11D2E]">*</span>
                   </label>
                   <input
                     type="number"
@@ -534,7 +534,7 @@ export default function AdminProductFormPage() {
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                     placeholder="3499"
                     required
-                    className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm font-mono text-[#F5F4F2]"
+                    className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm font-mono text-[#F5F4F2]"
                   />
                 </div>
                 <div>
@@ -555,7 +555,7 @@ export default function AdminProductFormPage() {
                     value={formData.salePrice}
                     onChange={(e) => setFormData({ ...formData, salePrice: e.target.value })}
                     placeholder="3199"
-                    className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-sm font-mono text-[#F5F4F2]"
+                    className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm font-mono text-[#F5F4F2]"
                   />
                 </div>
               </div>
@@ -570,7 +570,7 @@ export default function AdminProductFormPage() {
                 value={formData.shortDescription}
                 onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
                 placeholder="Brief summary displayed on catalog cards and previews..."
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none p-3 text-sm text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none p-3 text-sm text-[#F5F4F2]"
               />
             </div>
 
@@ -583,7 +583,7 @@ export default function AdminProductFormPage() {
                 value={formData.fullDescription}
                 onChange={(e) => setFormData({ ...formData, fullDescription: e.target.value })}
                 placeholder="Comprehensive technical breakdown of formulation, athletic targets, and recovery characteristics..."
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none p-3 text-sm text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none p-3 text-sm text-[#F5F4F2]"
               />
             </div>
           </div>
@@ -630,7 +630,7 @@ export default function AdminProductFormPage() {
                       <button
                         type="button"
                         onClick={() => removeImageAt(0)}
-                        className="px-3 py-1.5 bg-[#222222] hover:bg-[#C8202B]/20 text-xs font-heading uppercase text-[#C8202B]"
+                        className="px-3 py-1.5 bg-[#222222] hover:bg-[#E11D2E]/20 text-xs font-heading uppercase text-[#E11D2E]"
                       >
                         Remove
                       </button>
@@ -641,10 +641,10 @@ export default function AdminProductFormPage() {
                 <div 
                   onClick={() => !isUploadingImage && mainImageInputRef.current?.click()}
                   className={`p-6 border-2 border-dashed transition-colors flex flex-col items-center justify-center cursor-pointer text-center bg-[#141414] ${
-                    isUploadingImage ? 'border-[#C8202B] opacity-75' : 'border-[#333333] hover:border-[#C8202B]'
+                    isUploadingImage ? 'border-[#E11D2E] opacity-75' : 'border-[#333333] hover:border-[#E11D2E]'
                   }`}
                 >
-                  <Upload className={`w-6 h-6 mb-2 ${isUploadingImage ? 'animate-bounce text-[#C8202B]' : 'text-[#777777]'}`} />
+                  <Upload className={`w-6 h-6 mb-2 ${isUploadingImage ? 'animate-bounce text-[#E11D2E]' : 'text-[#777777]'}`} />
                   <span className="text-xs font-heading uppercase font-semibold text-[#F5F4F2]">
                     {isUploadingImage ? 'Uploading image to storage...' : 'Upload Primary Product Image'}
                   </span>
@@ -674,7 +674,7 @@ export default function AdminProductFormPage() {
                   onClick={() => galleryImageInputRef.current?.click()}
                   className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] text-xs font-mono text-[#F5F4F2]"
                 >
-                  <Plus className="w-3 h-3 text-[#C8202B]" />
+                  <Plus className="w-3 h-3 text-[#E11D2E]" />
                   <span>Add Gallery Image</span>
                 </button>
                 <input
@@ -701,7 +701,7 @@ export default function AdminProductFormPage() {
                       <button
                         type="button"
                         onClick={() => removeImageAt(idx + 1)}
-                        className="absolute top-1 right-1 p-1 bg-black/80 text-[#C8202B] hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute top-1 right-1 p-1 bg-black/80 text-[#E11D2E] hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
                         title="Remove image"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -732,9 +732,9 @@ export default function AdminProductFormPage() {
               <button
                 type="button"
                 onClick={addVariant}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
               >
-                <Plus className="w-3.5 h-3.5 text-[#C8202B]" />
+                <Plus className="w-3.5 h-3.5 text-[#E11D2E]" />
                 <span>Add Variant</span>
               </button>
             </div>
@@ -748,13 +748,13 @@ export default function AdminProductFormPage() {
                 {formData.variants.map((v, vIdx) => (
                   <div key={v.id || vIdx} className="p-4 bg-[#181818] border border-[#2A2A2A] space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-bold text-[#C8202B]">
+                      <span className="text-xs font-mono font-bold text-[#E11D2E]">
                         VARIANT #{vIdx + 1}
                       </span>
                       <button
                         type="button"
                         onClick={() => removeVariant(vIdx)}
-                        className="text-xs font-mono text-[#8C8C8C] hover:text-[#C8202B] flex items-center gap-1"
+                        className="text-xs font-mono text-[#8C8C8C] hover:text-[#E11D2E] flex items-center gap-1"
                       >
                         <Trash2 className="w-3 h-3" />
                         <span>Remove</span>
@@ -774,7 +774,7 @@ export default function AdminProductFormPage() {
                             updateVariant(vIdx, 'name', e.target.value);
                           }}
                           placeholder="e.g. 1 kg or 30 Servings"
-                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs text-[#F5F4F2]"
+                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs text-[#F5F4F2]"
                         />
                       </div>
 
@@ -787,7 +787,7 @@ export default function AdminProductFormPage() {
                           value={v.flavour || ''}
                           onChange={(e) => updateVariant(vIdx, 'flavour', e.target.value)}
                           placeholder="e.g. Double Rich Chocolate"
-                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs text-[#F5F4F2]"
+                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs text-[#F5F4F2]"
                         />
                       </div>
 
@@ -800,7 +800,7 @@ export default function AdminProductFormPage() {
                           value={v.sku || ''}
                           onChange={(e) => updateVariant(vIdx, 'sku', e.target.value.toUpperCase())}
                           placeholder="e.g. RK-PRO-1KG"
-                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
+                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
                         />
                       </div>
                     </div>
@@ -814,7 +814,7 @@ export default function AdminProductFormPage() {
                           type="number"
                           value={v.price}
                           onChange={(e) => updateVariant(vIdx, 'price', Number(e.target.value))}
-                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
+                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
                         />
                       </div>
                       <div>
@@ -826,7 +826,7 @@ export default function AdminProductFormPage() {
                           value={v.salePrice || ''}
                           onChange={(e) => updateVariant(vIdx, 'salePrice', e.target.value ? Number(e.target.value) : null)}
                           placeholder="Optional"
-                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
+                          className="w-full bg-[#141414] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
                         />
                       </div>
                     </div>
@@ -857,7 +857,7 @@ export default function AdminProductFormPage() {
                   value={formData.servingInfo}
                   onChange={(e) => setFormData({ ...formData, servingInfo: e.target.value })}
                   placeholder="e.g. Serving Size: 30g | Servings: 33"
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-xs text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-xs text-[#F5F4F2]"
                 />
               </div>
 
@@ -870,7 +870,7 @@ export default function AdminProductFormPage() {
                   value={formData.allergenInfo}
                   onChange={(e) => setFormData({ ...formData, allergenInfo: e.target.value })}
                   placeholder="e.g. Contains Milk (Whey). Soy-free."
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none px-3.5 py-2 text-xs text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-xs text-[#F5F4F2]"
                 />
               </div>
             </div>
@@ -884,7 +884,7 @@ export default function AdminProductFormPage() {
                 value={formData.ingredients}
                 onChange={(e) => setFormData({ ...formData, ingredients: e.target.value })}
                 placeholder="Full verified ingredient disclosure..."
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none p-3 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none p-3 text-xs text-[#F5F4F2]"
               />
             </div>
 
@@ -897,7 +897,7 @@ export default function AdminProductFormPage() {
                 value={formData.nutritionFacts}
                 onChange={(e) => setFormData({ ...formData, nutritionFacts: e.target.value })}
                 placeholder="e.g. Protein: 27g | Carbohydrates: 0.8g | Fat: 0.3g | BCAA: 6.2g"
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none p-3 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none p-3 text-xs text-[#F5F4F2]"
               />
             </div>
 
@@ -911,7 +911,7 @@ export default function AdminProductFormPage() {
                   value={formData.usageInstructions}
                   onChange={(e) => setFormData({ ...formData, usageInstructions: e.target.value })}
                   placeholder="Directions for preparation and timing..."
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none p-3 text-xs text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none p-3 text-xs text-[#F5F4F2]"
                 />
               </div>
 
@@ -924,7 +924,7 @@ export default function AdminProductFormPage() {
                   value={formData.storageInstructions}
                   onChange={(e) => setFormData({ ...formData, storageInstructions: e.target.value })}
                   placeholder="Temperature and moisture instructions..."
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] focus:outline-none p-3 text-xs text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none p-3 text-xs text-[#F5F4F2]"
                 />
               </div>
             </div>
@@ -983,7 +983,7 @@ export default function AdminProductFormPage() {
             >
               <div>
                 <div className="font-heading text-xs uppercase font-bold text-[#F5F4F2] flex items-center gap-1.5">
-                  <Star className={`w-3.5 h-3.5 ${formData.featured ? 'fill-[#C8202B] text-[#C8202B]' : 'text-[#666666]'}`} />
+                  <Star className={`w-3.5 h-3.5 ${formData.featured ? 'fill-[#E11D2E] text-[#E11D2E]' : 'text-[#666666]'}`} />
                   <span>Featured Product</span>
                 </div>
                 <div className="text-[10px] text-[#777777] font-mono mt-0.5">
@@ -992,7 +992,7 @@ export default function AdminProductFormPage() {
               </div>
 
               <div className={`w-9 h-5 rounded-full flex items-center p-0.5 transition-colors ${
-                formData.featured ? 'bg-[#C8202B]' : 'bg-[#2E2E2E]'
+                formData.featured ? 'bg-[#E11D2E]' : 'bg-[#2E2E2E]'
               }`}>
                 <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
                   formData.featured ? 'translate-x-4' : 'translate-x-0'
@@ -1008,7 +1008,7 @@ export default function AdminProductFormPage() {
               <select
                 value={formData.availability}
                 onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2]"
               >
                 {AVAILABILITY_OPTIONS.map((opt) => (
                   <option key={opt.id} value={opt.id}>
@@ -1028,7 +1028,7 @@ export default function AdminProductFormPage() {
                 value={formData.badge}
                 onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
                 placeholder="e.g. Best Seller, New Launch, 100% Pure"
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2]"
               />
             </div>
           </div>
@@ -1049,7 +1049,7 @@ export default function AdminProductFormPage() {
                   min="0"
                   value={formData.stock}
                   onChange={(e) => setFormData({ ...formData, stock: Math.max(0, parseInt(e.target.value, 10) || 0) })}
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
                 />
               </div>
 
@@ -1062,7 +1062,7 @@ export default function AdminProductFormPage() {
                   min="1"
                   value={formData.lowStockThreshold}
                   onChange={(e) => setFormData({ ...formData, lowStockThreshold: Math.max(1, parseInt(e.target.value, 10) || 1) })}
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
+                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
                 />
               </div>
             </div>
@@ -1077,7 +1077,7 @@ export default function AdminProductFormPage() {
                 step="0.1"
                 value={formData.shippingWeightKg}
                 onChange={(e) => setFormData({ ...formData, shippingWeightKg: parseFloat(e.target.value) || 1.0 })}
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs font-mono text-[#F5F4F2]"
               />
               <span className="text-[10px] font-mono text-[#666666] mt-0.5 block">Used for package weight and logistics calculations</span>
             </div>
@@ -1089,7 +1089,7 @@ export default function AdminProductFormPage() {
               <select
                 value={formData.paymentRule}
                 onChange={(e) => setFormData({ ...formData, paymentRule: e.target.value })}
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-2 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2]"
               >
                 <option value="ALL">ALL — Prepaid & Cash On Delivery Allowed</option>
                 <option value="PREPAID_ONLY">PREPAID ONLY — Disables COD for this & mixed cart</option>
@@ -1119,7 +1119,7 @@ export default function AdminProductFormPage() {
                 value={formData.seoTitle}
                 onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
                 placeholder="defaults to product name"
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] px-3 py-1.5 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] px-3 py-1.5 text-xs text-[#F5F4F2]"
               />
             </div>
 
@@ -1132,7 +1132,7 @@ export default function AdminProductFormPage() {
                 value={formData.seoDescription}
                 onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
                 placeholder="defaults to short description"
-                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#C8202B] p-2 text-xs text-[#F5F4F2]"
+                className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] p-2 text-xs text-[#F5F4F2]"
               />
             </div>
 
@@ -1155,7 +1155,7 @@ export default function AdminProductFormPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 bg-[#C8202B] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs font-bold tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#C8202B]/20 disabled:opacity-60"
+              className="w-full py-3 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs font-bold tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#E11D2E]/20 disabled:opacity-60"
             >
               <Save className="w-4 h-4" />
               <span>{isSubmitting ? 'Saving...' : isEditMode ? 'Update Product' : 'Publish Product'}</span>

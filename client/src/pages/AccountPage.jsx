@@ -364,7 +364,7 @@ export default function AccountPage() {
     return (
       <div className="min-h-[70vh] flex items-center justify-center bg-[#111111]">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 text-[#C8202B] animate-spin" />
+          <Loader2 className="w-8 h-8 text-[#E11D2E] animate-spin" />
           <span className="font-mono text-xs uppercase tracking-wider text-[#8C8C8C]">Loading Athlete Profile...</span>
         </div>
       </div>
@@ -386,10 +386,10 @@ export default function AccountPage() {
         
         {/* Top Profile Header */}
         <div className="bg-[#161616] border border-[#262626] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C8202B] via-[#E52535] to-[#8A141D]" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E11D2E] via-[#E52535] to-[#8A141D]" />
 
           <div className="flex items-center gap-4 sm:gap-6">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#1F1F1F] border-2 border-[#C8202B] flex items-center justify-center font-heading font-black text-2xl sm:text-3xl text-[#F5F4F2] shadow-lg shadow-[#C8202B]/10 shrink-0">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#1F1F1F] border-2 border-[#E11D2E] flex items-center justify-center font-heading font-black text-2xl sm:text-3xl text-[#F5F4F2] shadow-lg shadow-[#E11D2E]/10 shrink-0">
               {user.avatarInitials || 'RK'}
             </div>
             <div className="space-y-1">
@@ -397,7 +397,7 @@ export default function AccountPage() {
                 <h1 className="font-heading text-2xl sm:text-3xl font-bold uppercase tracking-wider text-[#F5F4F2]">
                   {user.name}
                 </h1>
-                <span className="px-2.5 py-0.5 bg-[#C8202B]/15 border border-[#C8202B]/40 text-[#C8202B] text-[10px] font-mono uppercase tracking-wider font-bold">
+                <span className="px-2.5 py-0.5 bg-[#E11D2E]/15 border border-[#E11D2E]/40 text-[#E11D2E] text-[10px] font-mono uppercase tracking-wider font-bold">
                   {user.role === 'SUPER_ADMIN' ? 'SUPER ADMIN' : user.role === 'CLIENT_ADMIN' ? 'STORE MANAGER' : 'VERIFIED ATHLETE'}
                 </span>
               </div>
@@ -411,9 +411,9 @@ export default function AccountPage() {
             <button
               type="button"
               onClick={logout}
-              className="px-4 py-2.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#C8202B] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#E11D2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-2 cursor-pointer"
             >
-              <LogOut className="w-4 h-4 text-[#C8202B]" />
+              <LogOut className="w-4 h-4 text-[#E11D2E]" />
               <span>Sign Out</span>
             </button>
           </div>
@@ -437,11 +437,11 @@ export default function AccountPage() {
                 onClick={() => setTab(tab.id)}
                 className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 font-heading text-xs sm:text-base uppercase tracking-wider font-semibold border-b-2 transition-all whitespace-nowrap cursor-pointer ${
                   isActive
-                    ? 'border-[#C8202B] text-[#F5F4F2] bg-[#161616]'
+                    ? 'border-[#E11D2E] text-[#F5F4F2] bg-[#161616]'
                     : 'border-transparent text-[#8C8C8C] hover:text-[#F5F4F2] hover:bg-[#141414]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-[#C8202B]' : 'text-[#666666]'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#E11D2E]' : 'text-[#666666]'}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -458,7 +458,7 @@ export default function AccountPage() {
               <div className="bg-[#161616] border border-[#262626] p-6 space-y-2">
                 <div className="flex items-center justify-between text-[#8C8C8C]">
                   <span className="text-xs font-mono uppercase tracking-wider">Total Formulations Ordered</span>
-                  <Package className="w-5 h-5 text-[#C8202B]" />
+                  <Package className="w-5 h-5 text-[#E11D2E]" />
                 </div>
                 <div className="font-heading text-3xl sm:text-4xl font-black text-[#F5F4F2]">
                   {orders.length}
@@ -502,7 +502,7 @@ export default function AccountPage() {
                     className="w-full flex items-center justify-between p-3 bg-[#1B1B1B] hover:bg-[#222222] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                   >
                     <span className="flex items-center gap-2.5">
-                      <ShoppingBag className="w-4 h-4 text-[#C8202B]" />
+                      <ShoppingBag className="w-4 h-4 text-[#E11D2E]" />
                       Explore Supplement Catalogue
                     </span>
                     <ChevronRight className="w-4 h-4 text-[#666666]" />
@@ -514,7 +514,7 @@ export default function AccountPage() {
                     className="w-full flex items-center justify-between p-3 bg-[#1B1B1B] hover:bg-[#222222] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                   >
                     <span className="flex items-center gap-2.5">
-                      <Package className="w-4 h-4 text-[#C8202B]" />
+                      <Package className="w-4 h-4 text-[#E11D2E]" />
                       Track Recent Dispatches
                     </span>
                     <ChevronRight className="w-4 h-4 text-[#666666]" />
@@ -526,7 +526,7 @@ export default function AccountPage() {
                     className="w-full flex items-center justify-between p-3 bg-[#1B1B1B] hover:bg-[#222222] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                   >
                     <span className="flex items-center gap-2.5">
-                      <MapPin className="w-4 h-4 text-[#C8202B]" />
+                      <MapPin className="w-4 h-4 text-[#E11D2E]" />
                       Manage Saved Addresses
                     </span>
                     <ChevronRight className="w-4 h-4 text-[#666666]" />
@@ -538,7 +538,7 @@ export default function AccountPage() {
                     className="w-full flex items-center justify-between p-3 bg-[#1B1B1B] hover:bg-[#222222] border border-[#2E2E2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                   >
                     <span className="flex items-center gap-2.5">
-                      <Lock className="w-4 h-4 text-[#C8202B]" />
+                      <Lock className="w-4 h-4 text-[#E11D2E]" />
                       Account Credentials & Security
                     </span>
                     <ChevronRight className="w-4 h-4 text-[#666666]" />
@@ -556,7 +556,7 @@ export default function AccountPage() {
                     <button
                       type="button"
                       onClick={() => setTab('orders')}
-                      className="text-xs text-[#C8202B] hover:underline uppercase font-mono tracking-wider"
+                      className="text-xs text-[#E11D2E] hover:underline uppercase font-mono tracking-wider"
                     >
                       View All Orders →
                     </button>
@@ -573,7 +573,7 @@ export default function AccountPage() {
                     <p className="text-sm text-[#8C8C8C] font-body">You have not placed any supplement orders yet.</p>
                     <Link
                       to="/products"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C8202B] text-white text-xs font-heading uppercase tracking-wider font-bold"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#E11D2E] text-white text-xs font-heading uppercase tracking-wider font-bold"
                     >
                       Start Shopping
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -614,7 +614,7 @@ export default function AccountPage() {
 
                           <div className="flex items-center justify-between pt-3 border-t border-[#222222]">
                             <span className="text-xs text-[#8C8C8C] uppercase font-mono">Order Total</span>
-                            <span className="font-heading text-lg font-bold text-[#C8202B]">
+                            <span className="font-heading text-lg font-bold text-[#E11D2E]">
                               {formatCurrency(latest.total)}
                             </span>
                           </div>
@@ -623,7 +623,7 @@ export default function AccountPage() {
                             <button
                               type="button"
                               onClick={() => setSelectedOrder(latest)}
-                              className="w-full py-2 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#C8202B] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
+                              className="w-full py-2 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#E11D2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                             >
                               View Full Order Details & Timeline
                             </button>
@@ -652,7 +652,7 @@ export default function AccountPage() {
                   onClick={() => setOrderFilter(st)}
                   className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-colors whitespace-nowrap cursor-pointer ${
                     orderFilter === st
-                      ? 'bg-[#C8202B] border-[#C8202B] text-[#F5F4F2] font-bold'
+                      ? 'bg-[#E11D2E] border-[#E11D2E] text-[#F5F4F2] font-bold'
                       : 'bg-[#161616] border-[#2E2E2E] text-[#8C8C8C] hover:text-[#F5F4F2]'
                   }`}
                 >
@@ -664,7 +664,7 @@ export default function AccountPage() {
             {/* Orders Listing */}
             {ordersLoading ? (
               <div className="py-20 text-center space-y-3">
-                <Loader2 className="w-8 h-8 text-[#C8202B] animate-spin mx-auto" />
+                <Loader2 className="w-8 h-8 text-[#E11D2E] animate-spin mx-auto" />
                 <p className="text-xs font-mono text-[#8C8C8C]">Loading your orders...</p>
               </div>
             ) : filteredOrders.length === 0 ? (
@@ -680,7 +680,7 @@ export default function AccountPage() {
                 </p>
                 <Link
                   to="/products"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#C8202B] hover:bg-[#D51F32] text-white text-xs font-heading uppercase tracking-wider font-bold transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#E11D2E] hover:bg-[#D51F32] text-white text-xs font-heading uppercase tracking-wider font-bold transition-colors"
                 >
                   <span>BROWSE SUPPLEMENTS</span>
                   <ArrowRight className="w-4 h-4" />
@@ -712,7 +712,7 @@ export default function AccountPage() {
 
                         <div className="text-left sm:text-right">
                           <span className="text-[10px] text-[#777777] uppercase font-mono block">Order Total</span>
-                          <span className="font-heading text-xl sm:text-2xl font-bold text-[#C8202B]">
+                          <span className="font-heading text-xl sm:text-2xl font-bold text-[#E11D2E]">
                             {formatCurrency(order.total)}
                           </span>
                         </div>
@@ -776,7 +776,7 @@ export default function AccountPage() {
                           <button
                             type="button"
                             onClick={() => setSelectedOrder(order)}
-                            className="px-4 py-1.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#C8202B] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
+                            className="px-4 py-1.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#E11D2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                           >
                             View Details
                           </button>
@@ -808,7 +808,7 @@ export default function AccountPage() {
               <button
                 type="button"
                 onClick={handleOpenAddAddress}
-                className="px-4 py-2.5 bg-[#C8202B] hover:bg-[#D51F32] text-white text-xs font-heading uppercase tracking-wider font-bold flex items-center gap-2 transition-colors cursor-pointer"
+                className="px-4 py-2.5 bg-[#E11D2E] hover:bg-[#D51F32] text-white text-xs font-heading uppercase tracking-wider font-bold flex items-center gap-2 transition-colors cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add New Address</span>
@@ -827,7 +827,7 @@ export default function AccountPage() {
                 <button
                   type="button"
                   onClick={handleOpenAddAddress}
-                  className="px-5 py-2.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#C8202B] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
+                  className="px-5 py-2.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#E11D2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors"
                 >
                   + Add First Address
                 </button>
@@ -838,7 +838,7 @@ export default function AccountPage() {
                   <div
                     key={addr.id}
                     className={`bg-[#161616] border p-5 space-y-4 relative flex flex-col justify-between transition-colors ${
-                      addr.isDefault ? 'border-[#C8202B] shadow-lg shadow-[#C8202B]/10' : 'border-[#262626] hover:border-[#333333]'
+                      addr.isDefault ? 'border-[#E11D2E] shadow-lg shadow-[#E11D2E]/10' : 'border-[#262626] hover:border-[#333333]'
                     }`}
                   >
                     <div className="space-y-3">
@@ -847,7 +847,7 @@ export default function AccountPage() {
                           {addr.fullName}
                         </span>
                         {addr.isDefault && (
-                          <span className="px-2 py-0.5 bg-[#C8202B] text-white text-[9px] font-mono font-bold uppercase tracking-wider">
+                          <span className="px-2 py-0.5 bg-[#E11D2E] text-white text-[9px] font-mono font-bold uppercase tracking-wider">
                             DEFAULT
                           </span>
                         )}
@@ -871,7 +871,7 @@ export default function AccountPage() {
                         <button
                           type="button"
                           onClick={() => handleSetDefaultAddress(addr.id)}
-                          className="text-[#8C8C8C] hover:text-[#C8202B] transition-colors"
+                          className="text-[#8C8C8C] hover:text-[#E11D2E] transition-colors"
                         >
                           Set as Default
                         </button>
@@ -932,7 +932,7 @@ export default function AccountPage() {
                 {profileMessage.type === 'success' ? (
                   <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
                 ) : (
-                  <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0 mt-0.5" />
+                  <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0 mt-0.5" />
                 )}
                 <span>{profileMessage.text}</span>
               </div>
@@ -948,7 +948,7 @@ export default function AccountPage() {
                   value={profileForm.name}
                   onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
                   required
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
                 />
               </div>
 
@@ -961,7 +961,7 @@ export default function AccountPage() {
                   value={profileForm.email}
                   onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
                   required
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
                 />
               </div>
 
@@ -974,14 +974,14 @@ export default function AccountPage() {
                   value={profileForm.phone}
                   onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
                   placeholder="9876543210"
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={profileSubmitting}
-                className="py-3 px-6 bg-[#C8202B] hover:bg-[#D51F32] disabled:bg-[#44181B] text-white font-heading text-sm uppercase tracking-wider font-bold transition-colors flex items-center gap-2 cursor-pointer"
+                className="py-3 px-6 bg-[#E11D2E] hover:bg-[#D51F32] disabled:bg-[#44181B] text-white font-heading text-sm uppercase tracking-wider font-bold transition-colors flex items-center gap-2 cursor-pointer"
               >
                 {profileSubmitting ? (
                   <>
@@ -1021,7 +1021,7 @@ export default function AccountPage() {
                 {passwordMessage.type === 'success' ? (
                   <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
                 ) : (
-                  <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0 mt-0.5" />
+                  <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0 mt-0.5" />
                 )}
                 <span>{passwordMessage.text}</span>
               </div>
@@ -1039,7 +1039,7 @@ export default function AccountPage() {
                     onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
                     required
                     placeholder="••••••••"
-                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 pr-11 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
+                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 pr-11 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
                   />
                   <button
                     type="button"
@@ -1063,7 +1063,7 @@ export default function AccountPage() {
                     onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
                     required
                     placeholder="••••••••"
-                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 pr-11 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
+                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 pr-11 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
                   />
                   <button
                     type="button"
@@ -1086,14 +1086,14 @@ export default function AccountPage() {
                   onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
                   required
                   placeholder="••••••••"
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-4 py-3 text-sm text-[#F5F4F2] font-body outline-none transition-colors"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={passwordSubmitting}
-                className="py-3 px-6 bg-[#C8202B] hover:bg-[#D51F32] disabled:bg-[#44181B] text-white font-heading text-sm uppercase tracking-wider font-bold transition-colors flex items-center gap-2 cursor-pointer"
+                className="py-3 px-6 bg-[#E11D2E] hover:bg-[#D51F32] disabled:bg-[#44181B] text-white font-heading text-sm uppercase tracking-wider font-bold transition-colors flex items-center gap-2 cursor-pointer"
               >
                 {passwordSubmitting ? (
                   <>
@@ -1156,7 +1156,7 @@ export default function AccountPage() {
                       { label: 'Delivered', active: (selectedOrder.orderStatus || '').toUpperCase() === 'DELIVERED' }
                     ].map((step, idx) => (
                       <div key={idx} className="space-y-1.5">
-                        <div className={`h-1.5 ${step.active ? 'bg-[#C8202B]' : 'bg-[#262626]'}`} />
+                        <div className={`h-1.5 ${step.active ? 'bg-[#E11D2E]' : 'bg-[#262626]'}`} />
                         <span className={`text-[10px] font-mono uppercase tracking-wider block ${step.active ? 'text-[#F5F4F2] font-bold' : 'text-[#555555]'}`}>
                           {step.label}
                         </span>
@@ -1257,7 +1257,7 @@ export default function AccountPage() {
                   </div>
                   <div className="pt-2 border-t border-[#262626] flex justify-between font-bold text-sm">
                     <span className="text-[#F5F4F2] font-heading uppercase">Total Amount</span>
-                    <span className="font-heading text-base text-[#C8202B]">
+                    <span className="font-heading text-base text-[#E11D2E]">
                       {formatCurrency(selectedOrder.total)}
                     </span>
                   </div>
@@ -1314,7 +1314,7 @@ export default function AccountPage() {
                 role="alert"
                 className="mb-4 p-3 bg-[#2B1416] border border-[#852229] text-[#FFA8AE] text-xs flex items-center gap-2 font-body"
               >
-                <AlertCircle className="w-4 h-4 text-[#C8202B] shrink-0" />
+                <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0" />
                 <span>{addressError}</span>
               </div>
             )}
@@ -1328,7 +1328,7 @@ export default function AccountPage() {
                   onChange={(e) => setAddressForm({ ...addressForm, fullName: e.target.value })}
                   placeholder="Rahul Kumar"
                   required
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                 />
               </div>
 
@@ -1340,7 +1340,7 @@ export default function AccountPage() {
                   onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
                   placeholder="9876543210"
                   required
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                 />
               </div>
 
@@ -1352,7 +1352,7 @@ export default function AccountPage() {
                   onChange={(e) => setAddressForm({ ...addressForm, addressLine1: e.target.value })}
                   placeholder="Flat 402, Fitness Tower, MG Road"
                   required
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                 />
               </div>
 
@@ -1363,7 +1363,7 @@ export default function AccountPage() {
                   value={addressForm.addressLine2}
                   onChange={(e) => setAddressForm({ ...addressForm, addressLine2: e.target.value })}
                   placeholder="Near Gold's Gym"
-                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                  className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                 />
               </div>
 
@@ -1376,7 +1376,7 @@ export default function AccountPage() {
                     onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
                     placeholder="New Delhi"
                     required
-                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                   />
                 </div>
 
@@ -1388,7 +1388,7 @@ export default function AccountPage() {
                     onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })}
                     placeholder="Delhi"
                     required
-                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                   />
                 </div>
               </div>
@@ -1403,7 +1403,7 @@ export default function AccountPage() {
                     placeholder="110001"
                     maxLength={6}
                     required
-                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#C8202B] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
+                    className="w-full bg-[#111111] border border-[#2E2E2E] focus:border-[#E11D2E] px-3.5 py-2.5 text-sm text-[#F5F4F2] outline-none"
                   />
                 </div>
 
@@ -1424,7 +1424,7 @@ export default function AccountPage() {
                     type="checkbox"
                     checked={addressForm.isDefault}
                     onChange={(e) => setAddressForm({ ...addressForm, isDefault: e.target.checked })}
-                    className="w-4 h-4 bg-[#111111] border border-[#2E2E2E] rounded accent-[#C8202B] cursor-pointer"
+                    className="w-4 h-4 bg-[#111111] border border-[#2E2E2E] rounded accent-[#E11D2E] cursor-pointer"
                   />
                   <span>Set as primary default delivery address</span>
                 </label>
@@ -1441,7 +1441,7 @@ export default function AccountPage() {
                 <button
                   type="submit"
                   disabled={addressSubmitting}
-                  className="px-6 py-2.5 bg-[#C8202B] hover:bg-[#D51F32] disabled:bg-[#44181B] text-white font-heading text-xs uppercase tracking-wider font-bold flex items-center gap-2"
+                  className="px-6 py-2.5 bg-[#E11D2E] hover:bg-[#D51F32] disabled:bg-[#44181B] text-white font-heading text-xs uppercase tracking-wider font-bold flex items-center gap-2"
                 >
                   {addressSubmitting ? (
                     <>

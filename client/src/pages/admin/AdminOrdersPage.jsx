@@ -162,7 +162,7 @@ export default function AdminOrdersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#242424] gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#C8202B]">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#E11D2E]">
             <ClipboardList className="w-4 h-4" />
             <span>Customer Logistics</span>
           </div>
@@ -228,7 +228,7 @@ export default function AdminOrdersPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by Order ID, customer name, phone, or tracking..."
-            className="w-full bg-[#141414] border border-[#242424] focus:border-[#C8202B] focus:outline-none pl-9 pr-4 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
+            className="w-full bg-[#141414] border border-[#242424] focus:border-[#E11D2E] focus:outline-none pl-9 pr-4 py-2 text-xs text-[#F5F4F2] placeholder-[#555555]"
           />
         </div>
 
@@ -236,7 +236,7 @@ export default function AdminOrdersPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-[#141414] border border-[#242424] text-xs font-mono text-[#F5F4F2] px-3 py-2 focus:border-[#C8202B] focus:outline-none"
+            className="bg-[#141414] border border-[#242424] text-xs font-mono text-[#F5F4F2] px-3 py-2 focus:border-[#E11D2E] focus:outline-none"
           >
             <option value="all">All Statuses</option>
             <option value="pending">Pending</option>
@@ -249,7 +249,7 @@ export default function AdminOrdersPage() {
           <select
             value={paymentFilter}
             onChange={(e) => setPaymentFilter(e.target.value)}
-            className="bg-[#141414] border border-[#242424] text-xs font-mono text-[#F5F4F2] px-3 py-2 focus:border-[#C8202B] focus:outline-none"
+            className="bg-[#141414] border border-[#242424] text-xs font-mono text-[#F5F4F2] px-3 py-2 focus:border-[#E11D2E] focus:outline-none"
           >
             <option value="all">All Payment Methods</option>
             <option value="cod">Cash on Delivery (COD)</option>
@@ -296,7 +296,7 @@ export default function AdminOrdersPage() {
                     statusBadge = <span className="px-2 py-0.5 bg-[#EAB308]/10 border border-[#EAB308]/30 text-[#EAB308] font-mono text-[10px] uppercase font-bold">Confirmed</span>;
                     break;
                   case 'CANCELLED':
-                    statusBadge = <span className="px-2 py-0.5 bg-[#C8202B]/10 border border-[#C8202B]/30 text-[#C8202B] font-mono text-[10px] uppercase font-bold">Cancelled</span>;
+                    statusBadge = <span className="px-2 py-0.5 bg-[#E11D2E]/10 border border-[#E11D2E]/30 text-[#E11D2E] font-mono text-[10px] uppercase font-bold">Cancelled</span>;
                     break;
                   default:
                     statusBadge = <span className="px-2 py-0.5 bg-[#EAB308]/10 border border-[#EAB308]/30 text-[#EAB308] font-mono text-[10px] uppercase">Pending</span>;
@@ -360,16 +360,16 @@ export default function AdminOrdersPage() {
                         <button
                           type="button"
                           onClick={() => openOrderDetails(order)}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono text-[#F5F4F2] transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-mono text-[#F5F4F2] transition-colors"
                         >
-                          <Eye className="w-3.5 h-3.5 text-[#C8202B]" />
+                          <Eye className="w-3.5 h-3.5 text-[#E11D2E]" />
                           <span>View</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDeleteOrder(order.id)}
                           title="Delete Order"
-                          className="p-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-[#8C8C8C] hover:text-[#C8202B] transition-colors"
+                          className="p-1.5 bg-[#1C1C1C] hover:bg-[#E11D2E]/20 border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-[#8C8C8C] hover:text-[#E11D2E] transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -395,7 +395,7 @@ export default function AdminOrdersPage() {
             <div className="flex items-center justify-between pb-4 border-b border-[#242424]">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 bg-[#1C1C1C] border border-[#2D2D2D] flex items-center justify-center">
-                  <ClipboardList className="w-4 h-4 text-[#C8202B]" />
+                  <ClipboardList className="w-4 h-4 text-[#E11D2E]" />
                 </div>
                 <div>
                   <h3 className="font-heading text-lg font-bold uppercase text-[#F5F4F2]">
@@ -413,14 +413,14 @@ export default function AdminOrdersPage() {
                   onClick={() => setShowInvoiceModal(true)}
                   className="px-3 py-1.5 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] text-xs font-mono text-[#F5F4F2] flex items-center gap-1.5 transition-colors"
                 >
-                  <Printer className="w-3.5 h-3.5 text-[#C8202B]" />
+                  <Printer className="w-3.5 h-3.5 text-[#E11D2E]" />
                   <span>Invoice</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDeleteOrder(selectedOrder.id)}
                   title="Delete Order"
-                  className="px-2.5 py-1.5 bg-[#1C1C1C] hover:bg-[#C8202B]/20 border border-[#2D2D2D] hover:border-[#C8202B]/60 text-xs font-mono text-[#C8202B] flex items-center gap-1.5 transition-colors"
+                  className="px-2.5 py-1.5 bg-[#1C1C1C] hover:bg-[#E11D2E]/20 border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-mono text-[#E11D2E] flex items-center gap-1.5 transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   <span>Delete</span>
@@ -452,7 +452,7 @@ export default function AdminOrdersPage() {
                       onClick={() => handleUpdateStatus(st)}
                       className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all border ${
                         selectedOrder.orderStatus === st
-                          ? 'bg-[#C8202B] border-[#C8202B] text-[#F5F4F2] font-bold shadow-lg shadow-[#C8202B]/20'
+                          ? 'bg-[#E11D2E] border-[#E11D2E] text-[#F5F4F2] font-bold shadow-lg shadow-[#E11D2E]/20'
                           : 'bg-[#181818] border-[#2A2A2A] text-[#8C8C8C] hover:text-[#F5F4F2] hover:border-[#444444]'
                       }`}
                     >
@@ -466,7 +466,7 @@ export default function AdminOrdersPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Customer Details */}
                 <div className="p-4 bg-[#111111] border border-[#242424] space-y-2">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C8202B] font-bold block">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#E11D2E] font-bold block">
                     Customer Information
                   </span>
                   <div className="text-sm font-heading font-bold uppercase text-[#F5F4F2]">
@@ -484,7 +484,7 @@ export default function AdminOrdersPage() {
 
                 {/* Delivery Address */}
                 <div className="p-4 bg-[#111111] border border-[#242424] space-y-2">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#C8202B] font-bold block">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#E11D2E] font-bold block">
                     Shipping Destination
                   </span>
                   <div className="flex items-start gap-2 text-xs font-body text-[#A0A0A0] leading-relaxed">
@@ -581,14 +581,14 @@ export default function AdminOrdersPage() {
                   </div>
                   <div className="pt-2 border-t border-[#242424] flex justify-between text-sm font-heading font-bold text-[#F5F4F2] uppercase">
                     <span>Grand Total:</span>
-                    <span className="text-[#C8202B] font-mono font-black">{formatCurrency(selectedOrder.total)}</span>
+                    <span className="text-[#E11D2E] font-mono font-black">{formatCurrency(selectedOrder.total)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Shipping Tracking Update Form */}
               <form onSubmit={handleSaveTracking} className="p-4 bg-[#111111] border border-[#242424] space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono text-[#C8202B] uppercase font-bold">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#E11D2E] uppercase font-bold">
                   <Truck className="w-4 h-4" />
                   <span>Carrier & Dispatch Tracking</span>
                 </div>
@@ -601,7 +601,7 @@ export default function AdminOrdersPage() {
                       value={trackingForm.carrier}
                       onChange={(e) => setTrackingForm({ ...trackingForm, carrier: e.target.value })}
                       placeholder="e.g. Delhivery, BlueDart, DTDC"
-                      className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1.5 text-xs text-[#F5F4F2] focus:border-[#C8202B] focus:outline-none"
+                      className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1.5 text-xs text-[#F5F4F2] focus:border-[#E11D2E] focus:outline-none"
                     />
                   </div>
                   <div>
@@ -611,7 +611,7 @@ export default function AdminOrdersPage() {
                       value={trackingForm.trackingNumber}
                       onChange={(e) => setTrackingForm({ ...trackingForm, trackingNumber: e.target.value })}
                       placeholder="e.g. DEL-9876543210"
-                      className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1.5 text-xs text-[#F5F4F2] focus:border-[#C8202B] focus:outline-none"
+                      className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1.5 text-xs text-[#F5F4F2] focus:border-[#E11D2E] focus:outline-none"
                     />
                   </div>
                   <div>
@@ -620,7 +620,7 @@ export default function AdminOrdersPage() {
                       type="date"
                       value={trackingForm.estimatedDelivery}
                       onChange={(e) => setTrackingForm({ ...trackingForm, estimatedDelivery: e.target.value })}
-                      className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1.5 text-xs text-[#F5F4F2] focus:border-[#C8202B] focus:outline-none"
+                      className="w-full bg-[#181818] border border-[#2C2C2C] px-3 py-1.5 text-xs text-[#F5F4F2] focus:border-[#E11D2E] focus:outline-none"
                     />
                   </div>
                 </div>
@@ -629,7 +629,7 @@ export default function AdminOrdersPage() {
                   <button
                     type="submit"
                     disabled={isUpdatingTracking}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#C8202B] hover:bg-[#AC1721] text-xs font-heading uppercase tracking-wider text-[#F5F4F2] font-bold transition-colors"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#E11D2E] hover:bg-[#AC1721] text-xs font-heading uppercase tracking-wider text-[#F5F4F2] font-bold transition-colors"
                   >
                     <Save className="w-3.5 h-3.5" />
                     <span>{isUpdatingTracking ? 'Saving...' : 'Update Tracking'}</span>
@@ -656,7 +656,7 @@ export default function AdminOrdersPage() {
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="px-4 py-1.5 bg-[#C8202B] text-white font-mono text-xs uppercase font-bold hover:bg-[#AC1721]"
+                  className="px-4 py-1.5 bg-[#E11D2E] text-white font-mono text-xs uppercase font-bold hover:bg-[#AC1721]"
                 >
                   Print / Save PDF
                 </button>
@@ -674,7 +674,7 @@ export default function AdminOrdersPage() {
             <div className="flex justify-between items-start pb-6 border-b border-gray-200">
               <div>
                 <h1 className="font-heading font-black text-2xl tracking-wider uppercase text-black">
-                  RK <span className="text-[#C8202B]">NUTRITION</span>
+                  RK <span className="text-[#E11D2E]">NUTRITION</span>
                 </h1>
                 <p className="text-xs text-gray-680 font-mono mt-0.5">High Performance Athletic Formulations</p>
                 <p className="text-xs text-gray-500 font-mono mt-1">GSTIN: 07AABCR1234F1Z5 • FSSAI Lic. No: 10020011000123</p>
