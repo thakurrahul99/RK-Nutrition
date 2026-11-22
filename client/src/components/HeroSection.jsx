@@ -26,78 +26,77 @@ export default function HeroSection() {
     >
       {/* 1. Subtle Studio Ambient Lighting */}
       <div className="absolute inset-0 pointer-events-none select-none z-0" aria-hidden="true">
-        {/* Soft Radial Red Studio Flare behind Product on Desktop */}
-        <div className="absolute right-0 lg:right-1/12 top-1/2 -translate-y-1/2 w-[300px] sm:w-[480px] lg:w-[640px] h-[300px] sm:h-[480px] lg:h-[640px] bg-[radial-gradient(circle_at_center,rgba(213,31,50,0.11)_0%,rgba(11,11,11,0)_72%)] pointer-events-none" />
+        {/* Soft Radial Red Studio Flare at Top-Right on Mobile & Desktop */}
+        <div className="absolute right-0 top-0 w-[260px] sm:w-[480px] lg:w-[640px] h-[260px] sm:h-[480px] lg:h-[640px] bg-[radial-gradient(circle_at_top_right,rgba(225,29,46,0.20)_0%,rgba(11,11,11,0)_70%)] pointer-events-none" />
       </div>
 
-      {/* 2. Main Hero Grid Container */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-12 lg:py-18 z-10 w-full overflow-hidden sm:overflow-visible">
+      {/* 2. Main Hero Grid Container: padding 20px 16px 28px on mobile */}
+      <div className="relative max-w-7xl mx-auto px-4 py-[20px] pb-[28px] sm:px-6 lg:px-8 sm:py-12 lg:py-18 z-10 w-full overflow-hidden sm:overflow-visible">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-12 items-center">
           
           {/* Left Column (Desktop) / Main Stack (Mobile) */}
           <div className="lg:col-span-7 flex flex-col items-start text-left w-full relative">
             
-            {/* Mobile Product Tub: Absolute positioned at right 10px, top 25px, width 150px, z-index 1, subtle red glow */}
+            {/* Mobile Product Tub: Absolute positioned at right 8px, top 44px, width clamp(135px, 42vw, 170px), constrained height for <= 6px Line 3 overlap, z-index 1 */}
             <div 
-              className="absolute right-[10px] top-[25px] w-[150px] h-[190px] z-[1] sm:hidden pointer-events-none drop-shadow-[0_10px_30px_rgba(225,29,46,0.35)] flex items-center justify-center overflow-visible"
+              className="absolute right-[8px] top-[44px] w-[clamp(135px,42vw,170px)] h-[clamp(108px,32.5vw,134px)] max-h-[135px] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible"
               aria-hidden="true"
             >
-              <HeroProduct3D className="!w-[150px] !h-[190px] !max-w-none drop-shadow-[0_10px_30px_rgba(225,29,46,0.35)]" />
+              {/* Radial red halo glow behind tub */}
+              <div className="absolute inset-[-15%] bg-[radial-gradient(circle,rgba(225,29,46,0.25)_0%,transparent_65%)] pointer-events-none -z-10" />
+              <HeroProduct3D className="!w-full !h-full !max-w-none drop-shadow-[0_12px_32px_rgba(225,29,46,0.4)]" />
             </div>
 
-            {/* Top Composition: Eyebrow + Headline */}
-            <div className="w-full relative z-10 order-1 min-h-[190px] sm:min-h-0">
-              <div className="flex flex-col items-start py-0.5 sm:py-0 min-w-0 w-full">
-                {/* 1. Eyebrow */}
-                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-[#121212] border border-[#242424] mb-2 sm:mb-5 max-w-full">
+            {/* 1. TAG PILL & 2. HEADLINE (order-1 on mobile & desktop) */}
+            <div className="w-full relative z-[2] order-1">
+              <div className="flex flex-col items-start min-w-0 w-full">
+                {/* 1. Tag Pill: margin-bottom 16px, font-size 9px, letter-spacing 1.2px, padding 6px 10px */}
+                <div className="inline-flex items-center gap-1.5 sm:gap-2 px-[10px] py-[6px] sm:px-3 sm:py-1 bg-[#121212] border border-[#242424] mb-[16px] sm:mb-5 max-w-full">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] shrink-0" aria-hidden="true" />
-                  <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-xs font-mono font-bold tracking-[0.06em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase truncate">
+                  <span className="text-[9px] sm:text-xs font-mono font-bold tracking-[1.2px] sm:tracking-[0.22em] text-[#A1A1A1] uppercase truncate">
                     {eyebrow}
                   </span>
                 </div>
 
-                {/* 2. Main Headline: 44px, line-height 0.95, letter-spacing -0.5px, weight 800, scaleY(1.25), max-width 280px, margin-bottom 28px clearance */}
-                <div className="max-w-[280px] sm:max-w-none pb-7 sm:pb-0 mb-0 sm:mb-6">
-                  <h1 className="font-heading font-extrabold sm:font-bold text-[44px] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.5px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-0 select-none [transform:scaleY(1.25)] origin-top-left sm:[transform:none]">
-                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
-                    <span className="block text-[#E11D2E] whitespace-nowrap drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">{headingLine2}</span>
-                    <span className="block text-[#F2F2F2] whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>
-                  </h1>
-                </div>
+                {/* 2. Main Headline: clamp(38px, 13.2vw, 52px), line-height 0.95, letter-spacing -0.3px, weight 800, scaleY(1.3), mb 1.15em */}
+                <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(38px,13.2vw,52px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[1.15em] sm:mb-6 select-none [transform:scaleY(1.3)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
+                  <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine1}</span>
+                  <span className="block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">{headingLine2}</span>
+                  <span className="block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">{headingLine3}</span>
+                </h1>
               </div>
             </div>
 
-            {/* 3. "BUILT FOR YOUR ROUTINE." SECTION:
-                Placed right under the tub/headline block on mobile (order-2 on mobile, order-4 at bottom on desktop) */}
-            <div className="order-2 sm:order-4 w-full pt-2 sm:pt-6 border-t border-[#1F1F1F] mt-[-10px] sm:mt-auto mb-2.5 sm:mb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 text-left relative z-10">
+            {/* 3. "BUILT FOR YOUR ROUTINE." BLOCK (order-2 on mobile, order-4 at bottom on desktop) */}
+            <div className="order-2 sm:order-4 w-full pt-2.5 sm:pt-6 border-t border-[#1F1F1F] mt-[14px] sm:mt-auto mb-[18px] sm:mb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 text-left relative z-[2]">
               <div>
-                <span className="text-[14px] sm:text-sm font-heading font-extrabold sm:font-bold text-[#FFFFFF] sm:text-[#F2F2F2] tracking-wider uppercase block">
+                <span className="text-[14px] sm:text-sm font-heading font-extrabold sm:font-bold text-[#FFFFFF] sm:text-[#F2F2F2] tracking-[0.5px] uppercase block">
                   {supportingLabel}
                 </span>
-                <span className="text-[9px] sm:text-[11px] font-mono text-[#9CA3AF] sm:text-[#8C8C8C] tracking-[1px] sm:tracking-wider uppercase mt-0.5 block">
+                <span className="text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9px] sm:text-[11px] font-mono text-[#9CA3AF] sm:text-[#8C8C8C] tracking-[0.8px] min-[360px]:tracking-[1px] sm:tracking-wider uppercase mt-0.5 block whitespace-nowrap">
                   ZERO AMINO SPIKING • TRANSPARENT LABELS • CLINICALLY DOSED
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-[9px] sm:text-[10px] font-mono text-[#9CA3AF] sm:text-[#666666] uppercase tracking-[1px] sm:tracking-widest mt-0.5 sm:mt-0">
+              <div className="flex items-center gap-2 text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9px] sm:text-[10px] font-mono text-[#9CA3AF] sm:text-[#666666] uppercase tracking-[0.8px] min-[360px]:tracking-[1px] sm:tracking-widest mt-[6px] sm:mt-0 whitespace-nowrap">
                 <span>EST. 2026</span>
                 <span>•</span>
                 <span className="text-[#E11D2E]">100% PURE FORMULATION</span>
               </div>
             </div>
 
-            {/* 4. Supporting Text / Subtext (order-3 on mobile, order-2 on desktop) */}
-            <div className="order-3 sm:order-2 w-full relative z-10">
-              <p className="max-w-xl text-[12.5px] min-[390px]:text-[13px] sm:text-base md:text-lg text-[#B5B5B5] font-normal leading-[1.48] sm:leading-relaxed mt-1 sm:mt-0 mb-3 sm:mb-8 font-body">
+            {/* 4. PARAGRAPH: font-size 14px, line-height 1.55, color #B8BCC4, margin-bottom 20px (order-3 on mobile, order-2 on desktop) */}
+            <div className="order-3 sm:order-2 w-full relative z-[2]">
+              <p className="max-w-xl text-[14px] sm:text-base md:text-lg text-[#B8BCC4] font-normal leading-[1.55] sm:leading-relaxed mb-[20px] sm:mb-8 font-body">
                 {subtext}
               </p>
             </div>
 
-            {/* 5. Action CTA Buttons (order-4 on mobile, order-3 on desktop): Full width, 48px height on mobile */}
-            <div className="order-4 sm:order-3 w-full relative z-10 mb-2 sm:mb-8">
-              <div className="flex flex-row items-center gap-2 sm:gap-4 w-full sm:w-auto">
+            {/* 5. BUTTONS: full width, 48px height, 10px gap, stacked on 320px (<360px), 12px font, 1px tracking, 700 weight (order-4 on mobile, order-3 on desktop) */}
+            <div className="order-4 sm:order-3 w-full relative z-[2] mb-2 sm:mb-8">
+              <div className="flex flex-col min-[360px]:flex-row items-stretch min-[360px]:items-center gap-[10px] sm:gap-4 w-full sm:w-auto">
                 <Link
                   to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#E11D2E] hover:bg-[#C81827] active:bg-[#AC1721] text-[#F2F2F2] font-heading text-[11px] min-[360px]:text-[11.5px] min-[390px]:text-[12px] sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#E11D2E]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center whitespace-nowrap"
+                  className="w-full min-[360px]:flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#E11D2E] hover:bg-[#C81827] active:bg-[#AC1721] text-[#F2F2F2] font-heading text-[12px] sm:text-lg font-bold tracking-[1px] sm:tracking-widest uppercase transition-colors duration-200 shadow-xl shadow-[#E11D2E]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F2F2F2] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] group cursor-pointer text-center whitespace-nowrap"
                 >
                   <span>{primaryCtaText}</span>
                   <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 group-hover:translate-x-1 shrink-0" />
@@ -105,7 +104,7 @@ export default function HeroSection() {
 
                 <Link
                   to={secondaryCtaHref.startsWith('#') ? '/categories' : secondaryCtaHref}
-                  className="flex-1 sm:flex-none inline-flex items-center justify-center px-2 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#E11D2E] font-heading text-[11px] min-[360px]:text-[11.5px] min-[390px]:text-[12px] sm:text-lg font-bold tracking-wider sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center whitespace-nowrap"
+                  className="w-full min-[360px]:flex-1 sm:flex-none inline-flex items-center justify-center px-3 sm:px-9 h-[48px] sm:h-auto sm:py-3.5 bg-[#121212] hover:bg-[#1A1A1A] active:bg-[#161616] text-[#F2F2F2] border border-[#282828] hover:border-[#E11D2E] font-heading text-[12px] sm:text-lg font-bold tracking-[1px] sm:tracking-widest uppercase transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E11D2E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] cursor-pointer text-center whitespace-nowrap"
                 >
                   <span>{secondaryCtaText}</span>
                 </Link>
