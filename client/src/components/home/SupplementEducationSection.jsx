@@ -148,12 +148,6 @@ export default function SupplementEducationSection() {
               Supplements are targeted nutritional tools designed to complement a balanced diet—not replace real food. Learn how our core formulations support your recovery and physical goals.
             </p>
           </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase tracking-wider text-[#5A5A5A]">
-              TRANSPARENT EDUCATION • 4 CORE FORMULATIONS
-            </span>
-          </div>
         </div>
 
         {/* Category Selector Tabs */}

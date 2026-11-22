@@ -75,30 +75,25 @@ export default function BrandValuesSection() {
           </p>
 
           {/* Mobile Carousel Navigation Arrows (visible only on mobile md:hidden) */}
-          <div className="flex md:hidden items-center justify-center gap-3 mt-6">
-            <span className="text-[10px] font-mono text-[#8C8C8C] uppercase tracking-wider">
-              SWIPE TO EXPLORE PILLARS
-            </span>
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={() => scroll('left')}
-                disabled={!canScrollLeft}
-                aria-label="Previous quality pillar"
-                className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scroll('right')}
-                disabled={!canScrollRight}
-                aria-label="Next quality pillar"
-                className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+          <div className="flex md:hidden items-center justify-center gap-2 mt-5">
+            <button
+              type="button"
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              aria-label="Previous quality pillar"
+              className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              aria-label="Next quality pillar"
+              className="w-8 h-8 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
 

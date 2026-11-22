@@ -81,12 +81,12 @@ export default function CategoryShowcaseSection() {
     <section 
       id="categories" 
       aria-label="Product Category Showcase"
-      className="relative py-12 sm:py-28 bg-[#141414] border-b border-[#222222]"
+      className="relative py-12 sm:py-20 bg-[#141414] border-b border-[#222222]"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Carousel Navigation */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-4 sm:gap-6">
+        {/* Clean Section Header with Carousel Navigation */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4 sm:gap-6">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-heading uppercase tracking-[0.25em] text-[#C8202B] font-bold mb-3">
               <span className="w-8 h-[2px] bg-[#C8202B]" />
@@ -97,41 +97,35 @@ export default function CategoryShowcaseSection() {
             </h2>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-            <p className="text-xs sm:text-sm text-[#8C8C8C] max-w-md font-body leading-relaxed hidden lg:block">
-              Explore our core nutritional categories. Structured strictly around the physical demands of high-performance training.
-            </p>
+          <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto">
+            <Link
+              to="/categories"
+              className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#C8202B] hover:text-[#F5F4F2] transition-colors font-bold whitespace-nowrap"
+            >
+              <span>Category Overview</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
 
-            <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
-              <Link
-                to="/categories"
-                className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-[#C8202B] hover:text-[#F5F4F2] transition-colors font-bold whitespace-nowrap"
+            {/* Carousel Navigation Arrow Buttons */}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => scroll('left')}
+                disabled={!canScrollLeft}
+                aria-label="Previous categories"
+                className="w-9 h-9 sm:w-10 sm:h-10 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
               >
-                <span>Category Overview</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-
-              {/* Carousel Navigation Arrow Buttons */}
-              <div className="flex items-center gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => scroll('left')}
-                  disabled={!canScrollLeft}
-                  aria-label="Previous categories"
-                  className="w-9 h-9 sm:w-10 sm:h-10 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
-                >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scroll('right')}
-                  disabled={!canScrollRight}
-                  aria-label="Next categories"
-                  className="w-9 h-9 sm:w-10 sm:h-10 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
-                >
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                </button>
-              </div>
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+                aria-label="Next categories"
+                className="w-9 h-9 sm:w-10 sm:h-10 bg-[#161616] border border-[#2A2A2A] hover:border-[#C8202B] hover:bg-[#C8202B] text-[#F5F4F2] disabled:opacity-25 disabled:hover:bg-[#161616] disabled:hover:border-[#2A2A2A] disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center cursor-pointer shadow-md"
+              >
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
             </div>
           </div>
         </div>
@@ -208,20 +202,6 @@ export default function CategoryShowcaseSection() {
               </div>
             </Link>
           ))}
-        </div>
-
-        {/* Bottom Destination Link Strip */}
-        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-[#1F1F1F] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-xs font-mono text-[#8C8C8C] uppercase tracking-wider">
-            SHOWCASING {categories.length} PERFORMANCE CATEGORIES • SWIPE OR USE ARROWS
-          </span>
-          <Link
-            to="/categories"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#1A1A1A] hover:bg-[#222222] border border-[#2E2E2E] hover:border-[#C8202B] text-xs font-heading tracking-widest uppercase text-[#F5F4F2] transition-colors"
-          >
-            <span>Explore All Categories</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#C8202B]" />
-          </Link>
         </div>
 
       </div>
