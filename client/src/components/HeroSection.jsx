@@ -40,18 +40,18 @@ export default function HeroSection() {
             {/* Top Composition: Eyebrow + Headline & Tub */}
             <div className="w-full">
               {/* Mobile compact side-by-side top composition; desktop retains its original left column */}
-              <div className="grid grid-cols-[minmax(0,1.22fr)_minmax(0,0.78fr)] gap-2 min-[360px]:gap-3 items-center lg:block min-w-0 w-full">
+              <div className="grid grid-cols-[1fr_auto] gap-2.5 min-[360px]:gap-3 items-start lg:block min-w-0 w-full">
                 <div className="min-w-0 flex flex-col items-start py-0.5 sm:py-0">
                   {/* 1. Eyebrow */}
-                  <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-[#121212] border border-[#242424] mb-2 sm:mb-5 max-w-full">
+                  <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-[#121212] border border-[#242424] mb-3 min-[360px]:mb-3.5 min-[390px]:mb-4 sm:mb-5 max-w-full">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D51F32] shrink-0" aria-hidden="true" />
                     <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-xs font-mono font-bold tracking-[0.06em] sm:tracking-[0.22em] text-[#A1A1A1] uppercase truncate">
                       {eyebrow}
                     </span>
                   </div>
 
-                  {/* 2. Main Headline (Taller vertical presence, scale-y stretch, line spacing, responsive clamp) */}
-                  <h1 className="font-heading font-black text-[clamp(1.75rem,8.2vw,2.75rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.035em] sm:tracking-tight uppercase leading-[1.18] sm:leading-[0.92] text-[#F2F2F2] mb-1 sm:mb-6 scale-y-[1.12] origin-left">
+                  {/* 2. Main Headline (Taller vertical presence, balanced line distribution, occupying empty space naturally) */}
+                  <h1 className="font-heading font-black text-[clamp(1.22rem,6.6vw,1.45rem)] min-[360px]:text-[clamp(1.55rem,7.2vw,2.35rem)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[1.38] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-4 min-[360px]:gap-8 min-[390px]:gap-10 sm:gap-0 sm:block mb-4 min-[390px]:mb-6 sm:mb-6">
                     <span className="block text-[#F2F2F2] whitespace-nowrap">{headingLine1}</span>
                     <span className="block text-[#D51F32] whitespace-nowrap">{headingLine2}</span>
                     <span className="block text-[#F2F2F2] whitespace-nowrap">{headingLine3}</span>
@@ -59,8 +59,8 @@ export default function HeroSection() {
                 </div>
 
                 {/* Mobile product visual sits cleanly beside headline without downward translation/overlap */}
-                <div className="flex lg:hidden items-center justify-center min-w-0 self-center">
-                  <HeroProduct3D className="mx-auto !w-full max-w-[125px] min-[360px]:max-w-[140px]" />
+                <div className="flex lg:hidden items-center justify-end min-w-0 self-start pt-6 min-[360px]:pt-7 min-[390px]:pt-7.5 shrink-0">
+                  <HeroProduct3D className="!w-[96px] min-[360px]:!w-[110px] min-[390px]:!w-[116px] min-[430px]:!w-[124px] !max-w-none" />
                 </div>
               </div>
             </div>
