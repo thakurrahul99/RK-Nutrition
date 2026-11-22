@@ -85,12 +85,14 @@ const DEFAULT_CONTENT = {
       missionP2: 'At RK Nutrition, our approach is straightforward: formulate supplements with verified ingredients at meaningful dosages, maintain absolute labeling transparency, and provide athletes with the reliable nutritional support they need to fuel their body and achieve real results.'
     },
     contact: {
-      email: 'contact@rknutrition.com',
-      inquiriesEmail: 'support@rknutrition.com',
-      businessHours: 'Monday – Friday: 9:00 AM – 6:00 PM IST',
-      responseTime: '24 to 48 business hours',
-      address: 'RK Nutrition Headquarters, Performance Hub, India',
-      phone: '+91 98765 43210'
+      email: 'Kuldeeprajput5262@gmail.com',
+      inquiriesEmail: 'Kuldeeprajput5262@gmail.com',
+      businessHours: 'Monday – Saturday: 9:00 AM – 7:00 PM IST',
+      responseTime: '2 to 4 business hours',
+      address: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India',
+      phone: '+91 86306 63134',
+      secondaryPhone: '+91 74520 13333',
+      whatsapp: 'https://wa.me/917452013333'
     },
     faq: DEFAULT_FAQ_ITEMS,
     shippingPolicy: {
@@ -146,6 +148,7 @@ const DEFAULT_CONTENT = {
       instagram: 'https://instagram.com/rknutrition',
       youtube: 'https://youtube.com/@rknutrition',
       twitter: 'https://x.com/rknutrition',
+      whatsapp: 'https://wa.me/917452013333',
       linkedin: 'https://linkedin.com/company/rknutrition'
     }
   },

@@ -679,8 +679,8 @@ export default function AdminOrdersPage() {
                   className="h-10 w-auto object-contain mb-1.5" 
                 />
                 <p className="text-xs text-gray-680 font-mono mt-0.5">High Performance Athletic Formulations</p>
-                <p className="text-xs text-gray-500 font-mono mt-1">GSTIN: 07AABCR1234F1Z5 • FSSAI Lic. No: 10020011000123</p>
-                <p className="text-xs text-gray-500 font-mono">support@rknutrition.com • +91 98765 43210</p>
+                <p className="text-xs text-gray-500 font-mono mt-1">A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India</p>
+                <p className="text-xs text-gray-500 font-mono">Kuldeeprajput5262@gmail.com • +91 86306 63134 • +91 74520 13333</p>
               </div>
               <div className="text-right">
                 <div className="text-base font-bold font-mono">INVOICE</div>

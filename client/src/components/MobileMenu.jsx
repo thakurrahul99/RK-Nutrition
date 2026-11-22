@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { X, Search, ShoppingBag, Heart, ArrowRight, User, Package, LogOut } from 'lucide-react';
+import { X, Search, ShoppingBag, Heart, ArrowRight, User, Package, LogOut, Phone } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -250,6 +250,25 @@ export default function MobileMenu({
               <span className="text-[#666666]">Empty</span>
             )}
           </button>
+
+          {/* Quick Call & WhatsApp Support */}
+          <div className="grid grid-cols-2 gap-2 pt-1 text-[11px] font-mono">
+            <a
+              href="tel:+918630663134"
+              className="py-2 px-2 bg-[#181818] border border-[#2A2A2A] text-center text-[#F5F4F2] hover:border-[#E11D2E] transition-colors flex items-center justify-center gap-1.5"
+            >
+              <Phone className="w-3 h-3 text-[#E11D2E]" />
+              <span>Call Us</span>
+            </a>
+            <a
+              href="https://wa.me/917452013333"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2 px-2 bg-[#181818] border border-[#2A2A2A] text-center text-[#25D366] hover:border-[#25D366] transition-colors flex items-center justify-center gap-1.5 font-bold"
+            >
+              <span>WhatsApp</span>
+            </a>
+          </div>
 
           <div className="text-[9px] font-mono text-[#555555] text-center uppercase tracking-widest pt-0.5">
             RK NUTRITION • ALL RIGHTS RESERVED

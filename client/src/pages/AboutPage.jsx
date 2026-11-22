@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { brandConfig } from '../config/brandConfig';
 import { useContent } from '../context/ContentContext';
-import { ArrowRight, CheckCircle2, ShieldCheck, Flame, Compass, HelpCircle, Mail } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Flame, Compass, HelpCircle, Mail, Phone, MapPin } from 'lucide-react';
 import useScrollReveal from '../hooks/useScrollReveal';
 
 export default function AboutPage() {
@@ -285,6 +285,70 @@ export default function AboutPage() {
               </div>
             </div>
 
+          </div>
+
+          {/* Official Business Transparency & Marketed By */}
+          <div className="mt-12 p-6 sm:p-8 bg-[#141414] border border-[#262626] grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#E11D2E] font-bold">
+                <MapPin className="w-4 h-4" />
+                <span>Marketed By / Business Office</span>
+              </div>
+              <p className="text-sm text-[#F5F4F2] font-semibold">RK Nutrition</p>
+              <p className="text-xs text-[#8C8C8C] font-body leading-relaxed">
+                A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India
+              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Patparganj+Industrial+Area+Delhi+110092"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-[11px] font-mono uppercase text-[#E11D2E] hover:underline pt-1"
+              >
+                View on Google Maps →
+              </a>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#E11D2E] font-bold">
+                <Phone className="w-4 h-4" />
+                <span>Direct Support Lines</span>
+              </div>
+              <div className="space-y-1 text-xs font-mono">
+                <div>
+                  <span className="text-[#8C8C8C] block text-[10px] uppercase">Orders / Care:</span>
+                  <a href="tel:+918630663134" className="text-sm font-bold text-[#F5F4F2] hover:text-[#E11D2E] transition-colors">
+                    +91 86306 63134
+                  </a>
+                </div>
+                <div>
+                  <span className="text-[#8C8C8C] block text-[10px] uppercase">Direct / WhatsApp:</span>
+                  <a href="tel:+917452013333" className="text-sm font-bold text-[#F5F4F2] hover:text-[#E11D2E] transition-colors">
+                    +91 74520 13333
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#E11D2E] font-bold">
+                <Mail className="w-4 h-4" />
+                <span>Electronic Mail & Desk</span>
+              </div>
+              <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-sm font-mono font-bold text-[#F5F4F2] hover:text-[#E11D2E] transition-colors block break-all">
+                Kuldeeprajput5262@gmail.com
+              </a>
+              <p className="text-xs text-[#8C8C8C] font-body">
+                Official correspondence, batch verification, and institutional collaborations.
+              </p>
+              <a
+                href="https://wa.me/917452013333"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-[#25D366] hover:underline pt-1 font-bold"
+              >
+                <span>Chat on WhatsApp (7452013333) →</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>

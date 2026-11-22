@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Clock, Send, HelpCircle, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Mail, Clock, Send, HelpCircle, ArrowRight, CheckCircle2, Phone, MapPin, Copy, ExternalLink } from 'lucide-react';
 import { apiRequest } from '../services/api';
+import { brandConfig } from '../config/brandConfig';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,13 @@ export default function ContactPage() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [copiedAddress, setCopiedAddress] = useState(false);
+
+  const handleCopyAddress = () => {
+    navigator.clipboard?.writeText('A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India');
+    setCopiedAddress(true);
+    setTimeout(() => setCopiedAddress(false), 2500);
+  };
 
   const validate = () => {
     const errs = {};
@@ -96,47 +104,145 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Contact Details (5 cols) */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-5 space-y-6">
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold block mb-2">
                 VERIFIED CHANNELS
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl text-[#F5F4F2] uppercase font-bold tracking-tight mb-4">
+              <h2 className="font-heading text-3xl sm:text-4xl text-[#F5F4F2] uppercase font-bold tracking-tight mb-3">
                 HOW TO REACH US
               </h2>
               <p className="text-sm text-[#8C8C8C] leading-relaxed font-body">
-                We handle official correspondence directly through our designated brand email. Inquiries are reviewed and answered by our team during business hours.
+                Official business channels for orders, formulation queries, and customer assistance. Our team is directly reachable via Phone, WhatsApp, and Email.
               </p>
             </div>
 
-            {/* Electronic Mail Card */}
-            <div className="p-6 bg-[#161616] border border-[#282828] space-y-2 shadow-lg">
+            {/* 1. Official Business Address Card */}
+            <div className="p-6 bg-[#161616] border border-[#282828] space-y-3 shadow-lg">
               <div className="flex items-center gap-2.5 text-xs text-[#E11D2E] font-mono">
-                <Mail className="w-4 h-4" />
-                <span className="uppercase">Direct Email Desk</span>
+                <MapPin className="w-4 h-4" />
+                <span className="uppercase">Marketed By / Business Address</span>
               </div>
-              <a
-                href="mailto:contact@rknutrition.com"
-                className="font-heading text-xl text-[#F5F4F2] hover:text-[#E11D2E] tracking-wide transition-colors block"
-              >
-                contact@rknutrition.com
-              </a>
+              <div>
+                <span className="font-heading text-lg text-[#F5F4F2] block uppercase font-bold">
+                  RK Nutrition
+                </span>
+                <p className="text-sm text-[#CCCCCC] font-body leading-relaxed select-all mt-1">
+                  A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India
+                </p>
+              </div>
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={handleCopyAddress}
+                  className="px-3 py-1.5 bg-[#1E1E1E] hover:bg-[#252525] border border-[#333333] text-[11px] font-mono uppercase text-[#F5F4F2] flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Copy className="w-3.5 h-3.5 text-[#E11D2E]" />
+                  <span>{copiedAddress ? 'Copied!' : 'Copy Address'}</span>
+                </button>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Patparganj+Industrial+Area+Delhi+110092"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 bg-[#1E1E1E] hover:bg-[#252525] border border-[#333333] text-[11px] font-mono uppercase text-[#F5F4F2] flex items-center gap-1.5 transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-[#8C8C8C]" />
+                  <span>Directions</span>
+                </a>
+              </div>
+            </div>
+
+            {/* 2. Direct Calling Desk */}
+            <div className="p-6 bg-[#161616] border border-[#282828] space-y-3 shadow-lg">
+              <div className="flex items-center gap-2.5 text-xs text-[#E11D2E] font-mono">
+                <Phone className="w-4 h-4" />
+                <span className="uppercase">Direct Phone Lines</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <a
+                  href="tel:+918630663134"
+                  className="p-3 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#E11D2E] block group transition-colors"
+                >
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#8C8C8C] block">
+                    Customer Care / Orders
+                  </span>
+                  <span className="font-heading text-lg text-[#F5F4F2] group-hover:text-[#E11D2E] tracking-wide font-bold">
+                    +91 86306 63134
+                  </span>
+                </a>
+                <a
+                  href="tel:+917452013333"
+                  className="p-3 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#E11D2E] block group transition-colors"
+                >
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#8C8C8C] block">
+                    Direct Support
+                  </span>
+                  <span className="font-heading text-lg text-[#F5F4F2] group-hover:text-[#E11D2E] tracking-wide font-bold">
+                    +91 74520 13333
+                  </span>
+                </a>
+              </div>
               <span className="text-xs text-[#8C8C8C] font-body block">
-                Primary channel for partnerships, formulation inquiries, and brand communications.
+                Tap on any number to initiate an immediate phone call.
               </span>
             </div>
 
-            {/* Operating Response Expectation */}
+            {/* 3. WhatsApp Instant Support Desk */}
+            <div className="p-6 bg-[#161616] border border-[#282828] space-y-3 shadow-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5 text-xs text-[#25D366] font-mono">
+                  <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                  <span className="uppercase">WhatsApp Direct Desk</span>
+                </div>
+                <span className="text-[10px] font-mono text-[#8C8C8C] uppercase">Fastest Response</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                <div>
+                  <span className="font-heading text-xl text-[#F5F4F2] block font-bold">
+                    +91 74520 13333
+                  </span>
+                  <span className="text-xs text-[#8C8C8C]">Direct chat with supplement specialist</span>
+                </div>
+                <a
+                  href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20have%20an%20inquiry%20about%20your%20supplements"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 bg-[#25D366] hover:bg-[#20BD5A] text-white font-heading uppercase text-xs tracking-wider font-bold transition-all flex items-center justify-center gap-2 shrink-0 shadow-lg shadow-[#25D366]/20 cursor-pointer"
+                >
+                  <span>Chat On WhatsApp</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* 4. Electronic Mail Card */}
+            <div className="p-6 bg-[#161616] border border-[#282828] space-y-2 shadow-lg">
+              <div className="flex items-center gap-2.5 text-xs text-[#E11D2E] font-mono">
+                <Mail className="w-4 h-4" />
+                <span className="uppercase">Official Email Desk</span>
+              </div>
+              <a
+                href="mailto:Kuldeeprajput5262@gmail.com"
+                className="font-heading text-xl text-[#F5F4F2] hover:text-[#E11D2E] tracking-wide transition-colors block break-all"
+              >
+                Kuldeeprajput5262@gmail.com
+              </a>
+              <span className="text-xs text-[#8C8C8C] font-body block">
+                Primary channel for order issues, business collaborations, and bulk inquiries.
+              </span>
+            </div>
+
+            {/* 5. Operating Schedule & Response Standard */}
             <div className="p-6 bg-[#161616] border border-[#282828] space-y-2">
               <div className="flex items-center gap-2.5 text-xs text-[#E11D2E] font-mono">
                 <Clock className="w-4 h-4" />
-                <span className="uppercase">Response Standards</span>
+                <span className="uppercase">Operating Schedule</span>
               </div>
-              <span className="font-heading text-lg text-[#F5F4F2] uppercase block">
-                We aim to respond within 24-48 business hours.
+              <span className="font-heading text-base text-[#F5F4F2] uppercase block font-semibold">
+                Monday – Saturday: 09:00 AM – 07:00 PM IST
               </span>
               <span className="text-xs text-[#8C8C8C] font-body block">
-                Operating Schedule: Monday – Friday, 09:00 – 18:00 IST. Weekend inquiries are addressed on the next business day.
+                Average reply time: 2 to 4 business hours. Sunday inquiries are processed first thing on Monday morning.
               </span>
             </div>
 

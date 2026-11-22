@@ -308,15 +308,16 @@ export const getInitialSeed = () => {
     },
     storeSettings: {
       storeName: 'RK Nutrition Official Store',
-      contactEmail: 'contact@rknutrition.com',
-      supportPhone: '+91 98765 43210',
+      contactEmail: 'Kuldeeprajput5262@gmail.com',
+      supportPhone: '+91 86306 63134',
+      secondaryPhone: '+91 74520 13333',
       shippingFee: 99,
       freeShippingThreshold: 999,
       taxGstPercent: 18,
       currency: 'INR',
       currencySymbol: '₹',
-      operatingHours: 'Monday – Friday: 09:00 AM – 06:00 PM IST',
-      warehouseAddress: 'RK Nutrition Performance Hub, Industrial Area, Sector 58, India'
+      operatingHours: 'Monday – Saturday: 09:00 AM – 07:00 PM IST',
+      warehouseAddress: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India'
     },
     inquiries: [],
     newsletters: [],
@@ -367,12 +368,14 @@ export const getInitialSeed = () => {
           missionP2: 'At RK Nutrition, our approach is straightforward: formulate supplements with verified ingredients at meaningful dosages, maintain absolute labeling transparency, and provide athletes with the reliable nutritional support they need to fuel their body and achieve real results.'
         },
         contact: {
-          email: 'contact@rknutrition.com',
-          inquiriesEmail: 'support@rknutrition.com',
-          businessHours: 'Monday – Friday: 9:00 AM – 6:00 PM IST',
-          responseTime: '24 to 48 business hours',
-          address: 'RK Nutrition Headquarters, Performance Hub, India',
-          phone: '+91 98765 43210'
+          email: 'Kuldeeprajput5262@gmail.com',
+          inquiriesEmail: 'Kuldeeprajput5262@gmail.com',
+          businessHours: 'Monday – Saturday: 9:00 AM – 7:00 PM IST',
+          responseTime: '2 to 4 business hours',
+          address: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India',
+          phone: '+91 86306 63134',
+          secondaryPhone: '+91 74520 13333',
+          whatsapp: 'https://wa.me/917452013333'
         },
         faq: [
           {

@@ -635,6 +635,52 @@ export default function AccountPage() {
                 )}
               </div>
             </div>
+
+            {/* Official Business Care & Athlete Assistance */}
+            <div className="bg-[#161616] border border-[#262626] p-6 space-y-4">
+              <div className="flex items-center justify-between border-b border-[#262626] pb-3">
+                <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E11D2E] font-bold">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Athlete Care & Order Support</span>
+                </div>
+                <span className="text-xs font-mono text-[#8C8C8C]">Mon–Sat: 09:00–19:00 IST</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+                <div className="p-3 bg-[#1A1A1A] border border-[#2E2E2E] space-y-1">
+                  <span className="text-[#8C8C8C] block uppercase text-[10px]">Calling Support</span>
+                  <div className="space-y-0.5">
+                    <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold block">
+                      +91 86306 63134
+                    </a>
+                    <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold block">
+                      +91 74520 13333
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-[#1A1A1A] border border-[#2E2E2E] space-y-1">
+                  <span className="text-[#8C8C8C] block uppercase text-[10px]">WhatsApp Fast Desk</span>
+                  <a 
+                    href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20need%20assistance%20with%20my%20account%20or%20orders." 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-[#25D366] hover:underline font-bold block text-sm pt-0.5"
+                  >
+                    Chat on WhatsApp (7452013333)
+                  </a>
+                </div>
+
+                <div className="p-3 bg-[#1A1A1A] border border-[#2E2E2E] space-y-1">
+                  <span className="text-[#8C8C8C] block uppercase text-[10px]">Official Email</span>
+                  <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold block break-all pt-0.5">
+                    Kuldeeprajput5262@gmail.com
+                  </a>
+                </div>
+              </div>
+              <p className="text-[11px] text-[#777777] font-body">
+                Marketed by RK Nutrition • A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India
+              </p>
+            </div>
           </div>
         )}
 

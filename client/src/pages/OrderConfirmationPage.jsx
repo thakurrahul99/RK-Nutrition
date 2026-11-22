@@ -282,6 +282,29 @@ export default function OrderConfirmationPage() {
 
       </div>
 
+      {/* Order Assistance & Direct Help */}
+      <div className="bg-[#141414] border border-[#242424] p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <span className="text-xs font-mono uppercase tracking-wider text-[#E11D2E] font-bold block">
+            Order Assistance Desk
+          </span>
+          <p className="text-sm font-heading uppercase font-bold text-[#F5F4F2]">
+            Questions about Order #{order.id}?
+          </p>
+          <p className="text-xs text-[#8C8C8C] font-body">
+            Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 86306 63134</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 74520 13333</a> or Email <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">Kuldeeprajput5262@gmail.com</a>
+          </p>
+        </div>
+        <a
+          href={`https://wa.me/917452013333?text=${encodeURIComponent(`Hi RK Nutrition, I have a question regarding my Order #${order.id}.`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-4 py-2.5 bg-[#25D366] hover:bg-[#20BD5A] text-white text-xs font-heading uppercase tracking-wider font-bold transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-[#25D366]/20"
+        >
+          <span>WhatsApp Support</span>
+        </a>
+      </div>
+
       {/* 4. Action Buttons */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[#222222]">
         <Link

@@ -108,7 +108,7 @@ export default function ShippingPolicyPage() {
             </p>
             <div className="p-4 bg-[#111111] border border-[#222222] text-xs font-mono text-[#8C8C8C] flex items-start gap-2">
               <AlertCircle className="w-4 h-4 text-[#E11D2E] shrink-0 mt-0.5" />
-              <span>To initiate a return or replacement, email our desk at <strong className="text-[#F5F4F2]">support@rknutrition.com</strong> with your Order ID, batch number, and high-resolution photo proof within 7 days of delivery.</span>
+              <span>To initiate a return or replacement, email our desk at <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] underline font-bold">Kuldeeprajput5262@gmail.com</a> or WhatsApp <a href="https://wa.me/917452013333" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline font-bold">+91 74520 13333</a> / Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:underline font-bold">+91 86306 63134</a> with your Order ID, batch number, and high-resolution photo proof within 7 days of delivery.</span>
             </div>
           </div>
         </div>

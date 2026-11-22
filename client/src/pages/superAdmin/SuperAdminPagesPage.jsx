@@ -45,8 +45,8 @@ export default function SuperAdminPagesPage() {
     title: "LET'S CONNECT.",
     description: 'Have a question or need information? Reach out to RK Nutrition.',
     deskHours: 'Mon - Sat: 9:00 AM - 7:00 PM IST',
-    officialEmail: 'contact@rknutrition.com',
-    supportPhone: '+91 98765 43210'
+    officialEmail: 'Kuldeeprajput5262@gmail.com',
+    supportPhone: '+91 86306 63134 / +91 74520 13333'
   });
 
   // Shipping & Return Policy Form

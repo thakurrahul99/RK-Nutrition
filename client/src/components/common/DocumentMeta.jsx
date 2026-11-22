@@ -128,10 +128,18 @@ export default function DocumentMeta() {
         ],
         'contactPoint': {
           '@type': 'ContactPoint',
-          'telephone': '+91-98765-43210',
+          'telephone': ['+91-8630663134', '+91-7452013333'],
+          'email': 'Kuldeeprajput5262@gmail.com',
           'contactType': 'customer service',
           'areaServed': 'IN',
           'availableLanguage': ['English', 'Hindi']
+        },
+        'address': {
+          '@type': 'PostalAddress',
+          'streetAddress': 'A12–16, Main Patpad Ganj Industrial Area',
+          'addressLocality': 'Delhi',
+          'postalCode': '110092',
+          'addressCountry': 'IN'
         }
       },
       {

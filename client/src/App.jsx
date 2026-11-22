@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import MobileMenu from './components/MobileMenu';
 import SearchModal from './components/SearchModal';
 import Footer from './components/Footer';
+import FloatingWhatsApp from './components/common/FloatingWhatsApp';
 import DocumentMeta from './components/common/DocumentMeta';
 
 // Core public landing page directly imported for instant First Contentful Paint
@@ -146,6 +147,9 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
         onOpenPrivacy={onOpenPrivacy}
         onOpenTerms={onOpenTerms}
       />
+
+      {/* 4. Floating WhatsApp Support Desk */}
+      <FloatingWhatsApp />
     </div>
   );
 }

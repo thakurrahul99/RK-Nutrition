@@ -341,6 +341,21 @@ export default function ProductInfo({ product }) {
               <Heart className={`w-5 h-5 ${isSaved ? 'fill-current' : ''}`} />
             </button>
           </div>
+
+          {/* WhatsApp Direct Product Inquiry */}
+          <div className="pt-2">
+            <a
+              href={`https://wa.me/917452013333?text=${encodeURIComponent(`Hi RK Nutrition, I have an inquiry about ${name}${selectedVariant ? ` (${selectedVariant.name || selectedVariant.flavor || ''})` : ''}. Could you please assist me?`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 px-3 bg-[#141414] hover:bg-[#1A1A1A] border border-[#282828] hover:border-[#25D366] text-xs font-mono text-[#8C8C8C] hover:text-[#25D366] transition-colors flex items-center justify-center gap-2 group cursor-pointer"
+            >
+              <svg className="w-4 h-4 fill-[#25D366] shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.077-2.072-.493-1.611-.667-2.616-2.316-2.696-2.423-.08-.108-.649-.864-.649-1.649 0-.785.409-1.17.554-1.328.144-.159.317-.198.423-.198.106 0 .212.002.304.006.098.005.228-.037.357.272.132.317.45 1.096.489 1.176.04.08.066.173.013.28-.053.107-.08.173-.16.265-.08.093-.167.208-.239.28-.08.08-.163.167-.07.327.093.159.413.682.887 1.103.61.543 1.124.71 1.284.79.16.08.253.067.346-.04.093-.107.4-4.66.507-.626.107-.159.213-.133.359-.08.146.053.928.438 1.087.518.16.08.266.12.306.186.04.066.04.385-.104.79zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.66 1.436 5.176L2 22l4.98-1.306A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.044c-1.637 0-3.15-.49-4.42-1.332l-.317-.209-2.96.776.79-2.885-.229-.364A7.994 7.994 0 0 1 4.044 12c0-4.387 3.569-7.956 7.956-7.956 4.387 0 7.956 3.569 7.956 7.956 0 4.387-3.569 7.956-7.956 7.956z"/>
+              </svg>
+              <span>Have formulation questions? <strong className="text-[#F5F4F2] group-hover:text-[#25D366]">Ask on WhatsApp</strong></span>
+            </a>
+          </div>
         </div>
 
         {/* Guarantees Strip */}

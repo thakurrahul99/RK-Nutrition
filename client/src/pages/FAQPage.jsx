@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
-import { ChevronDown, HelpCircle, ArrowRight, Mail } from 'lucide-react';
+import { ChevronDown, HelpCircle, ArrowRight, Mail, Phone } from 'lucide-react';
 
 const DEFAULT_FAQ_ITEMS = [
   {
@@ -148,23 +148,33 @@ export default function FAQPage() {
         </div>
 
         {/* Further Assistance Card */}
-        <div className="mt-16 p-8 bg-[#161616] border border-[#282828] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-xl">
+        <div className="mt-16 p-8 bg-[#161616] border border-[#282828] flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
           <div className="space-y-1">
             <h3 className="font-heading text-xl text-[#F5F4F2] uppercase tracking-wider font-bold">
-              Have questions about our products or ingredients?
+              Still have questions about our formulations?
             </h3>
             <p className="text-xs sm:text-sm text-[#8C8C8C] font-body">
-              Our monitored correspondence desk is ready to assist with any additional questions.
+              Call our support desk at <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 86306 63134</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 74520 13333</a> or write to <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">Kuldeeprajput5262@gmail.com</a>.
             </p>
           </div>
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-sm tracking-wider transition-colors shadow-lg shrink-0"
-          >
-            <Mail className="w-4 h-4" />
-            <span>Contact Us</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex items-center gap-3 flex-wrap">
+            <a
+              href="https://wa.me/917452013333?text=Hi%20RK%20Nutrition%2C%20I%20have%20a%20question%20about%20your%20products."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-[#25D366] hover:bg-[#20BD5A] text-white font-heading uppercase text-xs tracking-wider font-bold transition-all shadow-lg shadow-[#25D366]/20"
+            >
+              <span>WhatsApp Help</span>
+            </a>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-[#E11D2E] hover:bg-[#AC1721] text-[#F5F4F2] font-heading uppercase text-xs tracking-wider transition-colors shadow-lg"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Contact Us</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 

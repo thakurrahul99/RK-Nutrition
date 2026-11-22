@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { brandConfig } from '../config/brandConfig';
 import { useContent } from '../context/ContentContext';
-import { Mail, ArrowUp, ShieldCheck, CheckCircle2, FlaskConical, Truck, Send } from 'lucide-react';
+import { Mail, ArrowUp, ShieldCheck, CheckCircle2, FlaskConical, Truck, Send, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   const { name } = brandConfig;
@@ -39,7 +39,7 @@ export default function Footer() {
     instagram: 'https://instagram.com/rknutrition',
     youtube: 'https://youtube.com/@rknutrition',
     twitter: 'https://x.com/rknutrition',
-    whatsapp: ''
+    whatsapp: 'https://wa.me/917452013333'
   };
 
   const isValidUrl = (url) => typeof url === 'string' && url.trim().length > 0 && url.trim() !== '#' && !url.startsWith('javascript:');
@@ -134,6 +134,19 @@ export default function Footer() {
                   </svg>
                 </a>
               )}
+              {isValidUrl(socialLinks.whatsapp || 'https://wa.me/917452013333') && (
+                <a
+                  href={socialLinks.whatsapp || 'https://wa.me/917452013333'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 bg-[#141414] border border-[#242424] hover:border-[#25D366] hover:text-[#25D366] text-[#8C8C8C] flex items-center justify-center transition-colors"
+                  aria-label="WhatsApp Support"
+                >
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.59 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.82L4.43 19.64L5.26 16.6L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67ZM8.75 6.67C8.58 6.67 8.31 6.74 8.08 6.99C7.85 7.24 7.2 7.85 7.2 9.07C7.2 10.29 8.09 11.46 8.21 11.63C8.33 11.8 9.94 14.42 12.48 15.42C14.07 16.05 14.75 15.93 15.35 15.82C16.05 15.69 17.1 14.83 17.33 14.18C17.56 13.53 17.56 12.98 17.49 12.86C17.42 12.74 17.25 12.67 16.99 12.54C16.74 12.42 15.49 11.8 15.26 11.72C15.03 11.64 14.87 11.6 14.7 11.85C14.53 12.1 14.06 12.67 13.91 12.84C13.77 13.01 13.62 13.03 13.37 12.91C13.12 12.78 12.31 12.52 11.36 11.67C10.62 11.01 10.12 10.19 9.98 9.94C9.83 9.69 9.96 9.55 10.09 9.42C10.2 9.31 10.34 9.13 10.46 8.99C10.59 8.84 10.63 8.74 10.71 8.57C10.79 8.41 10.75 8.26 10.69 8.14C10.63 8.01 10.16 6.87 9.97 6.4C9.78 5.95 9.58 6.01 9.43 6C9.29 6 9.12 6 8.95 6C8.78 6 8.75 6.67 8.75 6.67Z"/>
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
 
@@ -206,14 +219,53 @@ export default function Footer() {
               </form>
             </div>
 
-            <div className="p-3 bg-[#121212] border border-[#1F1F1F] space-y-1 text-xs font-mono">
-              <div className="flex items-center gap-1.5 text-[#8C8C8C]">
-                <Mail className="w-3.5 h-3.5 text-[#E11D2E]" />
-                <span>contact@rknutrition.com</span>
+            <div className="p-3.5 bg-[#121212] border border-[#1F1F1F] space-y-2.5 text-xs font-mono">
+              <div className="flex items-start gap-2 text-[#8C8C8C]">
+                <MapPin className="w-3.5 h-3.5 text-[#E11D2E] shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-[#F5F4F2] font-semibold block text-[11px] uppercase">Marketed By / Head Office</span>
+                  <a 
+                    href="https://www.google.com/maps/search/?api=1&query=Patparganj+Industrial+Area+Delhi+110092" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="hover:text-[#E11D2E] text-[11px] leading-relaxed transition-colors block text-[#8C8C8C]"
+                  >
+                    A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India
+                  </a>
+                </div>
               </div>
-              <p className="text-[11px] text-[#666666]">
-                Mon–Sat: 09:00–18:00 IST
-              </p>
+
+              <div className="flex items-center gap-2 text-[#8C8C8C] pt-0.5">
+                <Phone className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
+                <div className="flex items-center gap-2 flex-wrap text-[11px]">
+                  <a href="tel:+918630663134" className="hover:text-[#E11D2E] transition-colors font-bold text-[#F5F4F2]">
+                    +91 86306 63134
+                  </a>
+                  <span className="text-[#444444]">•</span>
+                  <a href="tel:+917452013333" className="hover:text-[#E11D2E] transition-colors font-bold text-[#F5F4F2]">
+                    +91 74520 13333
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-[#8C8C8C]">
+                <Mail className="w-3.5 h-3.5 text-[#E11D2E] shrink-0" />
+                <a href="mailto:Kuldeeprajput5262@gmail.com" className="hover:text-[#E11D2E] transition-colors text-[11px] break-all">
+                  Kuldeeprajput5262@gmail.com
+                </a>
+              </div>
+
+              <div className="flex items-center justify-between pt-1 border-t border-[#1C1C1C] text-[10px] text-[#666666]">
+                <span>Mon–Sat: 09:00–19:00 IST</span>
+                <a 
+                  href="https://wa.me/917452013333" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-[#25D366] hover:underline font-bold"
+                >
+                  WhatsApp: 7452013333
+                </a>
+              </div>
             </div>
           </div>
 

@@ -23,9 +23,10 @@ export default function AdminStoreSettingsPage() {
     taxPercent: 18,
     gstin: '07AABCR1234F1Z5',
     fssaiLicense: '10020011000123',
-    supportEmail: 'support@rknutrition.com',
-    supportPhone: '+91 98765 43210',
-    warehouseAddress: 'Plot 42, Industrial Zone, New Delhi, 110020, India',
+    supportEmail: 'Kuldeeprajput5262@gmail.com',
+    supportPhone: '+91 86306 63134',
+    secondaryPhone: '+91 74520 13333',
+    warehouseAddress: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India',
     businessHours: 'Mon - Sat: 9:00 AM - 7:00 PM IST'
   });
 
@@ -235,7 +236,7 @@ export default function AdminStoreSettingsPage() {
                 type="email"
                 value={settings.supportEmail || ''}
                 onChange={(e) => handleChange('supportEmail', e.target.value)}
-                placeholder="support@rknutrition.com"
+                placeholder="Kuldeeprajput5262@gmail.com"
                 className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
               />
             </div>
@@ -248,7 +249,7 @@ export default function AdminStoreSettingsPage() {
                 type="text"
                 value={settings.supportPhone || ''}
                 onChange={(e) => handleChange('supportPhone', e.target.value)}
-                placeholder="+91 98765 43210"
+                placeholder="+91 86306 63134 / +91 74520 13333"
                 className="w-full bg-[#181818] border border-[#2C2C2C] focus:border-[#E11D2E] px-3 py-2 text-xs text-[#F5F4F2] focus:outline-none"
               />
             </div>

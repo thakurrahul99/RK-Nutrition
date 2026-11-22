@@ -375,6 +375,11 @@ export default function CartDrawer() {
                 >
                   Continue Shopping
                 </button>
+
+                {/* Instant Order Assistance */}
+                <div className="pt-2 text-center text-[10px] font-mono text-[#777777] border-t border-[#1F1F1F]">
+                  Order assistance? WhatsApp <a href="https://wa.me/917452013333" target="_blank" rel="noopener noreferrer" className="text-[#25D366] hover:underline font-bold">7452013333</a> or Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:underline font-bold">8630663134</a>
+                </div>
               </div>
 
             </div>
