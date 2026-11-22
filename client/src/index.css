@@ -108,6 +108,26 @@
     animation: heroFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.24s forwards;
     opacity: 0;
   }
+
+  /* Horizontal carousel track styling */
+  .horizontal-scroll-track {
+    scrollbar-width: thin;
+    scrollbar-color: #2E2E2E transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+  .horizontal-scroll-track::-webkit-scrollbar {
+    height: 5px;
+  }
+  .horizontal-scroll-track::-webkit-scrollbar-track {
+    background: #141414;
+  }
+  .horizontal-scroll-track::-webkit-scrollbar-thumb {
+    background: #2E2E2E;
+    border-radius: 3px;
+  }
+  .horizontal-scroll-track::-webkit-scrollbar-thumb:hover {
+    background: #C8202B;
+  }
 }
 
 /* Custom modern scrollbar */
