@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F4F2] flex items-center justify-center p-4 relative overflow-hidden font-body">
+    <div className="min-h-[100svh] bg-[#0D0D0D] text-[#F5F4F2] flex items-center justify-center p-3 sm:p-4 relative overflow-hidden font-body">
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:40px_40px]" />
@@ -46,12 +46,12 @@ export default function AdminLoginPage() {
 
       <div className="relative z-10 w-full max-w-md">
         {/* Card Box */}
-        <div className="bg-[#141414] border border-[#262626] p-8 shadow-2xl relative">
+        <div className="bg-[#141414] border border-[#262626] p-5 sm:p-8 shadow-2xl relative">
           {/* Crimson Top Bar Indicator */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-[#C8202B]" />
 
           {/* Header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1A1A1A] border border-[#2E2E2E] mb-4 relative">
               <span className="font-heading font-black text-2xl text-[#F5F4F2]">RK</span>
               <div className="absolute top-0 right-0 w-2 h-2 bg-[#C8202B]" />
@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             <div>
               <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
                 Store Administrator Email
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
           </form>
 
           {/* Admin Portal Switch */}
-          <div className="mt-6 pt-5 border-t border-[#222222] space-y-3">
+          <div className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-[#222222] space-y-3">
             <div className="p-3 bg-[#111111] border border-[#222222] text-[11px] font-mono text-[#8C8C8C] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Terminal className="w-3.5 h-3.5 text-[#38BDF8]" />
@@ -144,7 +144,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Back to Public Site */}
-        <div className="text-center mt-6">
+        <div className="text-center mt-4 sm:mt-6">
           <Link
             to="/"
             className="text-xs font-mono text-[#8C8C8C] hover:text-[#F5F4F2] transition-colors"
