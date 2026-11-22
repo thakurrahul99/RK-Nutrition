@@ -110,7 +110,7 @@ export default function Navbar({
               type="button"
               onClick={onOpenSearch}
               aria-label="Open search interface"
-              className="p-1.5 sm:p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
+              className="p-2 sm:p-2.5 text-[#F5F4F2]/80 hover:text-[#F5F4F2] hover:bg-[#1C1C1C] transition-colors relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8202B] cursor-pointer"
             >
               <Search className="w-5 h-5" />
             </button>
