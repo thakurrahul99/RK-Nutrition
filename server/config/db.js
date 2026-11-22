@@ -603,8 +603,8 @@ export const connectDb = async () => {
     console.log(`[RK Nutrition DB] Connected to MongoDB Atlas at ${maskedUri}`);
     await seedMongooseIfEmpty();
   } catch (err) {
-    const maskedUri = uri.replace(/:([^:@]+)@/, ':****@');
-    console.warn(`[RK Nutrition DB] MongoDB not reachable at ${maskedUri} (${err.message}). Using resilient local in-memory store.`);
+    console.error(`[RK Nutrition DB] MongoDB connection failed: ${err.message}`);
+    throw new Error('MongoDB connection is required. Check MONGODB_URI and Atlas Network Access.', { cause: err });
   }
 };
 
