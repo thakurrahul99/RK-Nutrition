@@ -12,7 +12,8 @@ const CATEGORY_TABS = [
   { id: 'all', label: 'All Products' },
   { id: 'protein', label: 'Protein' },
   { id: 'mass-gainer', label: 'Mass Gainer' },
-  { id: 'pre-workout', label: 'Pre-Workout' }
+  { id: 'pre-workout', label: 'Pre-Workout' },
+  { id: 'creatine', label: 'Creatine' }
 ];
 
 export default function ShopPage({

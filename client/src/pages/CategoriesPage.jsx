@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCategories } from '../context/CategoryContext';
-import { ArrowRight, Dumbbell, Flame, Sparkles, Layers, Package } from 'lucide-react';
+import { ArrowRight, Dumbbell, Flame, Sparkles, Layers, Package, Zap } from 'lucide-react';
 import useScrollReveal from '../hooks/useScrollReveal';
 
 export default function CategoriesPage() {
@@ -12,6 +12,7 @@ export default function CategoriesPage() {
     if (s.includes('protein')) return <Dumbbell className="w-8 h-8 text-[#E11D2E]" />;
     if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-8 h-8 text-[#E11D2E]" />;
     if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-8 h-8 text-[#E11D2E]" />;
+    if (s.includes('creatine')) return <Zap className="w-8 h-8 text-[#E11D2E]" />;
     return <Layers className="w-8 h-8 text-[#E11D2E]" />;
   };
 

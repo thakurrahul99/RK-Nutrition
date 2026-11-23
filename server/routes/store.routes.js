@@ -66,7 +66,7 @@ const handleReports = (req, res) => {
   const prepaidOrders = orders.filter((o) => o.paymentMethod === 'UPI' || o.paymentMethod === 'CARD').length;
 
   // Category sales breakdown
-  const categorySales = { protein: 0, 'mass-gainer': 0, 'pre-workout': 0 };
+  const categorySales = { protein: 0, 'mass-gainer': 0, 'pre-workout': 0, creatine: 0 };
   for (const o of orders) {
     for (const it of o.items || []) {
       const p = (db.products || []).find((prod) => prod.id === it.productId || prod.slug === it.productId);

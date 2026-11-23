@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useCategories } from '../context/CategoryContext';
 import { useProducts } from '../context/ProductContext';
 import ProductGrid from '../components/shop/ProductGrid';
-import { ArrowLeft, Dumbbell, Flame, Sparkles, Layers, Package } from 'lucide-react';
+import { ArrowLeft, Dumbbell, Flame, Sparkles, Layers, Package, Zap } from 'lucide-react';
 
 export default function CategoryDetailPage() {
   const { categoryId } = useParams();
@@ -27,6 +27,7 @@ export default function CategoryDetailPage() {
     if (s.includes('protein')) return <Dumbbell className="w-6 h-6 text-[#E11D2E]" />;
     if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-6 h-6 text-[#E11D2E]" />;
     if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-6 h-6 text-[#E11D2E]" />;
+    if (s.includes('creatine')) return <Zap className="w-6 h-6 text-[#E11D2E]" />;
     return <Layers className="w-6 h-6 text-[#E11D2E]" />;
   };
 

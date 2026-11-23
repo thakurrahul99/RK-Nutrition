@@ -87,6 +87,18 @@ export const getDefaultCategories = () => [
     displayOrder: 3,
     createdAt: '2026-11-20T10:00:00.000Z',
     updatedAt: '2026-11-20T10:00:00.000Z'
+  },
+  {
+    id: 'cat-creatine',
+    name: 'Creatine',
+    slug: 'creatine',
+    description: 'Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores, increase ATP regeneration, and enhance explosive strength.',
+    tagline: 'Peak Power & Muscular Endurance',
+    image: '/images/products/Electric Blue Creatine Power Ad.png',
+    isActive: true,
+    displayOrder: 4,
+    createdAt: '2026-11-20T10:00:00.000Z',
+    updatedAt: '2026-11-20T10:00:00.000Z'
   }
 ];
 
@@ -220,6 +232,39 @@ export const getInitialSeed = () => {
         availability: 'in-stock',
         seoTitle: 'RK Ignition Pre-Workout — Clinically Dosed Focus Formula',
         seoDescription: 'Sharpen mental focus, increase muscular endurance, and enhance workout volume with clean, jitter-free energy.',
+        createdAt: '2026-11-20T10:00:00.000Z',
+        updatedAt: '2026-11-21T08:00:00.000Z'
+      },
+      {
+        id: 'rk-creatine-monohydrate',
+        name: 'RK Micronized Creatine',
+        slug: 'rk-micronized-creatine',
+        category: 'creatine',
+        sku: 'RK-CRE-001',
+        price: 1499,
+        salePrice: 1299,
+        stock: 60,
+        lowStockThreshold: 15,
+        shippingWeightKg: 0.4,
+        paymentRule: 'ALL',
+        shortDescription: 'Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores and boost explosive muscular power.',
+        fullDescription: 'Pharmaceutical-grade 200-mesh micronized creatine monohydrate. Ultra-fine powder dissolves effortlessly with zero grit, accelerating ATP regeneration during maximal resistance efforts.',
+        images: ['/images/products/Electric Blue Creatine Power Ad.png'],
+        variants: [
+          { id: 'var-1', name: '250 g (83 Servings)', flavour: 'Unflavoured', size: '250 g', sku: 'RK-CRE-UNF-250G', price: 1499, salePrice: 1299, stock: 60 }
+        ],
+        servingInfo: 'Serving Size: 3g | Servings: 83',
+        ingredients: '100% Pure Micronized Creatine Monohydrate (Creapure Quality Standard).',
+        nutritionFacts: 'Serving Size: 3g | Pure Creatine Monohydrate: 3,000mg | Zero Calories | Zero Sugars',
+        allergenInfo: 'Manufactured in a certified allergen-free facility. 100% Vegan.',
+        usageInstructions: 'Mix 1 scoop (3g) with 200ml cold water, juice, or your post-workout protein shake. Consume daily for optimal intramuscular saturation.',
+        storageInstructions: 'Store in a cool, dry place away from moisture. Keep container tightly sealed.',
+        status: 'published',
+        featured: true,
+        visibility: true,
+        availability: 'in-stock',
+        seoTitle: 'RK Micronized Creatine Monohydrate — 100% Pure Cellular ATP Catalyst',
+        seoDescription: 'Boost muscular power, maximize sprint and lift performance, and support lean mass with 200-mesh ultra-micronized creatine.',
         createdAt: '2026-11-20T10:00:00.000Z',
         updatedAt: '2026-11-21T08:00:00.000Z'
       }

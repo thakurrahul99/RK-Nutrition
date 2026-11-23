@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCategories } from '../context/CategoryContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { Dumbbell, Flame, Sparkles, Layers, ArrowRight } from 'lucide-react';
+import { Dumbbell, Flame, Sparkles, Layers, ArrowRight, Zap } from 'lucide-react';
 
 export default function CategoryShowcaseSection() {
   const { categories } = useCategories();
@@ -12,6 +12,7 @@ export default function CategoryShowcaseSection() {
     if (s.includes('protein')) return <Dumbbell className="w-5 h-5 text-[#E11D2E]" />;
     if (s.includes('mass') || s.includes('gainer')) return <Sparkles className="w-5 h-5 text-[#E11D2E]" />;
     if (s.includes('pre') || s.includes('workout') || s.includes('energy')) return <Flame className="w-5 h-5 text-[#E11D2E]" />;
+    if (s.includes('creatine')) return <Zap className="w-5 h-5 text-[#E11D2E]" />;
     return <Layers className="w-5 h-5 text-[#E11D2E]" />;
   };
 
@@ -56,13 +57,13 @@ export default function CategoryShowcaseSection() {
         </div>
 
         {/* Responsive Grid with Staggered Scroll Reveal */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {categories.map((category, idx) => (
             <Link 
               key={category.id || category.slug} 
               id={`cat-${category.slug}`}
               to={`/categories/${category.slug}`}
-              className={`reveal-init stagger-${(idx % 3) + 1} card-hover-lift group relative bg-[#131313] border border-[#202020] hover:border-[#E11D2E]/50 flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300`}
+              className={`reveal-init stagger-${(idx % 4) + 1} card-hover-lift group relative bg-[#131313] border border-[#202020] hover:border-[#E11D2E]/50 flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300`}
             >
               {/* Cover Banner (4:3 aspect ratio) */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#181818]">

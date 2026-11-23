@@ -120,6 +120,19 @@ export const brandConfig = {
         "100% disclosed label with zero secret blends"
       ],
     },
+    {
+      id: "creatine",
+      code: "04",
+      title: "Creatine",
+      tagline: "Peak Power & Muscular Endurance",
+      description: "Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores, increase ATP regeneration, and enhance explosive muscular power.",
+      accent: "Cellular Energy",
+      features: [
+        "100% pure micronized creatine monohydrate (200 mesh)",
+        "Accelerates ATP resynthesis for explosive strength",
+        "Zero fillers, unflavored for seamless shaker mixing"
+      ],
+    },
   ],
   visualFeature: {
     badge: "PURITY & QUALITY",

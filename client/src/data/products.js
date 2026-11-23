@@ -115,6 +115,36 @@ export const products = [
       usage: "Mix 1 scoop in 200ml cold water 20-30 minutes prior to intense physical training.",
       storage: "Store in a dry location. Silica desiccant included to prevent moisture clumping."
     }
+  },
+  {
+    id: "rk-creatine-monohydrate",
+    name: "RK Micronized Creatine",
+    category: "creatine",
+    images: ["/images/products/Electric Blue Creatine Power Ad.png"],
+    description: "Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores and boost explosive muscular power.",
+    price: 1499,
+    salePrice: 1299,
+    variants: [
+      { id: "250g", name: "250 g (83 Servings)" }
+    ],
+    availability: "in-stock",
+    additionalInfo: {
+      productInfo: "Pharmaceutical-grade 200-mesh ultra-micronized creatine monohydrate with rapid solubility and zero grit.",
+      ingredients: "100% Pure Micronized Creatine Monohydrate.",
+      nutrition: "Serving Size: 3g | Pure Creatine Monohydrate: 3000mg",
+      usage: "Mix 1 scoop (3g) with 200ml of cold water or your post-workout protein shake. Consume once daily.",
+      storage: "Store in a cool, dry place away from direct sunlight and moisture. Reseal tightly after opening.",
+      faq: [
+        {
+          q: "Do I need a loading phase for RK Micronized Creatine?",
+          a: "No loading phase is strictly required. Taking 3g–5g daily will fully saturate muscle phosphocreatine stores within 3–4 weeks."
+        },
+        {
+          q: "Can I mix this with my protein shake?",
+          a: "Yes. RK Micronized Creatine is 100% unflavored and dissolves completely in water, juice, or whey protein shakes."
+        }
+      ]
+    }
   }
 ];
 

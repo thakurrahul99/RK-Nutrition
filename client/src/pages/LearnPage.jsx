@@ -87,8 +87,8 @@ const SUPPLEMENT_TOPICS = [
       { label: 'CELL HYDRATION', value: 'Intracellular' },
       { label: 'SOLUBILITY', value: 'Ultra-Fine 200 Mesh' }
     ],
-    ctaText: 'Shop All Products',
-    ctaLink: '/products'
+    ctaText: 'Explore Creatine Formulations',
+    ctaLink: '/categories/creatine'
   },
   {
     id: 'pre-workout',

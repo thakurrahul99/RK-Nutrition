@@ -40,6 +40,17 @@ const FALLBACK_CATEGORIES = [
     isActive: true,
     displayOrder: 3,
     productCount: 1
+  },
+  {
+    id: 'cat-creatine',
+    name: 'Creatine',
+    slug: 'creatine',
+    tagline: 'Peak Power & Muscular Endurance',
+    description: 'Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores, increase ATP regeneration, and enhance explosive strength.',
+    image: '/images/products/Electric Blue Creatine Power Ad.png',
+    isActive: true,
+    displayOrder: 4,
+    productCount: 1
   }
 ];
 
