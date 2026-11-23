@@ -227,12 +227,12 @@ export default function ProductInfo({ product }) {
         <div className="space-y-3">
           {/* Mobile Top Controls: Quantity Selector + Wishlist Button */}
           <div className="flex sm:hidden items-center gap-2.5 w-full">
-            <div className="flex-1 flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-3 h-12">
+            <div className="flex-1 flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-1 h-12">
               <button
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity <= 1}
                 onClick={() => handleQuantityChange(-1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
+                className="w-11 h-11 flex items-center justify-center text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
@@ -244,7 +244,7 @@ export default function ProductInfo({ product }) {
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
                 onClick={() => handleQuantityChange(1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
+                className="w-11 h-11 flex items-center justify-center text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
@@ -268,12 +268,12 @@ export default function ProductInfo({ product }) {
           {/* Desktop & Main Action Buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             {/* Quantity Selector (Desktop only) */}
-            <div className="hidden sm:flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-2 py-1 h-12 w-36 shrink-0">
+            <div className="hidden sm:flex items-center justify-between border border-[#2E2E2E] bg-[#161616] px-1 h-12 w-36 shrink-0">
               <button
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity <= 1}
                 onClick={() => handleQuantityChange(-1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
+                className="w-11 h-11 flex items-center justify-center text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Decrease quantity"
               >
                 <Minus className="w-4 h-4" />
@@ -285,7 +285,7 @@ export default function ProductInfo({ product }) {
                 type="button"
                 disabled={isOutOfStock || isComingSoon || quantity >= availableStock}
                 onClick={() => handleQuantityChange(1)}
-                className="p-2 text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
+                className="w-11 h-11 flex items-center justify-center text-[#8C8C8C] hover:text-[#F5F4F2] disabled:opacity-30 disabled:cursor-not-allowed transition-transform active:scale-90 cursor-pointer"
                 aria-label="Increase quantity"
               >
                 <Plus className="w-4 h-4" />
