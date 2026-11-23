@@ -74,11 +74,25 @@ const SuperAdminProfilePage = lazy(() => import('./pages/superAdmin/SuperAdminPr
 
 import { X, Shield, AlertTriangle } from 'lucide-react';
 
-// Subtle dark spinner fallback for lazy-loaded routes
+// Branded athletic shimmer loader for lazy-loaded routes
 function PageLoader() {
   return (
-    <div className="min-h-[50vh] flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-[#E11D2E] border-t-transparent rounded-full animate-spin" />
+    <div className="min-h-[50vh] flex flex-col items-center justify-center p-8 space-y-4 select-none">
+      <div className="relative w-12 h-12 bg-[#141414] border border-[#282828] flex items-center justify-center overflow-hidden shadow-2xl">
+        <span className="font-heading font-black text-xl text-[#F5F4F2] tracking-tighter">
+          RK
+        </span>
+        <div className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#E11D2E]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#E11D2E]/20 to-transparent -translate-x-full animate-[shimmer_1.5s_infinite]" />
+      </div>
+      <div className="space-y-0.5 text-center">
+        <span className="text-[10px] font-heading font-bold uppercase tracking-[0.2em] text-[#F5F4F2] block">
+          CALIBRATING PROTOCOL
+        </span>
+        <span className="text-[8px] font-mono uppercase tracking-widest text-[#8C8C8C] block">
+          RK NUTRITION
+        </span>
+      </div>
     </div>
   );
 }

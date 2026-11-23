@@ -219,8 +219,11 @@ export default function Navbar({
             >
               <ShoppingBag className="w-5 h-5" />
               {itemCount > 0 ? (
-                <span className="absolute top-1 right-1 min-w-[18px] h-[18px] bg-[#E11D2E] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111]">
-                  {itemCount}
+                <span className="absolute top-1 right-1 flex items-center justify-center">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E11D2E] opacity-35 pointer-events-none" />
+                  <span className="relative min-w-[18px] h-[18px] bg-gradient-to-br from-[#E11D2E] to-[#B91422] text-[#F5F4F2] text-[10px] font-mono font-bold px-1 rounded-full flex items-center justify-center border border-[#111111] shadow-sm shadow-[#E11D2E]/40 animate-scale-in">
+                    {itemCount}
+                  </span>
                 </span>
               ) : (
                 <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#444444] rounded-full" />
