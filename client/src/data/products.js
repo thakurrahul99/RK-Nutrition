@@ -120,7 +120,7 @@ export const products = [
     id: "rk-creatine-monohydrate",
     name: "RK Micronized Creatine",
     category: "creatine",
-    images: ["/images/products/Electric Blue Creatine Power Ad.png"],
+    images: [],
     description: "Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores and boost explosive muscular power.",
     price: 1499,
     salePrice: 1299,

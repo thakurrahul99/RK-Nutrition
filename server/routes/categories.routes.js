@@ -53,11 +53,8 @@ router.get('/', (req, res) => {
     ).length;
 
     let image = cat.image || '';
-    if (!image) {
-      if (cat.slug === 'protein') image = '/images/products/RK Nutrition Whey Protein Poster.png';
-      else if (cat.slug === 'mass-gainer') image = '/images/products/RK Nutrition Mass Gainer Showcase.png';
-      else if (cat.slug === 'pre-workout') image = '/images/products/RK Nutrition Pre-Workout Energy Poster.png';
-      else if (cat.slug === 'creatine') image = '/images/products/Electric Blue Creatine Power Ad.png';
+    if (!image || image.includes('/images/products/')) {
+      image = `/images/category-${cat.slug}.webp`;
     }
 
     return {

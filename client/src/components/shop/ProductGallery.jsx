@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function ProductGallery({ images = [], name = 'Product', productId }) {
+export default function ProductGallery({ images = [], name = 'Product' }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
@@ -8,8 +8,7 @@ export default function ProductGallery({ images = [], name = 'Product', productI
 
   const displayImages = images && images.length > 0 ? images : [];
   const baseActive = displayImages.length > 0 ? displayImages[selectedIndex] || displayImages[0] : null;
-  const fallbackProductImage = productId ? `/images/products/${productId}.webp` : null;
-  const activeImage = !imageFailed ? (baseActive || fallbackProductImage) : null;
+  const activeImage = !imageFailed && baseActive ? baseActive : null;
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();

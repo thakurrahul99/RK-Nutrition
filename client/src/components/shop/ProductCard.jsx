@@ -18,10 +18,8 @@ export default function ProductCard({ product, onSelectProduct }) {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isSaved = isInWishlist(id);
   const [imageError, setImageError] = useState(false);
-  const [fallbackError, setFallbackError] = useState(false);
 
   const mainImage = images && images.length > 0 ? images[0] : null;
-  const localFallback = id ? `/images/products/${id}.webp` : null;
   const hasSale = typeof salePrice === 'number' && typeof price === 'number' && salePrice < price;
   const discountPercent = hasSale ? Math.round(((price - salePrice) / price) * 100) : 0;
 
@@ -91,17 +89,6 @@ export default function ProductCard({ product, onSelectProduct }) {
             height="320"
             onError={() => setImageError(true)}
             className="w-full h-full object-contain transition-transform duration-500 ease-out group-hover:scale-105 filter drop-shadow-lg"
-          />
-        ) : localFallback && !fallbackError ? (
-          <img
-            src={localFallback}
-            alt={name}
-            loading="lazy"
-            decoding="async"
-            width="320"
-            height="320"
-            onError={() => setFallbackError(true)}
-            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />
         ) : (
           <div className="w-16 h-16 rounded-sm bg-[#161616] border border-[#2A2A2A] flex flex-col items-center justify-center text-center p-2 group-hover:border-[#E11D2E]/40 transition-colors">

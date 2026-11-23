@@ -14,7 +14,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'protein',
     tagline: 'Foundational Muscle Recovery',
     description: 'Formulated to support lean muscle tissue maintenance, protein synthesis, and daily recovery routines.',
-    image: '/images/products/RK Nutrition Whey Protein Poster.png',
+    image: '/images/category-protein.webp',
     isActive: true,
     displayOrder: 1,
     productCount: 1
@@ -25,7 +25,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'mass-gainer',
     tagline: 'High-Density Energy & Mass',
     description: 'Engineered fuel to meet intense caloric demands and assist in structured, disciplined athletic mass building.',
-    image: '/images/products/RK Nutrition Mass Gainer Showcase.png',
+    image: '/images/category-mass-gainer.webp',
     isActive: true,
     displayOrder: 2,
     productCount: 1
@@ -36,7 +36,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'pre-workout',
     tagline: 'Focus & Training Intensity',
     description: 'Targeted training support designed for sharp mental focus, endurance, and uncompromising training readiness.',
-    image: '/images/products/RK Nutrition Pre-Workout Energy Poster.png',
+    image: '/images/category-pre-workout.webp',
     isActive: true,
     displayOrder: 3,
     productCount: 1
@@ -47,7 +47,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'creatine',
     tagline: 'Peak Power & Muscular Endurance',
     description: 'Pure 100% micronized creatine monohydrate engineered to saturate phosphocreatine stores, increase ATP regeneration, and enhance explosive strength.',
-    image: '/images/products/Electric Blue Creatine Power Ad.png',
+    image: '/images/category-creatine.webp',
     isActive: true,
     displayOrder: 4,
     productCount: 1
@@ -66,11 +66,8 @@ const sanitizeCategories = (list) => {
 
   const enriched = filtered.map((c) => {
     let image = c.image;
-    if (!image || String(image).trim() === '') {
-      if (c.slug === 'protein') image = '/images/products/RK Nutrition Whey Protein Poster.png';
-      else if (c.slug === 'mass-gainer') image = '/images/products/RK Nutrition Mass Gainer Showcase.png';
-      else if (c.slug === 'pre-workout') image = '/images/products/RK Nutrition Pre-Workout Energy Poster.png';
-      else if (c.slug === 'creatine') image = '/images/products/Electric Blue Creatine Power Ad.png';
+    if (!image || String(image).trim() === '' || String(image).includes('/images/products/')) {
+      image = `/images/category-${c.slug}.webp`;
     }
     return { ...c, image };
   });
