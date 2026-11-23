@@ -7,12 +7,17 @@
     --brand-black: #0B0B0B;
     --brand-surface: #121212;
     --brand-elevated: #181818;
+    --brand-card: #141414;
     --brand-offwhite: #F5F4F2;
     --brand-red: #E11D2E;
     --brand-red-dark: #B91422;
     --brand-red-glow: rgba(225, 29, 46, 0.28);
+    --brand-amber: #F59E0B;
+    --brand-amber-dark: #D97706;
+    --brand-amber-glow: rgba(245, 158, 11, 0.20);
     --brand-darkgrey: #1C1C1C;
     --brand-border: #242424;
+    --brand-border-light: #2E2E2E;
   }
 
   html {
@@ -47,6 +52,39 @@
   ::selection {
     background-color: #E11D2E;
     color: #FFFFFF;
+  }
+}
+
+@layer components {
+  /* Standard Unified Button Styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-br from-[#E11D2E] to-[#B91422] hover:from-[#F02839] hover:to-[#C81927] text-[#F5F4F2] font-heading font-bold uppercase tracking-wider text-xs sm:text-sm transition-all duration-200 shadow-lg shadow-[#E11D2E]/25 active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:pointer-events-none select-none btn-shimmer;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#141414] hover:bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#E11D2E]/60 text-[#F5F4F2] font-heading font-bold uppercase tracking-wider text-xs sm:text-sm transition-all duration-200 active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:pointer-events-none select-none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] hover:text-[#E11D2E] transition-colors cursor-pointer select-none;
+  }
+
+  /* Secondary Accent Badge (Amber / Gold) */
+  .badge-amber {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-mono uppercase font-bold text-[#F59E0B] bg-[#F59E0B]/10 border border-[#F59E0B]/30 tracking-wider shadow-sm shadow-[#F59E0B]/10;
+  }
+
+  /* Section Header Accent Drawing Line */
+  .section-line-accent {
+    width: 2rem;
+    height: 2px;
+    background-color: #E11D2E;
+    transform-origin: left;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scaleX(0);
+  }
+  .reveal-init.is-revealed .section-line-accent {
+    transform: scaleX(1);
   }
 }
 
@@ -267,6 +305,27 @@
   }
   .horizontal-scroll-track::-webkit-scrollbar-thumb:hover {
     background: #E11D2E;
+  }
+
+  /* Route View Smooth Fade-In */
+  .route-fade-enter {
+    animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Infinite Kinetic Marquee */
+  @keyframes marqueeSlide {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+  }
+
+  .animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marqueeSlide 30s linear infinite;
+    will-change: transform;
+  }
+  .marquee-track:hover .animate-marquee {
+    animation-play-state: paused;
   }
 }
 

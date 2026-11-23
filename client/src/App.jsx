@@ -120,7 +120,7 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
       />
 
       {/* Dedicated Route Views with Suspense */}
-      <main className="flex-1">
+      <main className="flex-1 route-fade-enter">
         <Suspense fallback={<PageLoader />}>
           <Outlet />
         </Suspense>
