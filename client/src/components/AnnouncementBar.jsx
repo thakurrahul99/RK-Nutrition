@@ -71,7 +71,7 @@ export default function AnnouncementBar() {
   return (
     <aside
       aria-label="Promotional Announcement"
-      className="relative z-50 bg-[#121212] border-b border-[#242424] text-[#F5F4F2] py-2 px-3 sm:px-6 w-full select-none transition-all duration-300"
+      className="relative z-20 bg-[#121212] border-b border-[#242424] text-[#F5F4F2] py-2 px-3 sm:px-6 w-full select-none transition-all duration-300"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2.5 min-w-0">
         

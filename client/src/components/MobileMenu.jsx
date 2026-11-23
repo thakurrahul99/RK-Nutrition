@@ -66,7 +66,7 @@ export default function MobileMenu({
 
   return (
     <div 
-      className="fixed inset-0 z-50 md:hidden bg-black/80 backdrop-blur-md transition-opacity duration-300"
+      className="fixed inset-0 z-[70] md:hidden bg-black/80 backdrop-blur-md transition-opacity duration-300"
       aria-modal="true"
       role="dialog"
     >

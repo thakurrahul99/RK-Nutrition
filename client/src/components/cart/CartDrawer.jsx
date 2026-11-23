@@ -81,7 +81,7 @@ export default function CartDrawer() {
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-hidden"
+      className="fixed inset-0 z-[70] overflow-hidden"
       aria-labelledby="cart-drawer-title"
       role="dialog"
       aria-modal="true"

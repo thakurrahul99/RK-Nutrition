@@ -97,12 +97,6 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
       {/* Dynamic SEO Meta Injection */}
       <DocumentMeta />
 
-      {/* Cart Drawer Slide-Over */}
-      <CartDrawer />
-
-      {/* Wishlist Drawer Slide-Over */}
-      <WishlistDrawer />
-
       {/* Optional Maintenance Notice if enabled from Admin Settings */}
       {maintenanceMode && (
         <aside 
@@ -125,20 +119,6 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
         onCartClick={openCart}
       />
 
-      {/* Mobile Navigation Drawer */}
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        onOpenSearch={() => setIsSearchOpen(true)}
-        onCartClick={openCart}
-      />
-
-      {/* Search Modal Interface */}
-      <SearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-      />
-
       {/* Dedicated Route Views with Suspense */}
       <main className="flex-1">
         <Suspense fallback={<PageLoader />}>
@@ -154,6 +134,20 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
 
       {/* 4. Floating WhatsApp Support Desk */}
       <FloatingWhatsApp />
+
+      {/* 5. Drawers, Slide-Overs, and Modals (Always layered over all page content) */}
+      <CartDrawer />
+      <WishlistDrawer />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        onOpenSearch={() => setIsSearchOpen(true)}
+        onCartClick={openCart}
+      />
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
     </div>
   );
 }

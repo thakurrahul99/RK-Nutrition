@@ -68,7 +68,7 @@ export default function SearchModal({ isOpen, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/85 backdrop-blur-md"
+      className="fixed inset-0 z-[70] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/85 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       aria-label="Search RK Nutrition"
