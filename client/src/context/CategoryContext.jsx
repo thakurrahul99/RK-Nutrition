@@ -54,6 +54,36 @@ const FALLBACK_CATEGORIES = [
   }
 ];
 
+// Helper to sanitize and guarantee canonical categories & images
+const sanitizeCategories = (list) => {
+  if (!Array.isArray(list) || list.length === 0) return FALLBACK_CATEGORIES;
+  const filtered = list.filter((c) => {
+    const id = String(c.id || '').toLowerCase();
+    const slug = String(c.slug || '').toLowerCase();
+    const name = String(c.name || '').toLowerCase();
+    return !id.startsWith('cat-test-') && !slug.startsWith('test-cat') && !slug.includes('test-cat') && name !== 'specialty creatine';
+  });
+
+  const enriched = filtered.map((c) => {
+    let image = c.image;
+    if (!image || String(image).trim() === '') {
+      if (c.slug === 'protein') image = '/images/products/RK Nutrition Whey Protein Poster.png';
+      else if (c.slug === 'mass-gainer') image = '/images/products/RK Nutrition Mass Gainer Showcase.png';
+      else if (c.slug === 'pre-workout') image = '/images/products/RK Nutrition Pre-Workout Energy Poster.png';
+      else if (c.slug === 'creatine') image = '/images/products/Electric Blue Creatine Power Ad.png';
+    }
+    return { ...c, image };
+  });
+
+  if (!enriched.some((c) => c.slug === 'creatine')) {
+    const fallbackCreatine = FALLBACK_CATEGORIES.find((c) => c.slug === 'creatine');
+    if (fallbackCreatine) enriched.push(fallbackCreatine);
+  }
+
+  enriched.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+  return enriched;
+};
+
 export function CategoryProvider({ children }) {
   // Public active categories for storefront
   const [categories, setCategories] = useState(() => {
@@ -61,7 +91,15 @@ export function CategoryProvider({ children }) {
       const saved = localStorage.getItem(STORAGE_KEY_CATEGORIES);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const sanitized = sanitizeCategories(parsed);
+          try {
+            localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(sanitized));
+          } catch {
+            // ignore
+          }
+          return sanitized;
+        }
       }
     } catch {
       // fallback
@@ -79,9 +117,10 @@ export function CategoryProvider({ children }) {
     try {
       const res = await apiRequest('/categories');
       if (res.success && Array.isArray(res.categories)) {
-        setCategories(res.categories);
+        const sanitized = sanitizeCategories(res.categories);
+        setCategories(sanitized);
         try {
-          localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(res.categories));
+          localStorage.setItem(STORAGE_KEY_CATEGORIES, JSON.stringify(sanitized));
         } catch {
           // ignore
         }
@@ -208,8 +247,9 @@ export function CategoryProvider({ children }) {
     if (!slug) return null;
     const clean = slug.trim().toLowerCase();
     return (
-      categories.find((c) => c.slug.toLowerCase() === clean || c.id.toLowerCase() === clean) ||
-      adminCategories.find((c) => c.slug.toLowerCase() === clean || c.id.toLowerCase() === clean) ||
+      categories.find((c) => c.slug?.toLowerCase() === clean || c.id?.toLowerCase() === clean) ||
+      adminCategories.find((c) => c.slug?.toLowerCase() === clean || c.id?.toLowerCase() === clean) ||
+      FALLBACK_CATEGORIES.find((c) => c.slug?.toLowerCase() === clean || c.id?.toLowerCase() === clean) ||
       null
     );
   }, [categories, adminCategories]);
@@ -219,6 +259,7 @@ export function CategoryProvider({ children }) {
     return (
       categories.find((c) => c.id === id) ||
       adminCategories.find((c) => c.id === id) ||
+      FALLBACK_CATEGORIES.find((c) => c.id === id) ||
       null
     );
   }, [categories, adminCategories]);

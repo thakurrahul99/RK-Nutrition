@@ -724,6 +724,25 @@ const seedMongooseIfEmpty = async () => {
     if (categoryCount === 0) {
       await Category.insertMany(seed.categories);
       console.log('[RK Nutrition DB] Seeded Categories to MongoDB.');
+    } else {
+      // Ensure all standard categories exist and have valid poster images
+      for (const cat of seed.categories) {
+        const found = await Category.findOne({ slug: cat.slug });
+        if (!found) {
+          await Category.create(cat);
+          console.log(`[RK Nutrition DB] Added missing category ${cat.name} to MongoDB.`);
+        } else if (!found.image || found.image === '') {
+          await Category.updateOne({ slug: cat.slug }, { $set: { image: cat.image, tagline: cat.tagline, description: cat.description } });
+        }
+      }
+      // Purge any stale test categories
+      await Category.deleteMany({
+        $or: [
+          { id: { $regex: /^cat-test/i } },
+          { slug: { $regex: /test-cat/i } },
+          { name: 'Specialty Creatine' }
+        ]
+      });
     }
 
     // 3. Seed Products
@@ -731,6 +750,16 @@ const seedMongooseIfEmpty = async () => {
     if (productCount === 0) {
       await Product.insertMany(seed.products);
       console.log('[RK Nutrition DB] Seeded Products to MongoDB.');
+    } else {
+      // Ensure standard Creatine product is available in published catalog
+      const creatineProd = await Product.findOne({ slug: 'rk-micronized-creatine' });
+      if (!creatineProd) {
+        const standardCreatine = seed.products.find((p) => p.slug === 'rk-micronized-creatine');
+        if (standardCreatine) {
+          await Product.create(standardCreatine);
+          console.log('[RK Nutrition DB] Added missing RK Micronized Creatine product to MongoDB.');
+        }
+      }
     }
 
     // 4. Seed Coupons

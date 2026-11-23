@@ -82,29 +82,50 @@ export default function CategoryDetailPage() {
             <span className="text-[#E11D2E]">{categoryMeta.name.toUpperCase()}</span>
           </nav>
 
-          <div className="space-y-3 pb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#1E1E1E] border border-[#2E2E2E] flex items-center justify-center">
-                {getCategoryIcon(categoryMeta.slug)}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-6">
+            <div className="lg:col-span-8 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-[#1E1E1E] border border-[#2E2E2E] flex items-center justify-center">
+                  {getCategoryIcon(categoryMeta.slug)}
+                </div>
+                <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold">
+                  CATEGORY // {categoryMeta.slug.toUpperCase()}
+                </span>
               </div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[#E11D2E] font-semibold">
-                CATEGORY // {categoryMeta.slug.toUpperCase()}
-              </span>
+
+              <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95]">
+                {categoryMeta.name}
+              </h1>
+
+              {categoryMeta.tagline && (
+                <p className="font-heading text-base text-[#E11D2E] uppercase tracking-wider font-semibold">
+                  {categoryMeta.tagline}
+                </p>
+              )}
+
+              <p className="text-sm sm:text-base text-[#8C8C8C] max-w-2xl font-body leading-relaxed">
+                {categoryMeta.description || 'Targeted nutritional formulations engineered strictly around the physical demands of high-performance athletic training.'}
+              </p>
             </div>
 
-            <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl text-[#F5F4F2] uppercase font-black tracking-tight leading-[0.95]">
-              {categoryMeta.name}
-            </h1>
-
-            {categoryMeta.tagline && (
-              <p className="font-heading text-base text-[#E11D2E] uppercase tracking-wider font-semibold">
-                {categoryMeta.tagline}
-              </p>
-            )}
-
-            <p className="text-sm sm:text-base text-[#8C8C8C] max-w-2xl font-body leading-relaxed">
-              {categoryMeta.description || 'Targeted nutritional formulations engineered strictly around the physical demands of high-performance athletic training.'}
-            </p>
+            <div className="lg:col-span-4">
+              <div className="aspect-[4/3] w-full max-w-sm rounded border border-[#282828] overflow-hidden bg-[#181818] relative shadow-xl">
+                <img
+                  src={categoryMeta.image || `/images/category-${categoryMeta.slug}.webp`}
+                  alt={categoryMeta.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const fallback = `/images/category-${categoryMeta.slug}.webp`;
+                    if (!e.currentTarget.src.includes(fallback)) {
+                      e.currentTarget.src = fallback;
+                    } else {
+                      e.currentTarget.style.display = 'none';
+                    }
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#141414]/80 via-transparent to-transparent pointer-events-none" />
+              </div>
+            </div>
           </div>
 
         </div>

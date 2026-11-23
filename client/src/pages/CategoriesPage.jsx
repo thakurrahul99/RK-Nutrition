@@ -166,7 +166,12 @@ export default function CategoriesPage() {
                         src={category.image || `/images/category-${category.slug}.webp`}
                         alt={category.name}
                         onError={(e) => {
-                          e.currentTarget.style.display = 'none';
+                          const fallback = `/images/category-${category.slug}.webp`;
+                          if (!e.currentTarget.src.includes(fallback)) {
+                            e.currentTarget.src = fallback;
+                          } else {
+                            e.currentTarget.style.display = 'none';
+                          }
                         }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />

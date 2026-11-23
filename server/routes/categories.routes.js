@@ -19,7 +19,14 @@ const generateSlug = (text) => {
 router.get('/', (req, res) => {
   const { search } = req.query;
   const db = getDb();
-  let categories = (db.categories || []).filter((c) => c.isActive !== false);
+  let categories = (db.categories || []).filter(
+    (c) =>
+      c.isActive !== false &&
+      !c.id?.startsWith('cat-test-') &&
+      !c.slug?.startsWith('test-cat-') &&
+      !c.slug?.includes('test-cat') &&
+      c.name?.toLowerCase() !== 'specialty creatine'
+  );
 
   if (search) {
     const q = search.trim().toLowerCase();
@@ -45,13 +52,21 @@ router.get('/', (req, res) => {
           p.categoryId === cat.id)
     ).length;
 
+    let image = cat.image || '';
+    if (!image) {
+      if (cat.slug === 'protein') image = '/images/products/RK Nutrition Whey Protein Poster.png';
+      else if (cat.slug === 'mass-gainer') image = '/images/products/RK Nutrition Mass Gainer Showcase.png';
+      else if (cat.slug === 'pre-workout') image = '/images/products/RK Nutrition Pre-Workout Energy Poster.png';
+      else if (cat.slug === 'creatine') image = '/images/products/Electric Blue Creatine Power Ad.png';
+    }
+
     return {
       id: cat.id,
       name: cat.name,
       slug: cat.slug,
       description: cat.description || '',
       tagline: cat.tagline || '',
-      image: cat.image || '',
+      image,
       displayOrder: cat.displayOrder || 1,
       productCount
     };

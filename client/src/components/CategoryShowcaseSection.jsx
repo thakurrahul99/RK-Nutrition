@@ -74,7 +74,12 @@ export default function CategoryShowcaseSection() {
                   width="400"
                   height="300"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none';
+                    const fallback = `/images/category-${category.slug}.webp`;
+                    if (!e.currentTarget.src.includes(fallback)) {
+                      e.currentTarget.src = fallback;
+                    } else {
+                      e.currentTarget.style.display = 'none';
+                    }
                   }}
                   className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
