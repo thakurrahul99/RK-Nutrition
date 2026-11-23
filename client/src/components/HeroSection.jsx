@@ -67,30 +67,30 @@ export default function HeroSection() {
               </div>
 
               {/* STEP 2: Main Headline with Staggered Line Reveals */}
-              <h1 className="font-heading font-extrabold sm:font-bold text-[clamp(36px,11.6vw,50px)] sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-[-0.3px] sm:tracking-tight uppercase leading-[0.95] sm:leading-[0.92] text-[#F2F2F2] flex flex-col gap-0 sm:block mb-[calc(1.34em+26px)] sm:mb-8 select-none [transform:scaleY(1.52)] origin-top-left sm:[transform:none] max-w-full relative z-[2]">
-                <span className="hero-anim-line-1 block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              <h1 className="font-heading font-black text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-[#F5F4F2] flex flex-col gap-0.5 sm:block mb-6 sm:mb-8 select-none max-w-full relative z-[2]">
+                <span className="hero-anim-line-1 block whitespace-nowrap text-[#F5F4F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   {headingLine1}
                 </span>
                 <span className="hero-anim-line-2 block whitespace-nowrap text-[#E11D2E] drop-shadow-[0_0_16px_rgba(225,29,46,0.45)]">
                   {headingLine2}
                 </span>
-                <span className="hero-anim-line-3 block whitespace-nowrap text-[#F2F2F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                <span className="hero-anim-line-3 block whitespace-nowrap text-[#F5F4F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   {headingLine3}
                 </span>
               </h1>
             </div>
 
             {/* Mobile-Only "BUILT FOR YOUR ROUTINE." Block (Immediately below headline+tub) */}
-            <div className="hero-anim-footer block sm:hidden w-full pt-3.5 border-t border-[#1F1F1F] mb-[26px] text-left relative z-[2]">
+            <div className="hero-anim-footer block sm:hidden w-full pt-3.5 border-t border-[#1F1F1F] mb-6 text-left relative z-[2]">
               <div>
-                <span className="text-[14px] font-heading font-extrabold text-[#FFFFFF] tracking-[0.5px] uppercase block">
+                <span className="text-[13px] font-heading font-bold text-[#F5F4F2] tracking-wider uppercase block">
                   {supportingLabel}
                 </span>
-                <span className="text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9px] font-mono text-[#9CA3AF] tracking-[0.8px] min-[360px]:tracking-[1px] uppercase mt-0.5 block whitespace-nowrap">
+                <span className="text-[10px] min-[360px]:text-[11px] font-mono text-[#9CA3AF] tracking-wide uppercase mt-1 block">
                   ZERO AMINO SPIKING • TRANSPARENT LABELS • CLINICALLY DOSED
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9px] font-mono text-[#9CA3AF] uppercase tracking-[0.8px] min-[360px]:tracking-[1px] mt-[6px] whitespace-nowrap">
+              <div className="flex flex-wrap items-center gap-2 text-[10px] min-[360px]:text-[11px] font-mono text-[#9CA3AF] uppercase tracking-wide mt-2">
                 <span>EST. 2026</span>
                 <span>•</span>
                 <span className="text-[#E11D2E] font-bold">100% PURE FORMULATION</span>
