@@ -15,6 +15,8 @@ process.env.NODE_ENV = 'test';
 
 import http from 'http';
 import crypto from 'crypto';
+import mongoose from 'mongoose';
+import { connectDb } from '../config/db.js';
 import app from '../index.js';
 
 const PORT = 5555;
@@ -548,16 +550,26 @@ async function runTests() {
   }
 }
 
-// Start temporary test server
+// Connect to MongoDB before starting the API integration tests.
 server = http.createServer(app);
-server.listen(PORT, '127.0.0.1', async () => {
+const startApiTestServer = async () => {
   try {
+    await connectDb();
+    await new Promise((resolve, reject) => {
+      server.once('error', reject);
+      server.listen(PORT, '127.0.0.1', resolve);
+    });
     await runTests();
   } catch (err) {
-    console.error('Fatal test runner error:', err);
+    failedCount++;
+    console.error('Fatal API test setup error:', err);
   } finally {
-    server.close(() => {
+    const finish = async () => {
+      await mongoose.disconnect().catch(() => {});
       process.exit(failedCount > 0 ? 1 : 0);
-    });
+    };
+    if (server.listening) server.close(finish);
+    else finish();
   }
-});
+};
+void startApiTestServer();
