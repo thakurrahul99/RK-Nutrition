@@ -164,12 +164,12 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
       updatedAt: now
     };
 
+    if (mongoose.connection.readyState === 1) {
+      await Product.create(newProduct);
+    }
+
     db.products.unshift(newProduct);
     saveDb(db);
-
-    if (mongoose.connection.readyState === 1) {
-      await Product.create(newProduct).catch((e) => console.warn('Mongo create err:', e.message));
-    }
 
     addLog('INFO', 'PRODUCTS', `Created product: ${newProduct.name} (${newProduct.sku}) by ${req.user.name}`);
 

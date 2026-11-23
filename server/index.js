@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
@@ -31,14 +32,22 @@ const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0
 
 // Production environment variable safety validation
 if (!process.env.JWT_SECRET) {
-  process.env.JWT_SECRET = 'rk_nutrition_prod_jwt_secret_super_secure_key_2026_fallback_signature';
-  console.warn('[RK Nutrition Security] Notice: Using internal default JWT_SECRET. Configure JWT_SECRET in production environment settings for custom signing.');
+  if (process.env.NODE_ENV === 'production') {
+    process.env.JWT_SECRET = crypto.randomBytes(64).toString('hex');
+    console.warn('[RK Nutrition Security] Notice: Generated cryptographically random ephemeral JWT_SECRET for this production session.');
+  } else {
+    process.env.JWT_SECRET = 'dev_jwt_secret_change_in_production_2026';
+  }
 }
 if (!process.env.SUPER_ADMIN_PASSWORD) {
-  process.env.SUPER_ADMIN_PASSWORD = 'DevSuperAdmin@2026!';
+  process.env.SUPER_ADMIN_PASSWORD = process.env.NODE_ENV === 'production'
+    ? crypto.randomBytes(16).toString('hex')
+    : 'DevSuperAdmin@2026!';
 }
 if (!process.env.CLIENT_ADMIN_PASSWORD) {
-  process.env.CLIENT_ADMIN_PASSWORD = 'StoreOwner@2026!';
+  process.env.CLIENT_ADMIN_PASSWORD = process.env.NODE_ENV === 'production'
+    ? crypto.randomBytes(16).toString('hex')
+    : 'StoreOwner@2026!';
 }
 
 // Helmet Security Headers
@@ -133,15 +142,37 @@ app.use('/api/super-admin', contentRoutes);
 app.use('/api/upload', uploadRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
   const dbState = mongoose.connection.readyState;
   const dbStateMap = { 0: 'disconnected', 1: 'connected', 2: 'connecting', 3: 'disconnecting' };
-  res.json({
-    status: 'online',
+  const isConnected = dbState === 1;
+  let dbPingMs = null;
+
+  if (isConnected && mongoose.connection.db) {
+    try {
+      const pingStart = Date.now();
+      await mongoose.connection.db.admin().ping();
+      dbPingMs = Date.now() - pingStart;
+    } catch {
+      // Ping query timed out or failed
+    }
+  }
+
+  const isHealthy = isConnected;
+  const httpStatus = isHealthy ? 200 : 503;
+
+  res.status(httpStatus).json({
+    status: isHealthy ? 'online' : 'degraded',
+    health: isHealthy ? 'healthy' : 'degraded',
+    server: 'online',
     platform: 'RK Nutrition Dual-Admin API Engine',
     version: '2.0.0',
-    database: dbStateMap[dbState] || 'disconnected',
-    databaseConnected: dbState === 1,
+    environment: process.env.NODE_ENV || 'development',
+    database: {
+      status: dbStateMap[dbState] || 'disconnected',
+      connected: isConnected,
+      pingMs: dbPingMs
+    },
     uptime: Math.round(process.uptime()),
     timestamp: new Date().toISOString()
   });

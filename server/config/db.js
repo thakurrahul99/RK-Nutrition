@@ -626,6 +626,7 @@ export const connectDb = async () => {
     });
     console.log('[RK Nutrition DB] MongoDB connection established successfully.');
     await seedMongooseIfEmpty();
+    await syncFromMongoToMemory();
   } catch (err) {
     const code = err?.code || err?.cause?.code || 'unknown';
     const name = err?.name || 'MongoDBError';
@@ -713,5 +714,40 @@ const seedMongooseIfEmpty = async () => {
     }
   } catch (err) {
     console.error('[RK Nutrition DB] Seeding error:', err.message);
+  }
+};
+
+// Synchronize memory cache from authoritative MongoDB Atlas collections
+export const syncFromMongoToMemory = async () => {
+  if (mongoose.connection.readyState !== 1) return;
+
+  try {
+    const [products, categories, users, orders, coupons, settings, content] = await Promise.all([
+      Product.find().lean(),
+      Category.find().lean(),
+      User.find().lean(),
+      Order.find().lean(),
+      Coupon.find().lean(),
+      StoreSettings.findOne().lean(),
+      Content.findOne().lean()
+    ]);
+
+    const db = getDb();
+    if (products && products.length > 0) db.products = products;
+    if (categories && categories.length > 0) db.categories = categories;
+    if (users && users.length > 0) db.users = users;
+    if (orders && orders.length > 0) db.orders = orders;
+    if (coupons && coupons.length > 0) db.coupons = coupons;
+    if (settings) {
+      db.storeSettings = { ...db.storeSettings, ...settings };
+      if (settings.paymentMethods) db.paymentMethods = settings.paymentMethods;
+      if (settings.gatewayConfig) db.gatewayConfig = settings.gatewayConfig;
+    }
+    if (content) db.content = content;
+
+    saveDb(db);
+    console.log(`[RK Nutrition DB] Authoritative cache synchronized from MongoDB (${products.length} products, ${orders.length} orders, ${users.length} users).`);
+  } catch (err) {
+    console.error('[RK Nutrition DB] Error syncing cache from MongoDB:', err.message);
   }
 };

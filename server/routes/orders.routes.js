@@ -365,13 +365,19 @@ router.post('/', optionalAuthenticateToken, async (req, res) => {
       createdAt: new Date().toISOString()
     };
 
+    // Persist to MongoDB as authoritative source of truth
+    if (mongoose.connection.readyState === 1) {
+      await Order.create(newOrder);
+    } else if (process.env.NODE_ENV === 'production') {
+      return res.status(503).json({
+        success: false,
+        error: 'Order processing service is temporarily reconnecting to the database. Please try again shortly.'
+      });
+    }
+
     db.orders = db.orders || [];
     db.orders.unshift(newOrder);
     saveDb(db);
-
-    if (mongoose.connection.readyState === 1) {
-      await Order.create(newOrder).catch((e) => console.warn('Mongo order insert err:', e.message));
-    }
 
     // Dispatch confirmation email
     if (newOrder.customer.email) {
