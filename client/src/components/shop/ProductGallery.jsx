@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
-export default function ProductGallery({ images = [], name = 'Product' }) {
+export default function ProductGallery({ images = [], name = 'Product', productId }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [imageFailed, setImageFailed] = useState(false);
 
   const displayImages = images && images.length > 0 ? images : [];
-  const activeImage = displayImages.length > 0 ? displayImages[selectedIndex] || displayImages[0] : null;
+  const baseActive = displayImages.length > 0 ? displayImages[selectedIndex] || displayImages[0] : null;
+  const fallbackProductImage = productId ? `/images/products/${productId}.webp` : null;
+  const activeImage = !imageFailed ? (baseActive || fallbackProductImage) : null;
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -46,6 +49,7 @@ export default function ProductGallery({ images = [], name = 'Product' }) {
               key={activeImage}
               src={activeImage}
               alt={`${name} - preview ${selectedIndex + 1}`}
+              onError={() => setImageFailed(true)}
               className="relative max-w-full max-h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.8)] transition-transform duration-300 ease-out will-change-transform"
               style={{
                 transform: isHovered 

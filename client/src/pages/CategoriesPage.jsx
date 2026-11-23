@@ -160,27 +160,22 @@ export default function CategoriesPage() {
 
                   {/* Artwork / Image Column (5 cols) */}
                   <div className={`lg:col-span-5 ${!isEven ? 'lg:order-1' : ''}`}>
-                    <div className="h-64 sm:h-72 bg-[#181818] border border-[#282828] relative overflow-hidden flex flex-col items-center justify-center p-6 text-center shadow-inner group-hover:border-[#E11D2E]/50 transition-colors">
-                      {category.image ? (
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <>
-                          <div className="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#F5F4F2_1px,transparent_1px),linear-gradient(to_bottom,#F5F4F2_1px,transparent_1px)] [background-size:20px_20px]" />
-                          
-                          {getCategoryIcon(category.slug)}
-
-                          <span className="font-heading text-lg text-[#F5F4F2] uppercase tracking-wider mt-4">
-                            {category.name}
-                          </span>
-                          <span className="text-[10px] font-mono text-[#8C8C8C] uppercase tracking-widest mt-1">
-                            {category.slug.toUpperCase()} // RK STANDARD
-                          </span>
-                        </>
-                      )}
+                    <div className="h-64 sm:h-72 bg-[#181818] border border-[#282828] relative overflow-hidden flex flex-col items-center justify-center p-0 text-center shadow-inner group-hover:border-[#E11D2E]/50 transition-colors">
+                      <img
+                        src={category.image || `/images/category-${category.slug}.webp`}
+                        alt={category.name}
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-[#111111]/80 backdrop-blur-sm px-3 py-1.5 border border-[#282828]">
+                        {getCategoryIcon(category.slug)}
+                        <span className="font-heading text-xs text-[#F5F4F2] uppercase tracking-wider">
+                          {category.name}
+                        </span>
+                      </div>
                     </div>
                   </div>
 

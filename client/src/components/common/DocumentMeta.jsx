@@ -16,7 +16,7 @@ export default function DocumentMeta() {
     const canonical = seo.canonicalUrl || 'https://rknutrition.com';
     const ogTitle = seo.ogTitle || baseTitle;
     const ogDesc = seo.ogDescription || metaDesc;
-    const ogImg = seo.ogImage || 'https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?auto=format&fit=crop&w=1200&q=80';
+    const ogImg = seo.ogImage || '/images/og-rk-nutrition.png';
 
     const path = location.pathname;
     let pageTitle = baseTitle;

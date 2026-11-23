@@ -56,45 +56,56 @@ export default function CategoryShowcaseSection() {
         </div>
 
         {/* Responsive Grid with Staggered Scroll Reveal */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {categories.map((category, idx) => (
             <Link 
               key={category.id || category.slug} 
               id={`cat-${category.slug}`}
               to={`/categories/${category.slug}`}
-              className={`reveal-init stagger-${(idx % 4) + 1} card-hover-lift group relative bg-[#131313] border border-[#202020] hover:border-[#E11D2E]/50 p-4 sm:p-6 flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300`}
+              className={`reveal-init stagger-${(idx % 3) + 1} card-hover-lift group relative bg-[#131313] border border-[#202020] hover:border-[#E11D2E]/50 flex flex-col justify-between overflow-hidden cursor-pointer transition-all duration-300`}
             >
-              {/* Subtle hover background glow */}
-              <div 
-                className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(225,29,46,0.15)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
-                aria-hidden="true" 
-              />
-
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-3 sm:mb-5">
-                  <div className="w-10 h-10 sm:w-11 sm:h-11 bg-[#1A1A1A] border border-[#2A2A2A] flex items-center justify-center group-hover:border-[#E11D2E]/50 transition-colors shadow-md">
-                    {category.image ? (
-                      <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
-                    ) : (
-                      getCategoryIcon(category.slug)
-                    )}
-                  </div>
-                  <span className="text-[10px] font-mono text-[#777777] uppercase bg-[#181818] px-2 py-0.5 border border-[#222222]">
+              {/* Cover Banner (4:3 aspect ratio) */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#181818]">
+                <img
+                  src={category.image || `/images/category-${category.slug}.webp`}
+                  alt={category.name}
+                  loading="lazy"
+                  width="400"
+                  height="300"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                  className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                />
+                <div 
+                  className="absolute inset-0 bg-gradient-to-t from-[#131313] via-[#131313]/50 to-transparent" 
+                  aria-hidden="true" 
+                />
+                <div className="absolute top-3 left-3 w-9 h-9 bg-[#111111]/85 backdrop-blur-md border border-[#2A2A2A] flex items-center justify-center shadow-lg group-hover:border-[#E11D2E]/50 transition-colors">
+                  {getCategoryIcon(category.slug)}
+                </div>
+                <div className="absolute top-3 right-3">
+                  <span className="text-[10px] font-mono text-[#D1D5DB] uppercase bg-[#111111]/85 backdrop-blur-md px-2 py-0.5 border border-[#2A2A2A]">
                     {category.productCount ? `${category.productCount} Items` : 'Explore'}
                   </span>
                 </div>
-
-                <h3 className="font-heading text-base sm:text-xl text-[#F5F4F2] uppercase font-bold tracking-tight group-hover:text-white transition-colors">
-                  {category.name}
-                </h3>
-                <p className="text-xs text-[#8C8C8C] font-body mt-1 leading-relaxed line-clamp-2">
-                  {category.description || 'Targeted formulations engineered strictly around the physical demands of athletic training.'}
-                </p>
               </div>
 
-              <div className="relative z-10 pt-3 mt-4 border-t border-[#1C1C1C] flex items-center justify-between text-[11px] font-mono text-[#777777] group-hover:text-[#F5F4F2] transition-colors">
-                <span>View Products</span>
-                <span className="text-[#E11D2E] transition-transform duration-200 group-hover:translate-x-1">→</span>
+              {/* Card Content */}
+              <div className="p-4 sm:p-5 flex flex-col justify-between flex-grow relative z-10">
+                <div>
+                  <h3 className="font-heading text-lg sm:text-xl text-[#F5F4F2] uppercase font-bold tracking-tight group-hover:text-white transition-colors">
+                    {category.name}
+                  </h3>
+                  <p className="text-xs text-[#8C8C8C] font-body mt-1.5 leading-relaxed line-clamp-2">
+                    {category.description || 'Targeted formulations engineered strictly around the physical demands of athletic training.'}
+                  </p>
+                </div>
+
+                <div className="pt-3 mt-4 border-t border-[#1C1C1C] flex items-center justify-between text-[11px] font-mono text-[#8C8C8C] group-hover:text-[#F5F4F2] transition-colors">
+                  <span>Explore Category</span>
+                  <span className="text-[#E11D2E] transition-transform duration-200 group-hover:translate-x-1">→</span>
+                </div>
               </div>
 
               {/* Bottom Hairline Red Accent */}

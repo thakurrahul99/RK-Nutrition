@@ -88,7 +88,7 @@ export default function ProductDetailPage({ product, onBackToShop }) {
           
           {/* Media Column (6 cols) */}
           <div className="lg:col-span-6 lg:sticky lg:top-28">
-            <ProductGallery images={product.images} name={product.name} />
+            <ProductGallery images={product.images} name={product.name} productId={product.id} />
           </div>
 
           {/* Product Information, Accordions & Reviews Column (6 cols) */}
