@@ -69,8 +69,13 @@ router.post('/register', authRateLimiter, async (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    // Persist the account in MongoDB before issuing a success response or JWT.
+    // Persist to MongoDB and update the shared in-memory cache used by authentication,
+    // profile, and address-book middleware/routes in this hybrid data layer.
     await User.create(newUserObj);
+    const db = getDb();
+    db.users = Array.isArray(db.users) ? db.users : [];
+    db.users.push(newUserObj);
+    saveDb(db);
 
     addLog('INFO', 'AUTH', `New customer account registered: ${cleanEmail}`);
 
