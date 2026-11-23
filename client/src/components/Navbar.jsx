@@ -21,6 +21,11 @@ export default function Navbar({
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -177,7 +182,7 @@ export default function Navbar({
                       <div className="pt-1 border-t border-[#262626] mt-1">
                         <button
                           type="button"
-                          onClick={logout}
+                          onClick={handleLogout}
                           className="w-full text-left text-red-400 hover:text-red-300 px-2 py-1.5 flex items-center gap-2 transition-colors cursor-pointer"
                         >
                           <LogOut className="w-3.5 h-3.5" />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Lock, Mail, ArrowRight, Eye, EyeOff, AlertCircle, Terminal, ShoppingBag } from 'lucide-react';
 import RKWatermark from '../../components/common/RKWatermark';
@@ -16,7 +16,7 @@ export default function SuperAdminLoginPage() {
 
   // If already authenticated with super admin permissions, redirect to /super-admin
   if (isAuthenticated && isSuperAdmin) {
-    navigate('/super-admin', { replace: true });
+    return <Navigate to="/super-admin" replace />;
   }
 
   const handleSubmit = async (e) => {

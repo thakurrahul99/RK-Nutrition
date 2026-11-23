@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link, Navigate } from 'react-router-dom';
 import { 
   User, 
   Package, 
@@ -89,9 +89,14 @@ export default function AccountPage() {
   // Auth Guard
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      navigate('/login?redirect=/account', { replace: true });
+      navigate('/login', { replace: true });
     }
   }, [authLoading, isAuthenticated, navigate]);
+
+  const handleSignOut = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
 
   // Sync profile form with current user
   useEffect(() => {
@@ -372,7 +377,7 @@ export default function AccountPage() {
   }
 
   if (!isAuthenticated || !user) {
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   return (
@@ -410,7 +415,7 @@ export default function AccountPage() {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={logout}
+              onClick={handleSignOut}
               className="px-4 py-2.5 bg-[#1F1F1F] hover:bg-[#252525] border border-[#2E2E2E] hover:border-[#E11D2E] text-xs font-mono uppercase tracking-wider text-[#F5F4F2] transition-colors flex items-center gap-2 cursor-pointer"
             >
               <LogOut className="w-4 h-4 text-[#E11D2E]" />

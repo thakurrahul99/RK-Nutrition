@@ -1,4 +1,4 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   Terminal, 
@@ -25,6 +25,12 @@ const DEV_NAV_ITEMS = [
 
 export default function SuperAdminSidebar({ isOpen, onClose }) {
   const { logout, adminUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/super-admin/login', { replace: true });
+  };
 
   return (
     <>
@@ -131,8 +137,8 @@ export default function SuperAdminSidebar({ isOpen, onClose }) {
 
           <button
             type="button"
-            onClick={logout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#0F172A] hover:bg-[#1E293B] border border-[#1E293B] hover:border-[#38BDF8]/60 text-xs font-mono uppercase tracking-wider text-[#F1F5F9] transition-colors"
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#0F172A] hover:bg-[#1E293B] border border-[#1E293B] hover:border-[#38BDF8]/60 text-xs font-mono uppercase tracking-wider text-[#F1F5F9] transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5 text-[#38BDF8]" />
             <span>Terminate Session</span>

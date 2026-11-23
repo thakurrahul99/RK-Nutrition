@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   Lock, 
@@ -12,6 +13,12 @@ import {
 
 export default function AdminProfilePage() {
   const { adminUser, updateProfile, changePassword, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login', { replace: true });
+  };
 
   // Profile Form State
   const [profileForm, setProfileForm] = useState({
@@ -71,8 +78,8 @@ export default function AdminProfilePage() {
 
         <button
           type="button"
-          onClick={logout}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
+          onClick={handleLogout}
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1C1C1C] hover:bg-[#252525] border border-[#2D2D2D] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors cursor-pointer"
         >
           <LogOut className="w-3.5 h-3.5 text-[#E11D2E]" />
           <span>Sign Out</span>

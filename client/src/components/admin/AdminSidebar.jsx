@@ -1,4 +1,4 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
   LayoutDashboard, 
@@ -34,6 +34,12 @@ const STORE_NAV_ITEMS = [
 
 export default function AdminSidebar({ isOpen, onClose }) {
   const { logout, adminUser, isSuperAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin/login', { replace: true });
+  };
 
   return (
     <>
@@ -140,8 +146,8 @@ export default function AdminSidebar({ isOpen, onClose }) {
 
           <button
             type="button"
-            onClick={logout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#171717] hover:bg-[#202020] border border-[#262626] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors"
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#171717] hover:bg-[#202020] border border-[#262626] hover:border-[#E11D2E]/60 text-xs font-heading font-semibold uppercase tracking-wider text-[#F5F4F2] transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5 text-[#E11D2E]" />
             <span>Sign Out</span>

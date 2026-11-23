@@ -7,30 +7,50 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => getAuthToken());
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('rk_auth_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('rk_auth_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
   const [isLoading, setIsLoading] = useState(true);
 
   const [recentActivity, setRecentActivity] = useState(() => {
-    const saved = localStorage.getItem('rk_admin_activity');
-    return saved ? JSON.parse(saved) : [
-      { id: '1', action: 'Dual-Admin session engine initialized', time: new Date().toLocaleTimeString(), type: 'auth' }
-    ];
+    try {
+      const saved = localStorage.getItem('rk_admin_activity');
+      const parsed = saved ? JSON.parse(saved) : null;
+      return Array.isArray(parsed) ? parsed : [
+        { id: '1', action: 'Dual-Admin session engine initialized', time: new Date().toLocaleTimeString(), type: 'auth' }
+      ];
+    } catch {
+      return [
+        { id: '1', action: 'Dual-Admin session engine initialized', time: new Date().toLocaleTimeString(), type: 'auth' }
+      ];
+    }
   });
 
   const logActivity = (action, type = 'info') => {
-    const entry = {
-      id: Date.now().toString(),
-      action,
-      type,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    setRecentActivity((prev) => {
-      const updated = [entry, ...prev.slice(0, 14)];
-      localStorage.setItem('rk_admin_activity', JSON.stringify(updated));
-      return updated;
-    });
+    try {
+      const entry = {
+        id: Date.now().toString(),
+        action,
+        type,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setRecentActivity((prev) => {
+        const list = Array.isArray(prev) ? prev : [];
+        const updated = [entry, ...list.slice(0, 14)];
+        try {
+          localStorage.setItem('rk_admin_activity', JSON.stringify(updated));
+        } catch {
+          // Ignore localStorage errors
+        }
+        return updated;
+      });
+    } catch {
+      // Ignore logging errors
+    }
   };
 
   // Verify token on mount with server
@@ -105,8 +125,13 @@ export function AuthProvider({ children }) {
     setAuthToken(null);
     setToken(null);
     setUser(null);
-    localStorage.removeItem('rk_auth_user');
-    logActivity('User signed out of administration console', 'auth');
+    try {
+      localStorage.removeItem('rk_auth_user');
+      localStorage.removeItem('rk_auth_token');
+    } catch {
+      // Ignore storage errors
+    }
+    logActivity('User signed out of session', 'auth');
   };
 
   const updateProfile = async (updates) => {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { X, Search, ShoppingBag, Heart, ArrowRight, User, Package, LogOut, Phone } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useCart } from '../context/CartContext';
@@ -16,6 +16,13 @@ export default function MobileMenu({
   const { openCart, itemCount } = useCart();
   const { openWishlist, wishlistCount } = useWishlist();
   const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    onClose();
+    navigate('/login', { replace: true });
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -174,11 +181,8 @@ export default function MobileMenu({
 
                 <button
                   type="button"
-                  onClick={() => {
-                    logout();
-                    onClose();
-                  }}
-                  className="w-full py-1 text-center text-[11px] font-mono uppercase text-red-400 hover:text-red-300 flex items-center justify-center gap-1.5 transition-colors"
+                  onClick={handleLogout}
+                  className="w-full py-1 text-center text-[11px] font-mono uppercase text-red-400 hover:text-red-300 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <LogOut className="w-3 h-3" />
                   <span>Sign Out</span>

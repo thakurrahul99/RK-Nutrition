@@ -1,6 +1,7 @@
 import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/common/ScrollToTop';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 import Navbar from './components/Navbar';
 import AnnouncementBar from './components/AnnouncementBar';
@@ -171,17 +172,18 @@ export default function App() {
   const [termsModalOpen, setTermsModalOpen] = useState(false);
 
   return (
-    <AuthProvider>
-      <ContentProvider>
-        <ProductProvider>
-          <CategoryProvider>
-            <CartProvider>
-              <WishlistProvider>
-                <BrowserRouter>
-                  <ScrollToTop />
-                  
-                  <Suspense fallback={<PageLoader />}>
-                    <Routes>
+    <ErrorBoundary>
+      <AuthProvider>
+        <ContentProvider>
+          <ProductProvider>
+            <CategoryProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <BrowserRouter>
+                    <ScrollToTop />
+                    
+                    <Suspense fallback={<PageLoader />}>
+                      <Routes>
                       {/* Public Customer Routes */}
                       <Route 
                         element={
@@ -385,5 +387,6 @@ export default function App() {
         </ProductProvider>
       </ContentProvider>
     </AuthProvider>
+    </ErrorBoundary>
   );
 }
