@@ -14,7 +14,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'protein',
     tagline: 'Foundational Muscle Recovery',
     description: 'Formulated to support lean muscle tissue maintenance, protein synthesis, and daily recovery routines.',
-    image: '',
+    image: '/images/products/RK Nutrition Whey Protein Poster.png',
     isActive: true,
     displayOrder: 1,
     productCount: 1
@@ -25,7 +25,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'mass-gainer',
     tagline: 'High-Density Energy & Mass',
     description: 'Engineered fuel to meet intense caloric demands and assist in structured, disciplined athletic mass building.',
-    image: '',
+    image: '/images/products/RK Nutrition Mass Gainer Showcase.png',
     isActive: true,
     displayOrder: 2,
     productCount: 1
@@ -36,7 +36,7 @@ const FALLBACK_CATEGORIES = [
     slug: 'pre-workout',
     tagline: 'Focus & Training Intensity',
     description: 'Targeted training support designed for sharp mental focus, endurance, and uncompromising training readiness.',
-    image: '',
+    image: '/images/products/RK Nutrition Pre-Workout Energy Poster.png',
     isActive: true,
     displayOrder: 3,
     productCount: 1
