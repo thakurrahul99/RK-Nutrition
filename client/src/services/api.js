@@ -1,8 +1,26 @@
 // Centralized API Service Client for RK Nutrition Dual-Admin System
 
-const API_BASE = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL)
-  ? import.meta.env.VITE_API_URL
-  : '/api';
+const getNormalizedApiBase = () => {
+  let envBase = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL)
+    ? String(import.meta.env.VITE_API_URL).trim()
+    : '';
+
+  if (!envBase) {
+    return '/api';
+  }
+
+  // Strip trailing slashes
+  envBase = envBase.replace(/\/+$/, '');
+
+  // If base does not end with /api, ensure /api is appended so all backend routes match
+  if (!envBase.endsWith('/api')) {
+    envBase = `${envBase}/api`;
+  }
+
+  return envBase;
+};
+
+const API_BASE = getNormalizedApiBase();
 
 export const getAuthToken = () => {
   return localStorage.getItem('rk_auth_token') || '';
@@ -33,7 +51,8 @@ export async function apiRequest(endpoint, options = {}) {
   }
 
   try {
-    const res = await fetch(`${API_BASE}${endpoint}`, {
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const res = await fetch(`${API_BASE}${cleanEndpoint}`, {
       ...options,
       headers
     });

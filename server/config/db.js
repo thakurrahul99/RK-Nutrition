@@ -591,34 +591,71 @@ export const addLog = (level, module, message, user = null) => {
   }
 };
 
+// Mask URI for safe logging in server logs
+export const getMaskedUri = (uri) => {
+  if (!uri) return 'NOT_CONFIGURED';
+  try {
+    return uri.replace(/:([^:@]+)@/, ':****@');
+  } catch {
+    return 'CONFIGURED (MASKED)';
+  }
+};
+
+let isConnecting = false;
+let retryTimer = null;
+
 // Mongoose Database Connection & Automated Seeder
 export const connectDb = async () => {
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     const message = process.env.NODE_ENV === 'production'
-      ? '[RK Nutrition DB] MONGODB_URI is missing from the production environment. Add it to the Render service environment variables.'
+      ? '[RK Nutrition DB] MONGODB_URI is missing from the production environment. Add MONGODB_URI to your Render service Environment tab.'
       : '[RK Nutrition DB] MONGODB_URI is missing. Set it in server/.env before starting the server.';
     console.error(message);
     throw new Error('MongoDB connection is required. MONGODB_URI is not configured.');
   }
 
+  const masked = getMaskedUri(uri);
+  console.log(`[RK Nutrition DB] Connecting to MongoDB Atlas: ${masked}`);
+
   try {
     await mongoose.connect(uri, {
       dbName: 'rk_nutrition',
-      serverSelectionTimeoutMS: 15000
+      serverSelectionTimeoutMS: 15000,
+      connectTimeoutMS: 15000
     });
-    console.log('[RK Nutrition DB] MongoDB connection established.');
+    console.log('[RK Nutrition DB] MongoDB connection established successfully.');
     await seedMongooseIfEmpty();
   } catch (err) {
     const code = err?.code || err?.cause?.code || 'unknown';
     const name = err?.name || 'MongoDBError';
     console.error(`[RK Nutrition DB] Connection failed (${name}, code: ${code}): ${err.message}`);
     if (name === 'MongoServerSelectionError' || name === 'MongooseServerSelectionError') {
-      console.error('[RK Nutrition DB] Check Atlas Network Access, cluster availability, DNS, and connectivity.');
+      console.error('[RK Nutrition DB] Check Atlas Network Access (ensure 0.0.0.0/0 is active), cluster status, and DNS.');
     } else if (name === 'MongoServerError' && (code === 18 || code === '18')) {
-      console.error('[RK Nutrition DB] Authentication failed. Check the MongoDB database username/password in MONGODB_URI.');
+      console.error('[RK Nutrition DB] Authentication failed. Check database username and password in MONGODB_URI.');
     }
-    throw new Error('MongoDB connection is required. Check MONGODB_URI, Atlas credentials, and Atlas Network Access.', { cause: err });
+    throw err;
+  }
+};
+
+// Resilient background connector with automated retry
+export const connectDbWithRetry = async (retryDelayMs = 10000) => {
+  if (mongoose.connection.readyState === 1 || isConnecting) {
+    return;
+  }
+  isConnecting = true;
+  try {
+    await connectDb();
+  } catch (err) {
+    console.warn(`[RK Nutrition DB] Background connection attempt failed (${err.message}). Retrying in ${retryDelayMs / 1000}s...`);
+    if (retryTimer) clearTimeout(retryTimer);
+    retryTimer = setTimeout(() => {
+      isConnecting = false;
+      connectDbWithRetry(retryDelayMs);
+    }, retryDelayMs);
+  } finally {
+    isConnecting = false;
   }
 };
 
