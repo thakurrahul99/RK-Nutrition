@@ -166,8 +166,15 @@ export function ProductProvider({ children }) {
   // Get product by id or slug
   const getProductById = (idOrSlug) => {
     if (!idOrSlug) return null;
+    const cleanLookup = String(idOrSlug).trim().toLowerCase();
     return productsList.find(
-      (p) => p.id === idOrSlug || p.slug === idOrSlug
+      (p) => 
+        p.id === idOrSlug || 
+        p.slug === idOrSlug || 
+        String(p.id) === String(idOrSlug) || 
+        p._id === idOrSlug || 
+        String(p._id) === String(idOrSlug) ||
+        (p.slug && p.slug.toLowerCase() === cleanLookup)
     ) || null;
   };
 

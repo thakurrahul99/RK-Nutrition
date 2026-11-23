@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ProductCard from '../shop/ProductCard';
 import { useProducts } from '../../context/ProductContext';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 import { ArrowRight } from 'lucide-react';
 
 export default function FeaturedProductsSection() {
+  const navigate = useNavigate();
   const { featuredProducts } = useProducts();
   const containerRef = useScrollReveal();
 
@@ -54,8 +55,11 @@ export default function FeaturedProductsSection() {
         {/* 2-Column Mobile Grid, 4-Column Desktop Grid with Staggered Scroll Reveal */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
           {displayProducts.map((product, idx) => (
-            <div key={product.id} className={`reveal-init stagger-${idx + 1}`}>
-              <ProductCard product={product} />
+            <div key={product.id || product._id || idx} className={`reveal-init stagger-${idx + 1}`}>
+              <ProductCard 
+                product={product} 
+                onSelectProduct={(p) => navigate(`/product/${p.slug || p.id || p._id}`)}
+              />
             </div>
           ))}
         </div>

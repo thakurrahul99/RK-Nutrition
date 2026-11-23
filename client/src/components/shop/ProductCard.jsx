@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Heart } from 'lucide-react';
 import { useWishlist } from '../../context/WishlistContext';
 
 export default function ProductCard({ product, onSelectProduct }) {
+  const navigate = useNavigate();
   const {
     id,
     name,
@@ -20,6 +22,17 @@ export default function ProductCard({ product, onSelectProduct }) {
   const mainImage = images && images.length > 0 ? images[0] : null;
   const hasSale = typeof salePrice === 'number' && typeof price === 'number' && salePrice < price;
   const discountPercent = hasSale ? Math.round(((price - salePrice) / price) * 100) : 0;
+
+  const targetIdentifier = product?.slug || product?.id || product?._id;
+  const productDetailPageUrl = `/product/${targetIdentifier}`;
+
+  const handleProductNavigation = () => {
+    if (onSelectProduct) {
+      onSelectProduct(product);
+    } else if (targetIdentifier) {
+      navigate(productDetailPageUrl);
+    }
+  };
 
   const formatCurrency = (val) => {
     return new Intl.NumberFormat('en-IN', {
@@ -46,7 +59,7 @@ export default function ProductCard({ product, onSelectProduct }) {
 
   return (
     <article
-      onClick={() => onSelectProduct && onSelectProduct(product)}
+      onClick={handleProductNavigation}
       className="card-hover-lift group relative bg-[#131313] border border-[#202020] hover:border-[#E11D2E]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
     >
       {/* Media Container: Square 1:1 Aspect Ratio with Dynamic Ambient Glow */}
@@ -109,7 +122,18 @@ export default function ProductCard({ product, onSelectProduct }) {
         </button>
 
         {/* Desktop Quick Specs Overlay on Hover */}
-        <div className="hidden sm:flex absolute inset-x-0 bottom-0 py-2.5 bg-[#0E0E0E]/95 backdrop-blur-md border-t border-[#222222] translate-y-full group-hover:translate-y-0 transition-transform duration-250 ease-out items-center justify-center gap-2 text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2]">
+        <div 
+          onClick={handleProductNavigation}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleProductNavigation();
+            }
+          }}
+          className="hidden sm:flex absolute inset-x-0 bottom-0 py-2.5 bg-[#0E0E0E]/95 backdrop-blur-md border-t border-[#222222] translate-y-full group-hover:translate-y-0 transition-transform duration-250 ease-out items-center justify-center gap-2 text-xs font-heading font-bold uppercase tracking-wider text-[#F5F4F2] hover:text-[#E11D2E] cursor-pointer"
+        >
           <span>View Formulation</span>
           <ArrowRight className="w-3.5 h-3.5 text-[#E11D2E] transition-transform duration-200 group-hover:translate-x-1" />
         </div>
