@@ -510,7 +510,11 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
 
     // Authorization
     const isAdmin = req.user?.role === 'CLIENT_ADMIN' || req.user?.role === 'SUPER_ADMIN';
-    const isOwner = req.user && (order.userId === req.user.id || order.customer?.email?.toLowerCase() === (req.user.email || '').toLowerCase());
+    const isOwner = req.user && (
+      order.userId === req.user.id ||
+      (order.customer?.email && req.user.email && order.customer.email.toLowerCase() === req.user.email.toLowerCase()) ||
+      (order.customer?.phone && req.user.phone && order.customer.phone.replace(/\D/g, '') === String(req.user.phone).replace(/\D/g, ''))
+    );
 
     if (!isAdmin && !isOwner) {
       return res.status(403).json({ success: false, error: 'Unauthorized to cancel this order.' });

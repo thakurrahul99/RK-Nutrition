@@ -64,6 +64,8 @@ const orderSchema = new mongoose.Schema({
     signature: { type: String, default: '' },
     verifiedAt: { type: Date, default: null }
   },
+  cancelledAt: { type: Date, default: null },
+  cancelledBy: { type: String, default: '', trim: true },
   notes: { type: String, default: '', trim: true }
 }, { 
   timestamps: true 

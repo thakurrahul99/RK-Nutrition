@@ -480,6 +480,15 @@ export default function AdminOrdersPage() {
                     </button>
                   ))}
                 </div>
+                {selectedOrder.orderStatus === 'CANCELLED' && (
+                  <div className="mt-3 p-3 bg-[#2B1416] border border-[#852229] text-xs font-mono text-red-300 flex flex-wrap items-center justify-between gap-2">
+                    <span>
+                      This order was cancelled {selectedOrder.cancelledBy ? `by ${selectedOrder.cancelledBy}` : ''}
+                      {selectedOrder.cancelledAt ? ` on ${new Date(selectedOrder.cancelledAt).toLocaleString()}` : ''}.
+                    </span>
+                    <span className="font-bold uppercase tracking-wider text-red-400">Inventory Restored</span>
+                  </div>
+                )}
               </div>
 
               {/* Customer and Delivery details grid */}
