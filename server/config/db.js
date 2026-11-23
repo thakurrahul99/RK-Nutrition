@@ -593,18 +593,32 @@ export const addLog = (level, module, message, user = null) => {
 
 // Mongoose Database Connection & Automated Seeder
 export const connectDb = async () => {
-  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/rk_nutrition';
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    const message = process.env.NODE_ENV === 'production'
+      ? '[RK Nutrition DB] MONGODB_URI is missing from the production environment. Add it to the Render service environment variables.'
+      : '[RK Nutrition DB] MONGODB_URI is missing. Set it in server/.env before starting the server.';
+    console.error(message);
+    throw new Error('MongoDB connection is required. MONGODB_URI is not configured.');
+  }
+
   try {
     await mongoose.connect(uri, {
       dbName: 'rk_nutrition',
-      serverSelectionTimeoutMS: 10000
+      serverSelectionTimeoutMS: 15000
     });
-    const maskedUri = uri.replace(/:([^:@]+)@/, ':****@');
-    console.log(`[RK Nutrition DB] Connected to MongoDB Atlas at ${maskedUri}`);
+    console.log('[RK Nutrition DB] MongoDB connection established.');
     await seedMongooseIfEmpty();
   } catch (err) {
-    console.error(`[RK Nutrition DB] MongoDB connection failed: ${err.message}`);
-    throw new Error('MongoDB connection is required. Check MONGODB_URI and Atlas Network Access.', { cause: err });
+    const code = err?.code || err?.cause?.code || 'unknown';
+    const name = err?.name || 'MongoDBError';
+    console.error(`[RK Nutrition DB] Connection failed (${name}, code: ${code}): ${err.message}`);
+    if (name === 'MongoServerSelectionError' || name === 'MongooseServerSelectionError') {
+      console.error('[RK Nutrition DB] Check Atlas Network Access, cluster availability, DNS, and connectivity.');
+    } else if (name === 'MongoServerError' && (code === 18 || code === '18')) {
+      console.error('[RK Nutrition DB] Authentication failed. Check the MongoDB database username/password in MONGODB_URI.');
+    }
+    throw new Error('MongoDB connection is required. Check MONGODB_URI, Atlas credentials, and Atlas Network Access.', { cause: err });
   }
 };
 
