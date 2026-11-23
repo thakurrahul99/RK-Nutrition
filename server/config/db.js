@@ -18,6 +18,7 @@ import Newsletter from '../models/Newsletter.js';
 import StoreSettings from '../models/StoreSettings.js';
 import Content from '../models/Content.js';
 import AuditLog from '../models/AuditLog.js';
+import Counter from '../models/Counter.js';
 
 export {
   User,
@@ -32,7 +33,8 @@ export {
   Newsletter,
   StoreSettings,
   Content,
-  AuditLog
+  AuditLog,
+  Counter
 };
 
 const __filename = fileURLToPath(import.meta.url);

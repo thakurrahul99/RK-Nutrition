@@ -1,10 +1,10 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProducts } from '../../context/ProductContext';
 import { useCategories } from '../../context/CategoryContext';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
-import { uploadFile } from '../../services/api';
+import { uploadFile, apiRequest } from '../../services/api';
 import { 
   ArrowLeft, 
   Save, 
@@ -22,16 +22,29 @@ const AVAILABILITY_OPTIONS = [
   { id: 'out-of-stock', label: 'Out of Stock' }
 ];
 
+const getCategorySkuPrefix = (category = '') => {
+  const norm = String(category).toLowerCase().trim().replace(/_/g, '-');
+  if (norm.includes('mass') || norm.includes('gainer')) return 'GAI';
+  if (norm.includes('pre')) return 'PRE';
+  if (norm.includes('creatine')) return 'CRE';
+  if (norm.includes('protein') || norm.includes('whey') || norm.includes('isolate')) return 'PRO';
+  const clean = norm.replace(/[^a-z0-9]/g, '').toUpperCase();
+  return (clean.slice(0, 3) || 'GEN').padEnd(3, 'X');
+};
+
 export default function AdminProductFormPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getProductById, addProduct, updateProduct, isSkuUnique, isSlugUnique } = useProducts();
+  const { getProductById, addProduct, updateProduct, isSlugUnique } = useProducts();
   const { adminCategories, categories } = useCategories();
   const { showToast } = useContent();
   const { logActivity } = useAuth();
 
   const isEditMode = Boolean(id);
   const existingProduct = isEditMode ? getProductById(id) : null;
+
+  const [nextSequence, setNextSequence] = useState(null);
+  const [isLoadingSku, setIsLoadingSku] = useState(false);
 
   // Form State initialized lazily
   const [formData, setFormData] = useState(() => {
@@ -70,7 +83,7 @@ export default function AdminProductFormPage() {
       name: '',
       slug: '',
       category: 'protein',
-      sku: '',
+      sku: 'RK-PRO-0001',
       price: '',
       salePrice: '',
       shortDescription: '',
@@ -158,6 +171,56 @@ export default function AdminProductFormPage() {
     setManualSlugEdited(true);
     const sanitized = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
     setFormData((prev) => ({ ...prev, slug: sanitized }));
+  };
+
+  // Fetch initial automatic SKU preview on mount for new products
+  useEffect(() => {
+    if (!isEditMode) {
+      let isMounted = true;
+      const fetchPreviewSku = async () => {
+        setIsLoadingSku(true);
+        try {
+          const res = await apiRequest(`/products/next-sku?category=${formData.category || 'protein'}`);
+          if (isMounted && res.success && res.sku) {
+            setNextSequence(res.sequence);
+            setFormData((prev) => ({
+              ...prev,
+              sku: res.sku
+            }));
+          }
+        } catch (e) {
+          console.warn('Could not fetch next SKU preview:', e);
+        } finally {
+          if (isMounted) setIsLoadingSku(false);
+        }
+      };
+      fetchPreviewSku();
+      return () => {
+        isMounted = false;
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditMode]);
+
+  // Handle category change: update category and dynamically adjust auto-generated SKU
+  const handleCategoryChange = (newCat) => {
+    if (isEditMode) {
+      setFormData((prev) => ({ ...prev, category: newCat }));
+      return;
+    }
+    const prefix = getCategorySkuPrefix(newCat);
+    const seqStr = String(nextSequence || 1).padStart(4, '0');
+    const updatedSku = `RK-${prefix}-${seqStr}`;
+
+    setFormData((prev) => ({
+      ...prev,
+      category: newCat,
+      sku: updatedSku,
+      variants: (prev.variants || []).map((v, i) => ({
+        ...v,
+        sku: `${updatedSku}-V${i + 1}`
+      }))
+    }));
   };
 
   // --- Unified Image Upload Handlers (Cloudinary-backed server upload) ---
@@ -299,17 +362,10 @@ export default function AdminProductFormPage() {
       errors.push('Please select a product category.');
     }
 
-    // 4. SKU
-    let cleanSku = formData.sku.trim().toUpperCase();
-    if (!cleanSku && cleanName) {
-      const prefix = cleanName.replace(/[^A-Za-z0-9]/g, '').slice(0, 4).toUpperCase() || 'RK';
-      cleanSku = `RK-${prefix}-${Date.now().toString().slice(-4)}`;
-    }
-    if (!cleanSku) {
-      errors.push('SKU / Product Code is required.');
-    } else if (!isSkuUnique(cleanSku, isEditMode ? existingProduct?.id : null)) {
-      errors.push(`The SKU "${cleanSku}" is already assigned to another product.`);
-    }
+    // 4. SKU (Auto-generated on backend for new products; preserved on edit)
+    let cleanSku = isEditMode
+      ? (existingProduct?.sku || formData.sku.trim().toUpperCase())
+      : (formData.sku.trim().toUpperCase() || `RK-${getCategorySkuPrefix(formData.category)}-${String(nextSequence || 1).padStart(4, '0')}`);
 
     // 5. Price
     const numericPrice = Number(formData.price);
@@ -522,17 +578,30 @@ export default function AdminProductFormPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0] mb-2">
-                  SKU / Master Code <span className="text-[#E11D2E]">*</span>
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-[#A0A0A0]">
+                    SKU / Master Code <span className="text-[#E11D2E]">*</span>
+                  </label>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 uppercase tracking-wider font-bold border ${
+                    isEditMode 
+                      ? 'text-[#8C8C8C] bg-[#1C1C1C] border-[#333333]' 
+                      : 'text-[#4CAF50] bg-[#4CAF50]/10 border-[#4CAF50]/30'
+                  }`}>
+                    {isEditMode ? 'Preserved (Locked)' : (isLoadingSku ? 'Generating...' : 'Auto-Generated')}
+                  </span>
+                </div>
                 <input
                   type="text"
                   value={formData.sku}
-                  onChange={(e) => setFormData({ ...formData, sku: e.target.value.toUpperCase() })}
-                  placeholder="e.g. RK-PRO-001"
-                  required
-                  className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-xs font-mono text-[#F5F4F2]"
+                  readOnly
+                  placeholder="Auto-generating SKU..."
+                  className="w-full bg-[#141414] border border-[#262626] cursor-not-allowed px-3.5 py-2 text-xs font-mono text-[#F5F4F2] select-none focus:outline-none"
                 />
+                <span className="text-[10px] font-mono text-[#666666] mt-1 block">
+                  {isEditMode 
+                    ? 'Existing product SKU is preserved and locked on edit.' 
+                    : 'Automatically generated: RK-[CATEGORY]-[SEQ]. Updates when category changes.'}
+                </span>
               </div>
             </div>
 
@@ -543,7 +612,7 @@ export default function AdminProductFormPage() {
                 </label>
                 <select
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                   className="w-full bg-[#181818] border border-[#2E2E2E] focus:border-[#E11D2E] focus:outline-none px-3.5 py-2 text-sm text-[#F5F4F2]"
                 >
                   {categoryOptions.map((c) => (

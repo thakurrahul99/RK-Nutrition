@@ -3,6 +3,12 @@ import mongoose from 'mongoose';
 import { getDb, saveDb, addLog, Product, Review } from '../config/db.js';
 import { authenticateToken, requireClientAdmin, optionalAuthenticateToken } from '../middleware/auth.js';
 import { sanitizeInput } from '../utils/security.js';
+import {
+  allocateNextProductSku,
+  peekNextProductSequence,
+  formatSku,
+  getCategorySkuPrefix
+} from '../utils/skuGenerator.js';
 
 const router = Router();
 
@@ -68,6 +74,27 @@ router.get('/', optionalAuthenticateToken, async (req, res) => {
   } catch (err) {
     console.error('Products fetch error:', err);
     res.status(500).json({ success: false, error: 'Failed to retrieve products.' });
+  }
+});
+
+// GET /api/products/next-sku (Preview next automatic SKU based on category)
+router.get('/next-sku', authenticateToken, requireClientAdmin, async (req, res) => {
+  try {
+    const { category = 'protein' } = req.query;
+    const db = getDb();
+    const nextSeq = await peekNextProductSequence(db);
+    const sku = formatSku(category, nextSeq);
+    const prefix = getCategorySkuPrefix(category);
+
+    res.json({
+      success: true,
+      sku,
+      sequence: nextSeq,
+      prefix
+    });
+  } catch (err) {
+    console.error('Error getting next SKU preview:', err);
+    res.status(500).json({ success: false, error: 'Failed to generate SKU preview.' });
   }
 });
 
@@ -155,23 +182,18 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
       return res.status(400).json({ success: false, error: `Product slug "${slug}" is already in use.` });
     }
 
-    const sku = (data.sku || `RK-${Date.now().toString().slice(-6)}`).trim().toUpperCase();
-    if (db.products.some((p) => p.sku === sku)) {
-      return res.status(400).json({ success: false, error: `SKU "${sku}" is already assigned to another product.` });
-    }
-
-    // Check MongoDB for collision if connected
+    // Check MongoDB for slug collision if connected
     if (mongoose.connection.readyState === 1) {
-      const existingInMongo = await Product.findOne({ $or: [{ slug }, { id: slug }, { sku }] }).select('name slug sku');
+      const existingInMongo = await Product.findOne({ $or: [{ slug }, { id: slug }] }).select('name slug');
       if (existingInMongo) {
-        if (existingInMongo.slug === slug || existingInMongo.id === slug) {
-          return res.status(400).json({ success: false, error: `Product slug "${slug}" is already in use by "${existingInMongo.name}".` });
-        }
-        if (existingInMongo.sku === sku) {
-          return res.status(400).json({ success: false, error: `SKU "${sku}" is already assigned to "${existingInMongo.name}".` });
-        }
+        return res.status(400).json({ success: false, error: `Product slug "${slug}" is already in use by "${existingInMongo.name}".` });
       }
     }
+
+    // Automatically allocate unique sequential SKU based on category (format: RK-CATEGORY-0001)
+    const category = (data.category || 'protein').toLowerCase();
+    let allocated = await allocateNextProductSku(category, db);
+    let sku = allocated.sku;
 
     const price = Number(data.price);
     if (isNaN(price) || price < 0) {
@@ -179,14 +201,13 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
     }
 
     const stock = typeof data.stock === 'number' && !isNaN(data.stock) ? data.stock : 50;
-    const sanitizedVariants = sanitizeVariantsList(data.variants, sku, price, stock);
 
     const now = new Date().toISOString();
     const newProduct = {
       id: slug,
       name: sanitizeInput(data.name.trim()),
       slug,
-      category: (data.category || 'protein').toLowerCase(),
+      category,
       sku,
       price,
       salePrice: data.salePrice !== undefined && data.salePrice !== null && data.salePrice !== '' && !isNaN(Number(data.salePrice)) ? Number(data.salePrice) : null,
@@ -198,7 +219,7 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
       fullDescription: sanitizeInput(data.fullDescription?.trim() || ''),
       description: sanitizeInput(data.shortDescription?.trim() || data.fullDescription?.trim() || ''),
       images: Array.isArray(data.images) ? data.images : [],
-      variants: sanitizedVariants,
+      variants: sanitizeVariantsList(data.variants, sku, price, stock),
       servingInfo: sanitizeInput(data.servingInfo?.trim() || ''),
       ingredients: sanitizeInput(data.ingredients?.trim() || ''),
       nutritionFacts: sanitizeInput(data.nutritionFacts?.trim() || ''),
@@ -215,8 +236,26 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
       updatedAt: now
     };
 
-    if (mongoose.connection.readyState === 1) {
-      await Product.create(newProduct);
+    // Concurrency-safe creation: retry if race condition triggers duplicate key on SKU
+    let createdInMongo = false;
+    let attempts = 0;
+    while (!createdInMongo && attempts < 5) {
+      attempts++;
+      try {
+        if (mongoose.connection.readyState === 1) {
+          await Product.create(newProduct);
+        }
+        createdInMongo = true;
+      } catch (err) {
+        if (err.code === 11000 && (err.keyPattern?.sku || JSON.stringify(err).includes('sku'))) {
+          console.warn(`[Products Route] Concurrent SKU collision on "${newProduct.sku}", retrying allocation (${attempts}/5)...`);
+          allocated = await allocateNextProductSku(category, db);
+          newProduct.sku = allocated.sku;
+          newProduct.variants = sanitizeVariantsList(data.variants, newProduct.sku, price, stock);
+        } else {
+          throw err;
+        }
+      }
     }
 
     db.products.unshift(newProduct);
@@ -263,19 +302,8 @@ router.put('/:id', authenticateToken, requireClientAdmin, async (req, res) => {
     const existing = db.products[index];
     const data = req.body;
 
-    if (data.sku && data.sku.trim().toUpperCase() !== existing.sku) {
-      const newSku = data.sku.trim().toUpperCase();
-      if (db.products.some((p) => p.sku === newSku && p.id !== existing.id)) {
-        return res.status(400).json({ success: false, error: `SKU "${newSku}" is already in use.` });
-      }
-      if (mongoose.connection.readyState === 1) {
-        const mongoDuplicate = await Product.findOne({ sku: newSku, id: { $ne: existing.id } });
-        if (mongoDuplicate) {
-          return res.status(400).json({ success: false, error: `SKU "${newSku}" is already assigned to "${mongoDuplicate.name}".` });
-        }
-      }
-      existing.sku = newSku;
-    }
+    // Preserve existing product SKU (Requirement 3: Never regenerate or overwrite existing product SKU on edit)
+    // existing.sku is preserved untouched
 
     if (data.name) existing.name = sanitizeInput(data.name.trim());
     if (data.category) existing.category = data.category.toLowerCase();
