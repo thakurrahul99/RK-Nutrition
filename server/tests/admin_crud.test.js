@@ -1,6 +1,8 @@
 process.env.NODE_ENV = 'test';
 import http from 'http';
 import assert from 'assert';
+import mongoose from 'mongoose';
+import { connectDb } from '../config/db.js';
 import app from '../index.js';
 
 let server;
@@ -254,12 +256,23 @@ async function runAdminCrudTests() {
   console.log('------------------------------------------------------\n');
 }
 
-server = app.listen(5001, '127.0.0.1', async () => {
+const startAdminCrudTests = async () => {
   try {
+    // This test runs in a separate Node process; it must establish its own DB connection.
+    await connectDb();
+    await new Promise((resolve, reject) => {
+      server = app.listen(5001, '127.0.0.1', resolve);
+      server.once('error', reject);
+    });
     await runAdminCrudTests();
-    server.close(() => process.exit(0));
+    await new Promise((resolve) => server.close(resolve));
+    await mongoose.disconnect();
+    process.exit(0);
   } catch (err) {
-    console.error('Test execution failed:', err);
-    server.close(() => process.exit(1));
+    console.error('Admin CRUD test execution failed:', err);
+    if (server?.listening) await new Promise((resolve) => server.close(resolve));
+    await mongoose.disconnect().catch(() => {});
+    process.exit(1);
   }
-});
+};
+void startAdminCrudTests();
