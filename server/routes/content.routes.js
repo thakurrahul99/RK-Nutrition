@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import { getDb, saveDb, addLog, Content } from '../config/db.js';
-import { authenticateToken, requireSuperAdmin } from '../middleware/auth.js';
+import { authenticateToken, requireSuperAdmin, requireClientAdmin } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -22,12 +22,45 @@ router.put('/homepage', authenticateToken, requireSuperAdmin, (req, res) => {
   if (hero) db.content.homepage.hero = { ...db.content.homepage.hero, ...hero };
   if (Array.isArray(sectionOrder)) db.content.homepage.sectionOrder = sectionOrder;
   if (sectionVisibility) db.content.homepage.sectionVisibility = { ...db.content.homepage.sectionVisibility, ...sectionVisibility };
-  if (banner) db.content.homepage.banner = { ...db.content.homepage.banner, ...banner };
+  if (banner) {
+    db.content.homepage.banner = { ...db.content.homepage.banner, ...banner };
+    if (!db.storeSettings) db.storeSettings = {};
+    db.storeSettings.announcement = {
+      ...db.storeSettings.announcement,
+      ...banner,
+      enabled: Boolean(banner.enabled ?? banner.isActive),
+      isActive: Boolean(banner.isActive ?? banner.enabled)
+    };
+  }
 
   saveDb(db);
   addLog('INFO', 'CONTENT', `Homepage composition updated by Super Admin (${req.user.name})`);
 
   res.json({ success: true, homepage: db.content.homepage });
+});
+
+// PUT /api/content/announcement (Client Admin or Super Admin)
+router.put('/announcement', authenticateToken, requireClientAdmin, (req, res) => {
+  const db = getDb();
+  const banner = req.body;
+
+  if (!db.content.homepage) db.content.homepage = {};
+  db.content.homepage.banner = {
+    ...db.content.homepage.banner,
+    ...banner,
+    enabled: Boolean(banner.enabled ?? banner.isActive),
+    isActive: Boolean(banner.isActive ?? banner.enabled)
+  };
+
+  if (!db.storeSettings) db.storeSettings = {};
+  db.storeSettings.announcement = {
+    ...db.content.homepage.banner
+  };
+
+  saveDb(db);
+  addLog('INFO', 'STORE', `Announcement banner updated by ${req.user.name}`);
+
+  res.json({ success: true, banner: db.content.homepage.banner });
 });
 
 // PUT /api/content/pages (SUPER_ADMIN ONLY)

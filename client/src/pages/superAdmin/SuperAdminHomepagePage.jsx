@@ -65,7 +65,9 @@ export default function SuperAdminHomepagePage() {
   const [bannerForm, setBannerForm] = useState({
     text: 'FOUNDATIONAL LAUNCH LINEUP — VERIFIED ATHLETIC FORMULATIONS NOW ACTIVE',
     link: '/products',
-    isActive: true
+    linkText: 'SHOP NOW',
+    isActive: true,
+    enabled: true
   });
 
   useEffect(() => {
@@ -85,7 +87,17 @@ export default function SuperAdminHomepagePage() {
       }
       if (Array.isArray(content.homepage.sectionOrder)) setSectionOrder(content.homepage.sectionOrder);
       if (content.homepage.sectionVisibility) setSectionVisibility((prev) => ({ ...prev, ...content.homepage.sectionVisibility }));
-      if (content.homepage.banner) setBannerForm((prev) => ({ ...prev, ...content.homepage.banner }));
+      if (content.homepage.banner) {
+        setBannerForm((prev) => ({
+          ...prev,
+          ...content.homepage.banner,
+          text: content.homepage.banner.text || prev.text,
+          link: content.homepage.banner.link || content.homepage.banner.linkHref || prev.link,
+          linkText: content.homepage.banner.linkText || content.homepage.banner.ctaText || prev.linkText,
+          isActive: content.homepage.banner.isActive !== undefined ? content.homepage.banner.isActive : (content.homepage.banner.enabled !== undefined ? content.homepage.banner.enabled : true),
+          enabled: content.homepage.banner.enabled !== undefined ? content.homepage.banner.enabled : (content.homepage.banner.isActive !== undefined ? content.homepage.banner.isActive : true)
+        }));
+      }
     }
   }, [content]);
 
@@ -123,7 +135,13 @@ export default function SuperAdminHomepagePage() {
       hero: normalizedHero,
       sectionOrder,
       sectionVisibility,
-      banner: bannerForm
+      banner: {
+        ...bannerForm,
+        enabled: Boolean(bannerForm.isActive ?? bannerForm.enabled),
+        isActive: Boolean(bannerForm.isActive ?? bannerForm.enabled),
+        linkHref: bannerForm.link || '/products',
+        linkText: bannerForm.linkText || 'SHOP NOW'
+      }
     };
 
     const res = await updateHomepage(payload);
@@ -416,14 +434,48 @@ export default function SuperAdminHomepagePage() {
               />
             </div>
 
-            <div>
-              <label className="block text-xs uppercase text-[#94A3B8] mb-1">Target URL Destination</label>
-              <input
-                type="text"
-                value={bannerForm.link}
-                onChange={(e) => setBannerForm({ ...bannerForm, link: e.target.value })}
-                className="w-full bg-[#0F172A] border border-[#1E293B] focus:border-[#38BDF8] px-3 py-2 text-xs text-[#F1F5F9] focus:outline-none"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs uppercase text-[#94A3B8] mb-1">CTA Button Label</label>
+                <input
+                  type="text"
+                  value={bannerForm.linkText || ''}
+                  onChange={(e) => setBannerForm({ ...bannerForm, linkText: e.target.value })}
+                  placeholder="e.g. SHOP NOW"
+                  className="w-full bg-[#0F172A] border border-[#1E293B] focus:border-[#38BDF8] px-3 py-2 text-xs text-[#F1F5F9] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase text-[#94A3B8] mb-1">Target URL Destination</label>
+                <input
+                  type="text"
+                  value={bannerForm.link}
+                  onChange={(e) => setBannerForm({ ...bannerForm, link: e.target.value })}
+                  placeholder="e.g. /products"
+                  className="w-full bg-[#0F172A] border border-[#1E293B] focus:border-[#38BDF8] px-3 py-2 text-xs text-[#F1F5F9] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Preview Box */}
+            <div className="pt-2">
+              <span className="text-[10px] uppercase text-[#64748B] block mb-1">Storefront Live Preview:</span>
+              {bannerForm.isActive ? (
+                <div className="bg-[#121212] border border-[#242424] text-[#F5F4F2] py-2 px-3 text-center flex items-center justify-center gap-2 text-[11px] font-mono uppercase">
+                  <span className="w-2 h-2 rounded-full bg-[#E11D2E] inline-block animate-pulse" />
+                  <span className="truncate">{bannerForm.text || 'Announcement Text'}</span>
+                  {bannerForm.linkText && (
+                    <span className="text-[#E11D2E] font-bold underline ml-1">
+                      {bannerForm.linkText} →
+                    </span>
+                  )}
+                </div>
+              ) : (
+                <div className="bg-[#0F172A] border border-[#1E293B] text-[#64748B] py-2 px-3 text-center text-xs italic">
+                  Banner is currently disabled. Pinned banner will not render on storefront.
+                </div>
+              )}
             </div>
           </div>
         </div>

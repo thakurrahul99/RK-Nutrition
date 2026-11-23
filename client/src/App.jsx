@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom
 import ScrollToTop from './components/common/ScrollToTop';
 
 import Navbar from './components/Navbar';
+import AnnouncementBar from './components/AnnouncementBar';
 import MobileMenu from './components/MobileMenu';
 import SearchModal from './components/SearchModal';
 import Footer from './components/Footer';
@@ -112,6 +113,9 @@ function PublicLayout({ onOpenPrivacy, onOpenTerms }) {
           <span>Notice: Website maintenance mode is currently active. Public catalogue is in review status.</span>
         </aside>
       )}
+
+      {/* 1. Global Promotional Announcement Bar */}
+      <AnnouncementBar />
 
       {/* 2. Global Navigation Header */}
       <Navbar

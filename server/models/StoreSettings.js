@@ -12,6 +12,13 @@ const storeSettingsSchema = new mongoose.Schema({
   currencySymbol: { type: String, default: '₹' },
   operatingHours: { type: String, default: 'Monday – Saturday: 09:00 AM – 07:00 PM IST' },
   warehouseAddress: { type: String, default: 'A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India' },
+  announcement: {
+    enabled: { type: Boolean, default: true },
+    isActive: { type: Boolean, default: true },
+    text: { type: String, default: 'OFFICIAL LAUNCH • 10% OFF ORDERS ABOVE ₹1,999 WITH CODE RK10 • FREE NATIONWIDE SHIPPING' },
+    linkText: { type: String, default: 'SHOP NOW' },
+    linkHref: { type: String, default: '/products' }
+  },
   paymentMethods: {
     cod: {
       enabled: { type: Boolean, default: true },

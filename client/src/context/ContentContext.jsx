@@ -68,10 +68,13 @@ const DEFAULT_CONTENT = {
       banner: false
     },
     banner: {
-      enabled: false,
-      heading: 'SPECIAL LAUNCH OFFER',
-      text: 'Use code RKLAUNCH10 for 10% off your first sports nutrition order over ₹1,999.',
-      ctaText: 'SHOP SUPPLEMENTS',
+      enabled: true,
+      isActive: true,
+      heading: 'OFFICIAL LAUNCH OFFER',
+      text: 'OFFICIAL LAUNCH • 10% OFF ORDERS ABOVE ₹1,999 WITH CODE RK10 • FREE NATIONWIDE SHIPPING',
+      linkText: 'SHOP NOW',
+      linkHref: '/products',
+      ctaText: 'SHOP NOW',
       ctaHref: '/products'
     }
   },
@@ -295,13 +298,56 @@ export function ContentProvider({ children }) {
     return { success: false, error: res.error };
   };
 
+  const updateAnnouncement = async (announcementData) => {
+    // Attempt dedicated /api/content/announcement first, fallback to /api/content/homepage
+    const res = await apiRequest('/content/announcement', {
+      method: 'PUT',
+      body: JSON.stringify(announcementData)
+    });
+    if (res.success && res.banner) {
+      setContent((prev) => ({
+        ...prev,
+        announcement: res.banner,
+        homepage: {
+          ...prev.homepage,
+          banner: res.banner
+        }
+      }));
+      showToast('Announcement banner updated successfully.', 'success');
+      return { success: true, banner: res.banner };
+    }
+    // Fallback through updateHomepage
+    const currentHp = content?.homepage || DEFAULT_CONTENT.homepage;
+    const fallbackBanner = {
+      ...currentHp.banner,
+      ...announcementData,
+      enabled: Boolean(announcementData.enabled ?? announcementData.isActive),
+      isActive: Boolean(announcementData.isActive ?? announcementData.enabled)
+    };
+    return await updateHomepage({
+      ...currentHp,
+      banner: fallbackBanner
+    });
+  };
+
+  const rawBanner = content?.homepage?.banner || content?.announcement || DEFAULT_CONTENT.homepage.banner;
+  const normalizedAnnouncement = {
+    ...DEFAULT_CONTENT.homepage.banner,
+    ...rawBanner,
+    enabled: rawBanner.enabled !== undefined ? Boolean(rawBanner.enabled) : (rawBanner.isActive !== undefined ? Boolean(rawBanner.isActive) : true),
+    isActive: rawBanner.isActive !== undefined ? Boolean(rawBanner.isActive) : (rawBanner.enabled !== undefined ? Boolean(rawBanner.enabled) : true),
+    text: rawBanner.text || rawBanner.heading || DEFAULT_CONTENT.homepage.banner.text,
+    linkText: rawBanner.linkText || rawBanner.ctaText || 'SHOP NOW',
+    linkHref: rawBanner.linkHref || rawBanner.link || rawBanner.ctaHref || '/products'
+  };
+
   return (
     <ContentContext.Provider
       value={{
         content,
         // Backward-compatible properties for public pages
         hero: content.homepage?.hero || DEFAULT_CONTENT.homepage.hero,
-        announcement: content.homepage?.banner || DEFAULT_CONTENT.homepage.banner,
+        announcement: normalizedAnnouncement,
         visibility: content.homepage?.sectionVisibility || DEFAULT_CONTENT.homepage.sectionVisibility,
         branding: content.branding || DEFAULT_CONTENT.branding,
         pages: content.pages || DEFAULT_CONTENT.pages,
@@ -310,6 +356,7 @@ export function ContentProvider({ children }) {
         toast,
         showToast,
         refreshContent,
+        updateAnnouncement,
         updateHomepage,
         updatePages,
         updateBranding,
@@ -337,6 +384,7 @@ export function useContent() {
       toast: null,
       showToast: () => {},
       refreshContent: () => {},
+      updateAnnouncement: async () => ({ success: false }),
       updateHomepage: async () => ({ success: false }),
       updatePages: async () => ({ success: false }),
       updateBranding: async () => ({ success: false }),

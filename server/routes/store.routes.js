@@ -25,6 +25,18 @@ router.put('/settings', authenticateToken, requireClientAdmin, async (req, res) 
     ...updates
   };
 
+  // Sync announcement to db.content.homepage.banner for storefront consumption
+  if (updates.announcement) {
+    if (!db.content) db.content = {};
+    if (!db.content.homepage) db.content.homepage = {};
+    db.content.homepage.banner = {
+      ...db.content.homepage.banner,
+      ...updates.announcement,
+      enabled: Boolean(updates.announcement.enabled ?? updates.announcement.isActive),
+      isActive: Boolean(updates.announcement.isActive ?? updates.announcement.enabled)
+    };
+  }
+
   saveDb(db);
 
   if (mongoose.connection.readyState === 1) {
