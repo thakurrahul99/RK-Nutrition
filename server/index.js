@@ -176,8 +176,6 @@ if (process.env.NODE_ENV !== 'test') {
       console.error('[RK Nutrition Server] Startup aborted:', err.message);
       process.exit(1);
     });
-} else {
-  connectDb().catch((err) => console.warn('[DB Test Boot Warning]:', err.message));
 }
 
 export default app;
