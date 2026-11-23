@@ -1,5 +1,6 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   LayoutDashboard, 
   Package,
@@ -34,11 +35,22 @@ const STORE_NAV_ITEMS = [
 
 export default function AdminSidebar({ isOpen, onClose }) {
   const { logout, adminUser, isSuperAdmin } = useAuth();
+  const { confirm } = useConfirmation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/admin/login', { replace: true });
+  const handleLogout = async () => {
+    const confirmed = await confirm({
+      title: 'Sign Out of Store Admin?',
+      message: 'Are you sure you want to sign out of the store operations dashboard?',
+      confirmText: 'Sign Out',
+      cancelText: 'Stay Signed In',
+      variant: 'danger',
+      icon: LogOut
+    });
+    if (confirmed) {
+      logout();
+      navigate('/admin/login', { replace: true });
+    }
   };
 
   return (

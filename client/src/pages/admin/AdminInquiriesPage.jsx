@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { apiRequest } from '../../services/api';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   MessageSquare, 
   Search, 
@@ -15,6 +16,7 @@ import {
 export default function AdminInquiriesPage() {
   const { showToast } = useContent();
   const { logActivity } = useAuth();
+  const { confirm } = useConfirmation();
 
   const [inquiries, setInquiries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +54,15 @@ export default function AdminInquiriesPage() {
   };
 
   const handleDeleteInquiry = async (inq) => {
-    if (!window.confirm(`Permanently delete inquiry from "${inq.name}"?`)) return;
+    const confirmed = await confirm({
+      title: 'Delete Customer Inquiry?',
+      message: `Permanently delete inquiry message from "${inq.name}"? This record cannot be restored.`,
+      confirmText: 'Delete Inquiry',
+      cancelText: 'Keep Inquiry',
+      variant: 'danger',
+      icon: Trash2
+    });
+    if (!confirmed) return;
     const res = await apiRequest(`/store/inquiries/${inq.id}`, {
       method: 'DELETE'
     });

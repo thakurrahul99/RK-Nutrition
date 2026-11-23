@@ -11,6 +11,7 @@ import {
   Trash2, 
   CheckCircle2, 
   AlertCircle, 
+  AlertTriangle,
   Truck, 
   ShieldCheck, 
   ArrowRight, 
@@ -22,11 +23,13 @@ import {
   Loader2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useConfirmation } from '../context/ConfirmationContext';
 import { apiRequest } from '../services/api';
 import DocumentMeta from '../components/common/DocumentMeta';
 
 export default function AccountPage() {
   const navigate = useNavigate();
+  const { confirm } = useConfirmation();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get('tab') || 'overview';
 
@@ -93,9 +96,19 @@ export default function AccountPage() {
     }
   }, [authLoading, isAuthenticated, navigate]);
 
-  const handleSignOut = () => {
-    logout();
-    navigate('/login', { replace: true });
+  const handleSignOut = async () => {
+    const confirmed = await confirm({
+      title: 'Sign Out of Athlete Profile?',
+      message: 'Are you sure you want to sign out? Your saved orders and addresses will be kept for your next session.',
+      confirmText: 'Sign Out',
+      cancelText: 'Stay Signed In',
+      variant: 'danger',
+      icon: LogOut
+    });
+    if (confirmed) {
+      logout();
+      navigate('/login', { replace: true });
+    }
   };
 
   // Sync profile form with current user
@@ -153,9 +166,15 @@ export default function AccountPage() {
 
   // Order Cancellation Handler
   const handleCancelOrder = async (orderId) => {
-    if (!window.confirm('Are you sure you want to cancel this order? Any deducted inventory will be restored.')) {
-      return;
-    }
+    const confirmed = await confirm({
+      title: `Cancel Order #${orderId}?`,
+      message: 'Are you sure you want to cancel this order? Any deducted inventory will be restored to warehouse stock.',
+      confirmText: 'Yes, Cancel Order',
+      cancelText: 'Keep Order',
+      variant: 'danger',
+      icon: AlertTriangle
+    });
+    if (!confirmed) return;
 
     setCancellingOrderId(orderId);
     try {
@@ -262,7 +281,15 @@ export default function AccountPage() {
   };
 
   const handleDeleteAddress = async (addrId) => {
-    if (!window.confirm('Are you sure you want to remove this delivery address?')) return;
+    const confirmed = await confirm({
+      title: 'Remove Delivery Address?',
+      message: 'Are you sure you want to remove this delivery address from your profile? This cannot be undone.',
+      confirmText: 'Remove Address',
+      cancelText: 'Keep Address',
+      variant: 'danger',
+      icon: Trash2
+    });
+    if (!confirmed) return;
     await deleteAddress(addrId);
   };
 

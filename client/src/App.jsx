@@ -44,6 +44,7 @@ import { ProductProvider } from './context/ProductContext';
 import { CategoryProvider } from './context/CategoryContext';
 import { CartProvider, useCart } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { ConfirmationProvider } from './context/ConfirmationContext';
 import CartDrawer from './components/cart/CartDrawer';
 import WishlistDrawer from './components/wishlist/WishlistDrawer';
 
@@ -179,7 +180,8 @@ export default function App() {
             <CategoryProvider>
               <CartProvider>
                 <WishlistProvider>
-                  <BrowserRouter>
+                  <ConfirmationProvider>
+                    <BrowserRouter>
                     <ScrollToTop />
                     
                     <Suspense fallback={<PageLoader />}>
@@ -381,6 +383,7 @@ export default function App() {
                   )}
 
                 </BrowserRouter>
+                </ConfirmationProvider>
               </WishlistProvider>
             </CartProvider>
           </CategoryProvider>

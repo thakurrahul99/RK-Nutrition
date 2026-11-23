@@ -1,5 +1,6 @@
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   Terminal, 
   LayoutTemplate, 
@@ -25,11 +26,22 @@ const DEV_NAV_ITEMS = [
 
 export default function SuperAdminSidebar({ isOpen, onClose }) {
   const { logout, adminUser } = useAuth();
+  const { confirm } = useConfirmation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/super-admin/login', { replace: true });
+  const handleLogout = async () => {
+    const confirmed = await confirm({
+      title: 'Terminate Super Admin Session?',
+      message: 'Are you sure you want to terminate your developer root session?',
+      confirmText: 'Terminate Session',
+      cancelText: 'Stay Signed In',
+      variant: 'danger',
+      icon: LogOut
+    });
+    if (confirmed) {
+      logout();
+      navigate('/super-admin/login', { replace: true });
+    }
   };
 
   return (

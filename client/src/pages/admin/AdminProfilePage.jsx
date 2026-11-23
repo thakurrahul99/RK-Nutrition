@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   Lock, 
   Key, 
@@ -13,11 +14,22 @@ import {
 
 export default function AdminProfilePage() {
   const { adminUser, updateProfile, changePassword, logout } = useAuth();
+  const { confirm } = useConfirmation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/admin/login', { replace: true });
+  const handleLogout = async () => {
+    const confirmed = await confirm({
+      title: 'Sign Out of Store Admin?',
+      message: 'Are you sure you want to sign out of your administrator account?',
+      confirmText: 'Sign Out',
+      cancelText: 'Stay Signed In',
+      variant: 'danger',
+      icon: LogOut
+    });
+    if (confirmed) {
+      logout();
+      navigate('/admin/login', { replace: true });
+    }
   };
 
   // Profile Form State

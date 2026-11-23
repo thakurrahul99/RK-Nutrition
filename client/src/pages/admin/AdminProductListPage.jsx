@@ -4,6 +4,7 @@ import { useProducts } from '../../context/ProductContext';
 import { useCategories } from '../../context/CategoryContext';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   Package, 
   Plus, 
@@ -23,6 +24,7 @@ export default function AdminProductListPage() {
   const { adminCategories } = useCategories();
   const { showToast } = useContent();
   const { logActivity } = useAuth();
+  const { confirm } = useConfirmation();
   const [searchParams] = useSearchParams();
 
   // Search & Filter state
@@ -95,8 +97,16 @@ export default function AdminProductListPage() {
     }
   };
 
-  const handleResetCatalog = () => {
-    if (window.confirm('Reset catalog to the three verified foundational RK Nutrition products?')) {
+  const handleResetCatalog = async () => {
+    const confirmed = await confirm({
+      title: 'Reset Product Catalog?',
+      message: 'Are you sure you want to reset the catalog to the three verified foundational RK Nutrition products?',
+      confirmText: 'Reset Catalog',
+      cancelText: 'Cancel',
+      variant: 'danger',
+      icon: RotateCcw
+    });
+    if (confirmed) {
       resetProductsToDefault();
       showToast('Catalog restored to default foundational lineup.', 'info');
       logActivity('Restored foundational product catalog', 'products');

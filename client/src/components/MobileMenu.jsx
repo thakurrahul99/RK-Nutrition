@@ -5,6 +5,7 @@ import { useContent } from '../context/ContentContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
+import { useConfirmation } from '../context/ConfirmationContext';
 
 export default function MobileMenu({
   isOpen,
@@ -16,12 +17,23 @@ export default function MobileMenu({
   const { openCart, itemCount } = useCart();
   const { openWishlist, wishlistCount } = useWishlist();
   const { user, isAuthenticated, logout } = useAuth();
+  const { confirm } = useConfirmation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    onClose();
-    navigate('/login', { replace: true });
+  const handleLogout = async () => {
+    const confirmed = await confirm({
+      title: 'Sign Out of RK Nutrition?',
+      message: 'Are you sure you want to sign out of your athlete profile?',
+      confirmText: 'Sign Out',
+      cancelText: 'Stay Signed In',
+      variant: 'danger',
+      icon: LogOut
+    });
+    if (confirmed) {
+      logout();
+      onClose();
+      navigate('/login', { replace: true });
+    }
   };
 
   useEffect(() => {

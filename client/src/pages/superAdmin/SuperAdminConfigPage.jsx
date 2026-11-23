@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { apiRequest } from '../../services/api';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   Cpu, 
   Database, 
@@ -19,6 +20,7 @@ import {
 export default function SuperAdminConfigPage() {
   const { content, updateAdvanced, showToast } = useContent();
   const { logActivity } = useAuth();
+  const { confirm } = useConfirmation();
 
   const [activeTab, setActiveTab] = useState('gateway'); // gateway | seo | system | logs | backup
   const [isSaving, setIsSaving] = useState(false);
@@ -195,7 +197,15 @@ export default function SuperAdminConfigPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!window.confirm(`Warning: Restoring "${file.name}" will overwrite current store products and settings. Continue?`)) {
+    const confirmed = await confirm({
+      title: 'Restore Database Snapshot?',
+      message: `Warning: Restoring "${file.name}" will overwrite current store products, categories, and settings. Continue?`,
+      confirmText: 'Overwrite & Restore',
+      cancelText: 'Cancel',
+      variant: 'danger',
+      icon: AlertTriangle
+    });
+    if (!confirmed) {
       if (restoreFileInputRef.current) restoreFileInputRef.current.value = '';
       return;
     }

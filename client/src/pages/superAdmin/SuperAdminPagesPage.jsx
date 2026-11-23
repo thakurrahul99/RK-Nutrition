@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   FileCode2, 
   Plus, 
@@ -18,6 +19,7 @@ import {
 export default function SuperAdminPagesPage() {
   const { content, updatePages, showToast } = useContent();
   const { logActivity } = useAuth();
+  const { confirm } = useConfirmation();
 
   const [activeTab, setActiveTab] = useState('faq'); // faq | about | contact | shipping | legal
   const [isSaving, setIsSaving] = useState(false);
@@ -94,8 +96,16 @@ export default function SuperAdminPagesPage() {
     setFaqList(updated);
   };
 
-  const handleDeleteFaq = (id) => {
-    if (window.confirm('Delete this question permanently?')) {
+  const handleDeleteFaq = async (id) => {
+    const confirmed = await confirm({
+      title: 'Delete FAQ Question?',
+      message: 'Are you sure you want to delete this question permanently?',
+      confirmText: 'Delete Question',
+      cancelText: 'Cancel',
+      variant: 'danger',
+      icon: Trash2
+    });
+    if (confirmed) {
       setFaqList(faqList.filter((f) => f.id !== id));
     }
   };

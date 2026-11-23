@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { apiRequest } from '../../services/api';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   ClipboardList, 
   Search, 
@@ -20,6 +21,7 @@ import {
 export default function AdminOrdersPage() {
   const { showToast } = useContent();
   const { logActivity } = useAuth();
+  const { confirm } = useConfirmation();
 
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -113,7 +115,15 @@ export default function AdminOrdersPage() {
   };
 
   const handleDeleteOrder = async (orderId) => {
-    if (!window.confirm(`Permanently delete Order #${orderId}? This cannot be undone.`)) return;
+    const confirmed = await confirm({
+      title: `Delete Order #${orderId}?`,
+      message: 'Are you sure you want to permanently delete this order record? This action cannot be undone.',
+      confirmText: 'Delete Order',
+      cancelText: 'Keep Order',
+      variant: 'danger',
+      icon: Trash2
+    });
+    if (!confirmed) return;
 
     const res = await apiRequest(`/orders/${orderId}`, {
       method: 'DELETE'

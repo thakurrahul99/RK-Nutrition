@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { apiRequest } from '../../services/api';
 import { useContent } from '../../context/ContentContext';
 import { useAuth } from '../../context/AuthContext';
+import { useConfirmation } from '../../context/ConfirmationContext';
 import { 
   Tag, 
   Plus, 
@@ -16,6 +17,7 @@ import {
 export default function AdminDiscountsPage() {
   const { showToast } = useContent();
   const { logActivity } = useAuth();
+  const { confirm } = useConfirmation();
 
   const [coupons, setCoupons] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +65,15 @@ export default function AdminDiscountsPage() {
   };
 
   const handleDelete = async (coupon) => {
-    if (!window.confirm(`Delete coupon "${coupon.code}" permanently?`)) return;
+    const confirmed = await confirm({
+      title: `Delete Coupon "${coupon.code}"?`,
+      message: `Are you sure you want to permanently remove promo code "${coupon.code}"? Customers will no longer be able to redeem this discount.`,
+      confirmText: 'Delete Coupon',
+      cancelText: 'Keep Coupon',
+      variant: 'danger',
+      icon: Trash2
+    });
+    if (!confirmed) return;
 
     const res = await apiRequest(`/discounts/${coupon.id}`, {
       method: 'DELETE'
