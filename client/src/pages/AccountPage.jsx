@@ -822,14 +822,21 @@ export default function AccountPage() {
 
                       {/* Shipping info if dispatched */}
                       {order.tracking?.trackingNumber && (
-                        <div className="p-3 bg-[#1A1A1A] border border-[#2E2E2E] flex items-center justify-between text-xs font-mono">
+                        <div className="p-3 bg-[#1A1A1A] border border-[#2E2E2E] flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                           <div className="flex items-center gap-2 text-purple-400">
                             <Truck className="w-4 h-4" />
                             <span>Courier: {order.tracking.carrier || 'Express Logistics'}</span>
                           </div>
-                          <span className="text-[#F5F4F2]">
-                            Tracking Ref: <span className="font-bold underline">{order.tracking.trackingNumber}</span>
-                          </span>
+                          <div className="flex items-center gap-3">
+                            {order.tracking.estimatedDelivery && (
+                              <span className="text-[#8C8C8C]">
+                                Est. Delivery: <span className="text-[#4CAF50] font-bold">{order.tracking.estimatedDelivery}</span>
+                              </span>
+                            )}
+                            <span className="text-[#F5F4F2]">
+                              Tracking Ref: <span className="font-bold underline">{order.tracking.trackingNumber}</span>
+                            </span>
+                          </div>
                         </div>
                       )}
 
@@ -1261,6 +1268,11 @@ export default function AccountPage() {
                   <p className="text-[#A3A3A3]">
                     Tracking Number: <span className="text-[#F5F4F2] font-bold">{selectedOrder.tracking.trackingNumber}</span>
                   </p>
+                  {selectedOrder.tracking.estimatedDelivery && (
+                    <p className="text-[#A3A3A3]">
+                      Estimated Delivery: <span className="text-[#4CAF50] font-bold">{selectedOrder.tracking.estimatedDelivery}</span>
+                    </p>
+                  )}
                 </div>
               )}
 

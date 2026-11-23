@@ -54,7 +54,8 @@ const orderSchema = new mongoose.Schema({
   tracking: {
     carrier: { type: String, default: '', trim: true },
     trackingNumber: { type: String, default: '', trim: true },
-    shippedAt: { type: Date, default: null }
+    shippedAt: { type: Date, default: null },
+    estimatedDelivery: { type: String, default: '', trim: true }
   },
   paymentDetails: {
     gateway: { type: String, default: 'razorpay' },

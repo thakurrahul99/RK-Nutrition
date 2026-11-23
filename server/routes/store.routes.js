@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
-import { getDb, saveDb, addLog, Inquiry, Newsletter, StoreSettings } from '../config/db.js';
+import { getDb, saveDb, addLog, Inquiry, Newsletter, StoreSettings, Order } from '../config/db.js';
 import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
 import { isValidEmail, sanitizeInput } from '../utils/security.js';
 
@@ -52,18 +52,33 @@ router.put('/settings', authenticateToken, requireClientAdmin, async (req, res) 
 });
 
 // GET /api/store/reports & /api/store/analytics (Sales & Inventory Analytics)
-const handleReports = (req, res) => {
+const handleReports = async (req, res) => {
   const db = getDb();
-  const orders = db.orders || [];
+  let orders = [];
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const mongoOrders = await Order.find().lean();
+      if (Array.isArray(mongoOrders)) {
+        orders = mongoOrders;
+      }
+    } catch (e) {
+      console.warn('[Store Route] Failed to query Mongo orders for reports:', e.message);
+    }
+  }
+
+  if (orders.length === 0) {
+    orders = db.orders || [];
+  }
 
   const totalOrders = orders.length;
-  const totalRevenue = orders.reduce((sum, o) => (o.paymentStatus === 'PAID' ? sum + o.total : sum), 0);
-  const pendingOrders = orders.filter((o) => o.orderStatus === 'PENDING').length;
+  const totalRevenue = orders.reduce((sum, o) => (o.paymentStatus === 'PAID' ? sum + (o.total || 0) : sum), 0);
+  const pendingOrders = orders.filter((o) => o.orderStatus === 'PENDING' || o.orderStatus === 'CONFIRMED').length;
   const completedOrders = orders.filter((o) => o.orderStatus === 'DELIVERED').length;
 
   // Breakdown by payment method
   const codOrders = orders.filter((o) => o.paymentMethod === 'COD').length;
-  const prepaidOrders = orders.filter((o) => o.paymentMethod === 'UPI' || o.paymentMethod === 'CARD').length;
+  const prepaidOrders = orders.filter((o) => o.paymentMethod === 'UPI' || o.paymentMethod === 'CARD' || o.paymentMethod === 'RAZORPAY').length;
 
   // Category sales breakdown
   const categorySales = { protein: 0, 'mass-gainer': 0, 'pre-workout': 0, creatine: 0 };

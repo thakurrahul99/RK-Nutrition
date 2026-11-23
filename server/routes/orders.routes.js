@@ -12,12 +12,86 @@ const publicLookupAttempts = new Map();
 const PUBLIC_LOOKUP_WINDOW_MS = 15 * 60 * 1000;
 const PUBLIC_LOOKUP_MAX_ATTEMPTS = 10;
 
+// Helper to look up an order from MongoDB first, then fallback to db.orders
+async function findOrder(id, db) {
+  let order = null;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const doc = await Order.findOne({
+        $or: [
+          { id },
+          { orderNumber: Number(id) || -1 },
+          ...(mongoose.Types.ObjectId.isValid(id) ? [{ _id: id }] : [])
+        ]
+      }).lean();
+      if (doc) {
+        order = doc;
+      }
+    } catch (e) {
+      console.warn('[Orders Route] Order lookup in MongoDB failed:', e.message);
+    }
+  }
+
+  if (!order) {
+    order = (db.orders || []).find((o) => o.id === id || String(o.orderNumber) === id || String(o._id) === id) || null;
+  }
+
+  return order;
+}
+
+// Helper to synchronize order changes across MongoDB and local cache
+async function syncOrderUpdate(order, db) {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const { _id, __v, ...updateData } = order;
+      await Order.findOneAndUpdate(
+        { $or: [{ id: order.id }, { orderNumber: order.orderNumber }] },
+        { $set: updateData },
+        { new: true, upsert: true }
+      );
+    } catch (err) {
+      console.error('[Orders Route] MongoDB syncOrderUpdate error:', err.message);
+    }
+  }
+
+  db.orders = db.orders || [];
+  const idx = db.orders.findIndex((o) => o.id === order.id || o.orderNumber === order.orderNumber);
+  if (idx !== -1) {
+    db.orders[idx] = order;
+  } else {
+    db.orders.unshift(order);
+  }
+  saveDb(db);
+}
+
 // GET /api/orders (Client Admin list with search and filters)
 router.get('/', authenticateToken, requireClientAdmin, async (req, res) => {
   try {
-    const { status, paymentMethod, paymentStatus, search, page = 1, limit = 50 } = req.query;
-    const db = getDb();
-    let orders = [...(db.orders || [])];
+    const { status, paymentMethod, paymentStatus, search, page = 1, limit = 500 } = req.query;
+    let orders = [];
+
+    // 1. Authoritative lookup from MongoDB Atlas
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const mongoOrders = await Order.find().sort({ createdAt: -1 }).lean();
+        if (Array.isArray(mongoOrders)) {
+          orders = mongoOrders;
+          // Keep in-memory cache synchronized with authoritative MongoDB state
+          const db = getDb();
+          db.orders = mongoOrders;
+          saveDb(db);
+        }
+      } catch (e) {
+        console.warn('[Orders Route] MongoDB query failed, falling back to cache:', e.message);
+      }
+    }
+
+    // 2. Fallback to cache if MongoDB is offline or disconnected
+    if (!orders || orders.length === 0) {
+      const db = getDb();
+      orders = [...(db.orders || [])];
+    }
 
     if (status && status !== 'all') {
       orders = orders.filter((o) => o.orderStatus?.toLowerCase() === status.toLowerCase());
@@ -35,8 +109,8 @@ router.get('/', authenticateToken, requireClientAdmin, async (req, res) => {
       const q = search.trim().toLowerCase();
       orders = orders.filter(
         (o) =>
-          o.id.toLowerCase().includes(q) ||
-          String(o.orderNumber).includes(q) ||
+          o.id?.toLowerCase().includes(q) ||
+          String(o.orderNumber || '').includes(q) ||
           o.customer?.name?.toLowerCase().includes(q) ||
           o.customer?.email?.toLowerCase().includes(q) ||
           o.customer?.phone?.includes(q) ||
@@ -48,7 +122,7 @@ router.get('/', authenticateToken, requireClientAdmin, async (req, res) => {
     orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const pageNum = Math.max(1, parseInt(page, 10) || 1);
-    const limitNum = Math.max(1, parseInt(limit, 10) || 50);
+    const limitNum = Math.max(1, parseInt(limit, 10) || 500);
     const totalCount = orders.length;
     const paginatedOrders = orders.slice((pageNum - 1) * limitNum, pageNum * limitNum);
 
@@ -178,27 +252,32 @@ router.get('/public/:id', async (req, res) => {
 });
 
 // GET /api/orders/:id (Order Details)
-router.get('/:id', optionalAuthenticateToken, (req, res) => {
-  const { id } = req.params;
-  const db = getDb();
-  const order = (db.orders || []).find((o) => o.id === id || String(o.orderNumber) === id);
+router.get('/:id', optionalAuthenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const db = getDb();
+    const order = await findOrder(id, db);
 
-  if (!order) {
-    return res.status(404).json({ success: false, error: 'Order not found.' });
+    if (!order) {
+      return res.status(404).json({ success: false, error: 'Order not found.' });
+    }
+
+    // Authorization check: Admin or Order owner
+    const isAdmin = req.user?.role === 'CLIENT_ADMIN' || req.user?.role === 'SUPER_ADMIN';
+    const isOwner = req.user && (order.userId === req.user.id || order.customer?.email?.toLowerCase() === (req.user.email || '').toLowerCase());
+
+    if (!isAdmin && !isOwner) {
+      return res.status(403).json({ success: false, error: 'Access denied: You cannot view this order.' });
+    }
+
+    res.json({
+      success: true,
+      order
+    });
+  } catch (err) {
+    console.error('Order retrieval error:', err);
+    res.status(500).json({ success: false, error: 'Failed to retrieve order details.' });
   }
-
-  // Authorization check: Admin or Order owner
-  const isAdmin = req.user?.role === 'CLIENT_ADMIN' || req.user?.role === 'SUPER_ADMIN';
-  const isOwner = req.user && (order.userId === req.user.id || order.customer?.email?.toLowerCase() === req.user.email?.toLowerCase());
-
-  if (!isAdmin && !isOwner) {
-    return res.status(403).json({ success: false, error: 'Access denied: You cannot view this order.' });
-  }
-
-  res.json({
-    success: true,
-    order
-  });
 });
 
 // POST /api/orders (Customer Checkout Creation)
@@ -328,10 +407,22 @@ router.post('/', optionalAuthenticateToken, async (req, res) => {
     const total = Math.max(0, subtotal - discount + shippingFee);
 
     // 8. Generate Order Reference
-    const lastOrderNumber = (db.orders || []).length > 0
-      ? Math.max(...db.orders.map((o) => o.orderNumber || 1000))
-      : 1000;
-    const newOrderNumber = lastOrderNumber + 1;
+    let maxOrderNumber = 1000;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const topOrder = await Order.findOne().sort({ orderNumber: -1 }).select('orderNumber').lean();
+        if (topOrder && typeof topOrder.orderNumber === 'number') {
+          maxOrderNumber = Math.max(maxOrderNumber, topOrder.orderNumber);
+        }
+      } catch (e) {
+        console.warn('Could not query top order number from Mongo:', e.message);
+      }
+    }
+    if (Array.isArray(db.orders) && db.orders.length > 0) {
+      const localMax = Math.max(...db.orders.map((o) => o.orderNumber || 1000));
+      maxOrderNumber = Math.max(maxOrderNumber, localMax);
+    }
+    const newOrderNumber = maxOrderNumber + 1;
     const newOrderId = `ORD-${new Date().getFullYear()}-${newOrderNumber}`;
 
     const newOrder = {
@@ -360,7 +451,8 @@ router.post('/', optionalAuthenticateToken, async (req, res) => {
       tracking: {
         carrier: '',
         trackingNumber: '',
-        shippedAt: null
+        shippedAt: null,
+        estimatedDelivery: ''
       },
       createdAt: new Date().toISOString()
     };
@@ -368,6 +460,14 @@ router.post('/', optionalAuthenticateToken, async (req, res) => {
     // Persist to MongoDB as authoritative source of truth
     if (mongoose.connection.readyState === 1) {
       await Order.create(newOrder);
+
+      // Persist updated product inventory levels to MongoDB
+      for (const { product } of stockUpdates) {
+        Product.findOneAndUpdate(
+          { $or: [{ id: product.id }, { sku: product.sku }] },
+          { $set: { stock: product.stock, availability: product.availability, variants: product.variants } }
+        ).catch((e) => console.warn('Product stock deduction Mongo error:', e.message));
+      }
     } else if (process.env.NODE_ENV === 'production') {
       return res.status(503).json({
         success: false,
@@ -402,17 +502,15 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const db = getDb();
-    const orderIndex = (db.orders || []).findIndex((o) => o.id === id || String(o.orderNumber) === id);
+    const order = await findOrder(id, db);
 
-    if (orderIndex === -1) {
+    if (!order) {
       return res.status(404).json({ success: false, error: 'Order not found.' });
     }
 
-    const order = db.orders[orderIndex];
-
     // Authorization
     const isAdmin = req.user?.role === 'CLIENT_ADMIN' || req.user?.role === 'SUPER_ADMIN';
-    const isOwner = req.user && (order.userId === req.user.id || order.customer?.email?.toLowerCase() === req.user.email?.toLowerCase());
+    const isOwner = req.user && (order.userId === req.user.id || order.customer?.email?.toLowerCase() === (req.user.email || '').toLowerCase());
 
     if (!isAdmin && !isOwner) {
       return res.status(403).json({ success: false, error: 'Unauthorized to cancel this order.' });
@@ -445,6 +543,13 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
             variant.stock += item.quantity || 1;
           }
         }
+
+        if (mongoose.connection.readyState === 1) {
+          Product.findOneAndUpdate(
+            { $or: [{ id: product.id }, { sku: product.sku }] },
+            { $set: { stock: product.stock, availability: product.availability, variants: product.variants } }
+          ).catch((e) => console.warn('Product stock sync on cancel error:', e.message));
+        }
       }
     }
 
@@ -452,12 +557,7 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
     order.cancelledAt = new Date().toISOString();
     order.cancelledBy = req.user ? `${req.user.name} (${req.user.role})` : 'Customer';
 
-    db.orders[orderIndex] = order;
-    saveDb(db);
-
-    if (mongoose.connection.readyState === 1) {
-      await Order.findOneAndUpdate({ id: order.id }, order).catch(() => {});
-    }
+    await syncOrderUpdate(order, db);
 
     addLog('INFO', 'ORDERS', `Order ${order.id} cancelled. Inventory restored.`, req.user);
 
@@ -476,15 +576,13 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
 router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const { orderStatus, paymentStatus, carrier, trackingNumber } = req.body;
+    const { orderStatus, paymentStatus, carrier, trackingNumber, estimatedDelivery } = req.body;
     const db = getDb();
 
-    const index = (db.orders || []).findIndex((o) => o.id === id || String(o.orderNumber) === id);
-    if (index === -1) {
+    const order = await findOrder(id, db);
+    if (!order) {
       return res.status(404).json({ success: false, error: 'Order not found.' });
     }
-
-    const order = db.orders[index];
 
     // If changing to CANCELLED from another status, restore inventory
     if (orderStatus && orderStatus === 'CANCELLED' && order.orderStatus !== 'CANCELLED') {
@@ -505,6 +603,12 @@ router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res
               variant.stock += item.quantity || 1;
             }
           }
+          if (mongoose.connection.readyState === 1) {
+            Product.findOneAndUpdate(
+              { $or: [{ id: product.id }, { sku: product.sku }] },
+              { $set: { stock: product.stock, availability: product.availability, variants: product.variants } }
+            ).catch((e) => console.warn('Product stock sync on cancel status error:', e.message));
+          }
         }
       }
       order.cancelledAt = new Date().toISOString();
@@ -515,7 +619,7 @@ router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res
     if (paymentStatus) order.paymentStatus = paymentStatus;
 
     if (!order.tracking) {
-      order.tracking = { carrier: '', trackingNumber: '', shippedAt: null };
+      order.tracking = { carrier: '', trackingNumber: '', shippedAt: null, estimatedDelivery: '' };
     }
 
     if (carrier !== undefined) order.tracking.carrier = carrier.trim();
@@ -528,13 +632,11 @@ router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res
         }
       }
     }
-
-    db.orders[index] = order;
-    saveDb(db);
-
-    if (mongoose.connection.readyState === 1) {
-      await Order.findOneAndUpdate({ id: order.id }, order).catch(() => {});
+    if (estimatedDelivery !== undefined) {
+      order.tracking.estimatedDelivery = estimatedDelivery.trim();
     }
+
+    await syncOrderUpdate(order, db);
 
     addLog('INFO', 'ORDERS', `Order ${order.id} updated: Status=${order.orderStatus}, Payment=${order.paymentStatus} by ${req.user.name}`);
 
@@ -555,14 +657,13 @@ router.put('/:id/tracking', authenticateToken, requireClientAdmin, async (req, r
     const { carrier, trackingNumber, estimatedDelivery } = req.body;
     const db = getDb();
 
-    const index = (db.orders || []).findIndex((o) => o.id === id || String(o.orderNumber) === id);
-    if (index === -1) {
+    const order = await findOrder(id, db);
+    if (!order) {
       return res.status(404).json({ success: false, error: 'Order not found.' });
     }
 
-    const order = db.orders[index];
     if (!order.tracking) {
-      order.tracking = { carrier: '', trackingNumber: '', shippedAt: null };
+      order.tracking = { carrier: '', trackingNumber: '', shippedAt: null, estimatedDelivery: '' };
     }
 
     if (carrier !== undefined) order.tracking.carrier = carrier.trim();
@@ -579,12 +680,7 @@ router.put('/:id/tracking', authenticateToken, requireClientAdmin, async (req, r
       order.tracking.estimatedDelivery = estimatedDelivery.trim();
     }
 
-    db.orders[index] = order;
-    saveDb(db);
-
-    if (mongoose.connection.readyState === 1) {
-      await Order.findOneAndUpdate({ id: order.id }, order).catch(() => {});
-    }
+    await syncOrderUpdate(order, db);
 
     addLog('INFO', 'ORDERS', `Tracking updated for Order ${order.id}: ${order.tracking.carrier} - ${order.tracking.trackingNumber} by ${req.user.name}`);
 
@@ -603,24 +699,30 @@ router.delete('/:id', authenticateToken, requireClientAdmin, async (req, res) =>
   try {
     const { id } = req.params;
     const db = getDb();
-    const index = (db.orders || []).findIndex((o) => o.id === id || String(o.orderNumber) === id);
 
-    if (index === -1) {
+    const order = await findOrder(id, db);
+    if (!order) {
       return res.status(404).json({ success: false, error: 'Order not found.' });
     }
 
-    const deleted = db.orders.splice(index, 1)[0];
-    saveDb(db);
-
     if (mongoose.connection.readyState === 1) {
-      await Order.deleteOne({ id: deleted.id }).catch(() => {});
+      await Order.deleteOne({
+        $or: [
+          { id: order.id },
+          { orderNumber: order.orderNumber },
+          ...(mongoose.Types.ObjectId.isValid(id) ? [{ _id: id }] : [])
+        ]
+      }).catch((e) => console.warn('Order delete Mongo error:', e.message));
     }
 
-    addLog('WARN', 'ORDERS', `Deleted order ${deleted.id} by ${req.user.name}`);
+    db.orders = (db.orders || []).filter((o) => o.id !== order.id && o.orderNumber !== order.orderNumber);
+    saveDb(db);
+
+    addLog('WARN', 'ORDERS', `Deleted order ${order.id} by ${req.user.name}`);
 
     res.json({
       success: true,
-      message: `Order #${deleted.id} deleted successfully.`
+      message: `Order #${order.id} deleted successfully.`
     });
   } catch (err) {
     console.error('Order delete error:', err);

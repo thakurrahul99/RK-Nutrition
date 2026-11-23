@@ -38,7 +38,7 @@ export default function AdminOrdersPage() {
 
   const fetchOrders = async () => {
     setIsLoading(true);
-    const res = await apiRequest('/orders');
+    const res = await apiRequest('/orders?limit=1000');
     if (res.success && Array.isArray(res.orders)) {
       setOrders(res.orders);
     }
@@ -51,10 +51,14 @@ export default function AdminOrdersPage() {
 
   const openOrderDetails = (order) => {
     setSelectedOrder(order);
+    let est = order.tracking?.estimatedDelivery || '';
+    if (est && est.includes('T')) {
+      est = est.split('T')[0];
+    }
     setTrackingForm({
       carrier: order.tracking?.carrier || 'Delhivery',
       trackingNumber: order.tracking?.trackingNumber || '',
-      estimatedDelivery: order.tracking?.estimatedDelivery || ''
+      estimatedDelivery: est
     });
   };
 
@@ -362,6 +366,12 @@ export default function AdminOrdersPage() {
                     {/* Status */}
                     <td className="py-3 px-4">
                       {statusBadge}
+                      {order.tracking?.trackingNumber && (
+                        <div className="font-mono text-[10px] text-[#2196F3] mt-1 flex items-center gap-1">
+                          <Truck className="w-3 h-3 shrink-0" />
+                          <span className="truncate max-w-[120px]">{order.tracking.carrier || 'AWB'}: {order.tracking.trackingNumber}</span>
+                        </div>
+                      )}
                     </td>
 
                     {/* Actions */}
@@ -598,9 +608,16 @@ export default function AdminOrdersPage() {
 
               {/* Shipping Tracking Update Form */}
               <form onSubmit={handleSaveTracking} className="p-4 bg-[#111111] border border-[#242424] space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono text-[#E11D2E] uppercase font-bold">
-                  <Truck className="w-4 h-4" />
-                  <span>Carrier & Dispatch Tracking</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#E11D2E] uppercase font-bold">
+                    <Truck className="w-4 h-4" />
+                    <span>Carrier & Dispatch Tracking</span>
+                  </div>
+                  {selectedOrder.tracking?.trackingNumber && (
+                    <span className="text-[10px] font-mono px-2 py-0.5 bg-[#2196F3]/10 border border-[#2196F3]/30 text-[#2196F3]">
+                      Synced & Dispatched
+                    </span>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

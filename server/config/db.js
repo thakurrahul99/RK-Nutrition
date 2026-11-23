@@ -810,7 +810,7 @@ export const syncFromMongoToMemory = async () => {
     if (products && products.length > 0) db.products = products;
     if (categories && categories.length > 0) db.categories = categories;
     if (users && users.length > 0) db.users = users;
-    if (orders && orders.length > 0) db.orders = orders;
+    if (Array.isArray(orders)) db.orders = orders;
     if (coupons && coupons.length > 0) db.coupons = coupons;
     if (settings) {
       db.storeSettings = { ...db.storeSettings, ...settings };
