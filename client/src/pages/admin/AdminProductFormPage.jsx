@@ -236,14 +236,17 @@ export default function AdminProductFormPage() {
 
   // --- Variant Handlers ---
   const addVariant = () => {
+    const nextIdx = formData.variants.length + 1;
+    const baseSku = formData.sku.trim() ? formData.sku.trim().toUpperCase() : 'RK';
     const newVar = {
       id: `var-${Date.now()}`,
-      name: '',
+      name: `Option ${nextIdx}`,
       flavour: '',
       size: '',
-      sku: '',
+      sku: `${baseSku}-V${nextIdx}`,
       price: formData.price ? Number(formData.price) : 0,
-      salePrice: formData.salePrice ? Number(formData.salePrice) : null
+      salePrice: formData.salePrice ? Number(formData.salePrice) : null,
+      stock: 20
     };
     setFormData((prev) => ({
       ...prev,
@@ -273,14 +276,18 @@ export default function AdminProductFormPage() {
     const errors = [];
 
     // 1. Name
-    if (!formData.name.trim()) {
+    const cleanName = formData.name.trim();
+    if (!cleanName) {
       errors.push('Product name is required.');
-    } else if (formData.name.trim().length < 3) {
+    } else if (cleanName.length < 3) {
       errors.push('Product name must be at least 3 characters.');
     }
 
     // 2. Slug
-    const cleanSlug = formData.slug.trim().toLowerCase();
+    let cleanSlug = formData.slug.trim().toLowerCase();
+    if (!cleanSlug && cleanName) {
+      cleanSlug = cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
     if (!cleanSlug) {
       errors.push('Product slug is required.');
     } else if (!isSlugUnique(cleanSlug, isEditMode ? existingProduct?.id : null)) {
@@ -293,7 +300,11 @@ export default function AdminProductFormPage() {
     }
 
     // 4. SKU
-    const cleanSku = formData.sku.trim();
+    let cleanSku = formData.sku.trim().toUpperCase();
+    if (!cleanSku && cleanName) {
+      const prefix = cleanName.replace(/[^A-Za-z0-9]/g, '').slice(0, 4).toUpperCase() || 'RK';
+      cleanSku = `RK-${prefix}-${Date.now().toString().slice(-4)}`;
+    }
     if (!cleanSku) {
       errors.push('SKU / Product Code is required.');
     } else if (!isSkuUnique(cleanSku, isEditMode ? existingProduct?.id : null)) {
@@ -323,10 +334,31 @@ export default function AdminProductFormPage() {
 
     setIsSubmitting(true);
 
+    // Sanitize variants before sending to server
+    const cleanVariants = (formData.variants || [])
+      .filter((v) => v && (v.name || v.flavour || v.size || v.sku || v.price))
+      .map((v, i) => {
+        const flavour = v.flavour?.trim() || '';
+        const size = v.size?.trim() || '';
+        const autoName = [flavour, size].filter(Boolean).join(' - ') || `Option ${i + 1}`;
+        const autoSku = `${cleanSku}-V${i + 1}`;
+        return {
+          ...v,
+          id: v.id || `var-${Date.now()}-${i + 1}`,
+          name: v.name?.trim() || autoName,
+          flavour,
+          size,
+          sku: v.sku?.trim() ? v.sku.trim().toUpperCase() : autoSku,
+          price: v.price !== '' && !isNaN(Number(v.price)) ? Number(v.price) : numericPrice,
+          salePrice: v.salePrice !== '' && v.salePrice !== null && !isNaN(Number(v.salePrice)) ? Number(v.salePrice) : null,
+          stock: v.stock !== '' && !isNaN(Number(v.stock)) ? Number(v.stock) : 20
+        };
+      });
+
     // Prepare payload
     const payload = {
       ...formData,
-      name: formData.name.trim(),
+      name: cleanName,
       slug: cleanSlug,
       sku: cleanSku,
       price: numericPrice,
@@ -334,6 +366,7 @@ export default function AdminProductFormPage() {
       shortDescription: formData.shortDescription.trim(),
       fullDescription: formData.fullDescription.trim(),
       description: formData.shortDescription.trim() || formData.fullDescription.trim(),
+      variants: cleanVariants,
       // Additional Info block for backwards-compatibility with shop detail views
       additionalInfo: {
         productInfo: formData.fullDescription.trim() || formData.shortDescription.trim(),

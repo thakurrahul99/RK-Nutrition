@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 const variantSchema = new mongoose.Schema({
-  id: { type: String, required: true },
-  name: { type: String, required: true, trim: true },
+  id: { type: String, default: () => `var-${Date.now()}-${Math.random().toString(36).substring(2, 6)}` },
+  name: { type: String, default: 'Standard', trim: true },
   flavour: { type: String, trim: true, default: '' },
   size: { type: String, trim: true, default: '' },
-  sku: { type: String, required: true, uppercase: true, trim: true },
-  price: { type: Number, required: true, min: 0 },
+  sku: { type: String, uppercase: true, trim: true, default: '' },
+  price: { type: Number, default: 0, min: 0 },
   salePrice: { type: Number, default: null, min: 0 },
   stock: { type: Number, default: 20, min: 0 }
 });

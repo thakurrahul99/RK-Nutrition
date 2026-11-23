@@ -100,6 +100,41 @@ router.get('/:id', optionalAuthenticateToken, (req, res) => {
   });
 });
 
+// Helper to sanitize and normalize formulation variants
+const sanitizeVariantsList = (rawVariants, productSku, productPrice, defaultStock = 20) => {
+  if (!Array.isArray(rawVariants)) return [];
+  return rawVariants
+    .filter((v) => v && (v.name || v.flavour || v.size || v.sku || v.price))
+    .map((v, idx) => {
+      const flavour = sanitizeInput(v.flavour?.trim() || '');
+      const size = sanitizeInput(v.size?.trim() || '');
+      const autoName = [flavour, size].filter(Boolean).join(' - ') || `Option ${idx + 1}`;
+      const name = sanitizeInput(v.name?.trim() || autoName);
+      const autoSku = `${productSku}-V${idx + 1}${flavour ? '-' + flavour.replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() : ''}`;
+      const sku = sanitizeInput(v.sku?.trim() || autoSku).toUpperCase();
+      const price = (v.price !== undefined && v.price !== null && v.price !== '' && !isNaN(Number(v.price)))
+        ? Number(v.price)
+        : Number(productPrice) || 0;
+      const salePrice = (v.salePrice !== undefined && v.salePrice !== null && v.salePrice !== '' && !isNaN(Number(v.salePrice)))
+        ? Number(v.salePrice)
+        : null;
+      const stock = (v.stock !== undefined && v.stock !== null && v.stock !== '' && !isNaN(Number(v.stock)))
+        ? Number(v.stock)
+        : defaultStock;
+
+      return {
+        id: v.id || `var-${Date.now()}-${idx + 1}`,
+        name,
+        flavour,
+        size,
+        sku,
+        price,
+        salePrice,
+        stock
+      };
+    });
+};
+
 // POST /api/products (Create Product - Admin)
 router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
   try {
@@ -120,15 +155,31 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
       return res.status(400).json({ success: false, error: `Product slug "${slug}" is already in use.` });
     }
 
-    const sku = (data.sku || `RK-${Date.now()}`).trim().toUpperCase();
+    const sku = (data.sku || `RK-${Date.now().toString().slice(-6)}`).trim().toUpperCase();
     if (db.products.some((p) => p.sku === sku)) {
       return res.status(400).json({ success: false, error: `SKU "${sku}" is already assigned to another product.` });
+    }
+
+    // Check MongoDB for collision if connected
+    if (mongoose.connection.readyState === 1) {
+      const existingInMongo = await Product.findOne({ $or: [{ slug }, { id: slug }, { sku }] }).select('name slug sku');
+      if (existingInMongo) {
+        if (existingInMongo.slug === slug || existingInMongo.id === slug) {
+          return res.status(400).json({ success: false, error: `Product slug "${slug}" is already in use by "${existingInMongo.name}".` });
+        }
+        if (existingInMongo.sku === sku) {
+          return res.status(400).json({ success: false, error: `SKU "${sku}" is already assigned to "${existingInMongo.name}".` });
+        }
+      }
     }
 
     const price = Number(data.price);
     if (isNaN(price) || price < 0) {
       return res.status(400).json({ success: false, error: 'Valid price is required.' });
     }
+
+    const stock = typeof data.stock === 'number' && !isNaN(data.stock) ? data.stock : 50;
+    const sanitizedVariants = sanitizeVariantsList(data.variants, sku, price, stock);
 
     const now = new Date().toISOString();
     const newProduct = {
@@ -138,16 +189,16 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
       category: (data.category || 'protein').toLowerCase(),
       sku,
       price,
-      salePrice: data.salePrice ? Number(data.salePrice) : null,
-      stock: typeof data.stock === 'number' ? data.stock : 50,
-      lowStockThreshold: typeof data.lowStockThreshold === 'number' ? data.lowStockThreshold : 10,
-      shippingWeightKg: typeof data.shippingWeightKg === 'number' ? data.shippingWeightKg : 1.0,
+      salePrice: data.salePrice !== undefined && data.salePrice !== null && data.salePrice !== '' && !isNaN(Number(data.salePrice)) ? Number(data.salePrice) : null,
+      stock,
+      lowStockThreshold: typeof data.lowStockThreshold === 'number' && !isNaN(data.lowStockThreshold) ? data.lowStockThreshold : 10,
+      shippingWeightKg: typeof data.shippingWeightKg === 'number' && !isNaN(data.shippingWeightKg) ? data.shippingWeightKg : 1.0,
       paymentRule: data.paymentRule || 'ALL',
       shortDescription: sanitizeInput(data.shortDescription?.trim() || ''),
       fullDescription: sanitizeInput(data.fullDescription?.trim() || ''),
       description: sanitizeInput(data.shortDescription?.trim() || data.fullDescription?.trim() || ''),
       images: Array.isArray(data.images) ? data.images : [],
-      variants: Array.isArray(data.variants) ? data.variants : [],
+      variants: sanitizedVariants,
       servingInfo: sanitizeInput(data.servingInfo?.trim() || ''),
       ingredients: sanitizeInput(data.ingredients?.trim() || ''),
       nutritionFacts: sanitizeInput(data.nutritionFacts?.trim() || ''),
@@ -179,7 +230,22 @@ router.post('/', authenticateToken, requireClientAdmin, async (req, res) => {
     });
   } catch (err) {
     console.error('Product create error:', err);
-    res.status(500).json({ success: false, error: 'Failed to create product.' });
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyPattern || {})[0] || 'field';
+      const val = err.keyValue ? err.keyValue[field] : '';
+      return res.status(400).json({
+        success: false,
+        error: `A product with this ${field.toUpperCase()} ("${val}") already exists.`
+      });
+    }
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors || {}).map((e) => e.message);
+      return res.status(400).json({
+        success: false,
+        error: messages.join('. ') || 'Validation error saving product.'
+      });
+    }
+    res.status(500).json({ success: false, error: err.message || 'Failed to create product.' });
   }
 });
 
@@ -202,13 +268,19 @@ router.put('/:id', authenticateToken, requireClientAdmin, async (req, res) => {
       if (db.products.some((p) => p.sku === newSku && p.id !== existing.id)) {
         return res.status(400).json({ success: false, error: `SKU "${newSku}" is already in use.` });
       }
+      if (mongoose.connection.readyState === 1) {
+        const mongoDuplicate = await Product.findOne({ sku: newSku, id: { $ne: existing.id } });
+        if (mongoDuplicate) {
+          return res.status(400).json({ success: false, error: `SKU "${newSku}" is already assigned to "${mongoDuplicate.name}".` });
+        }
+      }
       existing.sku = newSku;
     }
 
     if (data.name) existing.name = sanitizeInput(data.name.trim());
     if (data.category) existing.category = data.category.toLowerCase();
     if (data.price !== undefined) existing.price = Number(data.price);
-    if (data.salePrice !== undefined) existing.salePrice = data.salePrice ? Number(data.salePrice) : null;
+    if (data.salePrice !== undefined) existing.salePrice = data.salePrice !== '' && data.salePrice !== null ? Number(data.salePrice) : null;
     if (data.stock !== undefined) {
       existing.stock = Number(data.stock);
       if (existing.stock <= 0) existing.availability = 'out-of-stock';
@@ -220,7 +292,9 @@ router.put('/:id', authenticateToken, requireClientAdmin, async (req, res) => {
     if (data.shortDescription !== undefined) existing.shortDescription = sanitizeInput(data.shortDescription.trim());
     if (data.fullDescription !== undefined) existing.fullDescription = sanitizeInput(data.fullDescription.trim());
     if (Array.isArray(data.images)) existing.images = data.images;
-    if (Array.isArray(data.variants)) existing.variants = data.variants;
+    if (Array.isArray(data.variants)) {
+      existing.variants = sanitizeVariantsList(data.variants, existing.sku, existing.price, existing.stock);
+    }
     if (data.servingInfo !== undefined) existing.servingInfo = sanitizeInput(data.servingInfo.trim());
     if (data.ingredients !== undefined) existing.ingredients = sanitizeInput(data.ingredients.trim());
     if (data.nutritionFacts !== undefined) existing.nutritionFacts = sanitizeInput(data.nutritionFacts.trim());
@@ -239,7 +313,7 @@ router.put('/:id', authenticateToken, requireClientAdmin, async (req, res) => {
     saveDb(db);
 
     if (mongoose.connection.readyState === 1) {
-      await Product.findOneAndUpdate({ id: existing.id }, existing).catch(() => {});
+      await Product.findOneAndUpdate({ id: existing.id }, existing);
     }
 
     addLog('INFO', 'PRODUCTS', `Updated product: ${existing.name} (${existing.sku}) by ${req.user.name}`);
@@ -250,7 +324,22 @@ router.put('/:id', authenticateToken, requireClientAdmin, async (req, res) => {
     });
   } catch (err) {
     console.error('Product update error:', err);
-    res.status(500).json({ success: false, error: 'Failed to update product.' });
+    if (err.code === 11000) {
+      const field = Object.keys(err.keyPattern || {})[0] || 'field';
+      const val = err.keyValue ? err.keyValue[field] : '';
+      return res.status(400).json({
+        success: false,
+        error: `A product with this ${field.toUpperCase()} ("${val}") already exists.`
+      });
+    }
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors || {}).map((e) => e.message);
+      return res.status(400).json({
+        success: false,
+        error: messages.join('. ') || 'Validation error updating product.'
+      });
+    }
+    res.status(500).json({ success: false, error: err.message || 'Failed to update product.' });
   }
 });
 
