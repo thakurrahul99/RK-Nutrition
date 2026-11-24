@@ -191,7 +191,7 @@ async function runAdminCrudTests() {
     },
     items: [{ productId: 'rk-whey-protein-isolate', variantId: 'var-1', quantity: 1 }],
     paymentMethod: 'COD'
-  });
+  }, clientAdminToken);
   assert.strictEqual(placeOrderRes.status, 201, 'Order placement should succeed');
   const testOrderId = placeOrderRes.body.order.id;
   console.log('  ✔ [PASS] Test order placed for logistics verification');

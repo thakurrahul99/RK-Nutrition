@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ProductInfo({ product }) {
   const {
@@ -31,6 +32,7 @@ export default function ProductInfo({ product }) {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { isAuthenticated } = useAuth();
 
   const isSaved = isInWishlist(id);
 
@@ -89,7 +91,11 @@ export default function ProductInfo({ product }) {
     if (isOutOfStock || isComingSoon) return;
     const res = addToCart(product, selectedVariant, quantity);
     if (res.success) {
-      navigate('/checkout');
+      if (!isAuthenticated) {
+        navigate('/login?redirect=/checkout');
+      } else {
+        navigate('/checkout');
+      }
     } else {
       setFeedbackMessage({ type: 'error', text: res.message });
       setTimeout(() => setFeedbackMessage(null), 3000);

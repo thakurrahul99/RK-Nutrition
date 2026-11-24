@@ -299,13 +299,27 @@ router.post('/reset-password', authRateLimiter, async (req, res) => {
 });
 
 // GET /api/auth/me
-router.get('/me', authenticateToken, (req, res) => {
+router.get('/me', authenticateToken, async (req, res) => {
   const db = getDb();
-  const user = (db.users || []).find((u) => u.id === req.user.id);
+  let user = (db.users || []).find((u) => u.id === req.user.id);
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const mongoUser = await User.findOne({ id: req.user.id }).lean();
+      if (mongoUser) {
+        user = { ...(user || {}), ...mongoUser };
+      }
+    } catch {
+      // fallback to in-memory user
+    }
+  }
+
   res.json({
     success: true,
     user: {
       ...req.user,
+      name: user?.name || req.user.name,
+      phone: user?.phone || req.user.phone,
       addresses: user?.addresses || req.user.addresses || []
     }
   });

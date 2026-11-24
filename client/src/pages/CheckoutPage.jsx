@@ -13,9 +13,9 @@ import {
   CheckCircle2, 
   ShoppingBag,
   Info,
-  User as UserIcon,
   Plus,
-  ChevronDown
+  ChevronDown,
+  Loader2
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -38,7 +38,14 @@ export default function CheckoutPage() {
     validateCartPayments
   } = useCart();
 
-  const { user, isAuthenticated, addAddress } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading, refreshUser } = useAuth();
+
+  // Auth Guard: Require login for checkout
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      navigate('/login?redirect=/checkout', { replace: true });
+    }
+  }, [authLoading, isAuthenticated, navigate]);
 
   // Form Fields
   const [formData, setFormData] = useState({
@@ -53,7 +60,6 @@ export default function CheckoutPage() {
   });
 
   const [selectedAddressId, setSelectedAddressId] = useState('custom');
-  const [saveAddressToAccount, setSaveAddressToAccount] = useState(false);
   const [isMobileSummaryOpen, setIsMobileSummaryOpen] = useState(false);
   const [errors, setErrors] = useState({});
   const [couponCodeInput, setCouponCodeInput] = useState('');
@@ -260,26 +266,11 @@ export default function CheckoutPage() {
         throw new Error(data.error || 'Failed to place order.');
       }
 
-      // If requested, save this address to customer account
-      if (isAuthenticated && saveAddressToAccount && selectedAddressId === 'custom') {
-        try {
-          await addAddress({
-            fullName: formData.name.trim(),
-            phone: formData.phone.trim(),
-            addressLine1: formData.address.trim(),
-            city: formData.city.trim(),
-            state: formData.state.trim(),
-            postalCode: formData.pincode.trim(),
-            country: 'India',
-            isDefault: (user?.addresses || []).length === 0
-          });
-        } catch (e) {
-          console.warn('Failed to save address after order:', e);
-        }
-      }
-
       // Clear cart on successful placement
       clearCart();
+
+      // Refresh customer profile to ensure auto-saved addresses are immediately synced in context
+      await refreshUser().catch(() => {});
 
       // Redirect to confirmation page
       navigate(`/order-confirmation/${data.order.id}`, { state: { order: data.order } });
@@ -289,6 +280,18 @@ export default function CheckoutPage() {
       window.scrollTo({ top: 100, behavior: 'smooth' });
     }
   };
+
+  // If verifying authentication or unauthenticated, display loading/redirect screen
+  if (authLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center py-20 px-4 space-y-4">
+        <Loader2 className="w-8 h-8 animate-spin text-[#E11D2E]" />
+        <p className="text-xs font-mono uppercase tracking-widest text-[#8C8C8C]">
+          Redirecting to secure login...
+        </p>
+      </div>
+    );
+  }
 
   // If cart is empty, show empty state
   if (items.length === 0) {
@@ -356,24 +359,6 @@ export default function CheckoutPage() {
                 <strong className="block text-red-300 uppercase tracking-wider">Checkout Notice</strong>
                 {submitError}
               </div>
-            </div>
-          )}
-
-          {/* Guest Sign-In Banner */}
-          {!isAuthenticated && (
-            <div className="p-4 bg-[#181818] border border-[#2E2E2E] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-body shadow-sm">
-              <div className="flex items-center gap-2.5 text-[#F5F4F2]">
-                <UserIcon className="w-4 h-4 text-[#E11D2E] shrink-0" />
-                <span>
-                  Already an RK Nutrition athlete? <strong className="text-white">Sign in</strong> for express checkout with saved delivery addresses.
-                </span>
-              </div>
-              <Link
-                to="/login?redirect=/checkout"
-                className="px-3.5 py-1.5 bg-[#E11D2E] hover:bg-[#D51F32] text-white text-xs font-mono uppercase tracking-wider font-bold whitespace-nowrap text-center transition-colors"
-              >
-                Sign In →
-              </Link>
             </div>
           )}
 
@@ -654,20 +639,11 @@ export default function CheckoutPage() {
                   />
                 </div>
 
-                {/* Save Address to Account Checkbox */}
-                {isAuthenticated && selectedAddressId === 'custom' && (
-                  <div className="pt-2">
-                    <label className="flex items-center gap-2 cursor-pointer text-xs text-[#8C8C8C] select-none font-body">
-                      <input
-                        type="checkbox"
-                        checked={saveAddressToAccount}
-                        onChange={(e) => setSaveAddressToAccount(e.target.checked)}
-                        className="w-4 h-4 bg-[#111111] border border-[#2E2E2E] rounded accent-[#E11D2E] cursor-pointer"
-                      />
-                      <span>Save this shipping address to my account for future orders</span>
-                    </label>
-                  </div>
-                )}
+                {/* Automatic Address Save Notice */}
+                <div className="pt-2 flex items-center gap-2.5 text-xs text-[#A3A3A3] font-body bg-[#181818] p-3 border border-[#262626]">
+                  <CheckCircle2 className="w-4 h-4 text-[#22C55E] shrink-0" />
+                  <span>This delivery address will be automatically saved to your account for future one-click orders.</span>
+                </div>
               </div>
             </div>
 

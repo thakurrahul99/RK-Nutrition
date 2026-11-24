@@ -373,9 +373,21 @@ async function runTests() {
       logFail('Payment validation', e.message);
     }
 
-    // 17. Order Placement with Inventory Deduction
+    // 17. Order Placement with Inventory Deduction & Auth Enforcement
     let placedOrder = null;
     try {
+      // 17a. Unauthenticated checkout should be blocked
+      const unauthRes = await request('/orders', {
+        method: 'POST',
+        body: JSON.stringify({
+          customer: { name: 'Guest User', phone: '9876543210', address: 'Street', city: 'City', pincode: '400001' },
+          items: [{ productId: 'rk-whey-protein-isolate', quantity: 1 }],
+          paymentMethod: 'COD'
+        })
+      });
+      assert(unauthRes.status === 401, `Unauthenticated order should return 401, got ${unauthRes.status}`);
+
+      // 17b. Authenticated checkout should succeed
       const res = await request('/orders', {
         method: 'POST',
         headers: { Authorization: `Bearer ${customerToken}` },
@@ -407,8 +419,17 @@ async function runTests() {
       assert(res.body.order.subtotal > 0, 'Subtotal must be positive');
       assert(res.body.order.discount > 0, 'Discount must be applied');
       placedOrder = res.body.order;
+
+      // 17c. Verify delivery address was automatically saved to customer account
+      const meRes = await request('/auth/me', {
+        headers: { Authorization: `Bearer ${customerToken}` }
+      });
+      assert(meRes.status === 200, 'Profile fetch should succeed');
+      const savedAddr = (meRes.body.user?.addresses || []).find((a) => a.postalCode === '400001');
+      assert(savedAddr, 'Order delivery address must be automatically saved to customer account');
+
       passedCount++;
-      logPass(`Order placed successfully (#${placedOrder.orderNumber}) with server-side inventory deduction`);
+      logPass(`Order placed successfully (#${placedOrder.orderNumber}) with auto-saved address and inventory deduction`);
     } catch (e) {
       logFail('Order placement', e.message);
     }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
-import { getDb, saveDb, addLog, Order, Product, Coupon, Cart } from '../config/db.js';
+import { getDb, saveDb, addLog, Order, Product, Coupon, Cart, User } from '../config/db.js';
 import { authenticateToken, requireClientAdmin, optionalAuthenticateToken } from '../middleware/auth.js';
 import { isValidEmail, isValidPhone, sanitizeInput } from '../utils/security.js';
 import { sendOrderConfirmationEmail } from '../utils/mailer.js';
@@ -281,7 +281,7 @@ router.get('/:id', optionalAuthenticateToken, async (req, res) => {
 });
 
 // POST /api/orders (Customer Checkout Creation)
-router.post('/', optionalAuthenticateToken, async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { customer, items, paymentMethod, couponCode } = req.body;
     const db = getDb();
@@ -478,6 +478,88 @@ router.post('/', optionalAuthenticateToken, async (req, res) => {
     db.orders = db.orders || [];
     db.orders.unshift(newOrder);
     saveDb(db);
+
+    // 9. Automatic Delivery Address Saving to Customer Profile
+    if (req.user?.id) {
+      try {
+        const user = (db.users || []).find((u) => u.id === req.user.id);
+        const normAddr = customer.address.trim().toLowerCase();
+        const normCity = customer.city.trim().toLowerCase();
+        const normPin = customer.pincode.trim().toLowerCase();
+
+        let newAddress = null;
+
+        if (user) {
+          user.addresses = user.addresses || [];
+          const alreadyExists = user.addresses.some(
+            (a) =>
+              (a.addressLine1 || '').trim().toLowerCase() === normAddr &&
+              (a.city || '').trim().toLowerCase() === normCity &&
+              (a.postalCode || '').trim().toLowerCase() === normPin
+          );
+
+          if (!alreadyExists) {
+            newAddress = {
+              id: `addr-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+              fullName: customer.name.trim(),
+              phone: cleanPhone,
+              addressLine1: customer.address.trim(),
+              addressLine2: '',
+              city: customer.city.trim(),
+              state: customer.state?.trim() || '',
+              postalCode: customer.pincode.trim(),
+              country: 'India',
+              isDefault: user.addresses.length === 0
+            };
+            user.addresses.push(newAddress);
+            if (!user.phone && cleanPhone) {
+              user.phone = cleanPhone;
+            }
+            saveDb(db);
+          }
+        }
+
+        // Also persist to MongoDB User collection
+        if (mongoose.connection.readyState === 1) {
+          try {
+            const mongoUser = await User.findOne({ id: req.user.id });
+            if (mongoUser) {
+              mongoUser.addresses = mongoUser.addresses || [];
+              const mongoExists = mongoUser.addresses.some(
+                (a) =>
+                  (a.addressLine1 || '').trim().toLowerCase() === normAddr &&
+                  (a.city || '').trim().toLowerCase() === normCity &&
+                  (a.postalCode || '').trim().toLowerCase() === normPin
+              );
+
+              if (!mongoExists) {
+                const mongoAddress = newAddress || {
+                  id: `addr-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+                  fullName: customer.name.trim(),
+                  phone: cleanPhone,
+                  addressLine1: customer.address.trim(),
+                  addressLine2: '',
+                  city: customer.city.trim(),
+                  state: customer.state?.trim() || '',
+                  postalCode: customer.pincode.trim(),
+                  country: 'India',
+                  isDefault: mongoUser.addresses.length === 0
+                };
+                mongoUser.addresses.push(mongoAddress);
+                if (!mongoUser.phone && cleanPhone) {
+                  mongoUser.phone = cleanPhone;
+                }
+                await mongoUser.save();
+              }
+            }
+          } catch (mErr) {
+            console.warn('[Orders] MongoDB address auto-save warning:', mErr.message);
+          }
+        }
+      } catch (addrErr) {
+        console.warn('[Orders] Address auto-save warning:', addrErr.message);
+      }
+    }
 
     // Dispatch confirmation email
     if (newOrder.customer.email) {

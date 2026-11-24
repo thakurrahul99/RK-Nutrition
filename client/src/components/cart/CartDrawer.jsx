@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, Truck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function CartDrawer() {
   const {
@@ -26,6 +27,7 @@ export default function CartDrawer() {
 
   const [couponInput, setCouponInput] = useState('');
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   // Close on ESC key & lock body scroll
   useEffect(() => {
@@ -61,7 +63,11 @@ export default function CartDrawer() {
 
   const handleProceedToCheckout = () => {
     closeCart();
-    navigate('/checkout');
+    if (!isAuthenticated) {
+      navigate('/login?redirect=/checkout');
+    } else {
+      navigate('/checkout');
+    }
   };
 
   const handleContinueShopping = () => {
