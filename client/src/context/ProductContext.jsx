@@ -202,7 +202,7 @@ export function ProductProvider({ children }) {
       (p) => p.status === 'published' && p.visibility !== false
     );
     const explicit = pub.filter((p) => p.featured === true);
-    const feat = explicit.length > 0 ? explicit.slice(0, 3) : pub.slice(0, 3);
+    const feat = explicit.length > 0 ? explicit : pub.slice(0, 4);
     return {
       publicProducts: pub,
       featuredProducts: feat
@@ -238,7 +238,7 @@ export function useProducts() {
     return {
       products: ENRICHED_DEFAULTS,
       publicProducts: ENRICHED_DEFAULTS,
-      featuredProducts: ENRICHED_DEFAULTS.slice(0, 3),
+      featuredProducts: ENRICHED_DEFAULTS.filter((p) => p.featured),
       isLoading: false,
       refreshProducts: () => {},
       addProduct: async () => ({ success: false }),

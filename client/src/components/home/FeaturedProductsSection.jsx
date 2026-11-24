@@ -11,8 +11,7 @@ export default function FeaturedProductsSection() {
 
   if (!featuredProducts || featuredProducts.length === 0) return null;
 
-  // Max 4 products on the homepage for optimal visual pacing and mobile performance
-  const displayProducts = featuredProducts.slice(0, 4);
+  const displayProducts = featuredProducts;
 
   return (
     <section 
@@ -55,7 +54,7 @@ export default function FeaturedProductsSection() {
         {/* 2-Column Mobile Grid, 4-Column Desktop Grid with Staggered Scroll Reveal */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
           {displayProducts.map((product, idx) => (
-            <div key={product.id || product._id || idx} className={`reveal-init stagger-${idx + 1}`}>
+            <div key={product.id || product._id || idx} className={`reveal-init stagger-${(idx % 4) + 1}`}>
               <ProductCard 
                 product={product} 
                 onSelectProduct={(p) => navigate(`/product/${p.slug || p.id || p._id}`)}
