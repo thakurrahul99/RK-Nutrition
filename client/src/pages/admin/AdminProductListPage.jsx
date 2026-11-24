@@ -123,11 +123,15 @@ export default function AdminProductListPage() {
   };
 
   const formatCategory = (cat) => {
-    switch (cat) {
+    switch (cat?.toLowerCase()) {
       case 'protein': return 'Protein';
       case 'mass-gainer': return 'Mass Gainer';
       case 'pre-workout': return 'Pre-Workout';
-      default: return cat || 'Unassigned';
+      case 'creatine': return 'Creatine';
+      default: {
+        const found = adminCategories.find((c) => c.slug?.toLowerCase() === cat?.toLowerCase() || c.id === cat);
+        return found ? found.name : (cat || 'Unassigned');
+      }
     }
   };
 

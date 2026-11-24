@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { apiRequest } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import { 
   CheckCircle2, 
   Package, 
@@ -16,11 +17,45 @@ import {
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const location = useLocation();
+  const { user, isAuthenticated } = useAuth();
   // Show the just-created order immediately; phone verification remains for direct visits/reloads.
   const [order, setOrder] = useState(location.state?.order || null);
   const [loading, setLoading] = useState(false);
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(user?.phone || '');
   const [error, setError] = useState(null);
+
+  // If user is authenticated and reloaded or opened the confirmation page directly,
+  // fetch order securely via authenticated endpoint GET /api/orders/:id
+  useEffect(() => {
+    if (!order && isAuthenticated && orderId) {
+      let isMounted = true;
+      const fetchAuthOrder = async () => {
+        setLoading(true);
+        try {
+          const res = await apiRequest(`/orders/${encodeURIComponent(orderId)}`);
+          if (isMounted && res.success && res.order) {
+            setOrder(res.order);
+            return;
+          }
+        } catch {
+          // fallback to phone verification if not owner
+        } finally {
+          if (isMounted) setLoading(false);
+        }
+      };
+      fetchAuthOrder();
+      return () => {
+        isMounted = false;
+      };
+    }
+  }, [order, isAuthenticated, orderId]);
+
+  // Pre-fill user phone if available
+  useEffect(() => {
+    if (user?.phone && !phone) {
+      setPhone(user.phone);
+    }
+  }, [user, phone]);
 
   const handleLookup = async (e) => {
     e.preventDefault();

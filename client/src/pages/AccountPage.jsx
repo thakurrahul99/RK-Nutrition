@@ -216,7 +216,7 @@ export default function AccountPage() {
   };
 
   const handleOpenEditAddress = (addr) => {
-    setEditingAddressId(addr.id);
+    setEditingAddressId(addr.id || addr._id);
     setAddressForm({
       fullName: addr.fullName || '',
       phone: addr.phone || '',
@@ -955,7 +955,7 @@ export default function AccountPage() {
                       {!addr.isDefault ? (
                         <button
                           type="button"
-                          onClick={() => handleSetDefaultAddress(addr.id)}
+                          onClick={() => handleSetDefaultAddress(addr.id || addr._id)}
                           className="text-[#8C8C8C] hover:text-[#E11D2E] transition-colors"
                         >
                           Set as Default
@@ -977,7 +977,7 @@ export default function AccountPage() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => handleDeleteAddress(addr.id)}
+                          onClick={() => handleDeleteAddress(addr.id || addr._id)}
                           className="p-1 text-[#8C8C8C] hover:text-red-400 transition-colors"
                           title="Delete address"
                         >

@@ -167,7 +167,8 @@ export default function AdminReportsPage() {
             {[
               { label: 'Whey Protein', count: reports.categorySales?.protein || 0, color: '#E11D2E' },
               { label: 'Mass Gainers', count: reports.categorySales?.['mass-gainer'] || 0, color: '#EAB308' },
-              { label: 'Pre-Workout & Energy', count: reports.categorySales?.['pre-workout'] || 0, color: '#2196F3' }
+              { label: 'Pre-Workout & Energy', count: reports.categorySales?.['pre-workout'] || 0, color: '#2196F3' },
+              { label: 'Creatine Monohydrate', count: reports.categorySales?.creatine || 0, color: '#10B981' }
             ].map((cat) => (
               <div key={cat.label} className="p-3 bg-[#111111] border border-[#202020] flex items-center justify-between">
                 <div className="flex items-center gap-2">

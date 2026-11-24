@@ -484,7 +484,7 @@ router.put('/addresses/:id', authenticateToken, async (req, res) => {
   const user = (db.users || []).find((u) => u.id === req.user.id);
   if (!user) return res.status(404).json({ success: false, error: 'User not found.' });
 
-  const addrIdx = (user.addresses || []).findIndex((a) => a.id === id);
+  const addrIdx = (user.addresses || []).findIndex((a) => a.id === id || String(a._id) === id);
   if (addrIdx === -1) {
     return res.status(404).json({ success: false, error: 'Address not found.' });
   }
@@ -520,7 +520,7 @@ router.delete('/addresses/:id', authenticateToken, async (req, res) => {
   const user = (db.users || []).find((u) => u.id === req.user.id);
   if (!user) return res.status(404).json({ success: false, error: 'User not found.' });
 
-  user.addresses = (user.addresses || []).filter((a) => a.id !== id);
+  user.addresses = (user.addresses || []).filter((a) => a.id !== id && String(a._id) !== id);
   saveDb(db);
 
   if (mongoose.connection.readyState === 1) {
