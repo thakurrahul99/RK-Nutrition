@@ -225,7 +225,7 @@
 
   @media (max-width: 767px) {
     #hero .hero-tub-mobile {
-      width: clamp(86px, 25vw, 112px);
+      width: clamp(112px, 32.5vw, 146px);
       top: 4px;
       right: 0;
       z-index: 1;
@@ -234,6 +234,12 @@
 
     #hero .animate-tub-mobile {
       animation-duration: 7.5s;
+    }
+  }
+
+  @media (max-width: 374px) {
+    #hero .hero-tub-mobile {
+      width: 106px;
     }
   }
 
