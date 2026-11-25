@@ -384,23 +384,24 @@ function HeroThreeCanvasComponent({ className = '' }) {
     const container = mountRef.current;
     if (!container) return;
 
-    // Detect user accessibility preferences & device capabilities
+    // Detect user accessibility preferences & mobile viewport (strictly via matchMedia)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobileDevice = window.innerWidth < 768 || 'ontouchstart' in window;
+    const isMobileViewport = window.matchMedia('(max-width: 767px)').matches;
+    const isMobileDevice = isMobileViewport || 'ontouchstart' in window;
 
     // 2. Initialize Three.js Scene, Camera, Renderer
     const width = container.clientWidth || 380;
     const height = container.clientHeight || 460;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
-    // Camera positioned at eye level with optimal framing for the taller container
-    camera.position.set(0, 0.25, 7.4);
+    const camera = new THREE.PerspectiveCamera(isMobileViewport ? 32 : 34, width / height, 0.1, 100);
+    // Camera positioned closer on mobile for larger, crisp framing; desktop unchanged
+    camera.position.set(0, isMobileViewport ? 0.2 : 0.25, isMobileViewport ? 6.1 : 7.4);
 
     let renderer;
     try {
       renderer = new THREE.WebGLRenderer({
-        antialias: !isMobileDevice,
+        antialias: !isMobileViewport,
         alpha: true,
         preserveDrawingBuffer: true,
         powerPreference: 'high-performance'
@@ -410,7 +411,7 @@ function HeroThreeCanvasComponent({ className = '' }) {
       return;
     }
 
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.0 : 1.5);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, isMobileViewport ? 2 : 1.5);
     renderer.setPixelRatio(pixelRatio);
     renderer.setSize(width, height);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -424,25 +425,28 @@ function HeroThreeCanvasComponent({ className = '' }) {
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.display = 'block';
+    if (isMobileViewport) {
+      renderer.domElement.style.touchAction = 'pan-y';
+    }
     container.appendChild(renderer.domElement);
 
     // 3. Studio Lighting Rig
     // A: Ambient Base (Keeps packaging text bright, crisp, and high-contrast)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.15);
+    const ambientLight = new THREE.AmbientLight(0xffffff, isMobileViewport ? 1.25 : 1.15);
     scene.add(ambientLight);
 
-    // B: Key Light (Neutral studio light hitting the front face directly)
-    const keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-    keyLight.position.set(2.0, 3.8, 5.0);
+    // B: Key Light (Soft front light on mobile for label readability; desktop unchanged)
+    const keyLight = new THREE.DirectionalLight(0xffffff, isMobileViewport ? 2.6 : 2.4);
+    keyLight.position.set(isMobileViewport ? 0.8 : 2.0, isMobileViewport ? 2.8 : 3.8, isMobileViewport ? 5.8 : 5.0);
     scene.add(keyLight);
 
     // C: Soft Cool Neutral Fill Light
-    const fillLight = new THREE.DirectionalLight(0xe2e8f0, 1.0);
+    const fillLight = new THREE.DirectionalLight(0xe2e8f0, isMobileViewport ? 1.15 : 1.0);
     fillLight.position.set(-4.0, 1.5, 3.0);
     scene.add(fillLight);
 
-    // D: Signature RK Red Rim/Edge Light (Cinematic silhouette highlight)
-    const rimRedLight = new THREE.DirectionalLight(0xe11d2e, 3.5);
+    // D: Signature RK Red Rim/Edge Light (Subtle brand-red rim highlight)
+    const rimRedLight = new THREE.DirectionalLight(0xe11d2e, isMobileViewport ? 3.8 : 3.5);
     rimRedLight.position.set(-3.5, 2.5, -2.5);
     scene.add(rimRedLight);
 
@@ -453,8 +457,9 @@ function HeroThreeCanvasComponent({ className = '' }) {
 
     // 4. Construct TALLER, IMPOSING Supplement Container Geometry
     const tubGroup = new THREE.Group();
-    // Scale group to prominent athletic proportions (0.92 gives commanding stature without clipping)
-    tubGroup.scale.set(0.92, 0.92, 0.92);
+    // Scale group larger on mobile for clear visibility; desktop remains 0.92
+    const tubScale = isMobileViewport ? 1.05 : 0.92;
+    tubGroup.scale.set(tubScale, tubScale, tubScale);
     scene.add(tubGroup);
 
     // High-Resolution Procedural Textures
@@ -590,60 +595,89 @@ function HeroThreeCanvasComponent({ className = '' }) {
     container.addEventListener('mousemove', onMouseMove, { passive: true });
     container.addEventListener('mouseleave', onMouseLeave, { passive: true });
 
-    // 6. Visibility-Aware Animation Loop
-    let animationFrameId;
+    // 6. Visibility-Aware Animation Loop (Pauses rAF when out of viewport/hidden)
+    let animationFrameId = null;
     let isVisible = true;
     let isTabActive = !document.hidden;
     const clock = new THREE.Clock();
 
+    const stopLoop = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    };
+
+    const startLoop = () => {
+      if (prefersReducedMotion) {
+        renderer.render(scene, camera);
+        return;
+      }
+      if (animationFrameId === null && isVisible && isTabActive) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
     const handleVisibilityChange = () => {
       isTabActive = !document.hidden;
+      if (isTabActive && isVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
+        if (isVisible && isTabActive) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
       },
       { threshold: 0.05 }
     );
     observer.observe(container);
 
     const animate = () => {
+      if (!isVisible || !isTabActive || prefersReducedMotion) {
+        animationFrameId = null;
+        return;
+      }
       animationFrameId = requestAnimationFrame(animate);
-
-      if (!isVisible || !isTabActive) return;
 
       const elapsedTime = clock.getElapsedTime();
 
-      // Subtle, smooth floating motion
-      if (!prefersReducedMotion) {
-        const floatOffset = Math.sin(elapsedTime * 1.2) * 0.05;
-        tubGroup.position.y = floatOffset;
-        
-        // Shadow expands/contracts subtly in sync with float
-        const shadowScale = 1.0 - floatOffset * 0.3;
-        shadowMesh.scale.set(shadowScale, shadowScale, 1.0);
-        shadowMat.opacity = 0.78 - floatOffset * 0.3;
+      // Subtle, smooth floating motion (slower ~0.25 rad/s on mobile)
+      const floatSpeed = isMobileViewport ? 0.25 : 1.2;
+      const floatAmp = isMobileViewport ? 0.04 : 0.05;
+      const floatOffset = Math.sin(elapsedTime * floatSpeed) * floatAmp;
+      tubGroup.position.y = floatOffset;
 
-        // Smooth lerp mouse tilt on desktop
-        if (!isMobileDevice) {
-          mouse.x += (mouse.targetX - mouse.x) * 0.05;
-          mouse.y += (mouse.targetY - mouse.y) * 0.05;
+      // Shadow expands/contracts subtly in sync with float
+      const shadowScale = 1.0 - floatOffset * 0.3;
+      shadowMesh.scale.set(shadowScale, shadowScale, 1.0);
+      shadowMat.opacity = 0.78 - floatOffset * 0.3;
 
-          // Keep front label facing user at all times
-          tubGroup.rotation.y = baseRotationY + mouse.x + Math.sin(elapsedTime * 0.5) * 0.02;
-          tubGroup.rotation.x = baseRotationX - mouse.y;
-        } else {
-          // Mobile: gentle slow drift without mouse dependency
-          tubGroup.rotation.y = baseRotationY + Math.sin(elapsedTime * 0.4) * 0.025;
-        }
+      // Smooth lerp mouse tilt on desktop; slow drift on mobile
+      if (!isMobileDevice) {
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
+
+        // Keep front label facing user at all times
+        tubGroup.rotation.y = baseRotationY + mouse.x + Math.sin(elapsedTime * 0.5) * 0.02;
+        tubGroup.rotation.x = baseRotationX - mouse.y;
+      } else {
+        // Mobile: slow, smooth rotation (~0.25 rad/s)
+        tubGroup.rotation.y = baseRotationY + Math.sin(elapsedTime * 0.25) * 0.04;
       }
 
       renderer.render(scene, camera);
     };
 
-    animate();
+    startLoop();
     setIsLoaded(true);
 
     // 7. Responsive Resize Handler
@@ -662,7 +696,7 @@ function HeroThreeCanvasComponent({ className = '' }) {
 
     // 8. Complete Resource Disposal and Memory Cleanup
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      stopLoop();
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       observer.disconnect();

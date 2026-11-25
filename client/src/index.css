@@ -266,6 +266,84 @@
     animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both;
   }
 
+  /* ==============================================================
+     HERO SECTION — MOBILE-ONLY ENHANCEMENTS (max-width: 767px)
+     Desktop/tablet (>= 768px) remains 100% untouched.
+     ============================================================== */
+  @media (max-width: 767px) {
+    #hero > .relative.max-w-7xl {
+      padding-top: 12px;
+      padding-bottom: 20px;
+    }
+
+    #hero .hero-anim-pill {
+      margin-bottom: 12px;
+    }
+
+    #hero .hero-anim-pill span:last-child {
+      font-size: 11px;
+      color: #e5e5e5;
+    }
+
+    #hero .hero-visual {
+      margin-top: 2px;
+      min-height: 148px;
+    }
+
+    #hero .hero-tub-mobile {
+      width: clamp(134px, 37vw, 168px);
+      top: -10px;
+      right: -4px;
+      z-index: 1;
+      touch-action: pan-y;
+    }
+
+    #hero h1 {
+      font-size: clamp(34px, 9.2vw, 38px);
+      line-height: 0.94;
+      margin-bottom: 14px;
+      transform: none;
+      z-index: 2;
+    }
+
+    #hero .hero-anim-desc p {
+      color: #d0d0d0;
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+
+    #hero .hero-anim-cta {
+      margin-bottom: 16px;
+    }
+
+    #hero .hero-anim-cta > div {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    #hero .hero-anim-cta a {
+      flex: 1 1 140px;
+      min-height: 48px;
+    }
+
+    #hero .hero-anim-footer {
+      padding-top: 12px;
+      padding-right: 68px;
+      padding-bottom: 8px;
+    }
+
+    #hero .hero-anim-footer span {
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    #hero .hero-anim-footer .font-mono {
+      color: #c4c4c4;
+    }
+  }
+
   /* Scroll Reveal System */
   .reveal-init {
     opacity: 0;
