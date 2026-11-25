@@ -1,14 +1,37 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import { apiRequest } from '../services/api';
 
 const CartContext = createContext(null);
 
 const CART_STORAGE_KEY = 'rk_customer_cart';
 const COUPON_STORAGE_KEY = 'rk_applied_coupon';
-const FREE_SHIPPING_THRESHOLD = 999;
-const STANDARD_SHIPPING_FEE = 99;
+const DEFAULT_FREE_SHIPPING_THRESHOLD = 999;
+const DEFAULT_STANDARD_SHIPPING_FEE = 99;
 
 export function CartProvider({ children }) {
+  // Store shipping settings synced from backend
+  const [shippingConfig, setShippingConfig] = useState({
+    freeShippingThreshold: DEFAULT_FREE_SHIPPING_THRESHOLD,
+    shippingFee: DEFAULT_STANDARD_SHIPPING_FEE
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    apiRequest('/store/settings').then((res) => {
+      if (isMounted && res.success && res.settings) {
+        const parsedThreshold = Number(res.settings.freeShippingThreshold);
+        const parsedFee = Number(res.settings.shippingFee);
+        setShippingConfig({
+          freeShippingThreshold: Number.isFinite(parsedThreshold) && parsedThreshold > 0 ? parsedThreshold : DEFAULT_FREE_SHIPPING_THRESHOLD,
+          shippingFee: Number.isFinite(parsedFee) && parsedFee >= 0 ? parsedFee : DEFAULT_STANDARD_SHIPPING_FEE
+        });
+      }
+    }).catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   // Initialize cart from localStorage
   const [items, setItems] = useState(() => {
     try {
@@ -84,11 +107,11 @@ export function CartProvider({ children }) {
 
   // Shipping calculation
   const shippingFee = useMemo(() => {
-    if (subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD) {
+    if (subtotal === 0 || subtotal >= shippingConfig.freeShippingThreshold) {
       return 0;
     }
-    return STANDARD_SHIPPING_FEE;
-  }, [subtotal]);
+    return shippingConfig.shippingFee;
+  }, [subtotal, shippingConfig]);
 
   // Final total
   const total = useMemo(() => {
@@ -97,9 +120,9 @@ export function CartProvider({ children }) {
 
   // Amount needed for free shipping
   const amountToFreeShipping = useMemo(() => {
-    if (subtotal >= FREE_SHIPPING_THRESHOLD) return 0;
-    return FREE_SHIPPING_THRESHOLD - subtotal;
-  }, [subtotal]);
+    if (subtotal >= shippingConfig.freeShippingThreshold) return 0;
+    return shippingConfig.freeShippingThreshold - subtotal;
+  }, [subtotal, shippingConfig]);
 
   // Add product to cart with variant support
   const addToCart = useCallback((product, variant = null, requestedQuantity = 1) => {
@@ -230,35 +253,33 @@ export function CartProvider({ children }) {
     setCouponError(null);
 
     try {
-      const res = await fetch('/api/discounts/validate', {
+      const data = await apiRequest('/discounts/validate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           code: code.trim(),
           cartSubtotal: subtotal
         })
       });
 
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
+      if (!data.success) {
         const errMsg = data.error || 'Invalid or expired coupon code.';
         setCouponError(errMsg);
         setCouponLoading(false);
         return { success: false, error: errMsg };
       }
 
+      const coupon = data.coupon || data;
       setAppliedCoupon({
-        code: data.code,
-        discountType: data.discountType,
-        discountValue: data.discountValue,
-        discountAmount: data.discountAmount,
-        description: data.description,
-        minCartValue: data.minCartValue || 0
+        code: coupon.code,
+        discountType: coupon.discountType,
+        discountValue: coupon.discountValue,
+        discountAmount: coupon.discountAmount,
+        description: coupon.description,
+        minCartValue: coupon.minCartValue || 0
       });
 
       setCouponLoading(false);
-      return { success: true, coupon: data };
+      return { success: true, coupon };
     } catch {
       const errMsg = 'Network error verifying coupon code.';
       setCouponError(errMsg);
@@ -291,14 +312,12 @@ export function CartProvider({ children }) {
     }
 
     try {
-      const res = await fetch('/api/payments/validate-cart', {
+      return await apiRequest('/payments/validate-cart', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items: items.map((i) => ({ productId: i.productId, quantity: i.quantity }))
         })
       });
-      return await res.json();
     } catch {
       return {
         success: false,
@@ -319,7 +338,7 @@ export function CartProvider({ children }) {
     shippingFee,
     total,
     amountToFreeShipping,
-    freeShippingThreshold: FREE_SHIPPING_THRESHOLD,
+    freeShippingThreshold: shippingConfig.freeShippingThreshold,
     appliedCoupon,
     couponError,
     couponLoading,

@@ -1,8 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import { getDb } from '../config/db.js';
+import { getDb, User } from '../config/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,10 +17,23 @@ if (!JWT_SECRET) {
 
 const TOKEN_OPTIONS = { algorithms: ['HS256'] };
 
-const resolveActiveUser = (decoded) => {
+const resolveActiveUser = async (decoded) => {
   if (!decoded?.id) return null;
   const db = getDb();
-  return (db.users || []).find((user) => user.id === decoded.id && user.isActive !== false) || null;
+  let user = (db.users || []).find((u) => u.id === decoded.id && u.isActive !== false) || null;
+  if (!user && mongoose.connection.readyState === 1) {
+    try {
+      const mongoUser = await User.findOne({ id: decoded.id, isActive: { $ne: false } }).lean();
+      if (mongoUser) {
+        db.users = Array.isArray(db.users) ? db.users : [];
+        db.users.push(mongoUser);
+        user = mongoUser;
+      }
+    } catch {
+      // ignore Mongo lookup fallback errors
+    }
+  }
+  return user;
 };
 
 const attachUser = (req, user) => {
@@ -45,7 +59,7 @@ export const authenticateToken = (req, res, next) => {
     });
   }
 
-  jwt.verify(token, JWT_SECRET, TOKEN_OPTIONS, (err, decoded) => {
+  jwt.verify(token, JWT_SECRET, TOKEN_OPTIONS, async (err, decoded) => {
     if (err) {
       return res.status(403).json({
         success: false,
@@ -53,7 +67,7 @@ export const authenticateToken = (req, res, next) => {
       });
     }
 
-    const user = resolveActiveUser(decoded);
+    const user = await resolveActiveUser(decoded);
     if (!user) {
       return res.status(403).json({
         success: false,
@@ -104,9 +118,9 @@ export const optionalAuthenticateToken = (req, res, next) => {
   const [scheme, token] = authHeader.split(' ');
   if (scheme !== 'Bearer' || !token) return next();
 
-  jwt.verify(token, JWT_SECRET, TOKEN_OPTIONS, (err, decoded) => {
+  jwt.verify(token, JWT_SECRET, TOKEN_OPTIONS, async (err, decoded) => {
     if (err) return next();
-    const user = resolveActiveUser(decoded);
+    const user = await resolveActiveUser(decoded);
     if (user) attachUser(req, user);
     next();
   });

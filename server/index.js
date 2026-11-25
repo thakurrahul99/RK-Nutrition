@@ -33,8 +33,7 @@ const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0
 // Production environment variable safety validation
 if (!process.env.JWT_SECRET) {
   if (process.env.NODE_ENV === 'production') {
-    process.env.JWT_SECRET = crypto.randomBytes(64).toString('hex');
-    console.warn('[RK Nutrition Security] Notice: Generated cryptographically random ephemeral JWT_SECRET for this production session.');
+    throw new Error('[RK Nutrition Security] FATAL: JWT_SECRET environment variable must be configured in production.');
   } else {
     process.env.JWT_SECRET = 'dev_jwt_secret_change_in_production_2026';
   }
@@ -86,14 +85,13 @@ const allowedOrigins = [...new Set([
 const isAllowedVercelOrigin = (origin) => {
   try {
     const { protocol, hostname } = new URL(origin);
-    return protocol === 'https:' && (
-      hostname === 'rk-nutrition.vercel.app' ||
-      (hostname.startsWith('rk-nutrition-') && hostname.endsWith('.vercel.app'))
-    );
+    return protocol === 'https:' && hostname === 'rk-nutrition.vercel.app';
   } catch {
     return false;
   }
 };
+
+const isDev = process.env.NODE_ENV !== 'production';
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -101,8 +99,7 @@ app.use(cors({
       !origin ||
       allowedOrigins.includes(origin) ||
       isAllowedVercelOrigin(origin) ||
-      origin.startsWith('http://localhost:') ||
-      origin.startsWith('http://127.0.0.1:')
+      (isDev && (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')))
     ) {
       return callback(null, true);
     }

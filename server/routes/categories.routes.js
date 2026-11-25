@@ -124,7 +124,7 @@ router.get('/admin', authenticateToken, requireClientAdmin, (req, res) => {
 
 // PUT /api/categories/reorder (Client Admin - Batch update display order)
 // MUST BE REGISTERED BEFORE /:idOrSlug to avoid route conflict
-router.put('/reorder', authenticateToken, requireClientAdmin, (req, res) => {
+router.put('/reorder', authenticateToken, requireClientAdmin, async (req, res) => {
   const { orderedIds } = req.body;
   if (!Array.isArray(orderedIds) || orderedIds.length === 0) {
     return res.status(400).json({ success: false, error: 'orderedIds array is required.' });
@@ -136,10 +136,17 @@ router.put('/reorder', authenticateToken, requireClientAdmin, (req, res) => {
     idToOrder[id] = index + 1;
   });
 
+  const bulkOps = [];
   db.categories.forEach((cat) => {
     if (idToOrder[cat.id] !== undefined) {
       cat.displayOrder = idToOrder[cat.id];
       cat.updatedAt = new Date().toISOString();
+      bulkOps.push({
+        updateOne: {
+          filter: { id: cat.id },
+          update: { $set: { displayOrder: cat.displayOrder, updatedAt: cat.updatedAt } }
+        }
+      });
     }
   });
 
@@ -147,6 +154,9 @@ router.put('/reorder', authenticateToken, requireClientAdmin, (req, res) => {
   db.categories.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
 
   saveDb(db);
+  if (mongoose.connection.readyState === 1 && bulkOps.length > 0) {
+    await Category.bulkWrite(bulkOps).catch(() => {});
+  }
   addLog('INFO', 'CATEGORIES', `Category display order updated by ${req.user.name}`);
 
   res.json({

@@ -521,7 +521,7 @@ router.post('/:id/reviews', optionalAuthenticateToken, async (req, res) => {
 });
 
 // PUT /api/products/reviews/:reviewId/status (Admin Moderate Review)
-router.put('/reviews/:reviewId/status', authenticateToken, requireClientAdmin, (req, res) => {
+router.put('/reviews/:reviewId/status', authenticateToken, requireClientAdmin, async (req, res) => {
   const { reviewId } = req.params;
   const { status } = req.body;
 
@@ -536,15 +536,24 @@ router.put('/reviews/:reviewId/status', authenticateToken, requireClientAdmin, (
   rev.status = status;
   saveDb(db);
 
+  if (mongoose.connection.readyState === 1) {
+    await Review.findOneAndUpdate({ id: reviewId }, { $set: { status } }).catch(() => {});
+  }
+
   res.json({ success: true, review: rev });
 });
 
 // DELETE /api/products/reviews/:reviewId (Admin Delete Review)
-router.delete('/reviews/:reviewId', authenticateToken, requireClientAdmin, (req, res) => {
+router.delete('/reviews/:reviewId', authenticateToken, requireClientAdmin, async (req, res) => {
   const { reviewId } = req.params;
   const db = getDb();
   db.reviews = (db.reviews || []).filter((r) => r.id !== reviewId);
   saveDb(db);
+
+  if (mongoose.connection.readyState === 1) {
+    await Review.deleteOne({ id: reviewId }).catch(() => {});
+  }
+
   res.json({ success: true, message: 'Review deleted.' });
 });
 

@@ -46,7 +46,15 @@ router.post('/toggle', authenticateToken, async (req, res) => {
       return res.status(400).json({ success: false, error: 'Product ID is required.' });
     }
 
-    let set = memoryWishlists.get(userId) || new Set();
+    let productIds = Array.from(memoryWishlists.get(userId) || []);
+    if (mongoose.connection.readyState === 1) {
+      const dbWish = await Wishlist.findOne({ userId }).lean();
+      if (dbWish && Array.isArray(dbWish.productIds)) {
+        productIds = dbWish.productIds;
+      }
+    }
+
+    const set = new Set(productIds);
     let action = 'added';
 
     if (set.has(productId)) {
@@ -58,12 +66,12 @@ router.post('/toggle', authenticateToken, async (req, res) => {
     }
 
     memoryWishlists.set(userId, set);
-    const productIds = Array.from(set);
+    const updatedIds = Array.from(set);
 
     if (mongoose.connection.readyState === 1) {
       await Wishlist.findOneAndUpdate(
         { userId },
-        { userId, productIds },
+        { userId, productIds: updatedIds },
         { upsert: true }
       );
     }
@@ -72,7 +80,7 @@ router.post('/toggle', authenticateToken, async (req, res) => {
       success: true,
       action,
       productId,
-      wishlistIds: productIds
+      wishlistIds: updatedIds
     });
   } catch (err) {
     console.error('Wishlist toggle error:', err);

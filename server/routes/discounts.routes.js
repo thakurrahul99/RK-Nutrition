@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import { getDb, saveDb, addLog, Coupon } from '../config/db.js';
-import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
+import { authenticateToken, requireClientAdmin, optionalAuthenticateToken } from '../middleware/auth.js';
+import { apiMutationLimiter } from '../middleware/rateLimiter.js';
 import { sanitizeInput } from '../utils/security.js';
 
 const router = Router();
@@ -140,7 +141,7 @@ router.delete('/:id', authenticateToken, requireClientAdmin, async (req, res) =>
 });
 
 // POST /api/discounts/validate (Public / Customer Cart coupon validation)
-router.post('/validate', (req, res) => {
+router.post('/validate', apiMutationLimiter, optionalAuthenticateToken, (req, res) => {
   const { code } = req.body;
   const subtotal = req.body.cartSubtotal !== undefined ? req.body.cartSubtotal : req.body.subtotal;
   if (!code || !code.trim()) {
@@ -159,8 +160,15 @@ router.post('/validate', (req, res) => {
     return res.status(400).json({ success: false, error: 'This coupon code has expired.' });
   }
 
-  if (coupon.maxUses && coupon.usedCount >= coupon.maxUses) {
+  if (coupon.maxUses && (coupon.usedCount || 0) >= coupon.maxUses) {
     return res.status(400).json({ success: false, error: 'This coupon usage limit has been reached.' });
+  }
+
+  if (req.user?.id && coupon.perCustomerLimit) {
+    const customerUses = (coupon.usedByCustomers || []).filter((id) => id === req.user.id).length;
+    if (customerUses >= coupon.perCustomerLimit) {
+      return res.status(400).json({ success: false, error: 'You have already reached the usage limit for this coupon.' });
+    }
   }
 
   const subtotalNum = Number(subtotal) || 0;

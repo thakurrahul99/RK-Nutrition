@@ -2,6 +2,7 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 import { getDb, saveDb, addLog, Inquiry, Newsletter, StoreSettings, Order } from '../config/db.js';
 import { authenticateToken, requireClientAdmin } from '../middleware/auth.js';
+import { apiMutationLimiter } from '../middleware/rateLimiter.js';
 import { isValidEmail, sanitizeInput } from '../utils/security.js';
 
 const router = Router();
@@ -176,8 +177,8 @@ const handleInquirySubmit = async (req, res) => {
 };
 
 // POST /api/store/inquiries & /api/store/contact
-router.post('/inquiries', handleInquirySubmit);
-router.post('/contact', handleInquirySubmit);
+router.post('/inquiries', apiMutationLimiter, handleInquirySubmit);
+router.post('/contact', apiMutationLimiter, handleInquirySubmit);
 
 // PUT /api/store/inquiries/:id (Client Admin resolves inquiry)
 router.put('/inquiries/:id', authenticateToken, requireClientAdmin, async (req, res) => {

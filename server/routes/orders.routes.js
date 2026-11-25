@@ -2,6 +2,7 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 import { getDb, saveDb, addLog, Order, Product, Coupon, Cart, User } from '../config/db.js';
 import { authenticateToken, requireClientAdmin, optionalAuthenticateToken } from '../middleware/auth.js';
+import { apiMutationLimiter } from '../middleware/rateLimiter.js';
 import { isValidEmail, isValidPhone, sanitizeInput } from '../utils/security.js';
 import { sendOrderConfirmationEmail } from '../utils/mailer.js';
 
@@ -38,6 +39,50 @@ async function findOrder(id, db) {
   }
 
   return order;
+}
+
+// Helper to restore product inventory for a cancelled order (awaited & synchronized)
+async function restoreOrderInventory(order, db) {
+  for (const item of order.items || []) {
+    const qty = Math.max(1, Number(item.quantity) || 1);
+    const product = (db.products || []).find((p) => p.id === item.productId || p.slug === item.productId);
+    if (product) {
+      if (product.stock !== undefined) {
+        product.stock += qty;
+        if (product.stock > 0 && product.availability === 'out-of-stock') {
+          product.availability = 'in-stock';
+        }
+      }
+
+      let matchedVariant = null;
+      if (item.variant) {
+        matchedVariant = (product.variants || []).find(
+          (v) => v.name.toLowerCase() === item.variant.toLowerCase() || v.sku === item.sku
+        );
+        if (matchedVariant && matchedVariant.stock !== undefined) {
+          matchedVariant.stock += qty;
+        }
+      }
+
+      if (mongoose.connection.readyState === 1) {
+        try {
+          if (matchedVariant) {
+            await Product.findOneAndUpdate(
+              { $or: [{ id: product.id }, { sku: product.sku }], 'variants.id': matchedVariant.id },
+              { $inc: { stock: qty, 'variants.$.stock': qty }, $set: { availability: product.availability } }
+            );
+          } else {
+            await Product.findOneAndUpdate(
+              { $or: [{ id: product.id }, { sku: product.sku }] },
+              { $inc: { stock: qty }, $set: { availability: product.availability } }
+            );
+          }
+        } catch (e) {
+          console.warn('Product stock sync on cancel error:', e.message);
+        }
+      }
+    }
+  }
 }
 
 // Helper to synchronize order changes across MongoDB and local cache
@@ -281,7 +326,7 @@ router.get('/:id', optionalAuthenticateToken, async (req, res) => {
 });
 
 // POST /api/orders (Customer Checkout Creation)
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', apiMutationLimiter, authenticateToken, async (req, res) => {
   try {
     const { customer, items, paymentMethod, couponCode } = req.body;
     const db = getDb();
@@ -367,44 +412,150 @@ router.post('/', authenticateToken, async (req, res) => {
       });
     }
 
-    // 5. Deduct Inventory Atomically
-    for (const { product, variant, qty } of stockUpdates) {
-      if (variant && variant.stock !== undefined) {
-        variant.stock = Math.max(0, variant.stock - qty);
-      }
-      if (product.stock !== undefined) {
-        product.stock = Math.max(0, product.stock - qty);
-        if (product.stock <= 0) {
-          product.availability = 'out-of-stock';
-        }
-      }
-    }
-
-    // 6. Discount & Coupon Calculation
+    // 5. Validate & Calculate Coupon (before mutating stock)
     let discount = 0;
     let appliedCoupon = null;
+    let targetCoupon = null;
     if (couponCode) {
-      const coupon = (db.coupons || []).find((c) => c.code.toUpperCase() === couponCode.trim().toUpperCase());
+      const cleanCode = couponCode.trim().toUpperCase();
+      const coupon = (db.coupons || []).find((c) => c.code.toUpperCase() === cleanCode);
       if (coupon && coupon.isActive) {
         const notExpired = !coupon.expiryDate || new Date(coupon.expiryDate) >= new Date();
         const minMet = !coupon.minCartValue || subtotal >= coupon.minCartValue;
-        if (notExpired && minMet) {
+        const underGlobalMax = !coupon.maxUses || (coupon.usedCount || 0) < coupon.maxUses;
+        const customerUses = (coupon.usedByCustomers || []).filter((uid) => uid === req.user.id).length;
+        const underCustomerLimit = !coupon.perCustomerLimit || customerUses < coupon.perCustomerLimit;
+
+        if (notExpired && minMet && underGlobalMax && underCustomerLimit) {
           if (coupon.discountType === 'percentage') {
             discount = Math.round((subtotal * coupon.discountValue) / 100);
           } else {
             discount = Math.min(coupon.discountValue, subtotal);
           }
-          coupon.usedCount = (coupon.usedCount || 0) + 1;
           appliedCoupon = coupon.code;
+          targetCoupon = coupon;
         }
       }
     }
 
-    // 7. Shipping and Total
+    // 6. Shipping and Total
     const freeShippingThreshold = db.storeSettings?.freeShippingThreshold || 999;
     const standardShippingFee = db.storeSettings?.shippingFee || 99;
     const shippingFee = subtotal >= freeShippingThreshold ? 0 : standardShippingFee;
     const total = Math.max(0, subtotal - discount + shippingFee);
+
+    // 7. Atomic Inventory & Coupon Claim (with full rollback on failure)
+    const deductedMongo = [];
+    let claimedMongoCoupon = false;
+
+    const rollbackDeductions = async () => {
+      for (const d of deductedMongo) {
+        try {
+          if (d.variantId) {
+            await Product.findOneAndUpdate(
+              { id: d.productId, 'variants.id': d.variantId },
+              { $inc: { 'variants.$.stock': d.qty, stock: d.stockDeducted }, $set: { availability: 'in-stock' } }
+            );
+          } else {
+            await Product.findOneAndUpdate(
+              { id: d.productId },
+              { $inc: { stock: d.qty }, $set: { availability: 'in-stock' } }
+            );
+          }
+        } catch (rbErr) {
+          console.error('[Orders] Stock rollback error:', rbErr.message);
+        }
+      }
+      if (claimedMongoCoupon && targetCoupon) {
+        try {
+          await Coupon.findOneAndUpdate(
+            { code: targetCoupon.code },
+            { $inc: { usedCount: -1 } }
+          );
+        } catch (rbErr) {
+          console.error('[Orders] Coupon rollback error:', rbErr.message);
+        }
+      }
+    };
+
+    if (mongoose.connection.readyState === 1) {
+      if (targetCoupon) {
+        const claimed = await Coupon.findOneAndUpdate(
+          {
+            code: targetCoupon.code,
+            isActive: true,
+            $or: [
+              { maxUses: { $lte: 0 } },
+              { $expr: { $lt: ['$usedCount', '$maxUses'] } }
+            ]
+          },
+          {
+            $inc: { usedCount: 1 },
+            $push: { usedByCustomers: req.user.id }
+          },
+          { returnDocument: 'after' }
+        );
+        if (!claimed) {
+          return res.status(400).json({
+            success: false,
+            error: `Coupon "${targetCoupon.code}" has reached its usage limit or is inactive.`
+          });
+        }
+        claimedMongoCoupon = true;
+      }
+
+      for (const { product, variant, qty } of stockUpdates) {
+        let updatedProd = null;
+        if (variant) {
+          const canDeductParent = typeof product.stock === 'number' && product.stock >= qty;
+          const stockDeducted = canDeductParent ? qty : 0;
+          updatedProd = await Product.findOneAndUpdate(
+            {
+              id: product.id,
+              variants: { $elemMatch: { id: variant.id, stock: { $gte: qty } } }
+            },
+            {
+              $inc: {
+                'variants.$.stock': -qty,
+                ...(stockDeducted > 0 ? { stock: -stockDeducted } : {})
+              }
+            },
+            { returnDocument: 'after' }
+          );
+          if (!updatedProd) {
+            await rollbackDeductions();
+            return res.status(400).json({
+              success: false,
+              error: `Insufficient stock for "${product.name} (${variant.name})".`
+            });
+          }
+          deductedMongo.push({ productId: product.id, variantId: variant.id, qty, stockDeducted });
+        } else {
+          updatedProd = await Product.findOneAndUpdate(
+            { id: product.id, stock: { $gte: qty } },
+            { $inc: { stock: -qty } },
+            { returnDocument: 'after' }
+          );
+          if (!updatedProd) {
+            await rollbackDeductions();
+            return res.status(400).json({
+              success: false,
+              error: `Insufficient stock for "${product.name}".`
+            });
+          }
+          deductedMongo.push({ productId: product.id, variantId: null, qty, stockDeducted: qty });
+        }
+
+        if (updatedProd.stock <= 0 && updatedProd.availability !== 'out-of-stock') {
+          await Product.updateOne({ id: product.id }, { $set: { availability: 'out-of-stock' } }).catch(() => {});
+        }
+      }
+    } else if (process.env.NODE_ENV === 'production') {
+      return res.status(503).json({
+        success: false,
+        error: 'Order processing service is temporarily reconnecting to the database. Please try again shortly.'
+      });
+    }
 
     // 8. Generate Order Reference
     let maxOrderNumber = 1000;
@@ -457,22 +608,32 @@ router.post('/', authenticateToken, async (req, res) => {
       createdAt: new Date().toISOString()
     };
 
-    // Persist to MongoDB as authoritative source of truth
+    // Persist to MongoDB as authoritative source of truth (rollback inventory/coupon on failure)
     if (mongoose.connection.readyState === 1) {
-      await Order.create(newOrder);
-
-      // Persist updated product inventory levels to MongoDB
-      for (const { product } of stockUpdates) {
-        Product.findOneAndUpdate(
-          { $or: [{ id: product.id }, { sku: product.sku }] },
-          { $set: { stock: product.stock, availability: product.availability, variants: product.variants } }
-        ).catch((e) => console.warn('Product stock deduction Mongo error:', e.message));
+      try {
+        await Order.create(newOrder);
+      } catch (orderErr) {
+        await rollbackDeductions();
+        throw orderErr;
       }
-    } else if (process.env.NODE_ENV === 'production') {
-      return res.status(503).json({
-        success: false,
-        error: 'Order processing service is temporarily reconnecting to the database. Please try again shortly.'
-      });
+    }
+
+    // Synchronize in-memory cache only after DB persistence succeeded
+    for (const { product, variant, qty } of stockUpdates) {
+      if (variant && variant.stock !== undefined) {
+        variant.stock = Math.max(0, variant.stock - qty);
+      }
+      if (product.stock !== undefined) {
+        product.stock = Math.max(0, product.stock - qty);
+        if (product.stock <= 0) {
+          product.availability = 'out-of-stock';
+        }
+      }
+    }
+    if (targetCoupon) {
+      targetCoupon.usedCount = (targetCoupon.usedCount || 0) + 1;
+      targetCoupon.usedByCustomers = targetCoupon.usedByCustomers || [];
+      targetCoupon.usedByCustomers.push(req.user.id);
     }
 
     db.orders = db.orders || [];
@@ -610,38 +771,29 @@ router.put('/:id/cancel', optionalAuthenticateToken, async (req, res) => {
       return res.status(400).json({ success: false, error: `Order cannot be cancelled in "${order.orderStatus}" status.` });
     }
 
-    // Restore stock back to products
-    for (const item of order.items || []) {
-      const product = (db.products || []).find((p) => p.id === item.productId || p.slug === item.productId);
-      if (product) {
-        if (product.stock !== undefined) {
-          product.stock += item.quantity || 1;
-          if (product.stock > 0 && product.availability === 'out-of-stock') {
-            product.availability = 'in-stock';
-          }
-        }
+    const nowIso = new Date().toISOString();
+    const canceller = req.user ? `${req.user.name} (${req.user.role})` : 'Customer';
 
-        if (item.variant) {
-          const variant = (product.variants || []).find(
-            (v) => v.name.toLowerCase() === item.variant.toLowerCase() || v.sku === item.sku
-          );
-          if (variant && variant.stock !== undefined) {
-            variant.stock += item.quantity || 1;
-          }
-        }
-
-        if (mongoose.connection.readyState === 1) {
-          Product.findOneAndUpdate(
-            { $or: [{ id: product.id }, { sku: product.sku }] },
-            { $set: { stock: product.stock, availability: product.availability, variants: product.variants } }
-          ).catch((e) => console.warn('Product stock sync on cancel error:', e.message));
-        }
+    if (mongoose.connection.readyState === 1) {
+      const claimedCancel = await Order.findOneAndUpdate(
+        { id: order.id, orderStatus: { $nin: ['CANCELLED', 'SHIPPED', 'DELIVERED'] } },
+        { $set: { orderStatus: 'CANCELLED', cancelledAt: nowIso, cancelledBy: canceller } },
+        { returnDocument: 'after' }
+      );
+      if (!claimedCancel) {
+        return res.status(400).json({
+          success: false,
+          error: 'Order has already been cancelled or cannot be cancelled in its current status.'
+        });
       }
     }
 
+    // Restore stock back to products (awaited)
+    await restoreOrderInventory(order, db);
+
     order.orderStatus = 'CANCELLED';
-    order.cancelledAt = new Date().toISOString();
-    order.cancelledBy = req.user ? `${req.user.name} (${req.user.role})` : 'Customer';
+    order.cancelledAt = nowIso;
+    order.cancelledBy = canceller;
 
     await syncOrderUpdate(order, db);
 
@@ -670,35 +822,23 @@ router.put('/:id/status', authenticateToken, requireClientAdmin, async (req, res
       return res.status(404).json({ success: false, error: 'Order not found.' });
     }
 
-    // If changing to CANCELLED from another status, restore inventory
+    // If changing to CANCELLED from another status, atomically claim & restore inventory
     if (orderStatus && orderStatus === 'CANCELLED' && order.orderStatus !== 'CANCELLED') {
-      for (const item of order.items || []) {
-        const product = (db.products || []).find((p) => p.id === item.productId || p.slug === item.productId);
-        if (product) {
-          if (product.stock !== undefined) {
-            product.stock += item.quantity || 1;
-            if (product.stock > 0 && product.availability === 'out-of-stock') {
-              product.availability = 'in-stock';
-            }
-          }
-          if (item.variant) {
-            const variant = (product.variants || []).find(
-              (v) => v.name.toLowerCase() === item.variant.toLowerCase() || v.sku === item.sku
-            );
-            if (variant && variant.stock !== undefined) {
-              variant.stock += item.quantity || 1;
-            }
-          }
-          if (mongoose.connection.readyState === 1) {
-            Product.findOneAndUpdate(
-              { $or: [{ id: product.id }, { sku: product.sku }] },
-              { $set: { stock: product.stock, availability: product.availability, variants: product.variants } }
-            ).catch((e) => console.warn('Product stock sync on cancel status error:', e.message));
-          }
+      const nowIso = new Date().toISOString();
+      const canceller = `${req.user.name} (${req.user.role})`;
+      if (mongoose.connection.readyState === 1) {
+        const claimed = await Order.findOneAndUpdate(
+          { id: order.id, orderStatus: { $ne: 'CANCELLED' } },
+          { $set: { orderStatus: 'CANCELLED', cancelledAt: nowIso, cancelledBy: canceller } },
+          { returnDocument: 'after' }
+        );
+        if (!claimed) {
+          return res.status(400).json({ success: false, error: 'Order has already been cancelled.' });
         }
       }
-      order.cancelledAt = new Date().toISOString();
-      order.cancelledBy = `${req.user.name} (${req.user.role})`;
+      await restoreOrderInventory(order, db);
+      order.cancelledAt = nowIso;
+      order.cancelledBy = canceller;
     }
 
     if (orderStatus) order.orderStatus = orderStatus;

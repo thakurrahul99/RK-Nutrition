@@ -1,9 +1,18 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
-import { getDb, saveDb, addLog, Content } from '../config/db.js';
+import { getDb, saveDb, addLog, Content, StoreSettings } from '../config/db.js';
 import { authenticateToken, requireSuperAdmin, requireClientAdmin } from '../middleware/auth.js';
 
 const router = Router();
+
+// Helper to persist content updates to MongoDB Atlas (prevents data loss on Render restarts)
+const syncContentToMongo = async (db) => {
+  if (mongoose.connection.readyState === 1) {
+    await Content.findOneAndUpdate({}, { $set: db.content }, { upsert: true }).catch((err) => {
+      console.warn('[Content Route] MongoDB Content sync error:', err.message);
+    });
+  }
+};
 
 // GET /api/content (Public read of website branding and copy)
 router.get('/', (req, res) => {
@@ -15,7 +24,7 @@ router.get('/', (req, res) => {
 });
 
 // PUT /api/content/homepage (SUPER_ADMIN ONLY)
-router.put('/homepage', authenticateToken, requireSuperAdmin, (req, res) => {
+router.put('/homepage', authenticateToken, requireSuperAdmin, async (req, res) => {
   const db = getDb();
   const { hero, sectionOrder, sectionVisibility, banner } = req.body;
 
@@ -34,13 +43,14 @@ router.put('/homepage', authenticateToken, requireSuperAdmin, (req, res) => {
   }
 
   saveDb(db);
+  await syncContentToMongo(db);
   addLog('INFO', 'CONTENT', `Homepage composition updated by Super Admin (${req.user.name})`);
 
   res.json({ success: true, homepage: db.content.homepage });
 });
 
 // PUT /api/content/announcement (Client Admin or Super Admin)
-router.put('/announcement', authenticateToken, requireClientAdmin, (req, res) => {
+router.put('/announcement', authenticateToken, requireClientAdmin, async (req, res) => {
   const db = getDb();
   const banner = req.body;
 
@@ -58,13 +68,17 @@ router.put('/announcement', authenticateToken, requireClientAdmin, (req, res) =>
   };
 
   saveDb(db);
+  await syncContentToMongo(db);
+  if (mongoose.connection.readyState === 1) {
+    await StoreSettings.findOneAndUpdate({}, { $set: { announcement: db.storeSettings.announcement } }, { upsert: true }).catch(() => {});
+  }
   addLog('INFO', 'STORE', `Announcement banner updated by ${req.user.name}`);
 
   res.json({ success: true, banner: db.content.homepage.banner });
 });
 
 // PUT /api/content/pages (SUPER_ADMIN ONLY)
-router.put('/pages', authenticateToken, requireSuperAdmin, (req, res) => {
+router.put('/pages', authenticateToken, requireSuperAdmin, async (req, res) => {
   const db = getDb();
   const { about, contact, faq, shippingPolicy, returnPolicy, privacyPolicy, termsOfService } = req.body;
 
@@ -77,13 +91,14 @@ router.put('/pages', authenticateToken, requireSuperAdmin, (req, res) => {
   if (termsOfService) db.content.pages.termsOfService = { ...db.content.pages.termsOfService, ...termsOfService };
 
   saveDb(db);
+  await syncContentToMongo(db);
   addLog('INFO', 'CONTENT', `Informational pages updated by Super Admin (${req.user.name})`);
 
   res.json({ success: true, pages: db.content.pages });
 });
 
 // PUT /api/content/branding (SUPER_ADMIN ONLY)
-router.put('/branding', authenticateToken, requireSuperAdmin, (req, res) => {
+router.put('/branding', authenticateToken, requireSuperAdmin, async (req, res) => {
   const db = getDb();
   const updates = req.body;
 
@@ -94,13 +109,14 @@ router.put('/branding', authenticateToken, requireSuperAdmin, (req, res) => {
   };
 
   saveDb(db);
+  await syncContentToMongo(db);
   addLog('INFO', 'BRANDING', `Visual identity palette & typography updated by Super Admin (${req.user.name})`);
 
   res.json({ success: true, branding: db.content.branding });
 });
 
 // PUT /api/content/navigation (SUPER_ADMIN ONLY)
-router.put('/navigation', authenticateToken, requireSuperAdmin, (req, res) => {
+router.put('/navigation', authenticateToken, requireSuperAdmin, async (req, res) => {
   const db = getDb();
   const { headerLinks, footerLinks, socialLinks } = req.body;
 
@@ -109,13 +125,14 @@ router.put('/navigation', authenticateToken, requireSuperAdmin, (req, res) => {
   if (socialLinks) db.content.navigation.socialLinks = { ...db.content.navigation.socialLinks, ...socialLinks };
 
   saveDb(db);
+  await syncContentToMongo(db);
   addLog('INFO', 'NAVIGATION', `Header & footer navigation updated by Super Admin (${req.user.name})`);
 
   res.json({ success: true, navigation: db.content.navigation });
 });
 
 // PUT /api/content/advanced (SUPER_ADMIN ONLY: Maintenance mode, analytics, SMTP, SEO)
-router.put('/advanced', authenticateToken, requireSuperAdmin, (req, res) => {
+router.put('/advanced', authenticateToken, requireSuperAdmin, async (req, res) => {
   const db = getDb();
   const { analytics, smtp, maintenanceMode, maintenanceMessage, seo } = req.body;
 
@@ -126,6 +143,7 @@ router.put('/advanced', authenticateToken, requireSuperAdmin, (req, res) => {
   if (maintenanceMessage !== undefined) db.content.advanced.maintenanceMessage = maintenanceMessage.trim();
 
   saveDb(db);
+  await syncContentToMongo(db);
   addLog('WARN', 'CONFIG', `Advanced configuration & SEO metadata updated by Super Admin (${req.user.name})`);
 
   res.json({ success: true, advanced: db.content.advanced });
@@ -140,14 +158,31 @@ router.get('/logs', authenticateToken, requireSuperAdmin, (req, res) => {
   });
 });
 
-// GET /api/content/backup (SUPER_ADMIN ONLY: Full Database JSON Export)
+// GET /api/content/backup (SUPER_ADMIN ONLY: Redacted Database JSON Export)
 router.get('/backup', authenticateToken, requireSuperAdmin, (req, res) => {
   const db = getDb();
   addLog('INFO', 'BACKUP', `Database backup snapshot generated by Super Admin (${req.user.name})`);
 
+  const sanitizedUsers = (db.users || []).map((u) => {
+    const { passwordHash, resetPasswordToken, resetPasswordExpires, ...safeUser } = u;
+    return safeUser;
+  });
+
+  const sanitizedGateway = db.gatewayConfig
+    ? {
+        ...db.gatewayConfig,
+        keySecret: db.gatewayConfig.keySecret ? '[REDACTED]' : '',
+        webhookSecret: db.gatewayConfig.webhookSecret ? '[REDACTED]' : ''
+      }
+    : undefined;
+
   res.json({
     success: true,
-    database: db
+    database: {
+      ...db,
+      users: sanitizedUsers,
+      ...(sanitizedGateway ? { gatewayConfig: sanitizedGateway } : {})
+    }
   });
 });
 
@@ -160,17 +195,16 @@ router.post('/restore', authenticateToken, requireSuperAdmin, async (req, res) =
     }
 
     const currentDb = getDb();
-    const mergedUsers = Array.isArray(database.users) && database.users.length > 0
-      ? database.users
-      : currentDb.users;
-
+    // Preserve existing password hashes and gateway secrets when restoring redacted backups
     const restoredDb = {
       ...currentDb,
       ...database,
-      users: mergedUsers
+      users: currentDb.users,
+      gatewayConfig: currentDb.gatewayConfig
     };
 
     saveDb(restoredDb);
+    await syncContentToMongo(restoredDb);
     addLog('WARN', 'BACKUP', `Database restored from backup snapshot by Super Admin (${req.user.name})`);
 
     res.json({

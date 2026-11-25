@@ -207,6 +207,7 @@ router.post('/forgot-password', authRateLimiter, async (req, res) => {
     const expires = new Date(Date.now() + 3600000); // 1 hour
 
     let userFound = false;
+    let userName = 'Customer';
 
     if (mongoose.connection.readyState === 1) {
       const user = await User.findOne({ email: cleanEmail });
@@ -215,6 +216,7 @@ router.post('/forgot-password', authRateLimiter, async (req, res) => {
         user.resetPasswordExpires = expires;
         await user.save();
         userFound = true;
+        userName = user.name || userName;
       }
     }
 
@@ -225,12 +227,13 @@ router.post('/forgot-password', authRateLimiter, async (req, res) => {
       cachedUser.resetPasswordExpires = expires.toISOString();
       saveDb(db);
       userFound = true;
+      userName = cachedUser.name || userName;
     }
 
     if (userFound) {
       const origin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
       const resetUrl = `${origin}/reset-password?token=${token}`;
-      await sendPasswordResetEmail(cleanEmail, resetUrl);
+      await sendPasswordResetEmail({ to: cleanEmail, name: userName, resetUrl });
       addLog('INFO', 'AUTH', `Password reset token generated for ${cleanEmail}`);
     }
 
@@ -489,15 +492,24 @@ router.put('/addresses/:id', authenticateToken, async (req, res) => {
     return res.status(404).json({ success: false, error: 'Address not found.' });
   }
 
-  const updates = req.body;
-  if (updates.isDefault) {
+  const { fullName, phone, addressLine1, addressLine2, city, state, postalCode, country, isDefault } = req.body;
+  if (isDefault) {
     user.addresses.forEach((a) => { a.isDefault = false; });
   }
 
+  const existingAddr = user.addresses[addrIdx];
   user.addresses[addrIdx] = {
-    ...user.addresses[addrIdx],
-    ...updates,
-    id // keep original ID
+    ...existingAddr,
+    ...(fullName !== undefined ? { fullName: sanitizeInput(String(fullName).trim()) } : {}),
+    ...(phone !== undefined ? { phone: String(phone).trim() } : {}),
+    ...(addressLine1 !== undefined ? { addressLine1: sanitizeInput(String(addressLine1).trim()) } : {}),
+    ...(addressLine2 !== undefined ? { addressLine2: sanitizeInput(String(addressLine2).trim()) } : {}),
+    ...(city !== undefined ? { city: sanitizeInput(String(city).trim()) } : {}),
+    ...(state !== undefined ? { state: sanitizeInput(String(state).trim()) } : {}),
+    ...(postalCode !== undefined ? { postalCode: sanitizeInput(String(postalCode).trim()) } : {}),
+    ...(country !== undefined ? { country: sanitizeInput(String(country).trim()) } : {}),
+    ...(isDefault !== undefined ? { isDefault: Boolean(isDefault) } : {}),
+    id: existingAddr.id || id
   };
 
   saveDb(db);
