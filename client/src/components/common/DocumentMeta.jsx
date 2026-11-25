@@ -97,9 +97,14 @@ export default function DocumentMeta() {
     setMetaTag('name', 'twitter:description', currentOgDesc);
     setMetaTag('name', 'twitter:image', currentOgImg);
 
-    // Robots directive: noindex on admin, checkout, order confirmation
+    // Robots directive: noindex on admin, account, auth, checkout, order confirmation
     const isPrivate = path.startsWith('/admin') || 
                       path.startsWith('/super-admin') || 
+                      path === '/account' ||
+                      path === '/login' ||
+                      path === '/register' ||
+                      path === '/forgot-password' ||
+                      path === '/reset-password' ||
                       path === '/checkout' || 
                       path.startsWith('/order-confirmation');
     setMetaTag('name', 'robots', isPrivate ? 'noindex, nofollow' : 'index, follow, max-image-preview:large');

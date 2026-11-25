@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { AlertTriangle, AlertCircle, LogOut, Trash2, X, Loader2 } from 'lucide-react';
 
 export default function ConfirmationModal({
@@ -13,17 +13,44 @@ export default function ConfirmationModal({
   icon = null,
   isLoading = false
 }) {
+  const dialogRef = useRef(null);
+
   useEffect(() => {
     if (!isOpen) return;
+
+    const previouslyFocused = document.activeElement;
+    const focusables = dialogRef.current?.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusables && focusables.length > 0) {
+      focusables[focusables.length - 1].focus();
+    }
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && !isLoading) {
         onClose();
+        return;
+      }
+      if (e.key === 'Tab' && focusables && focusables.length > 0) {
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      if (previouslyFocused && typeof previouslyFocused.focus === 'function') {
+        previouslyFocused.focus();
+      }
+    };
   }, [isOpen, onClose, isLoading]);
 
   if (!isOpen) return null;
@@ -67,6 +94,7 @@ export default function ConfirmationModal({
       }}
     >
       <div
+        ref={dialogRef}
         className="w-full max-w-md bg-[#141414] border border-[#282828] shadow-2xl relative overflow-hidden animate-scale-in"
         onClick={(e) => e.stopPropagation()}
       >

@@ -1,6 +1,11 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /super-admin/
+Disallow: /account
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
 Disallow: /checkout
 Disallow: /order-confirmation/
 Allow: /
