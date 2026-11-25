@@ -49,7 +49,7 @@ export default function HeroSection() {
             </div>
 
             {/* STEP 1: Hero Visual Wrapper (wraps Headline + Mobile Tub) */}
-            <div className="hero-visual relative w-full">
+            <div className="hero-visual relative w-full mt-2 sm:mt-0">
               {/* Soft ambient radial halo behind mobile tub - completely unclipped and feathering smoothly into pure black */}
               <div 
                 className="absolute right-[-2vw] top-[-3vw] w-[46vw] max-w-[180px] aspect-square rounded-full bg-[radial-gradient(circle_at_center,rgba(225,29,46,0.22)_0%,rgba(225,29,46,0.05)_45%,transparent_70%)] pointer-events-none -z-0 sm:hidden"
@@ -67,7 +67,7 @@ export default function HeroSection() {
               </div>
 
               {/* STEP 2: Main Headline with Staggered Line Reveals */}
-              <h1 className="font-heading font-black text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-[#F5F4F2] flex flex-col gap-0.5 sm:block mb-8 sm:mb-8 select-none max-w-full relative z-[2] scale-y-[1.15] origin-top-left sm:scale-y-100">
+              <h1 className="font-heading font-black text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-[#F5F4F2] flex flex-col gap-0.5 sm:block mb-11 sm:mb-8 select-none max-w-full relative z-[2] scale-y-[1.15] origin-top-left sm:scale-y-100">
                 <span className="hero-anim-line-1 block whitespace-nowrap text-[#F5F4F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   {headingLine1}
                 </span>
