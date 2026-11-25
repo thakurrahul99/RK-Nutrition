@@ -223,6 +223,20 @@
     will-change: transform;
   }
 
+  @media (max-width: 767px) {
+    #hero .hero-tub-mobile {
+      width: clamp(86px, 25vw, 112px);
+      top: 4px;
+      right: 0;
+      z-index: 1;
+      touch-action: pan-y;
+    }
+
+    #hero .animate-tub-mobile {
+      animation-duration: 7.5s;
+    }
+  }
+
   .animate-fade-in {
     animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
