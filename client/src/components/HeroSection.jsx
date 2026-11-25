@@ -56,12 +56,12 @@ export default function HeroSection() {
                 aria-hidden="true" 
               />
 
-              {/* Product Tub (Mobile Only) */}
+              {/* Product Tub (Mobile Only: clamp(100px, 32vw, 144px), right: 0, top: -1vw, animated floating motion + seamless bottom fade) */}
               <div 
-                className="hero-tub-mobile absolute right-0 top-[-1vw] w-[clamp(100px,32vw,144px)] aspect-[4/5] z-[1] sm:hidden flex items-center justify-center overflow-visible"
+                className="absolute right-0 top-[-1vw] w-[clamp(100px,32vw,144px)] aspect-[4/5] z-[1] sm:hidden pointer-events-none flex items-center justify-center overflow-visible"
                 aria-hidden="true"
               >
-                <div className="w-full h-full flex items-center justify-center [mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_82%,transparent_100%)]">
+                <div className="w-full h-full animate-tub-mobile flex items-center justify-center [mask-image:linear-gradient(to_bottom,#000_78%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_78%,transparent_100%)]">
                   <HeroProduct3D className="!w-full !h-full !max-w-none" />
                 </div>
               </div>

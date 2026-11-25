@@ -85,28 +85,22 @@ export function HeroProductFallback({ className = '' }) {
 const LazyThreeCanvas = lazy(() => import('./HeroThreeCanvas'));
 
 function HeroProduct3DComponent({ className = '' }) {
-  const [showThreeCanvas, setShowThreeCanvas] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [useFallback, setUseFallback] = useState(false);
 
   useEffect(() => {
-    const mobileMql = window.matchMedia('(max-width: 767px)');
-    const desktopMql = window.matchMedia('(min-width: 1024px)');
-    const updateMode = () => {
-      // Render live Three.js canvas on Desktop (>= 1024px) and Mobile (<= 767px)
-      setShowThreeCanvas(desktopMql.matches || mobileMql.matches);
+    const checkIsDesktop = () => {
+      // Desktop standard breakpoint is 1024px (lg: in Tailwind)
+      setIsDesktop(window.innerWidth >= 1024);
     };
 
-    updateMode();
-    mobileMql.addEventListener('change', updateMode);
-    desktopMql.addEventListener('change', updateMode);
-    return () => {
-      mobileMql.removeEventListener('change', updateMode);
-      desktopMql.removeEventListener('change', updateMode);
-    };
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
-  // On Tablet (768px - 1023px): Render static high-res WebP image
-  if (!showThreeCanvas) {
+  // On Mobile / Tablet (< 1024px): Render static high-res WebP image (Zero Three.js JS loaded!)
+  if (!isDesktop) {
     if (useFallback) {
       return <HeroProductFallback className={className} />;
     }
@@ -129,7 +123,7 @@ function HeroProduct3DComponent({ className = '' }) {
     );
   }
 
-  // On Mobile (<= 767px) and Desktop (>= 1024px): Lazily mount 3D canvas
+  // On Desktop (>= 1024px): Lazily mount 3D canvas
   return (
     <Suspense fallback={<HeroProductFallback className={className} />}>
       <LazyThreeCanvas className={className} />
