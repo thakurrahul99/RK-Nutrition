@@ -67,7 +67,7 @@ export default function HeroSection() {
               </div>
 
               {/* STEP 2: Main Headline with Staggered Line Reveals */}
-              <h1 className="font-heading font-black text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-[#F5F4F2] flex flex-col gap-0.5 sm:block mb-6 sm:mb-8 select-none max-w-full relative z-[2]">
+              <h1 className="font-heading font-black text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl tracking-tight uppercase leading-[0.92] text-[#F5F4F2] flex flex-col gap-0.5 sm:block mb-8 sm:mb-8 select-none max-w-full relative z-[2] scale-y-[1.15] origin-top-left sm:scale-y-100">
                 <span className="hero-anim-line-1 block whitespace-nowrap text-[#F5F4F2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                   {headingLine1}
                 </span>
@@ -80,23 +80,6 @@ export default function HeroSection() {
               </h1>
             </div>
 
-            {/* Mobile-Only "BUILT FOR YOUR ROUTINE." Block (Immediately below headline+tub) */}
-            <div className="hero-anim-footer block sm:hidden w-full pt-3.5 border-t border-[#1F1F1F] mb-6 text-left relative z-[2]">
-              <div>
-                <span className="text-[13px] font-heading font-bold text-[#F5F4F2] tracking-wider uppercase block">
-                  {supportingLabel}
-                </span>
-                <span className="text-[10px] min-[360px]:text-[11px] font-mono text-[#9CA3AF] tracking-wide uppercase mt-1 block">
-                  ZERO AMINO SPIKING • TRANSPARENT LABELS • CLINICALLY DOSED
-                </span>
-              </div>
-              <div className="flex flex-wrap items-center gap-2 text-[10px] min-[360px]:text-[11px] font-mono text-[#9CA3AF] uppercase tracking-wide mt-2">
-                <span>EST. 2026</span>
-                <span>•</span>
-                <span className="text-[#E11D2E] font-bold">100% PURE FORMULATION</span>
-              </div>
-            </div>
-
             {/* Paragraph / Supporting Text with Smooth Reveal */}
             <div className="hero-anim-desc w-full relative z-[2]">
               <p className="max-w-xl text-[14px] sm:text-base md:text-lg text-[#B8BCC4] font-normal leading-[1.55] sm:leading-relaxed mb-[28px] sm:mb-9 font-body">
@@ -105,7 +88,7 @@ export default function HeroSection() {
             </div>
 
             {/* Buttons: Full width & 48px on mobile, auto width & side-by-side on desktop */}
-            <div className="hero-anim-cta w-full sm:w-auto relative z-[2] mb-4 sm:mb-8">
+            <div className="hero-anim-cta w-full sm:w-auto relative z-[2] mb-6 sm:mb-8">
               <div className="flex flex-col min-[360px]:flex-row items-stretch min-[360px]:items-center gap-[10px] sm:gap-4 w-full sm:w-auto">
                 <Link
                   to={primaryCtaHref.startsWith('#') ? '/products' : primaryCtaHref}
@@ -124,17 +107,17 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Desktop-Only "BUILT FOR YOUR ROUTINE." Footer Bar */}
-            <div className="hero-anim-footer hidden sm:flex pt-6 border-t border-[#1F1F1F] w-full flex-row items-center justify-between gap-3 text-left relative z-[2]">
+            {/* "BUILT FOR YOUR ROUTINE." Footer Bar (Below CTA buttons on both Mobile & Desktop) */}
+            <div className="hero-anim-footer flex flex-col sm:flex-row pt-4 sm:pt-6 border-t border-[#1F1F1F] w-full sm:items-center justify-between gap-2 sm:gap-3 text-left relative z-[2]">
               <div>
-                <span className="text-sm font-heading font-bold text-[#F2F2F2] tracking-wider uppercase block">
+                <span className="text-[13px] sm:text-sm font-heading font-bold text-[#F5F4F2] tracking-wider uppercase block">
                   {supportingLabel}
                 </span>
-                <span className="text-[11px] font-mono text-[#8C8C8C] tracking-wider uppercase mt-0.5 block">
+                <span className="text-[10px] min-[360px]:text-[11px] font-mono text-[#9CA3AF] sm:text-[#8C8C8C] tracking-wide sm:tracking-wider uppercase mt-1 sm:mt-0.5 block">
                   ZERO AMINO SPIKING • TRANSPARENT LABELS • CLINICALLY DOSED
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-[10px] font-mono text-[#666666] uppercase tracking-widest">
+              <div className="flex flex-wrap items-center gap-2 text-[10px] min-[360px]:text-[11px] sm:text-[10px] font-mono text-[#9CA3AF] sm:text-[#666666] uppercase tracking-wide sm:tracking-widest">
                 <span>EST. 2026</span>
                 <span>•</span>
                 <span className="text-[#E11D2E] font-bold">100% PURE FORMULATION</span>
