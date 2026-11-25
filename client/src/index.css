@@ -235,6 +235,20 @@
     #hero .animate-tub-mobile {
       animation-duration: 7.5s;
     }
+
+    #hero .hero-anim-desc p {
+      color: #d0d0d0;
+    }
+
+    #hero .hero-anim-pill span:last-child {
+      font-size: 11px;
+      color: #e5e5e5;
+    }
+
+    #hero .hero-anim-footer .font-mono {
+      font-size: 12px;
+      color: #c4c4c4;
+    }
   }
 
   @media (max-width: 374px) {
