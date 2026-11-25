@@ -451,6 +451,13 @@ function HeroThreeCanvasComponent({ className = '' }) {
     topLight.position.set(0, 5.5, 2.0);
     scene.add(topLight);
 
+    // F: Mobile-only soft warm-white front light for label readability
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      const mobileFrontLight = new THREE.DirectionalLight(0xfff5ea, 0.85);
+      mobileFrontLight.position.set(0, 0.4, 6.0);
+      scene.add(mobileFrontLight);
+    }
+
     // 4. Construct TALLER, IMPOSING Supplement Container Geometry
     const tubGroup = new THREE.Group();
     // Scale group to prominent athletic proportions (0.92 gives commanding stature without clipping)
