@@ -154,7 +154,7 @@ export default function FAQPage() {
               Still have questions about our formulations?
             </h3>
             <p className="text-xs sm:text-sm text-[#8C8C8C] font-body">
-              Call our support desk at <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 86306 63134</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 74520 13333</a> or write to <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">Kuldeeprajput5262@gmail.com</a>.
+              Call our support desk at <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 86306 63134</a> / <a href="tel:+918266821388" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 82668 21388</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">+91 74520 13333</a> or write to <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold font-mono">Kuldeeprajput5262@gmail.com</a>.
             </p>
           </div>
           <div className="flex items-center gap-3 flex-wrap">

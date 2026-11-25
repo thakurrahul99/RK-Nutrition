@@ -321,6 +321,12 @@ export default function AboutPage() {
                   </a>
                 </div>
                 <div>
+                  <span className="text-[#8C8C8C] block text-[10px] uppercase">Support Desk:</span>
+                  <a href="tel:+918266821388" className="text-sm font-bold text-[#F5F4F2] hover:text-[#E11D2E] transition-colors">
+                    +91 82668 21388
+                  </a>
+                </div>
+                <div>
                   <span className="text-[#8C8C8C] block text-[10px] uppercase">Direct / WhatsApp:</span>
                   <a href="tel:+917452013333" className="text-sm font-bold text-[#F5F4F2] hover:text-[#E11D2E] transition-colors">
                     +91 74520 13333

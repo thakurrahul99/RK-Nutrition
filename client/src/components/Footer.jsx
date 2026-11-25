@@ -242,6 +242,10 @@ export default function Footer() {
                     +91 86306 63134
                   </a>
                   <span className="text-[#444444]">•</span>
+                  <a href="tel:+918266821388" className="hover:text-[#E11D2E] transition-colors font-bold text-[#F5F4F2]">
+                    +91 82668 21388
+                  </a>
+                  <span className="text-[#444444]">•</span>
                   <a href="tel:+917452013333" className="hover:text-[#E11D2E] transition-colors font-bold text-[#F5F4F2]">
                     +91 74520 13333
                   </a>

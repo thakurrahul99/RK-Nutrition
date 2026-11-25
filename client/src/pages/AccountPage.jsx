@@ -684,6 +684,9 @@ export default function AccountPage() {
                     <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold block">
                       +91 86306 63134
                     </a>
+                    <a href="tel:+918266821388" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold block">
+                      +91 82668 21388
+                    </a>
                     <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-bold block">
                       +91 74520 13333
                     </a>

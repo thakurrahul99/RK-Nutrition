@@ -158,7 +158,7 @@ export default function ContactPage() {
                 <Phone className="w-4 h-4" />
                 <span className="uppercase">Direct Phone Lines</span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 <a
                   href="tel:+918630663134"
                   className="p-3 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#E11D2E] block group transition-colors"
@@ -168,6 +168,17 @@ export default function ContactPage() {
                   </span>
                   <span className="font-heading text-lg text-[#F5F4F2] group-hover:text-[#E11D2E] tracking-wide font-bold">
                     +91 86306 63134
+                  </span>
+                </a>
+                <a
+                  href="tel:+918266821388"
+                  className="p-3 bg-[#1A1A1A] border border-[#2D2D2D] hover:border-[#E11D2E] block group transition-colors"
+                >
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#8C8C8C] block">
+                    Support Desk
+                  </span>
+                  <span className="font-heading text-lg text-[#F5F4F2] group-hover:text-[#E11D2E] tracking-wide font-bold">
+                    +91 82668 21388
                   </span>
                 </a>
                 <a

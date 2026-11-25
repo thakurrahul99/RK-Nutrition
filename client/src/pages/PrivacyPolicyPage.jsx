@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
               3. Data Retention & Contact
             </h2>
             <p className="text-[#8C8C8C]">
-              Inquiry submissions and fulfillment records are retained only as long as necessary to satisfy operational and statutory requirements under Indian law. For privacy-related inquiries, reach our official compliance desk at <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#E11D2E] underline">Kuldeeprajput5262@gmail.com</a> or write to RK Nutrition, A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India (Phone: <a href="tel:+918630663134" className="text-[#F5F4F2] hover:underline">+91 86306 63134</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:underline">+91 74520 13333</a>).
+              Inquiry submissions and fulfillment records are retained only as long as necessary to satisfy operational and statutory requirements under Indian law. For privacy-related inquiries, reach our official compliance desk at <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#E11D2E] underline">Kuldeeprajput5262@gmail.com</a> or write to RK Nutrition, A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India (Phone: <a href="tel:+918630663134" className="text-[#F5F4F2] hover:underline">+91 86306 63134</a> / <a href="tel:+918266821388" className="text-[#F5F4F2] hover:underline">+91 82668 21388</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:underline">+91 74520 13333</a>).
             </p>
           </section>
         </div>

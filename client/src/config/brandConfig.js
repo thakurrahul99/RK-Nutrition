@@ -15,6 +15,7 @@ export const brandConfig = {
     },
     phones: [
       { number: "8630663134", display: "+91 86306 63134", tel: "+918630663134", label: "Customer Care & WhatsApp", primary: true },
+      { number: "8266821388", display: "+91 82668 21388", tel: "+918266821388", label: "Support Desk" },
       { number: "7452013333", display: "+91 74520 13333", tel: "+917452013333", label: "Direct Support Desk", secondary: true },
     ],
     primaryPhone: "+91 86306 63134",

@@ -716,7 +716,7 @@ export default function AdminOrdersPage() {
                 />
                 <p className="text-xs text-gray-680 font-mono mt-0.5">High Performance Athletic Formulations</p>
                 <p className="text-xs text-gray-500 font-mono mt-1">A12–16, Main Patpad Ganj Industrial Area, Delhi – 110092, India</p>
-                <p className="text-xs text-gray-500 font-mono">Kuldeeprajput5262@gmail.com • +91 86306 63134 • +91 74520 13333</p>
+                <p className="text-xs text-gray-500 font-mono">Kuldeeprajput5262@gmail.com • +91 86306 63134 • +91 82668 21388 • +91 74520 13333</p>
               </div>
               <div className="text-right">
                 <div className="text-base font-bold font-mono">INVOICE</div>

@@ -331,7 +331,7 @@ export default function OrderConfirmationPage() {
             Questions about Order #{order.id}?
           </p>
           <p className="text-xs text-[#8C8C8C] font-body">
-            Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 86306 63134</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 74520 13333</a> or Email <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">Kuldeeprajput5262@gmail.com</a>
+            Call <a href="tel:+918630663134" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 86306 63134</a> / <a href="tel:+918266821388" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 82668 21388</a> / <a href="tel:+917452013333" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">+91 74520 13333</a> or Email <a href="mailto:Kuldeeprajput5262@gmail.com" className="text-[#F5F4F2] hover:text-[#E11D2E] font-mono font-bold">Kuldeeprajput5262@gmail.com</a>
           </p>
         </div>
         <a

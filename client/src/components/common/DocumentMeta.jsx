@@ -133,7 +133,7 @@ export default function DocumentMeta() {
         ],
         'contactPoint': {
           '@type': 'ContactPoint',
-          'telephone': ['+91-8630663134', '+91-7452013333'],
+          'telephone': ['+91-8630663134', '+91-8266821388', '+91-7452013333'],
           'email': 'Kuldeeprajput5262@gmail.com',
           'contactType': 'customer service',
           'areaServed': 'IN',
